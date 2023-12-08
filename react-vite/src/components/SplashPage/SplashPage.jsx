@@ -1,3 +1,4 @@
+import ProductRandomizer from "../ProductRandomizer";
 import "./SplashPage.css";
 
 function SplashPage() {
@@ -5,7 +6,9 @@ function SplashPage() {
         <div className="splashpage-container">
         <h1>Skin-not-Rx</h1>
         <p>Your personal skincare tracker</p>
+        <ProductRandomizer/>
         </div>
+
     )
 };
 
