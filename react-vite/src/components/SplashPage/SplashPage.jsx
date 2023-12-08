@@ -10,6 +10,6 @@ function SplashPage() {
         </div>
 
     )
-};
+}
 
 export default SplashPage;

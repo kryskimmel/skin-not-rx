@@ -21,6 +21,6 @@ function ProductRandomizer() {
             </form>
         </div>
     )
-};
+}
 
 export default ProductRandomizer;
