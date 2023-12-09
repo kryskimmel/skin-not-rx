@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from db import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Integer, String, Column, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
