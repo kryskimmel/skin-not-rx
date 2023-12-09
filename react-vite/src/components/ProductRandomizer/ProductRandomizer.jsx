@@ -18,6 +18,7 @@ function ProductRandomizer() {
                     <option value="face-mask">Face Mask</option>
                     <option value="eye-cream">Eye Cream</option>
                 </select>
+                <button className="generate-button">Generate</button>
             </form>
         </div>
     )
