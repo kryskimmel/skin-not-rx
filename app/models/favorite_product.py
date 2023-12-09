@@ -18,8 +18,9 @@ class Favorite_Product(db.Model):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # RELATIONSHIPS
-    products = db.relationship('Product', back_populates='favorite_products')
     user = db.relationship('User', back_populates='favorite_products')
+    products = db.relationship('Product', back_populates='favorite_products')
+
 
     def to_dict(self):
         return {
