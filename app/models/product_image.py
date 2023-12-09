@@ -19,6 +19,7 @@ class Product_Image(db.Model):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # RELATIONSHIPS
+    products = db.relationship('Product', back_populates='product_images')
 
     def to_dict(self):
         return {

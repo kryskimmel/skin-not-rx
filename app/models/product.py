@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, Column, ForeignKey
+from sqlalchemy import Integer, String, DateTime, Column, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
@@ -26,6 +26,9 @@ class Product(db.Model):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # RELATIONSHIPS
+    user = db.relationship('User', back_populates='products')
+    product_images = db.relationship('Product_Image', back_populates='products', cascade='all, delete-orphan')
+    favorite_products = db.relationship('Favorite_Product', back_populates='products', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {

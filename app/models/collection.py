@@ -19,6 +19,8 @@ class Collection(db.Model):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # RELATIONSHIPS
+    user = db.relationship('User', back_populates='collections')
+    products = db.relationship('Product', back_populates='collections')
 
     def to_dict(self):
         return {

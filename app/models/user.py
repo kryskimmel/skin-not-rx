@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, Column
+from sqlalchemy import Integer, String, Column, DateTime
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -18,6 +19,15 @@ class User(db.Model, UserMixin):
     hashed_password = Column(String(255), nullable=False)
     profile_image = Column(String(255), nullable=False)
     skin_type = Column(String(255), nullable=False)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # RELATIONSHIPS
+    products = db.relationship('Product', back_populates='user')
+    favorite_products = db.relationship('Favorite_Product', back_populates='user')
+    collections = db.relationship('Collection', back_populates='user')
+    favorite_collections = db.relationship('Favorite_Collection', back_populates='user')
 
     @property
     def password(self):
