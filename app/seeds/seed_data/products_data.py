@@ -1,5 +1,6 @@
 # 20 products seed data items
 products_data = [
+    #1
     {
        "brand_name": "Neutrogena",
        "product_name": "Hydro Boost Water Gel with Hyaluronic Acid",
@@ -11,6 +12,7 @@ products_data = [
        "notes": "Loved how this felt on my skin.",
        "user_id": 1
     },
+    #2
     {
        "brand_name": "La Roche-Posay",
        "product_name": "Anthelios Melt-in Milk Sunscreen SPF 60",
@@ -22,6 +24,7 @@ products_data = [
        "notes": "Melts into skin and no white cast!",
        "user_id": 1
     },
+    #3
     {
        "brand_name": "Innisfree",
        "product_name": "Dewy Glow Jelly Cream with Jeju Cherry Blossom",
@@ -33,6 +36,7 @@ products_data = [
        "notes": "Love this formula so much and because I have very dry skin, I was surprised by how only a little bit of product is needed to hydrate my face!",
        "user_id": 2
     },
+    #4
     {
        "brand_name": "The Ordinary",
        "product_name": "Salicylic Acid 2% Solution",
@@ -44,6 +48,7 @@ products_data = [
        "notes": "Not as effective as other exfoliators I've used.",
        "user_id": 2
     },
+    #5
     {
        "brand_name": "Jack Black",
        "product_name": "Protein Booster Skin Serum",
@@ -55,6 +60,7 @@ products_data = [
        "notes": " can feel the difference every time I use this product. My face drinks in the moisture from this serum.",
        "user_id": 3
     },
+    #6
     {
        "brand_name": "Glow Recipe",
        "product_name": "Watermelon Glow AHA Night Treatment",
@@ -66,6 +72,7 @@ products_data = [
        "notes": "I use this mark every night cause I love the texture and the way is helping to get a shiny and healthy skin beacause the AHA.",
        "user_id": 4
     },
+    #7
     {
        "brand_name": "Saturday Skin",
        "product_name": "Intense Hydration Mask",
@@ -77,6 +84,7 @@ products_data = [
        "notes": "I have extremely dry skin, I am not lying when I say this is actually the best mask I have ever used.",
        "user_id": 1
     },
+    #8
     {
        "brand_name": "TONYMOLY",
        "product_name": "I'm Red Wine Pore Tightening Mask",
@@ -88,6 +96,7 @@ products_data = [
        "notes": "It dried within 10 mins and was easy to take off. My skin felt soft however for me, it didn't make much difference to the appearance of pores on my cheeks on one use.",
        "user_id": 5
     },
+    #9
     {
        "brand_name": "TONYMOLY",
        "product_name": "Intense Care Gold 24K Snail Eye Serum",
@@ -99,6 +108,7 @@ products_data = [
        "notes": "LOVE this snail eye serum! I like to keep it in the fridge for the extra cooling effect.",
        "user_id": 2
     },
+    #10
     {
        "brand_name": "Shiseido",
        "product_name": "Wrinkle Smoothing Eye Cream",
@@ -110,6 +120,7 @@ products_data = [
        "notes": "It does everything and more. My eyes are very happy with this product.",
        "user_id": 4
     },
+    #11
     {
        "brand_name": "The Ordinary",
        "product_name": "AHA 30% + BHA 2% Peeling Solution",
@@ -121,6 +132,7 @@ products_data = [
        "notes": "This acid peel is incredible! After the first use, I noticed instantly brighter, more even skin.",
        "user_id": 3
     },
+    #12
     {
        "brand_name": "Thayers",
        "product_name": "Rose Petal Facial Toner",
@@ -132,6 +144,7 @@ products_data = [
        "notes": "Has a pleasant scent, doesn't sting my face and doesn't leave it feeling dry. I don't find it super hydrating but I think the aloe calms my skin a bit!",
        "user_id": 2
     },
+    #13
     {
        "brand_name": "Beauty of Joseon",
        "product_name": "Glow Serum: Propolis + Niacinamide",
@@ -143,6 +156,7 @@ products_data = [
        "notes": "It is lightweight. Does not have a smell. It is perfect.",
        "user_id": 5
     },
+    #14
     {
        "brand_name": "Elizabeth Arden",
        "product_name": "Eight Hour Cream Intensive Lip Repair Balm",
@@ -154,6 +168,7 @@ products_data = [
        "notes": "A lip moisturiser that really works beautifully. It does not just sit on the top of your lips - it sinks in and moisturises and smells great too.",
        "user_id": 1
     },
+    #15
     {
        "brand_name": "COSRX",
        "product_name": "Advcanced Snail 96 Mucin Power Essence",
@@ -165,6 +180,7 @@ products_data = [
        "notes": "Cannot live without this product!! Provides relief to my dry face.",
        "user_id": 4
     },
+    #16
     {
        "brand_name": "Tatcha",
        "product_name": "The Rice Wash",
@@ -176,6 +192,7 @@ products_data = [
        "notes": "Love this stuff on my combination skin. Definitely a holy grail item.",
        "user_id": 2
     },
+    #17
     {
        "brand_name": "Laneige",
        "product_name": "Lip Sleeping Mask",
@@ -187,6 +204,7 @@ products_data = [
        "notes": "Best lip mask around.",
        "user_id": 5
     },
+    #18
     {
        "brand_name": "Innisfree",
        "product_name": "Pore Clearing Clay Mask 2X",
@@ -198,6 +216,7 @@ products_data = [
        "notes": "Great stuff.",
        "user_id": 3
     },
+    #19
     {
        "brand_name": "Drunk Elephant",
        "product_name": "Beste™ No. 9 Jelly Cleanser",
@@ -209,6 +228,7 @@ products_data = [
        "notes": "Face felt clean after using this, but it did leave my skin feeling a little dry. Definitely had to moisturize well after.",
        "user_id": 5
     },
+    #20
     {
        "brand_name": "Kiehls",
        "product_name": "Facial Fuel Daily Energizing Moisture Treatment for Men",
