@@ -11,12 +11,12 @@ class Product(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = Column(Integer, primary_key=True)
-    brand_name = Column(String(50), nullable=False)
-    product_name = Column(String(50), nullable=False, unique=True)
-    product_type = Column(String(50), nullable=False)
+    brand_name = Column(String(60), nullable=False)
+    product_name = Column(String(60), nullable=False, unique=True)
+    product_type = Column(String(60), nullable=False)
     description = Column(String(255), nullable=False)
-    ingredients = Column(String(255), nullable=False)
-    skin_concern = Column(String(50), nullable=False)
+    key_ingredients = Column(String(500), nullable=True)
+    skin_concern = Column(String(255), nullable=False)
     product_link = Column(String(255), nullable=True)
     notes = Column(String(255), nullable=True)
 
@@ -37,7 +37,7 @@ class Product(db.Model):
             'product_name': self.product_name,
             'product_type': self.product_type,
             'description': self.description,
-            'ingredients': self.ingredients,
+            'key_ingredients': self.key_ingredients,
             'product_link': self.product_link,
             'notes': self.notes,
             'user_id': self.user_id

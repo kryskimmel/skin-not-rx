@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     first_name = Column(String(15), nullable=False)
     last_name = Column(String(15), nullable=False)
     username = Column(String(15), nullable=False, unique=True)
-    email = Column(String(50), nullable=False, unique=True)
+    email = Column(String(60), nullable=False, unique=True)
     hashed_password = Column(String(255), nullable=False)
     profile_image = Column(String(255), nullable=False)
     skin_type = Column(String(255), nullable=False)
