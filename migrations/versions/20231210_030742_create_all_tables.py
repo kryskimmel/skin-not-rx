@@ -8,6 +8,10 @@ Create Date: 2023-12-10 03:07:42.829357
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
+
 
 # revision identifiers, used by Alembic.
 revision = '4afb834c7e84'
@@ -32,6 +36,9 @@ def upgrade():
     sa.UniqueConstraint('username'),
     sa.UniqueConstraint('email')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+
     op.create_table('products',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('brand_name', sa.String(length=60), nullable=False),
@@ -49,16 +56,22 @@ def upgrade():
     sa.UniqueConstraint('product_name'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE products SET SCHEMA {SCHEMA};")
+
     op.create_table('product_images',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('product_id', sa.Integer(), nullable=False),
-    sa.Column('preview', sa.Boolean(), nullable=False),
+    sa.Column('preview', sa.Boolean(server_default=False), nullable=False),
     sa.Column('image_url', sa.String(length=255), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE product_images SET SCHEMA {SCHEMA};")
+
     op.create_table('collections',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=60), nullable=False),
@@ -70,6 +83,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE collections SET SCHEMA {SCHEMA};")
+
     op.create_table('favorite_products',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -80,6 +96,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE favorite_products SET SCHEMA {SCHEMA};")
+
     op.create_table('favorite_collections',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -90,6 +109,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['collection_id'], ['collections.id'], ),
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE favorite_collections SET SCHEMA {SCHEMA};")
 
 
 def downgrade():
