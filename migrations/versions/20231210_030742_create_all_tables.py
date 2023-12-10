@@ -1,8 +1,8 @@
 """create all tables
 
-Revision ID: 46d48e5085bc
-Revises:
-Create Date: 2023-12-10 02:35:01.494764
+Revision ID: 4afb834c7e84
+Revises: 46d48e5085bc
+Create Date: 2023-12-10 03:07:42.829357
 
 """
 from alembic import op
@@ -10,13 +10,13 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '46d48e5085bc'
+revision = '4afb834c7e84'
 down_revision = None
 branch_labels = None
 depends_on = None
 
 
-def upgrade() -> None:
+def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('first_name', sa.String(length=15), nullable=False),
@@ -47,7 +47,7 @@ def upgrade() -> None:
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('product_name'),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id']),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     )
     op.create_table('product_images',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -57,7 +57,7 @@ def upgrade() -> None:
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.ForeignKeyConstraint(['product_id'], ['products.id']),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
     op.create_table('collections',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -67,8 +67,8 @@ def upgrade() -> None:
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id']),
-    sa.ForeignKeyConstraint(['product_id'], ['products.id']),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
     op.create_table('favorite_products',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -77,8 +77,8 @@ def upgrade() -> None:
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id']),
-    sa.ForeignKeyConstraint(['product_id'], ['products.id']),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     )
     op.create_table('favorite_collections',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -87,8 +87,8 @@ def upgrade() -> None:
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id']),
-    sa.ForeignKeyConstraint(['collection_id'], ['collections.id']),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['collection_id'], ['collections.id'], ),
     )
 
 
