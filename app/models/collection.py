@@ -11,7 +11,7 @@ class Collection(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(60), nullable=False, unique=True)
+    name = Column(String(60), nullable=False)
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
     product_id = Column(Integer, ForeignKey(add_prefix_for_prod('products.id')))
 
@@ -21,6 +21,7 @@ class Collection(db.Model):
     # RELATIONSHIPS
     user = db.relationship('User', back_populates='collections')
     products = db.relationship('Product', back_populates='collections')
+    favorite_collections = db.relationship('Favorite_Collection', back_populates='collections')
 
     def to_dict(self):
         return {
