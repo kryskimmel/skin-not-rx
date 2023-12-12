@@ -10,13 +10,13 @@ function ProductRandomizer() {
                     <option value="exfoliator">Exfoliator</option>
                     <option value="treatment">Treatment</option>
                     <option value="serum">Serum</option>
-                    <option value="face-oil">Face Oil</option>
                     <option value="sunscreen">Sunscreen</option>
                     <option value="moisturizer">Moisturizer</option>
-                    <option value="chemical-peel">Chemical Peel</option>
                     <option value="toner">Toner</option>
                     <option value="face-mask">Face Mask</option>
+                    <option value="eye-serum">Eye Serum</option>
                     <option value="eye-cream">Eye Cream</option>
+                    <option value="lip-repair-protectant">Lip Repair & Protectant</option>
                 </select>
                 <button className="generate-button">Generate</button>
             </form>
