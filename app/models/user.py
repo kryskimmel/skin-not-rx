@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, Column, DateTime
+from sqlalchemy import Integer, String, Text, Column, DateTime
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -16,9 +16,9 @@ class User(db.Model, UserMixin):
     last_name = Column(String(15), nullable=False)
     username = Column(String(15), nullable=False, unique=True)
     email = Column(String(60), nullable=False, unique=True)
-    hashed_password = Column(String(255), nullable=False)
-    profile_image = Column(String(255), nullable=False)
-    skin_type = Column(String(255), nullable=False)
+    hashed_password = Column(Text(255), nullable=False)
+    profile_image = Column(Text(255), nullable=False)
+    skin_type = Column(Text(255), nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, Column, Boolean, DateTime, ForeignKey
+from sqlalchemy import Integer, String, Text, Column, Boolean, DateTime, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
@@ -13,7 +13,7 @@ class Product_Image(db.Model):
     id = Column(Integer, primary_key=True)
     product_id = Column(Integer, ForeignKey(add_prefix_for_prod('products.id')))
     preview = Column(Boolean, nullable=False)
-    image_url = Column(String(255), nullable=False)
+    image_url = Column(Text(255), nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

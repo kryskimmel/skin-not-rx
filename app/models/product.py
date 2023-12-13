@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, DateTime, Column, ForeignKey
+from sqlalchemy import Integer, String, Text, DateTime, Column, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
@@ -14,11 +14,11 @@ class Product(db.Model):
     brand_name = Column(String(60), nullable=False)
     product_name = Column(String(60), nullable=False, unique=True)
     product_type = Column(String(60), nullable=False)
-    description = Column(String(255), nullable=False)
+    description = Column(Text(255), nullable=False)
     key_ingredients = Column(String(500), nullable=True)
-    skin_concern = Column(String(255), nullable=False)
-    product_link = Column(String(255), nullable=True)
-    notes = Column(String(255), nullable=True)
+    skin_concern = Column(Text(255), nullable=False)
+    product_link = Column(Text(255), nullable=True)
+    notes = Column(Text(255), nullable=True)
 
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
 
