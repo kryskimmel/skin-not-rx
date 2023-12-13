@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
-from flask_login import current_user
+from flask_login import login_required, current_user
 from app.models import Product, Product_Image, db
 
 product_routes = Blueprint('products', __name__)
 
 # Get all products (Explore page)
 @product_routes.route('/explore', methods=['GET'])
+@login_required
 def explore_products():
     all_products = Product.query.all()
     products_list = []
@@ -27,7 +28,7 @@ def explore_products():
     return jsonify({'Products': products_list})
 
 # Add a product
-@product_routes.route('/', methods=['GET', 'POST'])
+@product_routes.route('/', methods=['POST'])
 def add_product():
     data = request.get_json()
     new_product = Product(
@@ -54,3 +55,40 @@ def add_product():
 
     product_and_product_img=new_product.to_dict()
     return jsonify(product_and_product_img)
+
+
+# Edit a product by id
+@product_routes.route('/<int:product_id>', methods=['PUT'])
+@login_required
+def edit_product(product_id):
+    selected_product = Product.query.get(product_id)
+
+    if not selected_product:
+        return jsonify({'message': 'Product does not exist'}), 404
+
+    if selected_product.user_id == current_user.id:
+        modification = request.to_json()
+        for [k, i] in modification.items():
+            setattr(selected_product, k, i)
+
+            db.session.commit()
+            return selected_product.to_dict()
+    else:
+        return jsonify({'message': 'Forbidden'}), 403
+
+
+# Delete a product by id
+@product_routes.route('/<int:product_id>', methods=['DELETE'])
+@login_required
+def delete_product(product_id):
+    selected_product = Product.query.get(product_id)
+
+    if not selected_product:
+        return jsonify({'message': 'Product does not exist'}), 404
+
+    if selected_product.user_id == current_user.id:
+        db.session.delete(selected_product)
+        db.seesion.commit()
+        return jsonify({'message': 'Product successfully deleted'}), 200
+    else:
+        return jsonify({'message': 'Forbidden'}), 403
