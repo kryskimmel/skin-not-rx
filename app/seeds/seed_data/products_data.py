@@ -80,7 +80,7 @@ products_data = [
        "description": "This intense hydration mask is a cooling bio-cellulose mask saturated in saccharomyces ferment and super-charged antioxidants to help nourish and refresh skin. ",
        "key_ingredients": "Hyaluronic Acid, Watermelon Extract, Aloe Leaf Extract",
        "skin_concern": "Dryness, Aging, Redness",
-       "product_link": "",
+       "product_link": None,
        "notes": "I have extremely dry skin, I am not lying when I say this is actually the best mask I have ever used.",
        "user_id": 1
     },
@@ -188,7 +188,7 @@ products_data = [
        "description": "A gently effective, cream cleanser that washes away daily buildup without stripping skin for a soft, luminous complexion",
        "key_ingredients": "PH-Neutral Amino Acid Base, Japanese Rice Powder, Okinawa Algae Blend + Hyaluronic Acid",
        "skin_concern": "Dullness, Dryness",
-       "product_link": "",
+       "product_link": None,
        "notes": "Love this stuff on my combination skin. Definitely a holy grail item.",
        "user_id": 2
     },
@@ -224,7 +224,7 @@ products_data = [
        "description": "An innovative jelly cleanser that removes all traces of makeup, excess oil, pollution, and any other grime from the day. ",
        "key_ingredients": "Mild Surfactant Blend, Glycerin, Cantaloupe Fruit Extract, Virgin Marula Oil",
        "skin_concern": "Uneven Texture",
-       "product_link": "",
+       "product_link": None,
        "notes": "Face felt clean after using this, but it did leave my skin feeling a little dry. Definitely had to moisturize well after.",
        "user_id": 5
     },
@@ -236,7 +236,7 @@ products_data = [
        "description": "An energizing, non-greasy men's face moisturizer. Paraben-free & sulfate-free.",
        "key_ingredients": "Chestnut Extract, Vitamin C, Caffeine",
        "skin_concern": "Dryness, Dullness",
-       "product_link": "",
+       "product_link": None,
        "notes": "A quality, reliable moisturizer.",
        "user_id": 3
     },
