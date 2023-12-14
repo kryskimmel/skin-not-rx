@@ -1,10 +1,7 @@
-instance/*
-instance
-node_modules
+Pipfile
+Pipfile.lock
 .env
-.venv
-dev.db
-.gitignore
-skin_not_rx_schema.png
-skinnotrx.md
 .DS_Store
+.gitignore
+.git
+instance
