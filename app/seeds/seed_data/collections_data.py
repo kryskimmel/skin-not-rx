@@ -52,21 +52,21 @@ collections_data = [
       "user_id": 3,
       "product_id": 5
   },
-  # {
-  #     "name": "Exfoliators",
-  #     "user_id": 3,
-  #     "product_id": 11
-  # },
-  # {
-  #     "name": "Face Masks",
-  #     "user_id": 3,
-  #     "product_id": 18
-  # },
-  # {
-  #     "name": "Moisturizers",
-  #     "user_id": 3,
-  #     "product_id": 20
-  # },
+  {
+      "name": "Exfoliators",
+      "user_id": 3,
+      "product_id": 11
+  },
+  {
+      "name": "Face Masks",
+      "user_id": 3,
+      "product_id": 18
+  },
+  {
+      "name": "Moisturizers",
+      "user_id": 3,
+      "product_id": 20
+  },
 
   {
       "name": "Treatments",
