@@ -10,16 +10,16 @@ collections_data = [
       "user_id": 1,
       "product_id":  2
   },
-  # {
-  #     "name": "Face Masks",
-  #     "user_id": 1,
-  #     "product_id": 7
-  #     },
-  # {
-  #     "name": "Lip Repair & Protectants",
-  #     "user_id": 1,
-  #     "product_id": 14
-  # },
+  {
+      "name": "Face Masks",
+      "user_id": 1,
+      "product_id": 7
+      },
+  {
+      "name": "Lip Repair & Protectants",
+      "user_id": 1,
+      "product_id": 14
+  },
 
   {
       "name": "Moisturizers",
@@ -31,21 +31,21 @@ collections_data = [
       "user_id": 2,
       "product_id": 4
   },
-  # {
-  #     "name": "Eye Serums",
-  #       "user_id": 2,
-  #       "product_id": 9
-  # },
-  # {
-  #     "name": "Toners",
-  #     "user_id": 2,
-  #     "product_id": 12
-  # },
-  # {
-  #     "name": "Cleansers",
-  #     "user_id": 2,
-  #     "product_id": 16
-  # },
+  {
+      "name": "Eye Serums",
+        "user_id": 2,
+        "product_id": 9
+  },
+  {
+      "name": "Toners",
+      "user_id": 2,
+      "product_id": 12
+  },
+  {
+      "name": "Cleansers",
+      "user_id": 2,
+      "product_id": 16
+  },
 
   {
       "name": "Serums",
@@ -73,35 +73,35 @@ collections_data = [
       "user_id": 4,
       "product_id": 6
   },
-  # {
-  #     "name": "Eye Creams",
-  #     "user_id": 4,
-  #     "product_id": 10
-  # },
-  # {
-  #     "name": "Serums",
-  #     "user_id": 4,
-  #     "product_id": 15
-  # },
+  {
+      "name": "Eye Creams",
+      "user_id": 4,
+      "product_id": 10
+  },
+  {
+      "name": "Serums",
+      "user_id": 4,
+      "product_id": 15
+  },
 
-  # {
-  #     "name": "Face Masks",
-  #     "user_id": 5,
-  #     "product_id": 8
-  # },
-  # {
-  #     "name": "Serums",
-  #     "user_id": 5,
-  #     "product_id" :13
-  # },
-  # {
-  #     "name": "Lip Repair & Protectants",
-  #     "user_id": 5,
-  #     "product_id": 17
-  # },
-  # {
-  #     "name": "Cleansers",
-  #     "user_id": 5,
-  #     "product_id": 19
-  # },
+  {
+      "name": "Face Masks",
+      "user_id": 5,
+      "product_id": 8
+  },
+  {
+      "name": "Serums",
+      "user_id": 5,
+      "product_id" :13
+  },
+  {
+      "name": "Lip Repair & Protectants",
+      "user_id": 5,
+      "product_id": 17
+  },
+  {
+      "name": "Cleansers",
+      "user_id": 5,
+      "product_id": 19
+  },
 ]
