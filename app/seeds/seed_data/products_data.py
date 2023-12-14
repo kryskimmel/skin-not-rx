@@ -80,7 +80,7 @@ products_data = [
        "description": "This intense hydration mask is a cooling bio-cellulose mask saturated in saccharomyces ferment and super-charged antioxidants to help nourish and refresh skin. ",
        "key_ingredients": "Hyaluronic Acid, Watermelon Extract, Aloe Leaf Extract",
        "skin_concern": "Dryness, Aging, Redness",
-      #  "product_link": "",
+       "product_link": "",
        "notes": "I have extremely dry skin, I am not lying when I say this is actually the best mask I have ever used.",
        "user_id": 1
     },
@@ -162,7 +162,7 @@ products_data = [
        "product_name": "Eight Hour Cream Intensive Lip Repair Balm",
        "product_type": "Lip Repair & Protectant",
        "description": "This intensive balm gives your lips a serious, long-lasting moisture that immediately soothes and helps strengthen your lips' delicate moisture barrier.",
-       "key_ingredients": "",
+       "key_ingredients": "Shea Butter",
        "skin_concern": "Dryness",
        "product_link": "https://www.elizabetharden.com/products/eight-hour-cream-intensive-lip-repair-balm",
        "notes": "A lip moisturiser that really works beautifully. It does not just sit on the top of your lips - it sinks in and moisturises and smells great too.",
@@ -188,7 +188,7 @@ products_data = [
        "description": "A gently effective, cream cleanser that washes away daily buildup without stripping skin for a soft, luminous complexion",
        "key_ingredients": "PH-Neutral Amino Acid Base, Japanese Rice Powder, Okinawa Algae Blend + Hyaluronic Acid",
        "skin_concern": "Dullness, Dryness",
-      #  "product_link": "https://www.tatcha.com/product/travel-size-rice-wash-japanese-soft-cream-cleanser/CC03031T.html?utm_source=google&utm_medium=cpc&utm_campaign=&utm_content=&utm_term=&utm_source=google&utm_medium=cpc&utm_campaign=&utm_content=&utm_term=&gad_source=1&gclid=CjwKCAiAvdCrBhBREiwAX6-6Use3vyx7SfNUuWeY-jrAt-hMmqhZlw9YCfxzfYZjqpGoCo8VDxYgPhoCaVEQAvD_BwE",
+       "product_link": "",
        "notes": "Love this stuff on my combination skin. Definitely a holy grail item.",
        "user_id": 2
     },
@@ -224,7 +224,7 @@ products_data = [
        "description": "An innovative jelly cleanser that removes all traces of makeup, excess oil, pollution, and any other grime from the day. ",
        "key_ingredients": "Mild Surfactant Blend, Glycerin, Cantaloupe Fruit Extract, Virgin Marula Oil",
        "skin_concern": "Uneven Texture",
-      #  "product_link": "https://www.drunkelephant.com/collections/bestsellers/beste%E2%84%A2-no.-9-jelly-cleanser-999DE00000101.html?cgid=products-allproducts-best-sellers",
+       "product_link": "",
        "notes": "Face felt clean after using this, but it did leave my skin feeling a little dry. Definitely had to moisturize well after.",
        "user_id": 5
     },
@@ -236,7 +236,7 @@ products_data = [
        "description": "An energizing, non-greasy men's face moisturizer. Paraben-free & sulfate-free.",
        "key_ingredients": "Chestnut Extract, Vitamin C, Caffeine",
        "skin_concern": "Dryness, Dullness",
-      #  "product_link": "https://www.kiehls.com/mens/mens-moisturizers/facial-fuel-daily-energizing-moisture-treatment-for-men/3700194714628.html?GeoRedirectOff=Off&gad_source=1&gclid=CjwKCAiAvdCrBhBREiwAX6-6UitNo_W5YG-ax29yd_OHTYf5ILY6rbWA-r4MGWTRo6sqIhTKMWqIARoC92YQAvD_BwE&gclsrc=aw.ds",
+       "product_link": "",
        "notes": "A quality, reliable moisturizer.",
        "user_id": 3
     },
