@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: d804c0927c1f
-Revises: 
+Revises:
 Create Date: 2023-12-11 22:16:33.702763
 
 """
@@ -38,11 +38,11 @@ def upgrade() -> None:
     sa.Column('brand_name', sa.String(length=60), nullable=False),
     sa.Column('product_name', sa.String(length=60), nullable=False),
     sa.Column('product_type', sa.String(length=60), nullable=False),
-    sa.Column('description', sa.String(length=255), nullable=False),
-    sa.Column('key_ingredients', sa.String(length=500), nullable=True),
-    sa.Column('skin_concern', sa.String(length=255), nullable=False),
-    sa.Column('product_link', sa.String(length=255), nullable=True),
-    sa.Column('notes', sa.String(length=255), nullable=True),
+    sa.Column('description', sa.Text(length=500), nullable=False),
+    sa.Column('key_ingredients', sa.Text(length=500), nullable=True),
+    sa.Column('skin_concern', sa.String(length=200), nullable=False),
+    sa.Column('product_link', sa.String(length=200), nullable=True),
+    sa.Column('notes', sa.Text(length=500), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
