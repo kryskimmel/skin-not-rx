@@ -16,7 +16,7 @@ class Product(db.Model):
     product_type = Column(String(60), nullable=False)
     description = Column(Text(500), nullable=False)
     key_ingredients = Column(Text(500), nullable=True)
-    skin_concern = Column(Text(255), nullable=False)
+    skin_concern = Column(String(200), nullable=False)
     product_link = Column(String(200), nullable=True)
     notes = Column(Text(500), nullable=True)
 

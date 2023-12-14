@@ -6,3 +6,5 @@ node_modules
 dev.db
 .gitignore
 skin_not_rx_schema.png
+skinnotrx.md
+.DS_Store
