@@ -37,6 +37,7 @@ def get_collection_details(collection_id):
 
 # Add a collection
 @collections_routes.route('/', methods=['POST'])
+@login_required
 def add_collection():
     data = request.get_json()
     new_collection = Collection(
@@ -51,6 +52,7 @@ def add_collection():
 
 # Edit a collection by id
 @collections_routes.route('/<int:collection_id>', methods=['PUT'])
+@login_required
 def edit_collection(collection_id):
     selected_collection = Collection.query.get(collection_id)
 
@@ -70,6 +72,7 @@ def edit_collection(collection_id):
 
 # Delete a collection by id
 @collections_routes.route('<int:collection_id>', methods=['DELETE'])
+@login_required
 def delete_collection(collection_id):
     selected_collection = Collection.query.get(collection_id)
 
