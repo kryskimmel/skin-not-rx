@@ -25,6 +25,50 @@ def user(id):
     return user.to_dict()
 
 
+# View current user's products
+@current_user_routes.route('/products', method=['GET'])
+def view_current_user_products():
+    curr_user_products = Product.filter_by(user_id=current_user.id).all()
+
+    if not curr_user_products:
+        return {'message': 'You have not created any products.'}
+
+    curr_user_products_list = []
+    for user_product in curr_user_products:
+        product = {
+            'brand_name': user_product.brand_name,
+            'product_name': user_product.product_name,
+            'product_type': user_product.product_type,
+            'description': user_product.description,
+            'key_ingredients': user_product.key_ingredients,
+            'skin_concern': user_product.skin_concern,
+            'product_link': user_product.product_link,
+            'notes': user_product.notes,
+            'user_id': user_product.user_id
+        }
+        curr_user_products_list.append(product)
+    return jsonify({'My Products': curr_user_products_list})
+
+
+# View current user's collections
+@current_user_routes.route('/collections', method=['GET'])
+def view_current_user_collections():
+    curr_user_collections = Collection.filter_by(user_id=current_user.id).all()
+
+    if not curr_user_collections:
+        return {'message': 'You have not created any collections.'}
+
+    curr_user_collections_list = []
+    for user_collection in curr_user_collections:
+        collection = {
+            'name': user_collection.brand_name,
+            'user_id': user_collection.user_id,
+            'product_id': user_collection.product_id
+        }
+        curr_user_collections_list.append(collection)
+    return jsonify({'My Collections': curr_user_collections_list})
+
+
 # View current user's favorite products
 @current_user_routes.route('/favorites/products', method=['GET'])
 @login_required
