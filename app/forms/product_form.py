@@ -19,12 +19,16 @@ def character_min_3(form, field):
     if field.data and len(field.data) < 3:
         raise ValidationError("Input must be at least 3 characters long.")
 
+def starting_with_spaces(form, field):
+    if field.data and (field.data).startswith(' '):
+        raise ValidationError('Input cannot begin with a space.')
+
 class ProductForm(FlaskForm):
-    brand_name = StringField('brand_name', validators=[DataRequired(), character_max_60])
-    product_name = StringField('product_name', validators=[DataRequired(), character_max_60])
-    product_type = StringField('product_type', validators=[DataRequired(), character_max_60])
-    description = StringField('description', validators=[DataRequired(), character_max_500])
-    key_ingredients = StringField('key_ingredients', validators=[character_max_500, character_min_3])
-    skin_concern = StringField('skin_concern', validators=[DataRequired(), character_max_300])
-    product_link = StringField('product_link', validators=[character_max_500, character_min_3])
-    notes = StringField('notes', validators=[character_max_500, character_min_3])
+    brand_name = StringField('brand_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
+    product_name = StringField('product_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
+    product_type = StringField('product_type', validators=[DataRequired(), character_max_60, starting_with_spaces])
+    description = StringField('description', validators=[DataRequired(), character_max_500, starting_with_spaces])
+    key_ingredients = StringField('key_ingredients', validators=[character_max_500, character_min_3, starting_with_spaces])
+    skin_concern = StringField('skin_concern', validators=[DataRequired(), character_max_300, starting_with_spaces])
+    product_link = StringField('product_link', validators=[character_max_500, character_min_3, starting_with_spaces])
+    notes = StringField('notes', validators=[character_max_500, character_min_3, starting_with_spaces])
