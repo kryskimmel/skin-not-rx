@@ -122,3 +122,53 @@ def delete_product(product_id):
         return jsonify({'message': 'Product successfully deleted'}), 200
     else:
         return jsonify({'message': 'Forbidden'}), 403
+
+
+# Add a product image
+@product_routes.route('/<int:product_id>/images', methods=['POST'])
+@login_required
+def add_product_image(product_id):
+    find_product = Product.query.get(product_id)
+
+    if not find_product:
+        return jsonify({'message': 'Product does not exist'}), 404
+
+    if find_product.user_id == current_user.id:
+        extractData = request.get_data
+
+        if extractData.get('preview') == True:
+            current_product_images = Product_Image.query.filter_by(product_id = product_id).all()
+            for image in current_product_images:
+                if image.preview == True:
+                    image.preview = False
+            db.session.commit()
+
+        add_new_preview = Product_Image(
+            image_url=extractData.get('image_url'),
+            preview=extractData.get('preview'),
+            product_id=product_id
+        )
+        db.session.add(add_new_preview)
+        db.session.commit()
+        return add_new_preview.to_dict()
+    else:
+        return jsonify({'message': 'Forbidden'}), 403
+
+# Delete a product image
+@product_routes.route('/<int:product_id>/images/<int:product_image_id>', methods=['DELETE'])
+@login_required
+def delete_product_image(product_id, product_image_id):
+    find_product = Product.query.get(product_id)
+    product_images = find_product.product_images
+
+    if not find_product:
+        return jsonify({'message': 'Product does not exist'}), 404
+
+    if find_product.user_id == current_user.id:
+        for image in product_images:
+            if image.id == product_image_id:
+                db.session.delete(image)
+                db.session.commit()
+                return jsonify({'message': 'Product image deleted successfully'}), 200
+    else:
+        return jsonify({'message': 'Forbidden'}), 403
