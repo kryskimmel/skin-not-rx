@@ -26,7 +26,7 @@ def user(id):
 
 
 # View current user's products
-@current_user_routes.route('/products', method=['GET'])
+@current_user_routes.route('/products', methods=['GET'])
 def view_current_user_products():
     curr_user_products = Product.filter_by(user_id=current_user.id).all()
 
@@ -51,7 +51,7 @@ def view_current_user_products():
 
 
 # View current user's collections
-@current_user_routes.route('/collections', method=['GET'])
+@current_user_routes.route('/collections', methods=['GET'])
 def view_current_user_collections():
     curr_user_collections = Collection.filter_by(user_id=current_user.id).all()
 
@@ -70,9 +70,9 @@ def view_current_user_collections():
 
 
 # View current user's favorite products
-@current_user_routes.route('/favorites/products', method=['GET'])
+@current_user_routes.route('/favorites/products', methods=['GET'])
 @login_required
-def view_favorites():
+def view_favorite_products():
     favorite_products = Favorite_Product.filter_by(user_id=current_user.id).all()
 
     if not favorite_products:
@@ -90,9 +90,9 @@ def view_favorites():
 
 
 # View current user's favorite collections
-@current_user_routes.route('/favorites/collections', method=['GET'])
+@current_user_routes.route('/favorites/collections', methods=['GET'])
 @login_required
-def view_favorites():
+def view_favorite_collections():
     favorite_collections = Favorite_Collection.filter_by(user_id=current_user.id).all()
 
     if not favorite_collections:
@@ -110,7 +110,7 @@ def view_favorites():
 
 
 # Add a product to favorites
-@current_user_routes.route('/favorites/products', method=['POST'])
+@current_user_routes.route('/favorites/products', methods=['POST'])
 @login_required
 def add_favorite_product():
     data = request.get_json()
@@ -128,7 +128,7 @@ def add_favorite_product():
 
 
 # Add a collection to favorites
-@current_user_routes.route('/favorites/collections', method=['POST'])
+@current_user_routes.route('/favorites/collections', methods=['POST'])
 @login_required
 def add_favorite_collection():
     data = request.get_json()
