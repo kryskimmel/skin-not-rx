@@ -8,4 +8,4 @@ def character_max_60(form, field):
         raise ValidationError("Input must not exceed 60 characters.")
 
 class CollectionForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired(), character_max_60()])
+    name = StringField('name', validators=[DataRequired(), character_max_60])
