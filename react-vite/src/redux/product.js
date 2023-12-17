@@ -44,7 +44,7 @@ export const getAllProducts = () => async (dispatch) => {
 
 
 // Reducer
-const initialState = {allProducts:[], byId:{}}
+const initialState = {allProducts:[], byId:{}, byProductType:[]}
 
 export default function reducer(state = initialState, action) {
     let newState = {};
@@ -56,9 +56,34 @@ export default function reducer(state = initialState, action) {
                 action.payload.Products.forEach((product) => {
                     byId[product.id] = product
                 });
+                const filterCleansers = action.payload.Products.filter((product => product.product_type === "Cleanser"))
+                const filterExfoliators = action.payload.Products.filter((product => product.product_type === "Exfoliator"))
+                const filerTreatments = action.payload.Products.filter((product => product.product_type === "Treatment"))
+                const filterSerums = action.payload.Products.filter((product => product.product_type === "Serum"))
+                const filterSuncreeens = action.payload.Products.filter((product => product.product_type === "Sunscreen"))
+                const filterMoisturizers = action.payload.Products.filter((product => product.product_type === "Moisturizer"))
+                const filterToners = action.payload.Products.filter((product => product.product_type === "Toner"))
+                const filterFaceMasks = action.payload.Products.filter((product => product.product_type === "Face Mask"))
+                const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
+                const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
+                const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
+
                 newState = {
                     allProducts: action.payload.Products,
-                    byId: byId
+                    byId: byId,
+                    byProductType: {
+                      "cleansers": filterCleansers,
+                      "exfoliators": filterExfoliators,
+                      "treatments" : filerTreatments,
+                      "serums": filterSerums,
+                      "sunscreens": filterSuncreeens,
+                      "moisturizers": filterMoisturizers,
+                      "toners": filterToners,
+                      "faceMasks": filterFaceMasks,
+                      "eyeSerums": filterEyeSerums,
+                      "eyeCreams": filterEyeCreams,
+                      "lipRepairAndProtectants": filterLipRepairAndProtectants
+                    }
                 };
                 return newState;
             } else {
