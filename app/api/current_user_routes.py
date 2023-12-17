@@ -36,6 +36,7 @@ def view_current_user_products():
     curr_user_products_list = []
     for user_product in curr_user_products:
         product = {
+            'id': user_product.id,
             'brand_name': user_product.brand_name,
             'product_name': user_product.product_name,
             'product_type': user_product.product_type,
@@ -61,6 +62,7 @@ def view_current_user_collections():
     curr_user_collections_list = []
     for user_collection in curr_user_collections:
         collection = {
+            'id': user_collection.id,
             'name': user_collection.brand_name,
             'user_id': user_collection.user_id,
             'product_id': user_collection.product_id

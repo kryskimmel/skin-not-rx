@@ -13,6 +13,7 @@ def explore_products():
 
     for product in all_products:
         product_info = {
+            'id': product.id,
             'brand_name': product.brand_name,
             'product_name': product.product_name,
             'product_type': product.product_type,
@@ -38,6 +39,7 @@ def get_product_details(product_id):
          return jsonify({'message': 'Product does not exist'}), 404
 
     selected_product_with_images = {
+        'id': selected_product.id,
         'brand_name': selected_product.brand_name,
         'product_name': selected_product.product_name,
         'product_type': selected_product.product_type,
