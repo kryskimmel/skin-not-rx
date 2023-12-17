@@ -4,7 +4,7 @@ const EDIT_PRODUCT = 'product/EDIT_PRODUCT';
 const DELETE_PRODUCT = 'product/DELETE_PRODUCT';
 
 
-const getProducts = () => ({
+const getProducts = (products) => ({
   type: GET_PRODUCTS,
   payload: products
 });
@@ -35,8 +35,8 @@ export const getAllProducts = () => async (dispatch) => {
         throw new Error(`There was an error fetching all existing products.`)
       }
       const allProducts = await response.json()
-      dispatch(getProducts(allProducts))
-      return allProducts;
+      console.log('all products--', allProducts)
+      await dispatch(getProducts(allProducts))
     } catch (error) {
       throw new Error(`The following error occuring while attempting to fetch all existing products: ${error.message}`)
     }
