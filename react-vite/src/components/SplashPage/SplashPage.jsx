@@ -1,4 +1,4 @@
-import ProductRandomizer from "../ProductRandomizer";
+import ProductRandomizer from "../Products/ProductRandomizer";
 import "./SplashPage.css";
 
 function SplashPage() {

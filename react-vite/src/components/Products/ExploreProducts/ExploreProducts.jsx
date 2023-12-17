@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as productActions from "../../redux/product";
+import * as productActions from "../../../redux/product";
 import "./ExploreProducts.css"
 
 function ExploreProducts() {
