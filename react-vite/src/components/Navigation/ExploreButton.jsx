@@ -29,9 +29,9 @@ function ExploreButton() {
 
     return (
         <>
-            <p onClick={toggleMenu}>
+            <button onClick={toggleMenu}>
                 Explore
-            </p>
+            </button>
             {showMenu && (
                 <ul className="explore-dropdown" ref={exploreRef}>
                     <li>
