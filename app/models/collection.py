@@ -10,7 +10,7 @@ class Collection(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(60), nullable=False)
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
     product_id = Column(Integer, ForeignKey(add_prefix_for_prod('products.id')))

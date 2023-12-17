@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     first_name = Column(String(15), nullable=False)
     last_name = Column(String(15), nullable=False)
     username = Column(String(15), nullable=False, unique=True)

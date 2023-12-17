@@ -10,7 +10,7 @@ class Product(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     brand_name = Column(String(60), nullable=False)
     product_name = Column(String(60), nullable=False, unique=True)
     product_type = Column(String(60), nullable=False)
