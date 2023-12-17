@@ -1,3 +1,32 @@
 .profile-dropdown {
   position: absolute;
 }
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+}
+
+.nav-right {
+  display: flex;
+  list-style: none;
+}
+
+.nav-right li {
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+/* ********* */
+
+.explore-dropdown {
+  border: 1px solid red
+}
