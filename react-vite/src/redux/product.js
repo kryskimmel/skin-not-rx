@@ -27,20 +27,75 @@ const deleteProduct = () => ({
 
 // GET ALL PRODUCTS
 export const getAllProducts = () => async (dispatch) => {
-    try {
-      const response = await fetch("/api/products/explore", {
-        method: "GET",
-      });
-      if (!response.ok) {
-        throw new Error(`There was an error fetching all existing products.`)
-      }
-      const allProducts = await response.json()
-      await dispatch(getProducts(allProducts))
-    } catch (error) {
-      throw new Error(`The following error occuring while attempting to fetch all existing products: ${error.message}`)
+  try {
+    const response = await fetch("/api/products/explore", {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`There was an error fetching all existing products.`)
     }
+    const allProducts = await response.json()
+    await dispatch(getProducts(allProducts))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to fetch all existing products: ${error.message}`)
+  }
 };
 
+
+// ADD A PRODUCT
+export const createProduct = (newProductData) => async (dispatch) => {
+  try {
+    const response = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newProductData),
+    })
+    if (!response.ok) {
+      throw new Error(`There was an error in creating your product.`)
+    }
+    const newProduct = await response.json()
+    await dispatch(addProduct(newProduct))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
+
+  }
+};
+
+
+// EDIT A PRODUCT
+export const modifyProduct = (product_id, editedProductData) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/products/${product_id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editedProductData),
+    })
+    if (!response.ok) {
+      throw new Error(`There was an error in modifying your product.`)
+    }
+    const modifiedProduct = await response.json()
+    await dispatch(editProduct(modifiedProduct))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to modify your product: ${error.message}`)
+  }
+};
+
+
+// DELETE A PRODUCT
+export const removeProduct = (product_id) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/products/${product_id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error(`There was an error in deleting your product.`)
+    }
+    await dispatch(deleteProduct(product_id))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to delete your product: ${error.message}`)
+  }
+};
 
 
 // Reducer
