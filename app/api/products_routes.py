@@ -52,7 +52,7 @@ def get_product_details(product_id):
         'user_id': selected_product.user_id,
         'Product_Images': [{'id': image.id, 'product_id': selected_product.id, 'preview': image.preview, 'image_url': image.image_url} for image in selected_product.product_images]
     }
-    return jsonify({'Product Details': selected_product_with_images})
+    return jsonify({'ProductDetails': selected_product_with_images})
 
 
 
