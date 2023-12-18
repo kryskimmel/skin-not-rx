@@ -44,7 +44,7 @@ function Navigation() {
           <ExploreButton />
         </li>
         <li onClick={toggleTheme}>
-          {theme === "light" ? <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30"/> : <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30" color="white"/>}
+          {theme === "light" ? <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30"/> : <Icon icon="mdi:theme-light-dark" width="30" height="30" color="white"/>}
         </li>
         <li>
           <ProfileButton />

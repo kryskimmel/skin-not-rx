@@ -1,12 +1,38 @@
 .product-randomizer-container form {
     display: flex;
     flex-direction: column;
-    width: 300px
+    width: 350px;
+    margin-top: 100px;
+}
+
+.product-randomizer-container h2 {
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.randomizer-form-components{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.randomizer-form-components p {
+    display: inline-flex;
+    order: 2;
+    width: 300px;
+    font-weight: 600;
+
+}
+
+.randomizer-form-components select {
+    display: inline-flex;
 }
 
 .generate-button {
     width: 100px;
+    height: 30px;
     background-color: #D7E3C2;
-    border: 1px solid #9DB782;
+    border: 2px solid #9DB782;
     border-radius: 30px;
 }

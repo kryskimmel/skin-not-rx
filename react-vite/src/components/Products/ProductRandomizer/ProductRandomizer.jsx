@@ -1,56 +1,53 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../../redux/product";
+import randomInt from "../../../utils/randomIntGenerator";
+import RandomProductModal from "../../Modals/RandomProductModal/RandomProductModal";
+import OpenModalButton from "../../Modals/OpenModalButton/OpenModalButton";
 import "./ProductRandomizer.css";
 
 function ProductRandomizer() {
     const [selected, setSelected] = useState("");
-    const dispatch = useDispatch();
-    const allProducts = useSelector(state => state.product.allProducts);
-
-    console.log(allProducts)
-    console.log(selected)
-
-
-    useEffect(() => {
-        dispatch(productActions.getAllProducts())
-    }, [dispatch])
+    const [isGenerateClicked, setIsGenerateClicked] = useState(true);
 
     const handleSelect = (e) => {
         setSelected(e.target.value)
-    }
+    };
 
-    const handleSubmit = () => {
-        if (selected) {
-            filtered = allProducts.filter(product_type === selected)
-            console.log('filtereddd', filtered)
-
-        }
-    }
-
-    console.log(selected)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsGenerateClicked(true);
+    };
 
     return (
         <div className="product-randomizer-container">
             <form onSubmit={handleSubmit}>
-                <label>Looking for a new product to add to your routine?</label>
-                <select name="product-randomizer" onClick={handleSelect}>
-                    <option value="cleanser">Cleanser</option>
-                    <option value="exfoliator">Exfoliator</option>
-                    <option value="treatment">Treatment</option>
-                    <option value="serum">Serum</option>
-                    <option value="sunscreen">Sunscreen</option>
-                    <option value="moisturizer">Moisturizer</option>
-                    <option value="toner">Toner</option>
-                    <option value="face-mask">Face Mask</option>
-                    <option value="eye-serum">Eye Serum</option>
-                    <option value="eye-cream">Eye Cream</option>
-                    <option value="lip-repair-protectant">Lip Repair & Protectant</option>
-                </select>
-                <button className="generate-button" onClick={()=>{console.log('selected value:', selected)}}>Generate</button>
+                <h2>Looking for a new product to add to your routine?</h2>
+                <div className="randomizer-form-components">
+                    <p>Select a product type to get a randomly generated product!</p>
+                    <select name="product-randomizer" value={selected} onChange={handleSelect}>
+                        <option value="" disabled>--Select a product type--</option>
+                        <option value="cleansers">Cleanser</option>
+                        <option value="exfoliators">Exfoliator</option>
+                        <option value="treatments">Treatment</option>
+                        <option value="serums">Serum</option>
+                        <option value="sunscreens">Sunscreen</option>
+                        <option value="moisturizers">Moisturizer</option>
+                        <option value="toners">Toner</option>
+                        <option value="faceMasks">Face Mask</option>
+                        <option value="eyeSerums">Eye Serum</option>
+                        <option value="eyeCreams">Eye Cream</option>
+                        <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
+                    </select>
+                </div>
+                <OpenModalButton
+                    buttonText="Generate"
+                    modalComponent={<RandomProductModal selected={selected} isGenerateClicked={isGenerateClicked}/>}
+                />
             </form>
         </div>
     )
-}
+};
+
 
 export default ProductRandomizer;
