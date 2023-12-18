@@ -1,0 +1,15 @@
+.explore-products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.product-tile {
+    border: 1px solid #FFF8E8;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    height: 300px;
+    width: 200px;
+    padding: 5px 5px;
+}

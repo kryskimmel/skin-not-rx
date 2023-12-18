@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import LoginFormModal from "../Modals/LoginFormModal";
+import SignupFormModal from "../Modals/SignupFormModal";
+import { Icon } from '@iconify/react';
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -40,9 +41,7 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
+      {!user ? <Icon icon="material-symbols:login" width="30" height="30" onClick={toggleMenu}/> : <Icon icon="iconoir:profile-circle" width="30" height="30" onClick={toggleMenu}/>}
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (

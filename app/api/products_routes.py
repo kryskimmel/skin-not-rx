@@ -13,6 +13,7 @@ def explore_products():
 
     for product in all_products:
         product_info = {
+            'id': product.id,
             'brand_name': product.brand_name,
             'product_name': product.product_name,
             'product_type': product.product_type,
@@ -38,6 +39,7 @@ def get_product_details(product_id):
          return jsonify({'message': 'Product does not exist'}), 404
 
     selected_product_with_images = {
+        'id': selected_product.id,
         'brand_name': selected_product.brand_name,
         'product_name': selected_product.product_name,
         'product_type': selected_product.product_type,
@@ -50,7 +52,7 @@ def get_product_details(product_id):
         'user_id': selected_product.user_id,
         'Product_Images': [{'id': image.id, 'product_id': selected_product.id, 'preview': image.preview, 'image_url': image.image_url} for image in selected_product.product_images]
     }
-    return jsonify({'Product Details': selected_product_with_images})
+    return jsonify({'ProductDetails': selected_product_with_images})
 
 
 

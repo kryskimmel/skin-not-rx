@@ -11,14 +11,14 @@ class User(db.Model, UserMixin):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     first_name = Column(String(15), nullable=False)
     last_name = Column(String(15), nullable=False)
     username = Column(String(15), nullable=False, unique=True)
     email = Column(String(60), nullable=False, unique=True)
-    hashed_password = Column(Text(255), nullable=False)
-    profile_image = Column(Text(255), nullable=False)
-    skin_type = Column(Text(255), nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    profile_image = Column(String(500), nullable=False)
+    skin_type = Column(String(255), nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

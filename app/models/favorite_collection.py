@@ -10,7 +10,7 @@ class Favorite_Collection(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
     collection_id = Column(Integer, ForeignKey(add_prefix_for_prod('collections.id')))
 

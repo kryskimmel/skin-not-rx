@@ -10,10 +10,10 @@ class Product_Image(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, autoincrement=True, primary_key=True)
     product_id = Column(Integer, ForeignKey(add_prefix_for_prod('products.id')))
     preview = Column(Boolean, nullable=False)
-    image_url = Column(Text(500), nullable=False)
+    image_url = Column(String(500), nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

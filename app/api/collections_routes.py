@@ -12,6 +12,7 @@ def explore_collections():
 
     for collection in all_collections:
         collection_info = {
+            'id': collection.id,
             'name': collection.name,
             'user_id': collection.user_id,
             'product_id': collection.product_id,
@@ -28,6 +29,7 @@ def get_collection_details(collection_id):
          return jsonify({'message': 'Collection does not exist'}), 404
 
     collection_info = {
+        'id': selected_collection.id,
         'name': selected_collection.name,
         'user_id': selected_collection.user_id,
         'product_id': selected_collection.product_id,
