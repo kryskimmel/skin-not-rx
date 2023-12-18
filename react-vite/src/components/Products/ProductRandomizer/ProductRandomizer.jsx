@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as productActions from "../../../redux/product";
-import randomInt from "../../../utils/randomIntGenerator";
+import { useState } from "react";
 import RandomProductModal from "../../Modals/RandomProductModal/RandomProductModal";
 import OpenModalButton from "../../Modals/OpenModalButton/OpenModalButton";
 import "./ProductRandomizer.css";
@@ -47,7 +44,7 @@ function ProductRandomizer() {
             </form>
         </div>
     )
-};
+}
 
 
 export default ProductRandomizer;

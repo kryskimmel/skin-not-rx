@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as productActions from "../../../redux/product";
 import randomInt from "../../../utils/randomIntGenerator";
 import { useModal } from '../../../context/Modal';
 import { Icon } from '@iconify/react';
@@ -35,7 +36,7 @@ function RandomProductModal ({selected, isGenerateClicked}) {
         <>
             <div className="random-product-tile">
                 <ul style={{listStyle: "none"}}>
-                    <li className="random-product-img"><a href={randomProduct?.product_link} target="_blank"><img src={randomProduct?.preview_image} alt={randomProduct?.product_name} title={randomProduct?.product_name}/></a></li>
+                    <li className="random-product-img"><a href={randomProduct?.product_link} target="_blank" rel='noreferrer'><img src={randomProduct?.preview_image} alt={randomProduct?.product_name} title={randomProduct?.product_name}/></a></li>
                     <li><span style={{fontWeight:"600"}}>BRAND NAME:</span> {randomProduct?.brand_name}</li>
                     <li><span style={{fontWeight:"600"}}>NAME:</span> {randomProduct?.product_name}</li>
                     <li><span style={{fontWeight:"600"}}>TYPE:</span> {randomProduct?.product_type}</li>
@@ -66,6 +67,6 @@ function RandomProductModal ({selected, isGenerateClicked}) {
             </div>
         </>
     )
-};
+}
 
 export default RandomProductModal;
