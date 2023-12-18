@@ -9,7 +9,6 @@ import "./Navigation.css";
 function Navigation() {
   const [theme, setTheme] = useState("light")
 
-  console.log(theme)
   // Function to change between light and dark themes
   const toggleTheme = () => {
     if (theme === "light") {
@@ -19,13 +18,12 @@ function Navigation() {
       setTheme("light")
     }
   };
-  const themeSettings = {}
 
+  const themeSettings = {}
   useEffect(() => {
-    themeSettings.pageBackgroundColor = theme === "light" ? document.body.style.backgroundColor="#FFF8E8" : document.body.style.backgroundColor="#363537"
+    themeSettings.pageBackgroundColor = theme === "light" ? document.body.style.backgroundColor="#FBFFFF" : document.body.style.backgroundColor="#363537"
     themeSettings.iconColor = theme === "light" ? "#000000" : "#FFFFFF"
-    console.log(themeSettings.iconColor)
-  }, [theme])
+  }, [theme, themeSettings])
 
 
 
@@ -44,7 +42,7 @@ function Navigation() {
           <ExploreButton />
         </li>
         <li onClick={toggleTheme}>
-          {theme === "light" ? <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30"/> : <Icon icon="mdi:theme-light-dark" width="30" height="30" color="white"/>}
+          {theme === "light" ? <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30"/> : <Icon icon="mdi:theme-light-dark" width="30" height="30" color="#FFFFFF"/>}
         </li>
         <li>
           <ProfileButton />

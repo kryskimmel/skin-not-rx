@@ -16,7 +16,7 @@ function ExploreProducts() {
         <>
         <div className="explore-products-container">
             {allProducts && allProducts.map(product =>
-                <div className="product-tile">
+                <div className="product-tile" key={product.id}>
                     <img src={product.preview_image} alt={product.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
                     {product.brand_name}
                     {product.product_name}
