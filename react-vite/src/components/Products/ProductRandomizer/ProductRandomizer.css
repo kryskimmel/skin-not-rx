@@ -29,7 +29,7 @@
     display: inline-flex;
 }
 
-.generate-button {
+.product-randomizer-container button {
     width: 100px;
     height: 30px;
     background-color: #D7E3C2;
