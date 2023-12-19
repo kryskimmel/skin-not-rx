@@ -6,7 +6,7 @@ import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
 import * as productActions from "./redux/product";
-import * collectionActions from "./redux/collection";
+import * as collectionActions from "./redux/collection";
 import "./index.css";
 
 const store = configureStore();
