@@ -145,8 +145,16 @@ export default function reducer(state = initialState, action) {
             newState = action.payload
             return newState;
         }
+    case ADD_PRODUCT:
+      newState = {...state, [action.payload.id] : action.payload}
+      return newState;
+    case EDIT_PRODUCT:
+      newState = {...state, [action.payload.id] : action.payload}
+      return newState;
+    case DELETE_PRODUCT:
+      delete newState[action.payload];
+      return newState;
     default:
         return state;
   }
-
 }
