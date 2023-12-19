@@ -48,7 +48,7 @@ def view_current_user_products():
             'user_id': user_product.user_id
         }
         curr_user_products_list.append(product)
-    return jsonify({'My Products': curr_user_products_list})
+    return jsonify({'MyProducts': curr_user_products_list})
 
 
 # View current user's collections
@@ -68,7 +68,7 @@ def view_current_user_collections():
             'product_id': user_collection.product_id
         }
         curr_user_collections_list.append(collection)
-    return jsonify({'My Collections': curr_user_collections_list})
+    return jsonify({'MyCollections': curr_user_collections_list})
 
 
 # View current user's favorite products
@@ -88,7 +88,7 @@ def view_favorite_products():
             'product_id': product.product_id
         }
         favorite_products_list.append(fave_product)
-    return jsonify({'Favorites': favorite_products_list})
+    return jsonify({'FavoriteProducts': favorite_products_list})
 
 
 # View current user's favorite collections
@@ -108,7 +108,7 @@ def view_favorite_collections():
             'collection_id': collection.collection_id
         }
         favorite_collections_list.append(fave_collection)
-    return jsonify({'Favorite Collections': favorite_collections_list})
+    return jsonify({'FavoriteCollections': favorite_collections_list})
 
 
 # Add a product to favorites
@@ -148,7 +148,7 @@ def add_favorite_collection():
 
 
 # Delete a favorited product
-@current_user_routes.route('/favorites/products/<int:product_id>', methods=['DELETE'])
+@current_user_routes.route('/favorites/products/<int:favorite_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_product(product_id):
     current_product_favorite = Favorite_Product.query.filter_by(user_id=current_user.id).filter_by(
@@ -166,7 +166,7 @@ def remove_favorite_product(product_id):
 
 
 # Delete a favorited collection
-@current_user_routes.route('/favorites/collections/<int:collection_id>', methods=['DELETE'])
+@current_user_routes.route('/favorites/collections/<int:favorite_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_collection(collection_id):
     current_collection_favorite = Favorite_Collection.query.filter_by(user_id=current_user.id).filter_by(
