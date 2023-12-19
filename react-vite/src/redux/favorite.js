@@ -163,7 +163,35 @@ export default function reducer(state = initialState, action) {
         newState = action.payload
         return newState;
       }
-      default:
-        return state;
+    case ADD_FAVORITE_PRODUCT:
+      newState = {...state, [action.payload.id] : action.payload}
+      return newState;
+    case DELETE_FAVORITE_PRODUCT:
+      delete newState[action.payload];
+      return newState;
+    case GET_FAVORITE_COLLECTIONS:
+      if (action.payload.FavoriteCollections) {
+        const favoritedCollectionsById = {};
+        action.payload.FavoriteCollections.forEach((faveCollection) => {
+          favoritedCollectionsById[faveCollection.id] = faveCollection
+        });
+
+        newState = {
+          allFavoritedCollections: action.payload.FavoriteCollections,
+          favoritedCollectionsById: favoritedCollectionsById
+        };
+        return newState;
+      } else {
+        newState = action.payload
+        return newState;
+      }
+    case ADD_FAVORITE_COLLECTION:
+      newState = {...state, [action.payload.id] : action.payload}
+      return newState;
+    case DELETE_FAVORITE_COLLECTION:
+      delete newState[action.payload];
+      return newState;
+    default:
+      return state;
   }
 }
