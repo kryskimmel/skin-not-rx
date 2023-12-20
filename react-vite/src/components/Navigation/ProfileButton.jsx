@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
+import CreateProductModal from "../Modals/CreateProductModal";
 import { Icon } from '@iconify/react';
 
 function ProfileButton() {
@@ -48,6 +50,11 @@ function ProfileButton() {
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
+              <OpenModalMenuItem
+                itemText="Add A Product"
+                onModalClose={closeMenu}
+                modalComponent={<CreateProductModal />}
+              />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
