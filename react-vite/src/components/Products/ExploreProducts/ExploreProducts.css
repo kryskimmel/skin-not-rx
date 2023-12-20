@@ -13,3 +13,18 @@
     width: 200px;
     padding: 5px 5px;
 }
+
+.product-info ul{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left: 0px;
+}
+
+.product-tile-buttons ul{
+    transform: scale(1.2);
+    transition-duration: 0.1s;
+    cursor: pointer;
+    list-style: none;
+    padding-left: 0px;
+}
