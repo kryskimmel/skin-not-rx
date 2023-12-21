@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../context/Modal';
+import * as productActions from "../../../redux/product";
 import "./createProductModal.css";
 
 function CreateProductModal () {
@@ -16,6 +17,7 @@ function CreateProductModal () {
     const [productLink, setProductLink] = useState("");
     const [notes, setNotes] = useState("");
     const [errors, setErrors] = useState({});
+    const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     console.log('session user:--', sessionUser)
 
@@ -65,41 +67,122 @@ function CreateProductModal () {
         if (notes && notes.length > 500) validationErrors.notes = maxChar500;
 
         setErrors(validationErrors);
-        if (Object.keys(validationErrors).length > 0) {
-            setIsDisabled(true)
-        } else {
+    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
+
+    useEffect(() => {
+        if (brandName && productName && productType && description && keyIngredients && skinConcern && productLink && notes) {
             setIsDisabled(false)
         }
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
+
+    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes, errors])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setShowErrors(true)
+        if (Object.values(errors).length > 0) {
+            setIsDisabled(true)
+        }
+        const newProduct = {
+          brandName: brandName,
+          productName: productName,
+          productType: productType,
+          description: description,
+          keyIngredients: keyIngredients,
+          skinConcern: skinConcern,
+          productLink: productLink,
+          notes: notes
+        };
+        dispatch(productActions.createProduct(newProduct))
+          .then(async (newProduct) => {
+            history.push(`/products/${newProduct.id}`);
+          })
+          .catch(async (res) => {
+            if (res instanceof Response) {
+              const data = await res.json();
+              if (data.errors) {
+                return setErrors(validationErrors);
+              }
+            }
+          });
+      };
 
     return (
         <>
         <div className='create-product-container'>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <h1>Add A Product</h1>
                 <label>Brand Name</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={brandName}
+                    onChange={(e) => {setBrandName(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.brandName && <p className="errors-text">{errors.brandName}</p>}
 
                 <label>Product Name</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={productName}
+                    onChange={(e) => {setProductName(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.productName && <p className="errors-text">{errors.productName}</p>}
 
                 <label>Product Type</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={productType}
+                    onChange={(e) => {setProductType(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
 
                 <label>Description</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => {setDescription(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.description && <p className="errors-text">{errors.description}</p>}
 
                 <label>Key Ingredients</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={keyIngredients}
+                    onChange={(e) => {setKeyIngredients(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
 
                 <label>Skin Concern</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={skinConcern}
+                    onChange={(e) => {setSkinConcern(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
 
                 <label>Product Link</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={productLink}
+                    onChange={(e) => {setProductLink(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
 
                 <label>Notes</label>
-                <input type="text"/>
+                <input
+                    type="text"
+                    value={notes}
+                    onChange={(e) => {setNotes(e.target.value)}}
+                    required
+                />
+                {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
+                <button type='submit' disabled={isDisabled}>Create</button>
             </form>
         </div>
         </>
