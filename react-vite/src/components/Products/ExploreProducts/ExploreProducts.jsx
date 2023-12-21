@@ -30,6 +30,7 @@ function ExploreProducts() {
                     <div className="product-tile-buttons" key={`${product.id}-favorite`}>
                         <ul>
                             <li
+                                className="explore-page-star-icon"
                                 onMouseOver={()=> handleOnHoverStar(product.id)}
                                 onMouseOut={handleOffHoverStar}
                                 onClick={() => alert('...Feature coming soon')}>

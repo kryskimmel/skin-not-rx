@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../context/Modal';
 import * as productActions from "../../../redux/product";
-import { Icon } from '@iconify/react';
 import "./createProductModal.css";
 
 function CreateProductModal () {
@@ -34,23 +33,22 @@ function CreateProductModal () {
 
     })
     console.log('is the submit button disabled?', isDisabled)
+    console.log('showErrors?', showErrors)
 
 
+    // Handle skin concern selections
     const handleSkinConcern = (e) => {
         const {value, checked} = e.target
-        if (checked) {
-            setSkinConcern(prev => [...prev, value])
-        }
-        else {
-            setSkinConcern(prev => {return [...prev.filter(concern => concern !== value)]})
-        }
+        if (checked) setSkinConcern(prev => [...prev, value])
+        else setSkinConcern(prev => {return [...prev.filter(concern => concern !== value)]})
     };
-    console.log("skin concerns:--", skinConcern)
 
+    // Toggle submit button classname
+    const submitButtonCN = Object.values(errors).length > 0 ? "disabled-submit-button" : "enabled-submit-button"
 
+    // useEffect for validation errors
     useEffect(() => {
         const validationErrors = {}
-
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
@@ -70,7 +68,7 @@ function CreateProductModal () {
         if (!productType) validationErrors.productType = inputRequired;
         if (productType && productType.length > 60) validationErrors.productType = maxChar60;
         //Description
-        if (!description) validationErrors.description = inputRequired;
+        if (!description.length) validationErrors.description = inputRequired;
         if (description && description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
         if (description && description.length > 500) validationErrors.description = maxChar500;
         //Key Ingredients
@@ -78,7 +76,7 @@ function CreateProductModal () {
         if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
         if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
         //Skin Concern
-        if (!skinConcern) validationErrors.skinConcern = inputRequired;
+        if (!skinConcern.length) validationErrors.skinConcern = inputRequired;
         if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
         //Product Link
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
@@ -90,43 +88,58 @@ function CreateProductModal () {
         if (notes && notes.length > 500) validationErrors.notes = maxChar500;
 
         setErrors(validationErrors);
-        if (brandName.length && productName.length && productType.length && description.length && skinConcern.length) {
-            setIsDisabled(false)
-        }
-        else {
-            setIsDisabled(true)
-        }
+
+        const hasValidationErrors = Object.values(validationErrors).some((error) => error);
+        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description || skinConcern.length === 0;
+
+        setIsDisabled(hasValidationErrors || hasEmptyRequiredFields);
+
+        // if (!brandName || !productName || !productType || !description || skinConcern.length === 0) {
+        //     setIsDisabled(true);
+        // } else {
+        //     setIsDisabled(false);
+        // }
     }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
+
+    useEffect(() => {
+        if (showErrors && Object.values(errors).length > 0) setIsDisabled(true)
+        else setIsDisabled(false)
+    }, [errors])
+
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setShowErrors(true)
-        if (Object.values(errors).length > 0) {
+        if (showErrors && Object.values(errors).length > 0) {
             setIsDisabled(true)
         }
-        const newProduct = {
-          brandName: brandName,
-          productName: productName,
-          productType: productType,
-          description: description,
-          keyIngredients: keyIngredients,
-          skinConcern: skinConcern,
-          productLink: productLink,
-          notes: notes
-        };
-        dispatch(productActions.createProduct(newProduct))
-          .then(async (newProduct) => {
-            history.push(`/products/${newProduct.id}`);
-          })
-          .catch(async (res) => {
-            if (res instanceof Response) {
-              const data = await res.json();
-              if (data.errors) {
-                return setErrors(validationErrors);
-              }
-            }
-          });
+        // else {
+        //     closeModal()
+        // }
+        // const newProduct = {
+        //   brandName: brandName,
+        //   productName: productName,
+        //   productType: productType,
+        //   description: description,
+        //   keyIngredients: keyIngredients,
+        //   skinConcern: skinConcern,
+        //   productLink: productLink,
+        //   notes: notes
+        // };
+        // dispatch(productActions.createProduct(newProduct))
+        //   .then(async (newProduct) => {
+        //     history.push(`/products/${newProduct.id}`);
+        //   })
+        //   .catch(async (res) => {
+        //     if (res instanceof Response) {
+        //       const data = await res.json();
+        //       if (data.errors) {
+        //         return setErrors(validationErrors);
+        //       }
+        //     }
+        //   });
       };
 
     return (
@@ -158,7 +171,7 @@ function CreateProductModal () {
 
                 <div className='product-type-div'>
                     <label>Product Type: </label>
-                    <select value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                    <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
                         <option value="" disabled>--</option>
                         <option value="cleansers">Cleanser</option>
                         <option value="exfoliators">Exfoliator</option>
@@ -195,9 +208,9 @@ function CreateProductModal () {
                     {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
                 </div>
 
-                <div className='skin-concern-div'>
+                <div className='skinconcern-div'>
                     <label>Skin Concern: </label>
-                    <div>
+                    <div className='skinconcern-choices-div'>
                         <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
                         <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
                         <input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture
@@ -208,7 +221,7 @@ function CreateProductModal () {
                         <input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles
                         <input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots
                     </div>
-                    <div className='skincare-selection-div'>
+                    <div className='skinconcern-selection-div'>
                         {skinConcern?.map((concern) => (
                             <button
                                 key={concern}
@@ -237,11 +250,13 @@ function CreateProductModal () {
                     <textarea
                         value={notes}
                         onChange={(e) => {setNotes(e.target.value)}}
-                        placeholder='What did you think about the product?'
+                        placeholder='What are your thoughts on this product?'
                     ></textarea>
                     {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
                 </div>
-                <button type='submit' disabled={isDisabled}>Create</button>
+                <div className='create-product-button-div'>
+                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
+                </div>
             </form>
         </div>
         </>

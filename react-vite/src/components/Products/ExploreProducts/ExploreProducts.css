@@ -5,6 +5,10 @@
     gap: 30px;
 }
 
+.explore-page-star-icon {
+    margin-left: 25px;
+}
+
 .product-tile {
     border: 1px solid #FFF8E8;
     border-radius: 15px;
