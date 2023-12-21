@@ -22,6 +22,18 @@ function CreateProductModal () {
     const [isDisabled, setIsDisabled] = useState(true);
     console.log('session user:--', sessionUser)
     console.log('Product type selected:--', productType)
+    console.log('USER INPUT:----->', {
+        brandName: brandName,
+        productName: productName,
+        productType: productType,
+        description: description,
+        keyIngredients: keyIngredients,
+        skinConcern: skinConcern,
+        productLink: productLink,
+        notes: notes
+
+    })
+    console.log('is the submit button disabled?', isDisabled)
 
 
     const handleSkinConcern = (e) => {
@@ -46,50 +58,46 @@ function CreateProductModal () {
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
 
+        //Brand Name
         if (!brandName) validationErrors.brandName = inputRequired;
         if (brandName && brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
         if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
-
+        //Product Name
         if (!productName) validationErrors.productName = inputRequired;
         if (productName && productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
         if (productName && productName.length > 60) validationErrors.productName = maxChar60;
-
+        //Product Type
         if (!productType) validationErrors.productType = inputRequired;
-        if (productType && productType.startsWith(" ")) validationErrors.productType = cannotStartWithSpaces;
         if (productType && productType.length > 60) validationErrors.productType = maxChar60;
-
+        //Description
         if (!description) validationErrors.description = inputRequired;
         if (description && description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
         if (description && description.length > 500) validationErrors.description = maxChar500;
-
-        // if (!keyIngredients) validationErrors.keyIngredients = inputRequired;
+        //Key Ingredients
         if (keyIngredients && keyIngredients.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
         if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
         if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
-
+        //Skin Concern
         if (!skinConcern) validationErrors.skinConcern = inputRequired;
-        // if (skinConcern && skinConcern.startsWith(" ")) validationErrors.skinConcern = cannotStartWithSpaces;
-        // if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
-
-        // if (!productLink) validationErrors.productLink = inputRequired;
+        if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
+        //Product Link
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
-
-        // if (!notes) validationErrors.notes = inputRequired;
+        //Notes
         if (notes && notes.startsWith(" ")) validationErrors.notes = cannotStartWithSpaces;
         if (notes && notes.length < 3) validationErrors.notes = minChar3;
         if (notes && notes.length > 500) validationErrors.notes = maxChar500;
 
         setErrors(validationErrors);
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
-
-    useEffect(() => {
-        if (brandName && productName && productType && description && keyIngredients && skinConcern && productLink && notes) {
+        if (brandName.length && productName.length && productType.length && description.length && skinConcern.length) {
             setIsDisabled(false)
         }
+        else {
+            setIsDisabled(true)
+        }
+    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
 
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes, errors])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -183,7 +191,6 @@ function CreateProductModal () {
                         type="text"
                         value={keyIngredients}
                         onChange={(e) => {setKeyIngredients(e.target.value)}}
-                        required
                     />
                     {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
                 </div>
@@ -221,7 +228,6 @@ function CreateProductModal () {
                         type="text"
                         value={productLink}
                         onChange={(e) => {setProductLink(e.target.value)}}
-                        required
                     />
                     {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
                 </div>
@@ -231,7 +237,7 @@ function CreateProductModal () {
                     <textarea
                         value={notes}
                         onChange={(e) => {setNotes(e.target.value)}}
-                        required
+                        placeholder='What did you think about the product?'
                     ></textarea>
                     {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
                 </div>
