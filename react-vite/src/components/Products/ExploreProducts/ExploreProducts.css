@@ -10,10 +10,10 @@
 }
 
 .product-tile {
-    border: 1px solid #FFF8E8;
+    border: 2px solid #d6c7a5;
     border-radius: 15px;
     background-color: #FFFFFF;
-    height: 300px;
+    height: 350px;
     width: 200px;
     padding: 5px 5px;
 }
