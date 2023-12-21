@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../context/Modal';
 import * as productActions from "../../../redux/product";
+import { Icon } from '@iconify/react';
 import "./createProductModal.css";
 
 function CreateProductModal () {
@@ -13,13 +14,27 @@ function CreateProductModal () {
     const [productType, setProductType] = useState("");
     const [description, setDescription] = useState("");
     const [keyIngredients, setKeyIngredients] = useState("");
-    const [skinConcern, setSkinConcern] = useState("");
+    const [skinConcern, setSkinConcern] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [notes, setNotes] = useState("");
     const [errors, setErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     console.log('session user:--', sessionUser)
+    console.log('Product type selected:--', productType)
+
+
+    const handleSkinConcern = (e) => {
+        const {value, checked} = e.target
+        if (checked) {
+            setSkinConcern(prev => [...prev, value])
+        }
+        else {
+            setSkinConcern(prev => {return [...prev.filter(concern => concern !== value)]})
+        }
+    };
+    console.log("skin concerns:--", skinConcern)
+
 
     useEffect(() => {
         const validationErrors = {}
@@ -53,8 +68,8 @@ function CreateProductModal () {
         if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
 
         if (!skinConcern) validationErrors.skinConcern = inputRequired;
-        if (skinConcern && skinConcern.startsWith(" ")) validationErrors.skinConcern = cannotStartWithSpaces;
-        if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
+        // if (skinConcern && skinConcern.startsWith(" ")) validationErrors.skinConcern = cannotStartWithSpaces;
+        // if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
 
         // if (!productLink) validationErrors.productLink = inputRequired;
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
@@ -130,12 +145,20 @@ function CreateProductModal () {
                 {showErrors && errors?.productName && <p className="errors-text">{errors.productName}</p>}
 
                 <label>Product Type</label>
-                <input
-                    type="text"
-                    value={productType}
-                    onChange={(e) => {setProductType(e.target.value)}}
-                    required
-                />
+                <select value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                    <option value="" disabled>--</option>
+                    <option value="cleansers">Cleanser</option>
+                    <option value="exfoliators">Exfoliator</option>
+                    <option value="treatments">Treatment</option>
+                    <option value="serums">Serum</option>
+                    <option value="sunscreens">Sunscreen</option>
+                    <option value="moisturizers">Moisturizer</option>
+                    <option value="toners">Toner</option>
+                    <option value="faceMasks">Face Mask</option>
+                    <option value="eyeSerums">Eye Serum</option>
+                    <option value="eyeCreams">Eye Cream</option>
+                    <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
+                </select>
                 {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
 
                 <label>Description</label>
@@ -157,12 +180,29 @@ function CreateProductModal () {
                 {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
 
                 <label>Skin Concern</label>
-                <input
-                    type="text"
-                    value={skinConcern}
-                    onChange={(e) => {setSkinConcern(e.target.value)}}
-                    required
-                />
+                <div>
+                    <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
+                    <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
+                    <input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture
+                    <input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne
+                    <input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging
+                    <input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness
+                    <input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores
+                    <input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles
+                    <input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots
+                </div>
+                <div className='skincare-selection-div'>
+                    {skinConcern?.map((concern) => (
+                        <button
+                            key={concern}
+                            className='skinconcern-buttons'
+                            value={concern}><Icon icon="ph:x-light" /> {concern}</button>
+                    ))}
+                </div>
+
+
+
+
                 {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
 
                 <label>Product Link</label>
