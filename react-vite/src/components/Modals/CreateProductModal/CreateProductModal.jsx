@@ -126,102 +126,115 @@ function CreateProductModal () {
         <div className='create-product-container'>
             <form onSubmit={handleSubmit}>
                 <h1>Add A Product</h1>
-                <label>Brand Name</label>
-                <input
-                    type="text"
-                    value={brandName}
-                    onChange={(e) => {setBrandName(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.brandName && <p className="errors-text">{errors.brandName}</p>}
-
-                <label>Product Name</label>
-                <input
-                    type="text"
-                    value={productName}
-                    onChange={(e) => {setProductName(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.productName && <p className="errors-text">{errors.productName}</p>}
-
-                <label>Product Type</label>
-                <select value={productType} onChange={(e) => {setProductType(e.target.value)}}>
-                    <option value="" disabled>--</option>
-                    <option value="cleansers">Cleanser</option>
-                    <option value="exfoliators">Exfoliator</option>
-                    <option value="treatments">Treatment</option>
-                    <option value="serums">Serum</option>
-                    <option value="sunscreens">Sunscreen</option>
-                    <option value="moisturizers">Moisturizer</option>
-                    <option value="toners">Toner</option>
-                    <option value="faceMasks">Face Mask</option>
-                    <option value="eyeSerums">Eye Serum</option>
-                    <option value="eyeCreams">Eye Cream</option>
-                    <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
-                </select>
-                {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
-
-                <label>Description</label>
-                <input
-                    type="text"
-                    value={description}
-                    onChange={(e) => {setDescription(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.description && <p className="errors-text">{errors.description}</p>}
-
-                <label>Key Ingredients</label>
-                <input
-                    type="text"
-                    value={keyIngredients}
-                    onChange={(e) => {setKeyIngredients(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
-
-                <label>Skin Concern</label>
-                <div>
-                    <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
-                    <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
-                    <input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture
-                    <input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne
-                    <input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging
-                    <input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness
-                    <input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores
-                    <input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles
-                    <input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots
-                </div>
-                <div className='skincare-selection-div'>
-                    {skinConcern?.map((concern) => (
-                        <button
-                            key={concern}
-                            className='skinconcern-buttons'
-                            value={concern}><Icon icon="ph:x-light" /> {concern}</button>
-                    ))}
+                <div className='brand-name-div'>
+                    <label>Brand Name: </label>
+                    <input
+                        type="text"
+                        value={brandName}
+                        onChange={(e) => {setBrandName(e.target.value)}}
+                        required
+                    />
+                    {showErrors && errors?.brandName && <p className="errors-text">{errors.brandName}</p>}
                 </div>
 
+                <div className='product-name-div'>
+                    <label>Product Name: </label>
+                    <input
+                        type="text"
+                        value={productName}
+                        onChange={(e) => {setProductName(e.target.value)}}
+                        required
+                    />
+                    {showErrors && errors?.productName && <p className="errors-text">{errors.productName}</p>}
+                </div>
 
+                <div className='product-type-div'>
+                    <label>Product Type: </label>
+                    <select value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                        <option value="" disabled>--</option>
+                        <option value="cleansers">Cleanser</option>
+                        <option value="exfoliators">Exfoliator</option>
+                        <option value="treatments">Treatment</option>
+                        <option value="serums">Serum</option>
+                        <option value="sunscreens">Sunscreen</option>
+                        <option value="moisturizers">Moisturizer</option>
+                        <option value="toners">Toner</option>
+                        <option value="faceMasks">Face Mask</option>
+                        <option value="eyeSerums">Eye Serum</option>
+                        <option value="eyeCreams">Eye Cream</option>
+                        <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
+                    </select>
+                    {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
+                </div>
 
+                <div className='description-div'>
+                    <label>Description: </label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => {setDescription(e.target.value)}}
+                        required
+                    ></textarea>
+                    {showErrors && errors?.description && <p className="errors-text">{errors.description}</p>}
+                </div>
 
-                {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
+                <div className='key-ingredients-div'>
+                    <label>Key Ingredients: </label>
+                    <input
+                        type="text"
+                        value={keyIngredients}
+                        onChange={(e) => {setKeyIngredients(e.target.value)}}
+                        required
+                    />
+                    {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
+                </div>
 
-                <label>Product Link</label>
-                <input
-                    type="text"
-                    value={productLink}
-                    onChange={(e) => {setProductLink(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
+                <div className='skin-concern-div'>
+                    <label>Skin Concern: </label>
+                    <div>
+                        <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
+                        <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
+                        <input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture
+                        <input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne
+                        <input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging
+                        <input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness
+                        <input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores
+                        <input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles
+                        <input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots
+                    </div>
+                    <div className='skincare-selection-div'>
+                        {skinConcern?.map((concern) => (
+                            <button
+                                key={concern}
+                                className='skinconcern-buttons'
+                                disabled='true'
+                                value={concern}>
+                                    {concern}
+                            </button>
+                        ))}
+                    </div>
+                    {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
+                </div>
 
-                <label>Notes</label>
-                <input
-                    type="text"
-                    value={notes}
-                    onChange={(e) => {setNotes(e.target.value)}}
-                    required
-                />
-                {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
+                <div className='product-link-div'>
+                    <label>Product Link: </label>
+                    <input
+                        type="text"
+                        value={productLink}
+                        onChange={(e) => {setProductLink(e.target.value)}}
+                        required
+                    />
+                    {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
+                </div>
+
+                <div className='notes-div'>
+                    <label>Notes: </label>
+                    <textarea
+                        value={notes}
+                        onChange={(e) => {setNotes(e.target.value)}}
+                        required
+                    ></textarea>
+                    {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
+                </div>
                 <button type='submit' disabled={isDisabled}>Create</button>
             </form>
         </div>
