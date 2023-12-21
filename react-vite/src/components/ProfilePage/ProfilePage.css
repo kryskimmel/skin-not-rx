@@ -1,0 +1,27 @@
+.profile-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page-h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-page-collections-div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.profile-page-collections-tile {
+    width: 400px;
+    height: 400px;
+    border: 3px solid #97958F;
+}
+
+.profile-page-collections-tile:hover {
+    box-shadow: 0px 0px 7px 2px #97958F;
+    cursor: pointer;
+}
