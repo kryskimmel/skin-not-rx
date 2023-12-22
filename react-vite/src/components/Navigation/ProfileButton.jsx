@@ -51,7 +51,7 @@ function ProfileButton() {
           {user ? (
             <>
               <li>Hello, {user.username}!</li>
-              <li>My Profile</li>
+              <NavLink to="/current/profile">My Profile</NavLink>
               <li>My Favorites</li>
               <OpenModalMenuItem
                 itemText="Add A Product"

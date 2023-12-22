@@ -35,3 +35,6 @@
     padding: 5px 0px;
 
 }
+.profile-page-collections-tile li {
+    list-style: none;
+}

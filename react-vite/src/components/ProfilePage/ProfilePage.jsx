@@ -90,13 +90,12 @@ function ProfilePage() {
 
                     {Object.entries(currentUsersCollections).map(([collectionName, items]) => (
                         <div key={collectionName} className="profile-page-collections-tile">
-                            <OpenModalMenuItem
-                                itemText={collectionName}
+                             <OpenModalMenuItem
+                                itemText={<h2 className="collections-tile-name">{collectionName}<span style={{color:"#656565"}}> ({items.length})</span></h2>}
                                 onItemClick={() => handleCollectionClick(collectionName, items)}
                                 onModalClose={() => setSelectedModal(null)}
                                 modalComponent={selectedModal}
                             />
-                            <h2 className="collections-tile-name">{collectionName}<span style={{color:"#656565"}}> ({items.length})</span></h2>
                         </div>
                     ))}
 
