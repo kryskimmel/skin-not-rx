@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as productActions from "../../../redux/product";
 import { useModal } from '../../../context/Modal';
+import DeleteProductModal from '../DeleteProductModal';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
 
 
 function SunscreensModal({collectionName}) {
@@ -26,7 +28,10 @@ function SunscreensModal({collectionName}) {
                     </ul>
                     <div className='users-products-management-buttons'>
                         <button>UPDATE</button>
-                        <button>DELETE</button>
+                        <OpenModalButton
+                            buttonText="DELETE"
+                            modalComponent={<DeleteProductModal/>}
+                        />
                     </div>
                 </div>
             )}

@@ -4,6 +4,8 @@ import * as productActions from "../../../redux/product";
 import randomInt from "../../../utils/randomIntGenerator";
 import { useModal } from '../../../context/Modal';
 import { Icon } from '@iconify/react';
+import DeleteProductModal from '../DeleteProductModal';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
 
 
 function ExfoliatorsModal({collectionName, items}) {
@@ -29,7 +31,10 @@ function ExfoliatorsModal({collectionName, items}) {
                     </ul>
                     <div className='users-products-management-buttons'>
                         <button>UPDATE</button>
-                        <button>DELETE</button>
+                        <OpenModalButton
+                            buttonText="DELETE"
+                            modalComponent={<DeleteProductModal/>}
+                        />
                     </div>
                 </div>
             )}
