@@ -4,22 +4,22 @@ const EDIT_COLLECTION = 'product/EDIT_COLLECTION';
 const DELETE_COLLECTION = 'product/DELETE_COLLECTION';
 
 
-const getCollections = () => ({
+const getCollections = (collections) => ({
   type: GET_COLLECTIONS,
   payload: collections
 });
 
-const addCollection = () => ({
+const addCollection = (newCollection) => ({
   type: ADD_COLLECTION,
   payload: newCollection
 });
 
-const editCollection = () => ({
+const editCollection = (editedCollection) => ({
     type: EDIT_COLLECTION,
     payload: editedCollection
 });
 
-const deleteCollection = () => ({
+const deleteCollection = (deletedCollection) => ({
     type: DELETE_COLLECTION,
     payload: deletedCollection
 })

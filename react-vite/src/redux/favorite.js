@@ -7,32 +7,32 @@ const ADD_FAVORITE_COLLECTION = 'favorite/ADD_FAVORITE_COLLECTION';
 const DELETE_FAVORITE_COLLECTION = 'favorite/DELETE_FAVORITE_COLLECTION';
 
 
-const getFavoriteProducts = () => ({
+const getFavoriteProducts = (favoriteProduct) => ({
   type: GET_FAVORITE_PRODUCTS,
   payload: favoriteProduct
 });
 
-const addFavoriteProduct = () => ({
+const addFavoriteProduct = (newFavoriteProduct) => ({
   type: ADD_FAVORITE_PRODUCT,
   payload: newFavoriteProduct
 });
 
-const deleteFavoriteProduct = () => ({
+const deleteFavoriteProduct = (deletedFavoriteProduct) => ({
     type: DELETE_FAVORITE_PRODUCT,
     payload: deletedFavoriteProduct
 });
 
-const getFavoriteCollections = () => ({
+const getFavoriteCollections = (favoriteCollection) => ({
     type: GET_FAVORITE_COLLECTIONS,
     payload: favoriteCollection
   });
 
-  const addFavoriteCollection = () => ({
+  const addFavoriteCollection = (newFavoriteCollection) => ({
     type: ADD_FAVORITE_COLLECTION,
     payload: newFavoriteCollection
   });
 
-  const deleteFavoriteCollection = () => ({
+  const deleteFavoriteCollection = (deletedFavoriteCollection) => ({
       type: DELETE_FAVORITE_COLLECTION,
       payload: deletedFavoriteCollection
   });

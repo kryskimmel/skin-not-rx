@@ -20,7 +20,7 @@ function ProfilePage() {
     const dispatch = useDispatch();
     const user = useSelector(store => store.session.user);
     const productsByType = useSelector(store => store.product.byProductType);
-    const allProducts = useSelector(store => store.product.allProducts)
+    // const allProducts = useSelector(store => store.product.allProducts)
     const [selectedCollection, setSelectedCollection] = useState(null);
     const [selectedModal, setSelectedModal] = useState(null);
 
@@ -32,38 +32,38 @@ function ProfilePage() {
         console.log(
         'THE COLLECTION NAME', collectionName, 'THE ITEMS--', items
         )
-        if (collectionName === "cleansers") {
-            setSelectedModal(<CleansersModal collectionName={collectionName} items={items}/>)
+        if (selectedCollection === "cleansers") {
+            setSelectedModal(<CleansersModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "exfoliators") {
-            setSelectedModal(<ExfoliatorsModal collectionName={collectionName} items={items}/>)
+        else if (selectedCollection === "exfoliators") {
+            setSelectedModal(<ExfoliatorsModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "moisturizers") {
-            setSelectedModal(<MoisturizersModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<MoisturizersModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "treatments") {
-            setSelectedModal(<TreatmentsModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<TreatmentsModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "serums") {
-            setSelectedModal(<SerumsModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<SerumsModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "sunscreens") {
-            setSelectedModal(<SunscreensModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<SunscreensModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "toners") {
-            setSelectedModal(<TonersModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<TonersModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "faceMasks") {
-            setSelectedModal(<FaceMasksModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<FaceMasksModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "eyeSerums") {
-            setSelectedModal(<EyeSerumsModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<EyeSerumsModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "eyeCreams") {
-            setSelectedModal(<EyeCreamsModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<EyeCreamsModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "lipRepairAndProtectants") {
-            setSelectedModal(<LipRepairAndProtectantsModal collectionName={collectionName} items={items}/>)
+            setSelectedModal(<LipRepairAndProtectantsModal collectionName={selectedCollection} items={items}/>)
         }
         else {
             setSelectedModal(null)
@@ -85,7 +85,7 @@ function ProfilePage() {
     return (
         <>
         <div className="profile-page-container">
-            <h1 className="profile-page-h1">{user.username.toUpperCase()}'S PROFILE</h1>
+            <h1 className="profile-page-h1">{`${user.username.toUpperCase()}'S PROFILE`}</h1>
             <div className="profile-page-collections-div">
 
                     {Object.entries(currentUsersCollections).map(([collectionName, items]) => (

@@ -1,8 +1,8 @@
-import { useModal } from '../../../context/Modal';
+// import { useModal } from '../../../context/Modal';
 import "./CreateCollectionModal.css";
 
 function CreateCollectionModal() {
-    const { closeModal } = useModal();
+    // const { closeModal } = useModal();
     return (
         <>
         <div className='create-collection-container'>
@@ -14,6 +14,6 @@ function CreateCollectionModal() {
         </div>
         </>
     )
-};
+}
 
 export default CreateCollectionModal;

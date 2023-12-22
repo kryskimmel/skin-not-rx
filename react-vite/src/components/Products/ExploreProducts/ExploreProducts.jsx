@@ -11,7 +11,7 @@ function ExploreProducts() {
 
     useEffect(() => {
         dispatch(productActions.getAllProducts(allProducts))
-    }, [dispatch])
+    }, [dispatch, allProducts])
 
     const handleOnHoverStar = (productId) => {
         setOnHoverStar(productId)

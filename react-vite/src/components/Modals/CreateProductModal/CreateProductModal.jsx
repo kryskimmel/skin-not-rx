@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../../context/Modal';
-import * as productActions from "../../../redux/product";
 import "./createProductModal.css";
 
 function CreateProductModal () {
-    const { closeModal } = useModal();
-    const sessionUser = useSelector(state => state.session.user);
-    const dispatch = useDispatch();
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -19,22 +13,6 @@ function CreateProductModal () {
     const [errors, setErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    console.log('session user:--', sessionUser)
-    console.log('Product type selected:--', productType)
-    console.log('USER INPUT:----->', {
-        brandName: brandName,
-        productName: productName,
-        productType: productType,
-        description: description,
-        keyIngredients: keyIngredients,
-        skinConcern: skinConcern,
-        productLink: productLink,
-        notes: notes
-
-    })
-    console.log('is the submit button disabled?', isDisabled)
-    console.log('showErrors?', showErrors)
-
 
     // Handle skin concern selections
     const handleSkinConcern = (e) => {
@@ -104,7 +82,7 @@ function CreateProductModal () {
     useEffect(() => {
         if (showErrors && Object.values(errors).length > 0) setIsDisabled(true)
         else setIsDisabled(false)
-    }, [errors])
+    }, [errors, showErrors])
 
 
 

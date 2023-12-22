@@ -1,7 +1,5 @@
-import {useEffect} from "react";
 import { useDispatch } from "react-redux";
 import * as ProductActions from "../../../redux/product";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useModal } from "../../../context/Modal";
 import "./DeleteProductModal.css";
 
@@ -13,9 +11,10 @@ function DeleteProductModal({productId}) {
 
     console.log(productId, ':productId')
 
-    const handleYes = async(e) => {
+    const handleYes = async (e) => {
         e.preventDefault();
-        dispatch(ProductActions.removeProduct(productId));
+        console.log(productId, ':productId')
+        await dispatch(ProductActions.removeProduct(productId));
         closeModal();
     };
 

@@ -9,17 +9,17 @@ const getProducts = (products) => ({
   payload: products
 });
 
-const addProduct = () => ({
+const addProduct = (newProduct) => ({
   type: ADD_PRODUCT,
   payload: newProduct
 });
 
-const editProduct = () => ({
+const editProduct = (editedProduct) => ({
     type: EDIT_PRODUCT,
     payload: editedProduct
 });
 
-const deleteProduct = () => ({
+const deleteProduct = (deletedProduct) => ({
     type: DELETE_PRODUCT,
     payload: deletedProduct
 })
@@ -88,10 +88,12 @@ export const removeProduct = (product_id) => async (dispatch) => {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
+    console.log('product id inside thunk',product_id)
     if (!response.ok) {
       throw new Error(`There was an error in deleting your product.`)
     }
     await dispatch(deleteProduct(product_id))
+    return response
   } catch (error) {
     throw new Error(`The following error occured while attempting to delete your product: ${error.message}`)
   }
