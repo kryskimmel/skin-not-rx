@@ -120,7 +120,7 @@ def delete_product(product_id):
 
     if selected_product.user_id == current_user.id:
         db.session.delete(selected_product)
-        db.seesion.commit()
+        db.session.commit()
         return jsonify({'message': 'Product successfully deleted'}), 200
     else:
         return jsonify({'message': 'Forbidden'}), 403
