@@ -25,3 +25,13 @@
     box-shadow: 0px 0px 7px 2px #97958F;
     cursor: pointer;
 }
+
+
+.collections-tile-name {
+    background-color: #F5F5F5;
+    margin: 0px;
+    text-align: center;
+    height: 30px;
+    padding: 5px 0px;
+
+}
