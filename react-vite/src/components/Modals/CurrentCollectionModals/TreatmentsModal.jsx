@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as productActions from "../../../redux/product";
+import randomInt from "../../../utils/randomIntGenerator";
 import { useModal } from '../../../context/Modal';
+import { Icon } from '@iconify/react';
+import "./CurrentCollectionModals.css";
 
 
-
-
-function CleansersModal({collectionName}) {
+function TreatmentsModal({collectionName}) {
     const dispatch = useDispatch();
     const user = useSelector(store => store.session.user);
-    const cleanserProducts = useSelector(store => store.product.byProductType[collectionName]);
+    const treatmentProducts = useSelector(store => store.product.byProductType[collectionName]);
     useEffect(() => { dispatch(productActions.getAllProducts())}, [dispatch]);
 
-    const userProducts = cleanserProducts.filter(product => product.user_id === user.id);
+
+    const userProducts = treatmentProducts.filter(product => product.user_id === user.id);
+    // console.log('--filtered--',userProducts)
+
+    // console.log(moisturizerProducts)
 
     return (
         <>
@@ -37,4 +42,4 @@ function CleansersModal({collectionName}) {
     )
 }
 
-export default CleansersModal;
+export default TreatmentsModal;

@@ -7,19 +7,35 @@ import { Icon } from '@iconify/react';
 
 
 function ExfoliatorsModal({collectionName, items}) {
+    const dispatch = useDispatch();
+    const user = useSelector(store => store.session.user);
+    const exfoliatorProducts = useSelector(store => store.product.byProductType[collectionName]);
+    useEffect(() => { dispatch(productActions.getAllProducts())}, [dispatch]);
+
+
+    const userProducts = exfoliatorProducts.filter(product => product.user_id === user.id);
+
     return (
         <>
-        <div>
-            <h1>EXFOLIATOR MODAL</h1>
-            <p>You have not created any {collectionName}</p>
-            <p>{items.length}</p>
-
-            {console.log('collection name', collectionName)}
-            {console.log('the items', items)}
+        <div className='users-products-container'>
+            <h1 style={{display:"flex", justifyContent:"center"}}>{collectionName.toUpperCase()}</h1>
+            {!userProducts.length ? <h2 style={{display:"flex", justifyContent:"center"}}>You have not created any {collectionName}!</h2> : <h2 style={{display:"flex", justifyContent:"center"}}>({userProducts.length} {userProducts.length === 1 ? "Item" : "Items"})</h2>}
+            {userProducts?.map((product) =>
+                <div className='users-products-tile'>
+                    <img src={product.preview_image} alt={product.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
+                    <ul style={{listStyle:"none", paddingLeft:"0px"}}>
+                        <li style={{fontWeight:"bold"}}>{product.brand_name}</li>
+                        <li>{product.product_name}</li>
+                    </ul>
+                    <div className='users-products-management-buttons'>
+                        <button>UPDATE</button>
+                        <button>DELETE</button>
+                    </div>
+                </div>
+            )}
         </div>
         </>
     )
-
 }
 
 export default ExfoliatorsModal;

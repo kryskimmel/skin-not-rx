@@ -22,8 +22,8 @@ function MoisturizersModal({collectionName}) {
     return (
         <>
         <div className='users-products-container'>
-            <h1 style={{display:"flex", justifyContent:"center"}}>MOISTURIZERS</h1>
-            {!userProducts &&  <p>You have not created any {collectionName}</p>}
+            <h1 style={{display:"flex", justifyContent:"center"}}>{collectionName.toUpperCase()}</h1>
+            {!userProducts.length ? <h2 style={{display:"flex", justifyContent:"center"}}>You have not created any {collectionName}!</h2> : <h2 style={{display:"flex", justifyContent:"center"}}>({userProducts.length} {userProducts.length === 1 ? "Item" : "Items"})</h2>}
             {userProducts?.map((product) =>
                 <div className='users-products-tile'>
                     <img src={product.preview_image} alt={product.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
@@ -40,7 +40,6 @@ function MoisturizersModal({collectionName}) {
         </div>
         </>
     )
-
 }
 
 export default MoisturizersModal;

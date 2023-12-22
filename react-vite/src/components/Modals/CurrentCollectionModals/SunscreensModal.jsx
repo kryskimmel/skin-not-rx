@@ -4,15 +4,13 @@ import * as productActions from "../../../redux/product";
 import { useModal } from '../../../context/Modal';
 
 
-
-
-function CleansersModal({collectionName}) {
+function SunscreensModal({collectionName}) {
     const dispatch = useDispatch();
     const user = useSelector(store => store.session.user);
-    const cleanserProducts = useSelector(store => store.product.byProductType[collectionName]);
+    const sunscreenProducts = useSelector(store => store.product.byProductType[collectionName]);
     useEffect(() => { dispatch(productActions.getAllProducts())}, [dispatch]);
 
-    const userProducts = cleanserProducts.filter(product => product.user_id === user.id);
+    const userProducts = sunscreenProducts.filter(product => product.user_id === user.id);
 
     return (
         <>
@@ -37,4 +35,4 @@ function CleansersModal({collectionName}) {
     )
 }
 
-export default CleansersModal;
+export default SunscreensModal;

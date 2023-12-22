@@ -6,13 +6,13 @@ import { useModal } from '../../../context/Modal';
 
 
 
-function CleansersModal({collectionName}) {
+function SerumsModal({collectionName}) {
     const dispatch = useDispatch();
     const user = useSelector(store => store.session.user);
-    const cleanserProducts = useSelector(store => store.product.byProductType[collectionName]);
+    const serumsProducts = useSelector(store => store.product.byProductType[collectionName]);
     useEffect(() => { dispatch(productActions.getAllProducts())}, [dispatch]);
 
-    const userProducts = cleanserProducts.filter(product => product.user_id === user.id);
+    const userProducts = serumsProducts.filter(product => product.user_id === user.id);
 
     return (
         <>
@@ -37,4 +37,4 @@ function CleansersModal({collectionName}) {
     )
 }
 
-export default CleansersModal;
+export default SerumsModal;
