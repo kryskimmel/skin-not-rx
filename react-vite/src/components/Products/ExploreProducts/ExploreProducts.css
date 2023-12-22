@@ -5,11 +5,30 @@
     gap: 30px;
 }
 
+.explore-page-star-icon {
+    margin-left: 25px;
+}
+
 .product-tile {
-    border: 1px solid #FFF8E8;
+    border: 2px solid #d6c7a5;
     border-radius: 15px;
     background-color: #FFFFFF;
-    height: 300px;
+    height: 350px;
     width: 200px;
     padding: 5px 5px;
+}
+
+.product-info ul{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left: 0px;
+}
+
+.product-tile-buttons ul{
+    transform: scale(1.2);
+    transition-duration: 0.1s;
+    cursor: pointer;
+    list-style: none;
+    padding-left: 0px;
 }

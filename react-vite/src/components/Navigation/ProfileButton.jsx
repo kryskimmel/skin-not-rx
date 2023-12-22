@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
+import CreateProductModal from "../Modals/CreateProductModal";
+import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import { Icon } from '@iconify/react';
+
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -46,8 +50,19 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
+              <li>Hello, {user.username}!</li>
+              <NavLink to="/current/profile">My Profile</NavLink>
+              <li>My Favorites</li>
+              <OpenModalMenuItem
+                itemText="Add A Product"
+                onModalClose={closeMenu}
+                modalComponent={<CreateProductModal />}
+              />
+               <OpenModalMenuItem
+                itemText="Create A Collection"
+                onModalClose={closeMenu}
+                modalComponent={<CreateCollectionModal />}
+              />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

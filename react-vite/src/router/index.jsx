@@ -4,6 +4,7 @@ import SignupFormPage from '../components/Forms/SignupFormPage';
 import SplashPage from '../components/SplashPage';
 import Layout from './Layout';
 import ExploreProducts from '../components/Products/ExploreProducts';
+import ProfilePage from '../components/ProfilePage';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
         path: "products/explore",
         element: <ExploreProducts />,
       },
+      {
+        path: "current/profile",
+        element: <ProfilePage />
+      }
     ],
   },
 ]);
