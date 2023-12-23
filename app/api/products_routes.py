@@ -58,7 +58,7 @@ def get_product_details(product_id):
 
 
 # Add a product
-@product_routes.route('/', methods=['POST'])
+@product_routes.route('/', methods=['GET','POST'])
 @login_required
 def add_product():
     data = request.get_json()

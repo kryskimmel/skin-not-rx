@@ -116,7 +116,7 @@ function CreateProductModal () {
         user_id: user.id
     };
 
-    if (showErrors && !Object.keys(errors).length) {
+    // if (showErrors && !Object.keys(errors).length) {
         const data =  await dispatch(createProduct(newProduct));
         closeModal()
 
@@ -131,7 +131,7 @@ function CreateProductModal () {
         // else {
         //     closeModal();
         // }
-    }
+    // }
 
 
 

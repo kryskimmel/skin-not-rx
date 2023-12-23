@@ -11,7 +11,9 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
+	const response = await fetch("/api/auth/", {
+    headers: {"Content-Type": "application/json"}
+  });
 	if (response.ok) {
 		const data = await response.json();
 		if (data.errors) {
@@ -59,7 +61,9 @@ export const thunkSignup = (user) => async (dispatch) => {
 };
 
 export const thunkLogout = () => async (dispatch) => {
-  await fetch("/api/auth/logout");
+  await fetch("/api/auth/logout", {
+    headers: {"Content-Type": "application/json"}
+  });
   dispatch(removeUser());
 };
 
@@ -70,7 +74,7 @@ function sessionReducer(state = initialState, action) {
     case SET_USER:
       return { ...state, user: action.payload };
     case REMOVE_USER:
-      return { ...state, user: null };
+      return { user: null };
     default:
       return state;
   }
