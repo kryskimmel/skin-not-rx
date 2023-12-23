@@ -55,6 +55,7 @@ export const createProduct = (newProductData) => async (dispatch) => {
     }
     const newProduct = await response.json()
     await dispatch(addProduct(newProduct))
+    return newProduct;
   } catch (error) {
     throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
 

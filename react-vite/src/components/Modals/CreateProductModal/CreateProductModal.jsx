@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import "./createProductModal.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { createProduct } from '../../../redux/product';
+import { useModal } from "../../../context/Modal";
+import "./CreateProductModal.css";
 
 function CreateProductModal () {
     const [brandName, setBrandName] = useState("");
@@ -11,8 +14,13 @@ function CreateProductModal () {
     const [productLink, setProductLink] = useState("");
     const [notes, setNotes] = useState("");
     const [errors, setErrors] = useState({});
+    // const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const dispatch = useDispatch();
+    const { closeModal } = useModal();
+    const user = useSelector(state => state.session.user);
+
 
     // Handle skin concern selections
     const handleSkinConcern = (e) => {
@@ -86,26 +94,47 @@ function CreateProductModal () {
 
 
 
-
+    // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setShowErrors(true)
-        if (showErrors && Object.values(errors).length > 0) {
-            setIsDisabled(true)
-        }
-        // else {
-        //     closeModal()
+        // setShowErrors(true)
+        // if (showErrors && Object.values(errors).length > 0) {
+        //     setIsDisabled(true)
         // }
-        // const newProduct = {
-        //   brandName: brandName,
-        //   productName: productName,
-        //   productType: productType,
-        //   description: description,
-        //   keyIngredients: keyIngredients,
-        //   skinConcern: skinConcern,
-        //   productLink: productLink,
-        //   notes: notes
-        // };
+        setShowErrors(true)
+        setIsDisabled(false)
+
+    const newProduct = {
+        brandName: brandName,
+        productName: productName,
+        productType: productType,
+        description: description,
+        keyIngredients: keyIngredients,
+        skinConcern: skinConcern,
+        productLink: productLink,
+        notes: notes,
+        user_id: user.id
+    };
+
+    if (showErrors && !Object.keys(errors).length) {
+        const data =  await dispatch(createProduct(newProduct));
+        closeModal()
+
+        // if (data) {
+        //     const dataErrors = {};
+        //     data?.forEach(error => {
+        //     const [key, value] = error.split(':')
+        //     dataErrors[key.trim()] = value.trim()
+        //     });
+        //     setBackendErrors(dataErrors);
+        // }
+        // else {
+        //     closeModal();
+        // }
+    }
+
+
+
         // dispatch(productActions.createProduct(newProduct))
         //   .then(async (newProduct) => {
         //     history.push(`/products/${newProduct.id}`);
