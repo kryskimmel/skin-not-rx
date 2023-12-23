@@ -6,9 +6,20 @@
 .profile-dropdown li {
   padding: 2px 5px;
   border: 1px solid #000000;
+  color: #000000;
   text-align: center;
   background-color: #FFFFFF;
 }
+
+
+.profile-dropdown li:hover {
+  padding: 2px 5px;
+  border: 1px solid #000000;
+  text-align: center;
+  font-weight: 600;
+  background-color: #D6E3C2;
+}
+
 
 .nav-container {
   display: flex;
