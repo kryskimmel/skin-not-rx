@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from app.models import Product, Product_Image, db
+
 
 product_routes = Blueprint('products', __name__)
 
@@ -74,17 +75,18 @@ def add_product():
     )
     db.session.add(new_product)
     db.session.commit()
+    return jsonify(new_product)
 
-    newPreviewImage = Product_Image(
-        product_id=new_product.id,
-        preview=data.get('preview'),
-        image_url=data.get('image_url')
-    )
-    db.session.add(newPreviewImage)
-    db.session.commit()
+    # newPreviewImage = Product_Image(
+    #     product_id=new_product.id,
+    #     preview=data.get('preview'),
+    #     image_url=data.get('image_url')
+    # )
+    # db.session.add(newPreviewImage)
+    # db.session.commit()
 
-    product_and_product_img=new_product.to_dict()
-    return jsonify(product_and_product_img)
+    # product_and_product_img=new_product.to_dict()
+    # return jsonify(product_and_product_img)
 
 
 
