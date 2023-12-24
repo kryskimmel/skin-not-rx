@@ -58,7 +58,7 @@ def get_product_details(product_id):
 
 
 # Add a product
-@product_routes.route('/', methods=['GET','POST'])
+@product_routes.route('/', methods=['POST'])
 @login_required
 def add_product():
     data = request.get_json()
@@ -73,9 +73,11 @@ def add_product():
         notes=data.get('notes'),
         user_id=current_user.id
     )
-    db.session.add(new_product)
-    db.session.commit()
-    return jsonify(new_product)
+    if current_user.is_authenticated():
+        db.session.add(new_product)
+        db.session.commit()
+        return jsonify(new_product)
+    print('user is authenticated')
 
     # newPreviewImage = Product_Image(
     #     product_id=new_product.id,

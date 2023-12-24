@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../redux/product';
-import { useModal } from "../../../context/Modal";
-import "./CreateProductModal.css";
 
-function CreateProductModal () {
+function CreateProductFormPage () {
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -18,8 +16,8 @@ function CreateProductModal () {
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const dispatch = useDispatch();
-    const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
+
 
 
     // Handle skin concern selections
@@ -118,7 +116,7 @@ function CreateProductModal () {
 
     // if (showErrors && !Object.keys(errors).length) {
         const data =  await dispatch(createProduct(newProduct));
-        closeModal()
+
 
         // if (data) {
         //     const dataErrors = {};
@@ -233,7 +231,7 @@ function CreateProductModal () {
                             <button
                                 key={concern}
                                 className='skinconcern-buttons'
-                                disabled={true}
+                                disabled='true'
                                 value={concern}>
                                     {concern}
                             </button>
@@ -269,4 +267,4 @@ function CreateProductModal () {
         </>
     )
 }
-export default CreateProductModal;
+export default CreateProductFormPage;

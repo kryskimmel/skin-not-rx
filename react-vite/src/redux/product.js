@@ -45,13 +45,15 @@ export const getAllProducts = () => async (dispatch) => {
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
   try {
+    console.log('THE NEW PRODUCT DATA:', newProductData)
     const response = await fetch("/api/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newProductData),
     })
     if (!response.ok) {
-      throw new Error(`There was an error in creating your product.`)
+      console.log(response.json())
+      throw new Error(`There was an error in creating your product`)
     }
     const newProduct = await response.json()
     await dispatch(addProduct(newProduct))
