@@ -21,6 +21,8 @@ function CreateProductModal () {
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
 
+    console.log('the curr user', user)
+
 
     // Handle skin concern selections
     const handleSkinConcern = (e) => {
@@ -97,28 +99,32 @@ function CreateProductModal () {
     // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setShowErrors(true)
-        // if (showErrors && Object.values(errors).length > 0) {
-        //     setIsDisabled(true)
-        // }
         setShowErrors(true)
+        if (showErrors && Object.values(errors).length > 0) {
+            setIsDisabled(true)
+        }
         setIsDisabled(false)
 
     const newProduct = {
-        brandName: brandName,
-        productName: productName,
-        productType: productType,
+        brand_name: brandName,
+        product_name: productName,
+        product_type: productType,
         description: description,
-        keyIngredients: keyIngredients,
-        skinConcern: skinConcern,
-        productLink: productLink,
+        key_ingredients: keyIngredients,
+        skin_concern: skinConcern,
+        product_link: productLink,
         notes: notes,
         user_id: user.id
     };
 
+    console.log(newProduct)
+    dispatch(createProduct(newProduct));
+
+
     // if (showErrors && !Object.keys(errors).length) {
-        const data =  await dispatch(createProduct(newProduct));
-        closeModal()
+
+        // closeModal()
+
 
         // if (data) {
         //     const dataErrors = {};

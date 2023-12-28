@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../../redux/product';
+// import { createProduct } from '../../../redux/product';
 
 function CreateProductFormPage () {
     const [brandName, setBrandName] = useState("");
@@ -15,7 +15,7 @@ function CreateProductFormPage () {
     // const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
 
 
@@ -102,20 +102,20 @@ function CreateProductFormPage () {
         setShowErrors(true)
         setIsDisabled(false)
 
-    const newProduct = {
-        brandName: brandName,
-        productName: productName,
-        productType: productType,
-        description: description,
-        keyIngredients: keyIngredients,
-        skinConcern: skinConcern,
-        productLink: productLink,
-        notes: notes,
-        user_id: user.id
-    };
+    // const newProduct = {
+    //     brandName: brandName,
+    //     productName: productName,
+    //     productType: productType,
+    //     description: description,
+    //     keyIngredients: keyIngredients,
+    //     skinConcern: skinConcern,
+    //     productLink: productLink,
+    //     notes: notes,
+    //     user_id: user.id
+    // };
 
     // if (showErrors && !Object.keys(errors).length) {
-        const data =  await dispatch(createProduct(newProduct));
+        // const data =  await dispatch(createProduct(newProduct));
 
 
         // if (data) {

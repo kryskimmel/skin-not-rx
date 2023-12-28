@@ -76,8 +76,8 @@ def add_product():
     if current_user.is_authenticated():
         db.session.add(new_product)
         db.session.commit()
+        print('user is authenticated')
         return jsonify(new_product)
-    print('user is authenticated')
 
     # newPreviewImage = Product_Image(
     #     product_id=new_product.id,

@@ -48,19 +48,18 @@ export const createProduct = (newProductData) => async (dispatch) => {
     console.log('THE NEW PRODUCT DATA:', newProductData)
     const response = await fetch("/api/products", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newProductData),
+      headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify(newProductData)
     })
     if (!response.ok) {
-      console.log(response.json())
+      console.log('message of failed response:', newProduct)
       throw new Error(`There was an error in creating your product`)
     }
     const newProduct = await response.json()
-    await dispatch(addProduct(newProduct))
+    dispatch(addProduct(newProduct))
     return newProduct;
   } catch (error) {
     throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
-
   }
 };
 
@@ -95,7 +94,7 @@ export const removeProduct = (product_id) => async (dispatch) => {
     if (!response.ok) {
       throw new Error(`There was an error in deleting your product.`)
     }
-    await dispatch(deleteProduct(product_id))
+    dispatch(deleteProduct(product_id))
     return response
   } catch (error) {
     throw new Error(`The following error occured while attempting to delete your product: ${error.message}`)

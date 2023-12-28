@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/Forms/LoginFormPage';
 import SignupFormPage from '../components/Forms/SignupFormPage';
-import SplashPage from '../components/SplashPage';
 import Layout from './Layout';
+import SplashPage from '../components/SplashPage/SplashPage';
 import ExploreProducts from '../components/Products/ExploreProducts';
 import ProfilePage from '../components/ProfilePage';
 import CreateProductFormPage from '../components/Forms/CreateProductFormPage/CreateProductFormPage';
+import CurrUserInfo from '../components/ProfilePage/CurrUserInfo';
+import CreateProductModal from '../components/Modals/CreateProductModal';
 
 export const router = createBrowserRouter([
   {
@@ -16,25 +18,30 @@ export const router = createBrowserRouter([
         element: <SplashPage />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <LoginFormPage />,
       },
       {
-        path: "/signup",
+        path: "signup",
         element: <SignupFormPage />,
       },
       {
-        path: "/products/explore",
+        path: "current/info",
+        element: <CurrUserInfo />,
+      },
+      {
+        path: "products",
+        element: <CreateProductModal />
+
+      },
+      {
+        path: "products/explore",
         element: <ExploreProducts />,
       },
       {
-        path: "/current/profile",
+        path: "current/profile",
         element: <ProfilePage />,
       },
-      {
-        path: "/products/create",
-        element: <CreateProductFormPage/>
-      }
     ],
   },
 ]);

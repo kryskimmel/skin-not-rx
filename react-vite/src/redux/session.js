@@ -11,17 +11,21 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/", {
+	const response = await fetch("/api/auth", {
     headers: {"Content-Type": "application/json"}
   });
 	if (response.ok) {
 		const data = await response.json();
 		if (data.errors) {
+      console.error("Authentication request failed:", response.statusText)
 			return;
 		}
-
 		dispatch(setUser(data));
 	}
+  else {
+    console.error("There was an error in fulfilling your authentication request:", response.statusText);
+    return;
+  }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
@@ -62,6 +66,7 @@ export const thunkSignup = (user) => async (dispatch) => {
 
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout", {
+    method: "DELETE",
     headers: {"Content-Type": "application/json"}
   });
   dispatch(removeUser());
