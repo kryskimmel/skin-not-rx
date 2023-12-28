@@ -11,21 +11,14 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth", {
-    headers: {"Content-Type": "application/json"}
-  });
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-      console.error("Authentication request failed:", response.statusText)
-			return;
-		}
-		dispatch(setUser(data));
-	}
-  else {
-    console.error("There was an error in fulfilling your authentication request:", response.statusText);
-    return;
-  }
+	const response = await fetch("/api/auth/");
+    if (response.ok) {
+      const data = await response.json();
+      if (data.errors) {
+        return;
+      }
+      dispatch(setUser(data));
+    }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
