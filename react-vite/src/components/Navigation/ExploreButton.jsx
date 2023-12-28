@@ -37,7 +37,7 @@ function ExploreButton() {
                       <NavLink to="/products/explore">PRODUCTS</NavLink>
                     </li>
                     <li>
-                      COLLECTIONS
+                    <NavLink to="/collections/explore">COLLECTIONS</NavLink>
                     </li>
                 </ul>
             )}
