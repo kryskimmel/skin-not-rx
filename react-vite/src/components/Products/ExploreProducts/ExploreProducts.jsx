@@ -32,8 +32,7 @@ function ExploreProducts() {
                             <li
                                 className="explore-page-star-icon"
                                 onMouseOver={()=> handleOnHoverStar(product.id)}
-                                onMouseOut={handleOffHoverStar}
-                                onClick={() => alert('...Feature coming soon')}>
+                                onMouseOut={handleOffHoverStar}>
                                 {onHoverStar !== product.id ? <Icon icon="clarity:favorite-line" width="25" height="25"/> : <Icon className="favorite-star-icon" icon="clarity:favorite-solid" color="#f4c430" width="30" height="30" />}
                             </li>
                         </ul>
