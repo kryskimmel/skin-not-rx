@@ -7,6 +7,7 @@ import ExploreProducts from '../components/Products/ExploreProducts';
 import ProfilePage from '../components/ProfilePage';
 import CurrUserInfo from '../components/ProfilePage/CurrUserInfo';
 import CreateProductModal from '../components/Modals/CreateProductModal';
+import ExploreCollections from '../components/Collections/ExploreCollections/ExploreCollections';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "products/explore",
         element: <ExploreProducts />,
+      },
+      {
+        path: "collections/explore",
+        element: <ExploreCollections/>,
       },
       {
         path: "current/profile",
