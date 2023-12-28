@@ -1,18 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../redux/product";
-import CleansersModal from "../Modals/CurrentCollectionModals/CleansersModal";
-import ExfoliatorsModal from "../Modals/CurrentCollectionModals/ExfoliatorsModal";
-import TreatmentsModal from "../Modals/CurrentCollectionModals/TreatmentsModal";
-import SerumsModal from "../Modals/CurrentCollectionModals/SerumsModal";
-import SunscreensModal from "../Modals/CurrentCollectionModals/SunscreensModal";
-import MoisturizersModal from "../Modals/CurrentCollectionModals/MoisturizersModal";
-import TonersModal from "../Modals/CurrentCollectionModals/TonersModal";
-import FaceMasksModal from "../Modals/CurrentCollectionModals/FaceMasksModal";
-import EyeSerumsModal from "../Modals/CurrentCollectionModals/EyeSerums";
-import EyeCreamsModal from "../Modals/CurrentCollectionModals/eyeCreamsModal";
-import LipRepairAndProtectantsModal from "../Modals/CurrentCollectionModals/LipRepairAndProtectantsModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import CurrentCollectionModal from "../Modals/CurrentCollectionModal/CurrentCollectionModal";
 import "./ProfilePage.css";
 
 
@@ -33,37 +23,37 @@ function ProfilePage() {
         'THE COLLECTION NAME', collectionName, 'THE ITEMS--', items
         )
         if (selectedCollection === "cleansers") {
-            setSelectedModal(<CleansersModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (selectedCollection === "exfoliators") {
-            setSelectedModal(<ExfoliatorsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "moisturizers") {
-            setSelectedModal(<MoisturizersModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "treatments") {
-            setSelectedModal(<TreatmentsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "serums") {
-            setSelectedModal(<SerumsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "sunscreens") {
-            setSelectedModal(<SunscreensModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "toners") {
-            setSelectedModal(<TonersModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "faceMasks") {
-            setSelectedModal(<FaceMasksModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "eyeSerums") {
-            setSelectedModal(<EyeSerumsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "eyeCreams") {
-            setSelectedModal(<EyeCreamsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else if (collectionName === "lipRepairAndProtectants") {
-            setSelectedModal(<LipRepairAndProtectantsModal collectionName={selectedCollection} items={items}/>)
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else {
             setSelectedModal(null)
