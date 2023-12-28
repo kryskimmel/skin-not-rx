@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../redux/product";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import CurrentCollectionModal from "../Modals/CurrentCollectionModal/CurrentCollectionModal";
+import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
+import { Icon } from '@iconify/react';
 import "./ProfilePage.css";
+import CreateCollectionModal from "../Modals/CreateCollectionModal";
 
 
 function ProfilePage() {
@@ -77,7 +80,6 @@ function ProfilePage() {
         <div className="profile-page-container">
             <h1 className="profile-page-h1">{`${user.username.toUpperCase()}'S PROFILE`}</h1>
             <div className="profile-page-collections-div">
-
                     {Object.entries(currentUsersCollections).map(([collectionName, items]) => (
                         <div key={collectionName} className="profile-page-collections-tile">
                              <OpenModalMenuItem
@@ -88,7 +90,20 @@ function ProfilePage() {
                             />
                         </div>
                     ))}
+            </div>
+            <h2>Custom Collections</h2>
+            <div className="create-collection-button">
 
+            </div>
+            <div className="create-collection-button">
+                <OpenModalButton
+                buttonText={
+                    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                        <p>Create A Collection</p>
+                        <Icon icon="basil:add-outline" width="30" height="30" />
+                    </div>}
+                modalComponent={<CreateCollectionModal/>}
+                />
             </div>
         </div>
         </>
