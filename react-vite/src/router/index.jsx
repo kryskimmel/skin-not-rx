@@ -5,7 +5,6 @@ import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
 import ExploreProducts from '../components/Products/ExploreProducts';
 import ProfilePage from '../components/ProfilePage';
-import CreateProductFormPage from '../components/Forms/CreateProductFormPage/CreateProductFormPage';
 import CurrUserInfo from '../components/ProfilePage/CurrUserInfo';
 import CreateProductModal from '../components/Modals/CreateProductModal';
 
@@ -28,11 +27,6 @@ export const router = createBrowserRouter([
       {
         path: "current/info",
         element: <CurrUserInfo />,
-      },
-      {
-        path: "products",
-        element: <CreateProductModal />
-
       },
       {
         path: "products/explore",
