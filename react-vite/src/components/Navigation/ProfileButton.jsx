@@ -5,8 +5,6 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
-import CreateProductModal from "../Modals/CreateProductModal";
-import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import { Icon } from '@iconify/react';
 
 
@@ -45,7 +43,7 @@ function ProfileButton() {
 
   return (
     <>
-      {!user ? <Icon icon="material-symbols:login" width="30" height="30" onClick={toggleMenu}/> : <Icon icon="iconoir:profile-circle" width="30" height="30" onClick={toggleMenu}/>}
+      {!user ? <li className="login-button-icon"><Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu}/></li> : <li className="user-profile-icon-button"><Icon icon="iconoir:profile-circle" width="40" height="40" onClick={toggleMenu}/></li>}
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
@@ -53,16 +51,6 @@ function ProfileButton() {
               <li>Hello, {user.username}!</li>
               <li><NavLink to="/current/profile" style={{ textDecoration: 'none', color: '#000000' }}>My Profile</NavLink></li>
               <li>My Favorites</li>
-              <OpenModalMenuItem
-                itemText="Add A Product"
-                onModalClose={closeMenu}
-                modalComponent={<CreateProductModal />}
-              />
-               <OpenModalMenuItem
-                itemText="Create A Collection"
-                onModalClose={closeMenu}
-                modalComponent={<CreateCollectionModal />}
-              />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
