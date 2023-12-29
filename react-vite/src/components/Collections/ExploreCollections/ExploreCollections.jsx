@@ -6,7 +6,7 @@ import "./ExploreCollections.css"
 
 function ExploreCollections() {
     const dispatch = useDispatch();
-    const allCollections = useSelector(state => state.product.allCollections);
+    const allCollections = useSelector(state => state.collection.allCollections);
     const [onHoverStar, setOnHoverStar] = useState(null)
 
     useEffect(() => {
@@ -20,13 +20,31 @@ function ExploreCollections() {
     const handleOffHoverStar = () => {
         setOnHoverStar(null)
     }
-    console.log('all collections---', allCollections)
+
+    // const uniqueCollectionsObj = {};
+    // for (const key in allCollections){
+    //     if (allCollections.hasOwnProperty(key)) {
+    //         const { name, product_id } = allCollections[key];
+
+    //         if (uniqueCollectionsObj[name]) {
+    //             uniqueCollectionsObj[name].productIds.push(product_id);
+    //         }
+    //         else {
+    //             uniqueCollectionsObj[name] = {name,productIds: [product_id]}
+    //         }
+    //     }
+    // };
+    // const uniqueCollectionsList = Object.values(uniqueCollectionsObj);
+    // console.log('unique coll list -->', uniqueCollectionsList)
+
+
+
 
 
     return (
         <>
         <div className="explore-collections-container">
-            {allCollections && allCollections.map(collection =>
+            {allCollections?.map(collection =>
                 <div className="collection-tile" key={collection.id}>
                     <div className="collection-tile-buttons" key={`${collection.id}-favorite`}>
                         <ul>

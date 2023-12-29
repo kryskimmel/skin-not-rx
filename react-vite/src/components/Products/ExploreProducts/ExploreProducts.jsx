@@ -21,7 +21,6 @@ function ExploreProducts() {
         setOnHoverStar(null)
     }
 
-    console.log('all products--', allProducts)
 
 
     return (
