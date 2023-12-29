@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as collectionActions from "../../../redux/collection";
+import * as productActions from "../../../redux/product";
 import { Icon } from '@iconify/react';
 import "./ExploreCollections.css"
 
 function ExploreCollections() {
     const dispatch = useDispatch();
     const allCollections = useSelector(state => state.collection.allCollections);
+    const allProducts = useSelector(state => state.product.allProducts);
     const [onHoverStar, setOnHoverStar] = useState(null)
 
-    useEffect(() => {
-        dispatch(collectionActions.getAllCollections(allCollections))
-    }, [dispatch])
 
     const handleOnHoverStar = (collectionId) => {
         setOnHoverStar(collectionId)
@@ -20,6 +19,27 @@ function ExploreCollections() {
     const handleOffHoverStar = () => {
         setOnHoverStar(null)
     }
+
+    const modifiedCollectionObj = {};
+    for (const key in allCollections) {
+        if (allCollections.hasOwnProperty(key)) {
+            const {id, name, product_id} = allCollections[key];
+
+            if (modifiedCollectionObj[name]) {
+                modifiedCollectionObj[name].productIds.push(product_id);
+            }
+            else {
+                modifiedCollectionObj[name] = {name, productIds:[product_id]}
+            }
+        }
+    };
+    console.log('The modified collection:-->', modifiedCollectionObj)
+
+    useEffect(() => {
+        dispatch(collectionActions.getAllCollections(allCollections));
+        dispatch(productActions.getAllProducts(allProducts));
+    }, [dispatch])
+
 
     // const uniqueCollectionsObj = {};
     // for (const key in allCollections){
@@ -58,6 +78,8 @@ function ExploreCollections() {
                     </div>
                     {/* <img src={collection.preview_image} alt={collection.name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/> */}
                     <div className="collection-info">
+                        {allProducts?.filter(product => product.id === collection.product_id).map(item => <img src={item.preview_image} alt={item.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
+                        )}
                         <ul>
                             <li>{collection.name}</li>
                         </ul>

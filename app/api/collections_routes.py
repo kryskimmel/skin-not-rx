@@ -20,6 +20,7 @@ def explore_collections():
         collections_list.append(collection_info)
     return jsonify({'Collections': collections_list})
 
+
 # Get a collection's details
 @collections_routes.route('/<int:collection_id>', methods=['GET'])
 def get_collection_details(collection_id):

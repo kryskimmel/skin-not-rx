@@ -65,7 +65,7 @@ def view_current_user_collections():
             'id': user_collection.id,
             'name': user_collection.brand_name,
             'user_id': user_collection.user_id,
-            'product_id': user_collection.product_id
+            'product_id': user_collection.product_id,
         }
         curr_user_collections_list.append(collection)
     return jsonify({'MyCollections': curr_user_collections_list})
@@ -85,7 +85,7 @@ def view_favorite_products():
         fave_product = {
             'id': product.id,
             'user_id': current_user.id,
-            'product_id': product.product_id
+            'product_id': product.product_id,
         }
         favorite_products_list.append(fave_product)
     return jsonify({'FavoriteProducts': favorite_products_list})
