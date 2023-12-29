@@ -11,7 +11,7 @@ function ExploreCollections() {
 
     useEffect(() => {
         dispatch(collectionActions.getAllCollections(allCollections))
-    }, [dispatch, allCollections])
+    }, [dispatch])
 
     const handleOnHoverStar = (collectionId) => {
         setOnHoverStar(collectionId)
@@ -26,8 +26,8 @@ function ExploreCollections() {
     return (
         <>
         <div className="explore-collections-container">
-            {allCollections && allCollections.map(product =>
-                <div className="collection-tile" key={product.id}>
+            {allCollections && allCollections.map(collection =>
+                <div className="collection-tile" key={collection.id}>
                     <div className="collection-tile-buttons" key={`${collection.id}-favorite`}>
                         <ul>
                             <li
