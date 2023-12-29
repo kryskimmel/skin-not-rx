@@ -28,16 +28,16 @@ function ExploreButton() {
 
     return (
         <>
-            <button onClick={toggleMenu}>
-                Explore
+            <button className="explore-button" onClick={toggleMenu}>
+                EXPLORE
             </button>
             {showMenu && (
                 <ul className="explore-dropdown" ref={exploreRef}>
                     <li>
-                      <NavLink to="/products/explore">PRODUCTS</NavLink>
+                      <NavLink to="/products/explore" style={{ textDecoration: 'none', color: '#000000' }}>PRODUCTS</NavLink>
                     </li>
                     <li>
-                    <NavLink to="/collections/explore">COLLECTIONS</NavLink>
+                    <NavLink to="/collections/explore" style={{ textDecoration: 'none', color: '#000000' }}>COLLECTIONS</NavLink>
                     </li>
                 </ul>
             )}

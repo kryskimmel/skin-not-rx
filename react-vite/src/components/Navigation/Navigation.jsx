@@ -15,7 +15,7 @@ function Navigation() {
     <div className="nav-container">
       <ul className="nav-left">
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/" className="logo" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>SKIN-<span style={{textDecoration:"line-through"}}>rx</span></NavLink>
         </li>
       </ul>
       <ul className="nav-right">
