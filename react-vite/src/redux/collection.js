@@ -1,7 +1,7 @@
-const GET_COLLECTIONS = 'product/GET_COLLECTION';
-const ADD_COLLECTION = 'product/ADD_COLLECTION';
-const EDIT_COLLECTION = 'product/EDIT_COLLECTION';
-const DELETE_COLLECTION = 'product/DELETE_COLLECTION';
+const GET_COLLECTIONS = 'collection/GET_COLLECTIONS';
+const ADD_COLLECTION = 'collection/ADD_COLLECTION';
+const EDIT_COLLECTION = 'collection/EDIT_COLLECTION';
+const DELETE_COLLECTION = 'collection/DELETE_COLLECTION';
 
 
 const getCollections = (collections) => ({
@@ -106,9 +106,9 @@ export default function reducer(state = initialState, action){
 
   switch (action.type) {
     case GET_COLLECTIONS:
-      if (action.payload.Colletions) {
+      if (action.payload.Collections) {
         const byId = {};
-        action.payload.Colletions.forEach((collection) => {
+        action.payload.Collections.forEach((collection) => {
           byId[collection.id] = collection
         });
 
