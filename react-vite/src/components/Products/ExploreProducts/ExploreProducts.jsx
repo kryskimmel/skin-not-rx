@@ -10,8 +10,8 @@ function ExploreProducts() {
     const [onHoverStar, setOnHoverStar] = useState(null)
 
     useEffect(() => {
-        dispatch(productActions.getAllProducts(allProducts))
-    }, [dispatch, allProducts])
+        dispatch(productActions.getAllProducts())
+    }, [dispatch])
 
     const handleOnHoverStar = (productId) => {
         setOnHoverStar(productId)
@@ -20,6 +20,8 @@ function ExploreProducts() {
     const handleOffHoverStar = () => {
         setOnHoverStar(null)
     }
+
+    console.log('all products--', allProducts)
 
 
     return (
