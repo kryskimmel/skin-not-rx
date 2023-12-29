@@ -1,0 +1,26 @@
+.create-collection-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.create-collection-container form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    padding: 10px 20px;
+}
+
+.create-collection-container input, .create-collection-container select {
+    margin-bottom: 10px;
+}
+
+.create-collection-button {
+    width: 120px;
+    height: 30px;
+    border-radius: 30px;
+}
+
+.create-collection-button:hover {
+   cursor: pointer;
+}
