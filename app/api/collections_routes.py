@@ -34,7 +34,7 @@ def get_collection_details(collection_id):
         'user_id': selected_collection.user_id,
         'product_id': selected_collection.product_id,
     }
-    return jsonify({'Collection Details': collection_info})
+    return jsonify({'CollectionDetails': collection_info})
 
 
 # Add a collection
