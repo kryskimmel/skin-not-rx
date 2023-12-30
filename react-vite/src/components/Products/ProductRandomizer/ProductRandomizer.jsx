@@ -24,17 +24,17 @@ function ProductRandomizer() {
                     <p>Select a product type to get a randomly generated product!</p>
                     <select name="product-randomizer" value={selected} onChange={handleSelect}>
                         <option value="" disabled>--Select a product type--</option>
-                        <option value="cleansers">Cleanser</option>
-                        <option value="exfoliators">Exfoliator</option>
-                        <option value="treatments">Treatment</option>
-                        <option value="serums">Serum</option>
-                        <option value="sunscreens">Sunscreen</option>
-                        <option value="moisturizers">Moisturizer</option>
-                        <option value="toners">Toner</option>
-                        <option value="faceMasks">Face Mask</option>
-                        <option value="eyeSerums">Eye Serum</option>
-                        <option value="eyeCreams">Eye Cream</option>
-                        <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
+                        <option value="Cleansers">Cleanser</option>
+                        <option value="Exfoliators">Exfoliator</option>
+                        <option value="Treatments">Treatment</option>
+                        <option value="Serums">Serum</option>
+                        <option value="Sunscreens">Sunscreen</option>
+                        <option value="Moisturizers">Moisturizer</option>
+                        <option value="Toners">Toner</option>
+                        <option value="Face Masks">Face Mask</option>
+                        <option value="Eye Serums">Eye Serum</option>
+                        <option value="Eye Creams">Eye Cream</option>
+                        <option value="Lip Repair And Protectants">Lip Repair & Protectant</option>
                     </select>
                 </div>
                 <OpenModalButton
