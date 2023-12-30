@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+
 }
 
 .create-collection-container form {
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 400px;
     padding: 10px 20px;
 }
 
