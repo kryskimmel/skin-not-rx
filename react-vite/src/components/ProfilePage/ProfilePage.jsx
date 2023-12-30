@@ -82,7 +82,7 @@ function ProfilePage() {
         <>
         <div className="profile-page-container">
             <h1 className="profile-page-h1">{`${user.username.toUpperCase()}'S PROFILE`}</h1>
-            <div className="profile-page-collections-div">
+            <div className="profile-page-premade-collections-div">
                     {Object.entries(currentUsersCollections).map(([collectionName, items]) => (
                         <div key={collectionName} className="profile-page-collections-tile">
                              <OpenModalMenuItem
@@ -94,18 +94,19 @@ function ProfilePage() {
                         </div>
                     ))}
             </div>
-            <h2>Custom Collections</h2>
-            <div className="create-collection-button">
-            </div>
-            <div className="create-collection-button">
-                <OpenModalButton
-                buttonText={
-                    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-                        <p>Create A Collection</p>
-                        <Icon icon="basil:add-outline" width="30" height="30" />
-                    </div>}
-                modalComponent={<CreateCollectionModal/>}
-                />
+            <div className="profile-page-custom-collections-div">
+                <h2>Custom Collections</h2>
+                <div className="custom-collections">
+                    <OpenModalButton
+                    buttonText={
+                        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                            <p>Create A Collection</p>
+                            <Icon icon="basil:add-outline" width="30" height="30" />
+                        </div>}
+                    modalComponent={<CreateCollectionModal/>}
+                    />
+                </div>
+
             </div>
         </div>
         </>
