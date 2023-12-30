@@ -1,16 +1,36 @@
 .profile-page-container {
     display: flex;
     flex-direction: column;
+    margin: 10px 20px
 }
 
 .profile-page-h1 {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
-.profile-page-collections-div {
+.profile-page-premade-collections-div {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.profile-page-custom-collections-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page-custom-collections-div h2 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.custom-collections {
+    display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 30px;
 }
@@ -42,7 +62,7 @@
 
 }
 
-.create-collection-button button {
+.profile-page-custom-collections-div button {
     width: 220px;
     height: 220px
 }
