@@ -126,22 +126,24 @@ export default function reducer(state = initialState, action) {
             const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
             const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
             const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
+            const showAllProducts = action.payload.Products
 
             newState = {
                 allProducts: action.payload.Products,
                 byId: byId,
                 byProductType: {
-                  "cleansers": filterCleansers,
-                  "exfoliators": filterExfoliators,
-                  "treatments" : filerTreatments,
-                  "serums": filterSerums,
-                  "sunscreens": filterSuncreeens,
-                  "moisturizers": filterMoisturizers,
-                  "toners": filterToners,
-                  "faceMasks": filterFaceMasks,
-                  "eyeSerums": filterEyeSerums,
-                  "eyeCreams": filterEyeCreams,
-                  "lipRepairAndProtectants": filterLipRepairAndProtectants
+                  "Cleansers": filterCleansers,
+                  "Exfoliators": filterExfoliators,
+                  "Treatments" : filerTreatments,
+                  "Serums": filterSerums,
+                  "Sunscreens": filterSuncreeens,
+                  "Moisturizers": filterMoisturizers,
+                  "Toners": filterToners,
+                  "Face Masks": filterFaceMasks,
+                  "Eye Serums": filterEyeSerums,
+                  "Eye Creams": filterEyeCreams,
+                  "Lip Repair And Protectants": filterLipRepairAndProtectants,
+                  "All": showAllProducts
                 }
             };
             return newState;
