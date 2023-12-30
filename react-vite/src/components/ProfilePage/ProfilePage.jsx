@@ -25,37 +25,40 @@ function ProfilePage() {
         console.log(
         'THE COLLECTION NAME', collectionName, 'THE ITEMS--', items
         )
-        if (selectedCollection === "cleansers") {
+        if (selectedCollection === "Cleansers") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (selectedCollection === "exfoliators") {
+        else if (selectedCollection === "Exfoliators") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "moisturizers") {
+        else if (collectionName === "Moisturizers") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "treatments") {
+        else if (collectionName === "Treatments") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "serums") {
+        else if (collectionName === "Serums") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "sunscreens") {
+        else if (collectionName === "Sunscreens") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "toners") {
+        else if (collectionName === "Toners") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "faceMasks") {
+        else if (collectionName === "Face Masks") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "eyeSerums") {
+        else if (collectionName === "Eye Serums") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "eyeCreams") {
+        else if (collectionName === "Eye Creams") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
-        else if (collectionName === "lipRepairAndProtectants") {
+        else if (collectionName === "Lip Repair And Protectants") {
+            setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
+        }
+        else if (collectionName === "All") {
             setSelectedModal(<CurrentCollectionModal collectionName={selectedCollection} items={items}/>)
         }
         else {
@@ -93,7 +96,6 @@ function ProfilePage() {
             </div>
             <h2>Custom Collections</h2>
             <div className="create-collection-button">
-
             </div>
             <div className="create-collection-button">
                 <OpenModalButton
