@@ -7,7 +7,7 @@ product_routes = Blueprint('products', __name__)
 
 
 # Get all products (Explore page)
-@product_routes.route('/explore', methods=['GET'])
+@product_routes.route('/', methods=['GET'])
 def explore_products():
     all_products = Product.query.all()
     products_list = []

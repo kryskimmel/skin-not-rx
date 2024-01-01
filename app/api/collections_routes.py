@@ -6,7 +6,7 @@ from app.forms.collection_form import CollectionForm
 collections_routes = Blueprint('collections', __name__)
 
 # Get all collections (Explore page)
-@collections_routes.route('/explore', methods=['GET'])
+@collections_routes.route('/', methods=['GET'])
 def explore_collections():
     all_collections = Collection.query.all()
     collections_list = []
@@ -40,7 +40,7 @@ def get_collection_details(collection_id):
 
 
 # Add a collection
-@collections_routes.route('/', methods=['GET','POST'])
+@collections_routes.route('/', methods=['POST'])
 @login_required
 def add_collection():
     form = CollectionForm()
