@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CreateProductModal from "../Modals/CreateProductModal/CreateProductModal";
 import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
@@ -19,7 +19,7 @@ function Navigation() {
       </ul>
       <ul className="nav-right">
         <li>
-          <NavLink to="/explore">Explore</NavLink>
+          <NavLink to="/explore" className="explore" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>Explore</NavLink>
         </li>
         {user ?
             <li className="add-product-button-icon">
