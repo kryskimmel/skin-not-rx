@@ -29,8 +29,10 @@ def user(id):
 
 # View current user's products
 @user_routes.route('/current/products', methods=['GET'])
+@login_required
 def view_current_user_products():
-    curr_user_products = Product.filter_by(user_id=current_user.id).all()
+    curr_user_products = Product.query.filter_by(user_id=current_user.id).all()
+    print(curr_user_products)
 
     if not curr_user_products:
         return {'message': 'You have not created any products.'}
@@ -56,8 +58,9 @@ def view_current_user_products():
 
 # View current user's collections
 @user_routes.route('/current/collections', methods=['GET'])
+@login_required
 def view_current_user_collections():
-    curr_user_collections = Collection.filter_by(user_id=current_user.id).all()
+    curr_user_collections = Collection.query.filter_by(user_id=current_user.id).all()
 
     if not curr_user_collections:
         return {'message': 'You have not created any collections.'}
@@ -66,7 +69,7 @@ def view_current_user_collections():
     for user_collection in curr_user_collections:
         collection = {
             'id': user_collection.id,
-            'name': user_collection.brand_name,
+            'name': user_collection.name,
             'user_id': user_collection.user_id,
             'product_id': user_collection.product_id,
         }
@@ -79,7 +82,7 @@ def view_current_user_collections():
 @user_routes.route('/current/favorites/products', methods=['GET'])
 @login_required
 def view_favorite_products():
-    favorite_products = Favorite_Product.filter_by(user_id=current_user.id).all()
+    favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_products:
         return {'message': 'You do not have any favorited products yet!'}
@@ -100,7 +103,7 @@ def view_favorite_products():
 @user_routes.route('/current/favorites/collections', methods=['GET'])
 @login_required
 def view_favorite_collections():
-    favorite_collections = Favorite_Collection.filter_by(user_id=current_user.id).all()
+    favorite_collections = Favorite_Collection.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_collections:
         return {'message': 'You do not have any favorited collections yet!'}
@@ -128,7 +131,8 @@ def add_favorite_product():
         return {'message': 'Product could not be found'}, 404
 
     new_favorite_product = Favorite_Product(
-        user_id=current_user.id, product_id=data.get('product_id')
+        user_id=current_user.id,
+        product_id=data.get('product_id')
     )
     db.session.add(new_favorite_product)
     db.session.commit()
@@ -147,7 +151,8 @@ def add_favorite_collection():
         return {'message': 'Collection could not be found'}, 404
 
     new_favorite_collection = Favorite_Collection(
-        user_id=current_user.id, collection_id=data.get('collection_id')
+        user_id=current_user.id,
+        collection_id=data.get('collection_id')
     )
     db.session.add(new_favorite_collection)
     db.session.commit()
@@ -156,7 +161,7 @@ def add_favorite_collection():
 
 
 # Delete a favorited product
-@user_routes.route('/current/favorites/products/<int:favorite_id>', methods=['DELETE'])
+@user_routes.route('/current/favorites/products/<int:product_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_product(product_id):
     current_product_favorite = Favorite_Product.query.filter_by(user_id=current_user.id).filter_by(
@@ -175,7 +180,7 @@ def remove_favorite_product(product_id):
 
 
 # Delete a favorited collection
-@user_routes.route('/current/favorites/collections/<int:favorite_id>', methods=['DELETE'])
+@user_routes.route('/current/favorites/collections/<int:collection_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_collection(collection_id):
     current_collection_favorite = Favorite_Collection.query.filter_by(user_id=current_user.id).filter_by(
