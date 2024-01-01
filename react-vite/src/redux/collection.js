@@ -34,7 +34,7 @@ const getCurrUserCollections = (currUserCollections) => ({
 // GET ALL COLLECTIONS
 export const getAllCollections = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/collections/explore", {
+    const response = await fetch("/api/collections", {
       method: "GET",
     });
     if (!response.ok) {
@@ -110,7 +110,7 @@ export const removeCollection = (collection_id) => async (dispatch) => {
 // GET CURRENT USERS COLLECTIONS
 export const viewCurrUserCollections = (currUserCollections) => async (dispatch) => {
   try {
-    const response = await fetch("/api/current/collections", {
+    const response = await fetch("/api/users/current/collections", {
       method: "GET"
     });
     if (!response.ok) {

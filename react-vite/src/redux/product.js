@@ -28,7 +28,7 @@ const deleteProduct = (deletedProduct) => ({
 // GET ALL PRODUCTS
 export const getAllProducts = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/products/explore", {
+    const response = await fetch("/api/products", {
       method: "GET",
     });
     if (!response.ok) {
