@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import ExploreButton from "./ExploreButton";
 import CreateProductModal from "../Modals/CreateProductModal/CreateProductModal";
 import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
 import { Icon } from '@iconify/react';
@@ -20,7 +19,7 @@ function Navigation() {
       </ul>
       <ul className="nav-right">
         <li>
-          <ExploreButton />
+          <NavLink to="/explore">Explore</NavLink>
         </li>
         {user ?
             <li className="add-product-button-icon">
