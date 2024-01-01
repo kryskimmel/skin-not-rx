@@ -3,16 +3,16 @@ collections_data = [
     {
         "name": "Let It Glow",
         "user_id": 1,
-        "product_id": 6
+        "product_id": [6, 2, 3]
     },
     {
         "name": "Night Out Prep",
         "user_id": 1,
-        "product_id": 8
+        "product_id": [8, 1]
     },
     {
         "name": "It's Sunday",
         "user_id": 2,
-        "product_id": 7
+        "product_id": [7, 9]
     },
 ]

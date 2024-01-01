@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Collection, db
+from app.models import Collection, Product, db
 from app.forms.collection_form import CollectionForm
 
 collections_routes = Blueprint('collections', __name__)
@@ -16,10 +16,23 @@ def explore_collections():
             'id': collection.id,
             'name': collection.name,
             'user_id': collection.user_id,
-            'product_id': collection.product_id,
+            'Products': [{'id':product.id,
+                          'brand_name':product.brand_name,
+                          'product_name':product.product_name,
+                          'preview_image': get_preview_image(product)
+                          } for product in collection.products]
         }
         collections_list.append(collection_info)
     return jsonify({'Collections': collections_list})
+
+
+def get_preview_image(product):
+    preview_images = [
+        {'image_url': image.image_url}
+        for image in product.product_images
+        if image.preview == True
+    ]
+    return preview_images
 
 
 # Get a collection's details
@@ -34,7 +47,17 @@ def get_collection_details(collection_id):
         'id': selected_collection.id,
         'name': selected_collection.name,
         'user_id': selected_collection.user_id,
-        'product_id': selected_collection.product_id,
+        'Products': [{  'id':product.id,
+                        'brand_name':product.brand_name,
+                        'product_name':product.product_name,
+                        'product_type': product.product_type,
+                        'description': product.description,
+                        'key_ingredients': product.key_ingredients,
+                        'skin_concern': product.skin_concern,
+                        'product_link': product.product_link,
+                        'user_id': product.user_id,
+                        'preview_image': get_preview_image(product)
+                        } for product in selected_collection.products]
     }
     return jsonify({'CollectionDetails': collection_info})
 
@@ -43,22 +66,26 @@ def get_collection_details(collection_id):
 @collections_routes.route('/', methods=['POST'])
 @login_required
 def add_collection():
-    form = CollectionForm()
     data = request.get_json()
+    product_ids = data.get('product_ids', [])
 
-    if form.validate_on_submit():
-        try:
-            new_collection = Collection(
-                name=data.get('name'),
-                user_id=data.get('user_id'),
-                product_id=data.get('product_id'),
-            )
-            db.session.add(new_collection)
-            db.session.commit()
-            return jsonify(new_collection)
-        except Exception as e:
-            db.session.rollback()
-            return jsonify({'error': str(e)}), 500
+    new_collection = Collection(
+        name=data.get('name'),
+        user_id=current_user.id,
+    )
+
+    for product_id in product_ids:
+        product = Product.query.get(product_id)
+
+
+        if product:
+            new_collection.products.append(product)
+
+    db.session.add(new_collection)
+    db.session.commit()
+
+    return new_collection.to_dict()
+
 
 
 # Edit a collection by id
@@ -92,7 +119,7 @@ def delete_collection(collection_id):
 
     if selected_collection.user_id == current_user.id:
         db.session.delete(selected_collection)
-        db.seesion.commit()
+        db.session.commit()
         return jsonify({'message': 'Collection successfully deleted'}), 200
     else:
         return jsonify({'message': 'Forbidden'}), 403

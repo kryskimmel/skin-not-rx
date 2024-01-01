@@ -113,7 +113,7 @@ def edit_product(product_id):
         return jsonify({'message': 'Product does not exist'}), 404
 
     if selected_product.user_id == current_user.id:
-        modification = request.to_json()
+        modification = request.get_json()
         for [k, i] in modification.items():
             setattr(selected_product, k, i)
 

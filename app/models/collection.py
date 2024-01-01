@@ -13,14 +13,13 @@ class Collection(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(60), nullable=False)
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
-    product_id = Column(Integer, ForeignKey(add_prefix_for_prod('products.id')))
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # RELATIONSHIPS
     user = db.relationship('User', back_populates='collections')
-    products = db.relationship('Product', back_populates='collections')
+    products = db.relationship('Product', secondary='collection_product', back_populates='collections')
     favorite_collections = db.relationship('Favorite_Collection', back_populates='collections')
 
     def to_dict(self):
@@ -28,5 +27,4 @@ class Collection(db.Model):
             'id': self.id,
             'name': self.name,
             'user_id': self.user_id,
-            'product_id': self.product_id,
         }
