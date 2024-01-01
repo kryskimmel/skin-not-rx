@@ -78,7 +78,7 @@ function ExploreCollections() {
                     </div>
                     {/* <img src={collection.preview_image} alt={collection.name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/> */}
                     <div className="collection-info">
-                        {allProducts?.filter(product => product.id === collection.product_id).map(item => <img src={item.preview_image} alt={item.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
+                        {allProducts?.filter(product => product.id === collection.product_id).map(item => <img key={item.id} src={item.preview_image} alt={item.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
                         )}
                         <ul>
                             <li>{collection.name}</li>
