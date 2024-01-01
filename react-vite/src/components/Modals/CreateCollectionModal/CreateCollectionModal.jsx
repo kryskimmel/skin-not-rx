@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import * as collectionActions from "../../../redux/collection";
 import { useModal } from "../../../context/Modal";
-import SearchBar from "../../Products/SearchBar/SearchBar";
+import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/SearchBarAndAddProduct";
 import "./CreateCollectionModal.css";
 
 function CreateCollectionModal() {
@@ -71,7 +71,7 @@ function CreateCollectionModal() {
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                 />
-                <SearchBar productsToAdd={handleProductsToAdd}/>
+                <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
                 <button type="submit" className="create-collection-button">Create Collection</button>
             </form>
         </div>
