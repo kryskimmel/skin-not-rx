@@ -46,7 +46,7 @@ export const getAllProducts = () => async (dispatch) => {
 export const createProduct = (newProductData) => async (dispatch) => {
   try {
     console.log('THE NEW PRODUCT DATA:', newProductData)
-    const response = await fetch("/api/products", {
+    const response = await fetch("/api/products/", {
       method: "POST",
       headers: {"Content-Type" : "application/json"},
       body: JSON.stringify(newProductData)
