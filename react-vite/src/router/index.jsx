@@ -8,6 +8,7 @@ import ProfilePage from '../components/ProfilePage';
 import CurrUserInfo from '../components/ProfilePage/CurrUserInfo';
 import CreateProductModal from '../components/Modals/CreateProductModal';
 import ExploreCollections from '../components/Collections/ExploreCollections/ExploreCollections';
+import CreateCollectionModal from '../components/Modals/CreateCollectionModal';
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
         path: "current/profile",
         element: <ProfilePage />,
       },
+      {
+        path: "collections/",
+        element: <CreateCollectionModal />
+      }
     ],
   },
 ]);

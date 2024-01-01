@@ -50,18 +50,22 @@ export const getAllCollections = () => async (dispatch) => {
 
 // ADD A COLLECTION
 export const createCollection = (newCollectionData) => async (dispatch) => {
+  console.log('Inside thunk (new collection data):', newCollectionData)
   try {
     const response = await fetch("/api/collections", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCollectionData),
     })
+    console.log('After fetch call');
     if (!response.ok) {
       throw new Error(`There was an error in creating your collection.`)
     }
     const newCollection = await response.json()
+    console.log('new collection', newCollection)
     await dispatch(addCollection(newCollection))
   } catch (error) {
+    console.error('Error:', error);
     throw new Error(`The following error occured while attempting to create your collection: ${error.message}`)
 
   }

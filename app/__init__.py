@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 from .models import db, User
+from .api.user_routes import user_routes
 from .api.current_user_routes import current_user_routes
 from .api.auth_routes import auth_routes
 from .api.products_routes import product_routes
@@ -16,7 +17,8 @@ app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
 login = LoginManager(app)
-login.login_view = 'auth.unauthorized'
+# login.login_view = 'auth.unauthorized'
+login.login_message = 'You are not authorized to continue'
 
 
 @login.user_loader
@@ -28,6 +30,7 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+app.register_blueprint(user_routes, url_prefix='/api/user')
 app.register_blueprint(current_user_routes, url_prefix='/api/current')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products')
@@ -75,6 +78,7 @@ def api_help():
                     app.view_functions[rule.endpoint].__doc__ ]
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
+
 
 
 @app.route('/', defaults={'path': ''})

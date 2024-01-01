@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Collection, db
+from app.forms.collection_form import CollectionForm
 
 collections_routes = Blueprint('collections', __name__)
 
@@ -39,18 +40,25 @@ def get_collection_details(collection_id):
 
 
 # Add a collection
-@collections_routes.route('/', methods=['POST'])
+@collections_routes.route('/', methods=['GET','POST'])
 @login_required
 def add_collection():
+    form = CollectionForm()
     data = request.get_json()
-    new_collection = Collection(
-        name=data.get('name'),
-        user_id=data.get('user_id'),
-        product_id=data.get('product_id'),
-    )
-    db.session.add(new_collection)
-    db.session.commit()
-    return jsonify(new_collection)
+
+    if form.validate_on_submit():
+        try:
+            new_collection = Collection(
+                name=data.get('name'),
+                user_id=data.get('user_id'),
+                product_id=data.get('product_id'),
+            )
+            db.session.add(new_collection)
+            db.session.commit()
+            return jsonify(new_collection)
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
 
 
 # Edit a collection by id
