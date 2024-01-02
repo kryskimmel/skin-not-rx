@@ -48,7 +48,8 @@ def view_current_user_products():
             'skin_concern': user_product.skin_concern,
             'product_link': user_product.product_link,
             'notes': user_product.notes,
-            'user_id': user_product.user_id
+            'user_id': user_product.user_id,
+            'preview_image':[product_img.image_url for product_img in user_product.product_images if product_img.preview == True]
         }
         curr_user_products_list.append(product)
         print('MY PRODUCTSSSSS---', curr_user_products_list)
@@ -71,10 +72,28 @@ def view_current_user_collections():
             'id': user_collection.id,
             'name': user_collection.name,
             'user_id': user_collection.user_id,
-            'product_id': user_collection.product_id,
+            'Products': [{  'id':product.id,
+                    'brand_name':product.brand_name,
+                    'product_name':product.product_name,
+                    'product_type': product.product_type,
+                    'description': product.description,
+                    'key_ingredients': product.key_ingredients,
+                    'skin_concern': product.skin_concern,
+                    'product_link': product.product_link,
+                    'user_id': product.user_id,
+                    'preview_image': get_preview_image(product)
+                    } for product in user_collection.products]
         }
         curr_user_collections_list.append(collection)
     return jsonify({'MyCollections': curr_user_collections_list})
+
+def get_preview_image(product):
+    preview_images = [
+        {'image_url': image.image_url}
+        for image in product.product_images
+        if image.preview == True
+    ]
+    return preview_images
 
 
 
