@@ -2,6 +2,7 @@ import { useState } from "react";
 import { thunkLogin } from "../../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
+import { Icon } from '@iconify/react';
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -37,14 +38,17 @@ function LoginFormModal() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div className="login-inputs-div">
-          <input
-              type="text"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <Icon icon="material-symbols:person" width="30" height="30"/>
+            <input
+                type="text"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
           {errors.email && <p className="errors-text">{errors.email}</p>}
+
+            <Icon icon="solar:lock-bold" width="25" height="25" />
             <input
               type="password"
               placeholder="Password"
