@@ -2,6 +2,7 @@ const GET_PRODUCTS = 'product/GET_PRODUCTS';
 const ADD_PRODUCT = 'product/ADD_PRODUCT';
 const EDIT_PRODUCT = 'product/EDIT_PRODUCT';
 const DELETE_PRODUCT = 'product/DELETE_PRODUCT';
+const GET_CURR_USER_PRODUCTS = 'product/GET_CURR_USER_PRODUCTS';
 
 
 const getProducts = (products) => ({
@@ -22,7 +23,12 @@ const editProduct = (editedProduct) => ({
 const deleteProduct = (deletedProduct) => ({
     type: DELETE_PRODUCT,
     payload: deletedProduct
-})
+});
+
+const getCurrUserProducts = (currUserProducts) => ({
+  type: GET_CURR_USER_PRODUCTS,
+  payload: currUserProducts
+});
 
 
 // GET ALL PRODUCTS
@@ -101,6 +107,22 @@ export const removeProduct = (product_id) => async (dispatch) => {
   }
 };
 
+// GET CURRENT USERS PRODUCTS
+export const viewCurrUserProducts = () => async (dispatch) => {
+  try {
+    const response = await fetch("/api/users/current/products", {
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error(`There was an error in fetching your products.`)
+    }
+    const data = await response.json();
+    await dispatch(getCurrUserProducts(data))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to fetch your products: ${error.message}`)
+  }
+}
+
 
 // Reducer
 const initialState = {allProducts:[], byId:{}, byProductType:[]}
@@ -160,6 +182,21 @@ export default function reducer(state = initialState, action) {
     case DELETE_PRODUCT:
       delete newState[action.payload];
       return newState;
+    case GET_CURR_USER_PRODUCTS:
+      if (action.payload.MyProducts) {
+        const byId = {};
+        action.payload.MyProducts.forEach((product) => {
+          byId[product.id] = product
+        });
+        newState = {
+          allProducts: action.payload.MyProducts,
+          byId: byId
+        };
+        return newState;
+      } else {
+        newState = action.payload
+        return newState;
+      }
     default:
         return state;
   }
