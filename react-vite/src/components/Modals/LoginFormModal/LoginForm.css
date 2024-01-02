@@ -29,6 +29,7 @@
     cursor:text
 }
 
+
 .login-form-buttons-div {
     display: flex;
     flex-direction: column;
@@ -43,4 +44,5 @@
 
 .errors-text {
     color: red;
+    margin-bottom: 10px;
 }

@@ -1,0 +1,28 @@
+.signup-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 15px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+}
+
+
+.signup-form-div {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+
+.signup-form-div input {
+    border-top:none;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 20px;
+    height: 30px;
+    font-size: 16px;
+    cursor:text
+}
