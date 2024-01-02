@@ -1,33 +1,99 @@
 .profile-page-container {
     display: flex;
     flex-direction: column;
-    margin: 10px 20px
+    margin-bottom: 30px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
 .profile-page-h1 {
     display: flex;
     justify-content: center;
     margin-top: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    color: #4D4B4B
+}
+
+.profile-page-h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+    width: 250px;
+    margin-bottom: 5px;
 }
 
 .profile-page-premade-collections-div {
     display: flex;
-    justify-content: flex-start;
     flex-wrap: wrap;
+    justify-content: center;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
     gap: 30px;
+}
+
+.profile-page-collections-tile-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 5px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    height: 275px;
+    width: 275px;
+}
+
+.profile-page-collections-tile-div:hover, .create-custom-collection-div:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+
+.profile-page-collections-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 10px auto;
+    width: 205px;
+    height: 205px;
+}
+
+.profile-page-grid-images img {
+    border:1px solid lightgray;
+}
+
+.create-custom-collection-div {
+    height: 275px;
+    width: 275px;
+    background-color: #EFEFEF;
+    padding: 5px 5px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-custom-collection-div button {
+    cursor: pointer;
+    height: 275px;
+    width: 275px;
+    border: none;
+    font-size: 20px;
 }
 
 .profile-page-custom-collections-div {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    gap: 30px;
 }
 
-.profile-page-custom-collections-div h2 {
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
 
+
+
+
+/*
 .custom-collections {
     display: flex;
     justify-content: flex-start;
@@ -35,12 +101,6 @@
     gap: 30px;
 }
 
-.profile-page-collections-tile {
-    width: 220px;
-    height: 220px;
-    border: 3px solid #97958F;
-    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-}
 
 .profile-page-collections-tile li {
     list-style: none;
@@ -60,7 +120,7 @@
     padding: 5px 0px;
     font-size: 16px;
 
-}
+} */
 
 .profile-page-custom-collections-div button {
     width: 220px;
