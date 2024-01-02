@@ -188,9 +188,35 @@ export default function reducer(state = initialState, action) {
         action.payload.MyProducts.forEach((product) => {
           byId[product.id] = product
         });
+        const filterCleansers = action.payload.MyProducts.filter((product => product.product_type === "Cleanser"))
+        const filterExfoliators = action.payload.MyProducts.filter((product => product.product_type === "Exfoliator"))
+        const filerTreatments = action.payload.MyProducts.filter((product => product.product_type === "Treatment"))
+        const filterSerums = action.payload.MyProducts.filter((product => product.product_type === "Serum"))
+        const filterSuncreeens = action.payload.MyProducts.filter((product => product.product_type === "Sunscreen"))
+        const filterMoisturizers = action.payload.MyProducts.filter((product => product.product_type === "Moisturizer"))
+        const filterToners = action.payload.MyProducts.filter((product => product.product_type === "Toner"))
+        const filterFaceMasks = action.payload.MyProducts.filter((product => product.product_type === "Face Mask"))
+        const filterEyeSerums = action.payload.MyProducts.filter((product => product.product_type === "Eye Serum"))
+        const filterEyeCreams = action.payload.MyProducts.filter((product => product.product_type === "Eye Cream"))
+        const filterLipRepairAndProtectants = action.payload.MyProducts.filter((product => product.product_type === "Lip Repair & Protectant"))
+        const showAllProducts = action.payload.MyProducts
         newState = {
           allProducts: action.payload.MyProducts,
-          byId: byId
+          byId: byId,
+          byProductType: {
+            "Cleansers": filterCleansers,
+            "Exfoliators": filterExfoliators,
+            "Treatments" : filerTreatments,
+            "Serums": filterSerums,
+            "Sunscreens": filterSuncreeens,
+            "Moisturizers": filterMoisturizers,
+            "Toners": filterToners,
+            "Face Masks": filterFaceMasks,
+            "Eye Serums": filterEyeSerums,
+            "Eye Creams": filterEyeCreams,
+            "Lip Repair And Protectants": filterLipRepairAndProtectants,
+            "All": showAllProducts
+          }
         };
         return newState;
       } else {
