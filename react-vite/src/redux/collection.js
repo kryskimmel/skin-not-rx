@@ -23,12 +23,12 @@ const editCollection = (editedCollection) => ({
 const deleteCollection = (deletedCollection) => ({
     type: DELETE_COLLECTION,
     payload: deletedCollection
-})
+});
 
 const getCurrUserCollections = (currUserCollections) => ({
   type: GET_CURR_USER_COLLECTIONS,
   payload: currUserCollections
-})
+});
 
 
 // GET ALL COLLECTIONS
@@ -108,7 +108,7 @@ export const removeCollection = (collection_id) => async (dispatch) => {
 };
 
 // GET CURRENT USERS COLLECTIONS
-export const viewCurrUserCollections = (currUserCollections) => async (dispatch) => {
+export const viewCurrUserCollections = () => async (dispatch) => {
   try {
     const response = await fetch("/api/users/current/collections", {
       method: "GET"
@@ -116,7 +116,8 @@ export const viewCurrUserCollections = (currUserCollections) => async (dispatch)
     if (!response.ok) {
       throw new Error(`There was an error in fetching your collections.`)
     }
-    await dispatch(getCurrUserCollections(currUserCollections))
+    const data = await response.json();
+    await dispatch(getCurrUserCollections(data))
   } catch (error) {
     throw new Error(`The following error occured while attempting to fetch your collections: ${error.message}`)
   }
