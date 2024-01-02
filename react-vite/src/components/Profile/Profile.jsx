@@ -11,14 +11,14 @@ import CreateCollectionModal from "../Modals/CreateCollectionModal";
 
 function Profile () {
     const dispatch = useDispatch();
-    const user = useSelector(store => store.session.user);
-    const userProducts = useSelector(store => store.product.MyProducts);
+    const user = useSelector(state => state.session.user);
+    const userProducts = useSelector(state => state.product);
 
     useEffect(() => {
         dispatch(productActions.viewCurrUserProducts())
     }, [dispatch])
 
-    console.log(userProducts)
+    console.log('the users products', userProducts)
 
     return (
         <>
