@@ -19,7 +19,7 @@ function Navigation() {
       </ul>
       <ul className="nav-right">
         <li>
-          <NavLink to="/explore" className="explore" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>Explore</NavLink>
+          <NavLink to="/explore" className="explore" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>EXPLORE</NavLink>
         </li>
         {user ?
             <li className="add-product-button-icon">

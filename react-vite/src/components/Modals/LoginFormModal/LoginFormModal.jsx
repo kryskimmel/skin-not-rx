@@ -33,33 +33,33 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className="login-form-wrapper">
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
+        <div className="login-inputs-div">
           <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
-        <button onClick={handleDemoUser}>Demo User</button>
+              type="text"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          {errors.email && <p className="errors-text">{errors.email}</p>}
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          {errors.password && <p className="errors-text">{errors.password}</p>}
+        </div>
+        <div className="login-form-buttons-div">
+          <button type="submit">Log In</button>
+          <button onClick={handleDemoUser} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

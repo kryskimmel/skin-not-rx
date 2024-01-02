@@ -2,20 +2,28 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
     gap: 30px;
 }
 
-.explore-page-star-icon {
-    margin-left: 25px;
+.collections-star-icon {
+    position: absolute;
+    left: 210px;
+    top: 190px
 }
 
 .collection-tile {
-    border: 2px solid #d6c7a5;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     border-radius: 15px;
     background-color: #FFFFFF;
-    height: 350px;
-    width: 200px;
+    height: 275px;
+    width: 275px;
     padding: 5px 5px;
+    cursor: pointer;
+}
+
+.collection-tile:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 
 .collection-info ul{
@@ -23,6 +31,11 @@
     flex-direction: column;
     list-style: none;
     padding-left: 0px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 1.2rem;
 }
 
 .collection-tile-buttons ul{
@@ -31,4 +44,16 @@
     cursor: pointer;
     list-style: none;
     padding-left: 0px;
+}
+
+.grid-image-div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 10px auto;
+    width: 205px;
+    height: 205px
+}
+
+.grid-images-tile {
+    border:1px solid lightgray
 }

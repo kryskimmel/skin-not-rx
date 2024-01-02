@@ -8,29 +8,49 @@
   cursor: pointer;
 }
 
-.profile-dropdown {
+.profile-dropdown-container {
   position: absolute;
-  top: 75px;
+  top: 90px;
   z-index: 100;
+  width:200px;
 }
 
-.profile-dropdown ul {
-  background-color: rgba(0,0,0,.2);
-  border: 1px solid rgb(190, 190, 190);
-  width:125px;
-}
 
-.profile-dropdown li {
+.dropdown a, button{
   padding: 2px 5px;
-  color: #000000;
-  line-height: 30px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
-.profile-dropdown li:hover {
+.dropdown a:hover, .dropdown button:hover {
   padding: 2px 5px;
   text-align: center;
   font-weight: 600;
+  background-color: #D7E3C2;
+}
+
+
+.account-tools li {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 0px;
+  width: 180px
+}
+
+.account-tools li:hover {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background-color: #D7E3C2;
+  width: 180px
 }
 
 
@@ -38,7 +58,6 @@
   display: flex;
   justify-content: space-between;;
   background-color: rgba(0,0,0,.2);
-  border: 1px solid rgb(190, 190, 190);
   width:100%
 }
 
@@ -55,6 +74,8 @@
 .nav-right {
   display: flex;
   list-style: none;
+  font-family: 'IBM Plex Sans Hebrew', sans-serif;
+  align-items: center;
 }
 
 .nav-right li {
@@ -65,8 +86,6 @@
 }
 
 .add-product-button-icon button {
-  border: 1px solid black;
-  border-radius:30px;
   border: none;
   padding: 0;
   margin: 0;

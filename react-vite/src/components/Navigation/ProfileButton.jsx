@@ -43,33 +43,31 @@ function ProfileButton() {
 {/* <li className="user-profile-icon-button"><Icon icon="iconoir:profile-circle" width="40" height="40" onClick={toggleMenu}/></li> */}
   return (
     <>
-      {!user ? <Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu}/> : <img src={user.profile_image} className="profile-image-icon-button" onClick={toggleMenu}/>}
+      {!user ? <Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <img src={user.profile_image} className="profile-image-icon-button" onClick={toggleMenu}/>}
       {showMenu && (
-        <div className="profile-dropdown">
-          <ul ref={ulRef}>
+        <div className="profile-dropdown-container">
+          <div  className="dropdown" ref={ulRef}>
             {user ? (
               <>
-                <li><NavLink to="/current/profile" style={{ textDecoration: 'none', color: '#000000' }}>My Profile</NavLink></li>
-                <li>My Favorites</li>
-                <li>
-                  <button className="logout-button" onClick={logout}>Log Out</button>
-                </li>
+              <NavLink to="/users/current/profile" className="profile-link" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Profile</NavLink>
+              <NavLink to="/users/current/favorites" className="favorites-link" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Favorites</NavLink>
+              <button className="logout-button" onClick={logout}>Log Out</button>
               </>
             ) : (
-              <>
-                <OpenModalMenuItem
-                  itemText="Log In"
-                  onItemClick={closeMenu}
-                  modalComponent={<LoginFormModal />}
-                />
-                <OpenModalMenuItem
-                  itemText="Sign Up"
-                  onItemClick={closeMenu}
-                  modalComponent={<SignupFormModal />}
-                />
-              </>
+              <div className="account-tools">
+                  <OpenModalMenuItem
+                    itemText="Log In"
+                    onItemClick={closeMenu}
+                    modalComponent={<LoginFormModal />}
+                  />
+                  <OpenModalMenuItem
+                    itemText="Sign Up"
+                    onItemClick={closeMenu}
+                    modalComponent={<SignupFormModal />}
+                  />
+              </div>
             )}
-          </ul>
+          </div>
         </div>
       )}
     </>

@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import SplashPage from '../components/SplashPage/SplashPage';
-import Profile from '../components/Profile';
 import Explore from '../components/Explore';
+import Profile from '../components/Profile';
+import Favorites from '../components/Favorites'
 
 
 export const router = createBrowserRouter([
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "users/current/profile",
         element: <Profile />,
+      },
+      {
+        path: "users/current/favorites",
+        element: <Favorites />
       },
     ],
   },

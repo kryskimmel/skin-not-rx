@@ -69,17 +69,22 @@ function ExploreCollections() {
                     <div className="collection-tile-buttons" key={`${collection.id}-favorite`}>
                         <ul>
                             <li
-                                className="explore-page-star-icon"
+                                className="collections-star-icon"
                                 onMouseOver={()=> handleOnHoverStar(collection.id)}
                                 onMouseOut={handleOffHoverStar}>
                                 {onHoverStar !== collection.id ? <Icon icon="clarity:favorite-line" width="25" height="25"/> : <Icon className="favorite-star-icon" icon="clarity:favorite-solid" color="#f4c430" width="30" height="30" />}
                             </li>
                         </ul>
                     </div>
-                    {/* <img src={collection.preview_image} alt={collection.name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/> */}
                     <div className="collection-info">
-                        {allProducts?.filter(product => product.id === collection.product_id).map(item => <img key={item.id} src={item.preview_image} alt={item.product_name} width={"200px"} height={"200px"} style={{objectFit:"cover", borderRadius:"15px"}}/>
-                        )}
+                        <div className="grid-image-div">
+                            {collection.Products?.map((product) => (
+                                <div key={product.id} className="grid-images-tile">
+                                    <img src={product.preview_image[0].image_url} alt={product.product_name}  width={"100px"} height={"100px"} />
+                                </div>
+                            ))}
+                        </div>
+
                         <ul>
                             <li>{collection.name}</li>
                         </ul>
