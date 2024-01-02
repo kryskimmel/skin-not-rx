@@ -78,8 +78,8 @@ function ExploreCollections() {
                     </div>
                     <div className="collection-info">
                         <div className="grid-image-div">
-                            {collection.Products?.map((product) => (
-                                <div key={product.id} className="grid-images-tile">
+                            {collection.Products.slice(0, 4).map((product, idx) => (
+                                <div className="grid-images-tile" key={idx}>
                                     <img src={product.preview_image[0].image_url} alt={product.product_name}  width={"100px"} height={"100px"} />
                                 </div>
                             ))}
