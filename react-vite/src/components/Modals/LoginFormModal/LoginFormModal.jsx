@@ -12,8 +12,9 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const handleDemoUser = () => {
-    dispatch(thunkLogin({email:"demo@aa.io", password:"password"}))
+  const handleDemoUser = async (e) => {
+    e.preventDefault();
+    await dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
     closeModal();
   };
 

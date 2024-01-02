@@ -49,8 +49,8 @@ function ProfileButton() {
           <div  className="dropdown" ref={ulRef}>
             {user ? (
               <>
-              <NavLink to="/users/current/profile" className="profile-link" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Profile</NavLink>
-              <NavLink to="/users/current/favorites" className="favorites-link" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Favorites</NavLink>
+              <NavLink to="/users/current/profile" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Profile</NavLink>
+              <NavLink to="/users/current/favorites" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Favorites</NavLink>
               <button className="logout-button" onClick={logout}>Log Out</button>
               </>
             ) : (

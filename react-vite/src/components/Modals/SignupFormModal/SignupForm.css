@@ -17,12 +17,14 @@
 }
 
 
-.signup-form-div input {
-    border-top:none;
-    border-left: none;
-    border-right: none;
+.signup-form-div input, .signup-form-div select {
+    border: 1px solid #e1e5e8;
     margin-bottom: 20px;
     height: 30px;
-    font-size: 16px;
+    font-size: 18px;
     cursor:text
+}
+
+.signup-form-div label {
+    font-size: 18px;
 }
