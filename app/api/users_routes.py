@@ -32,7 +32,6 @@ def user(id):
 @login_required
 def view_current_user_products():
     curr_user_products = Product.query.filter_by(user_id=current_user.id).all()
-    print(curr_user_products)
 
     if not curr_user_products:
         return {'message': 'You have not created any products.'}
@@ -52,7 +51,8 @@ def view_current_user_products():
             'user_id': user_product.user_id
         }
         curr_user_products_list.append(product)
-    return jsonify({'MyProducts': curr_user_products_list})
+        print('MY PRODUCTSSSSS---', curr_user_products_list)
+    return {'MyProducts': curr_user_products_list}
 
 
 
