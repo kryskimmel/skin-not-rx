@@ -18,7 +18,6 @@ function CreateProductModal () {
     const [showErrors, setShowErrors] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const dispatch = useDispatch();
-    const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
 
     console.log('the curr user', user)
