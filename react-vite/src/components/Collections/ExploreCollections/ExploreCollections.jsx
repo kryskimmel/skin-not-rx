@@ -23,7 +23,7 @@ function ExploreCollections() {
     const modifiedCollectionObj = {};
     for (const key in allCollections) {
         if (allCollections.hasOwnProperty(key)) {
-            const {id, name, product_id} = allCollections[key];
+            const {name, product_id} = allCollections[key];
 
             if (modifiedCollectionObj[name]) {
                 modifiedCollectionObj[name].productIds.push(product_id);
@@ -32,32 +32,12 @@ function ExploreCollections() {
                 modifiedCollectionObj[name] = {name, productIds:[product_id]}
             }
         }
-    };
-    console.log('The modified collection:-->', modifiedCollectionObj)
+    }
 
     useEffect(() => {
         dispatch(collectionActions.getAllCollections(allCollections));
         dispatch(productActions.getAllProducts(allProducts));
     }, [dispatch])
-
-
-    // const uniqueCollectionsObj = {};
-    // for (const key in allCollections){
-    //     if (allCollections.hasOwnProperty(key)) {
-    //         const { name, product_id } = allCollections[key];
-
-    //         if (uniqueCollectionsObj[name]) {
-    //             uniqueCollectionsObj[name].productIds.push(product_id);
-    //         }
-    //         else {
-    //             uniqueCollectionsObj[name] = {name,productIds: [product_id]}
-    //         }
-    //     }
-    // };
-    // const uniqueCollectionsList = Object.values(uniqueCollectionsObj);
-    // console.log('unique coll list -->', uniqueCollectionsList)
-
-
 
 
 

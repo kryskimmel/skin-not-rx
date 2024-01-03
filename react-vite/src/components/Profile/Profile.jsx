@@ -71,7 +71,7 @@ function Profile () {
                     />
                 </div>
                 {userCollections?.map((collection) => (
-                    <div className="profile-page-collections-tile-div">
+                    <div className="profile-page-collections-tile-div" key={collection.id}>
                         <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products.length})</span></h2>
                         <div className="profile-page-collections-grid">
                             {collection.Products.slice(0,4)?.map((attr, idx) => (

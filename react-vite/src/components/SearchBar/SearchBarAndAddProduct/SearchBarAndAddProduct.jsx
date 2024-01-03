@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import * as productActions from "../../../redux/product";
 import { Icon } from '@iconify/react';
 import "./SearchBarAndAddProduct.css";
 
 function SearchBarAndAddProduct ({ productsToAdd }) {
+    const dispatch = useDispatch();
     const allProducts = useSelector(state => state.product.allProducts)
     const [searchInput, setSearchInput] = useState('')
     const [addedProducts, setAddedProducts] = useState([])
 
+    useEffect(() => {
+        dispatch(productActions.getAllProducts())
+    }, [dispatch])
+
     const productList = [];
     for (let product in allProducts){
         productList.push({'productId':allProducts[product].id, 'brandName':allProducts[product].brand_name, 'productName':allProducts[product].product_name, 'previewImg':allProducts[product].preview_image},
-    )};
+    )}
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -42,7 +48,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                     }])
                 } else {
                     return;
-                };
+                }
             }
         })
     };
@@ -90,7 +96,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
 
             <div className="search-comp-product-tiles-div">
                 {addedProducts?.map((productTile) => (
-                    <div className="search-comp-product-tile">
+                    <div className="search-comp-product-tile" key={productTile.productId}>
                         <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.productId)}}/>
                         <img src={productTile.previewImg} alt={productTile.productName} title={productTile.productName} className="search-comp-product-tile-img" />
                         <p style={{fontWeight:"600"}}>{productTile.brandName}</p>

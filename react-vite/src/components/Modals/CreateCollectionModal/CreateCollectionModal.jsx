@@ -17,7 +17,7 @@ function CreateCollectionModal() {
     const [errors, setErrors] = useState({});
 
     const handleProductsToAdd = (data) => {
-        console.log('PRODUCT TO ADD:-->', data);
+        // console.log('PRODUCT TO ADD:-->', data);
         setProductsToAdd(data)
     }
 

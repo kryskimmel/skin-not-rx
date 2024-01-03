@@ -52,7 +52,7 @@ export const getAllCollections = () => async (dispatch) => {
 export const createCollection = (newCollectionData) => async (dispatch) => {
   console.log('Inside thunk (new collection data):', newCollectionData)
   try {
-    const response = await fetch("/api/collections", {
+    const response = await fetch("/api/collections/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCollectionData),

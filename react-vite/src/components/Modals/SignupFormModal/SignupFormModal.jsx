@@ -16,7 +16,7 @@ function SignupFormModal() {
   const [skinType, setSkinType] = useState("");
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
-  const [disableSubmit, setDisableSubmit] = useState(true)
+  // const [disableSubmit, setDisableSubmit] = useState(true)
   const { closeModal } = useModal();
 
 
@@ -196,7 +196,7 @@ function SignupFormModal() {
           </select>
         {showErrors && errors.skinType && <p className="errors-text">{errors.skinType}</p>}
 
-        <button type="submit" disabled={disableSubmit}>Sign Up</button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
