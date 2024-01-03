@@ -3,12 +3,6 @@ from sqlalchemy import Integer, String, Text, DateTime, Column, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
-collections_products = db.Table(
-    'collections_products',
-    db.Column('collection_id', db.Integer, db.ForeignKey('collections.id')),
-    db.Column('product_id', db.Integer, db.ForeignKey('products.id'))
-)
-
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -35,7 +29,7 @@ class Product(db.Model):
     user = db.relationship('User', back_populates='products')
     product_images = db.relationship('Product_Image', back_populates='products', cascade='all, delete-orphan')
     favorite_products = db.relationship('Favorite_Product', back_populates='products', cascade='all, delete-orphan')
-    collections = db.relationship('Collection', secondary='collection_product', back_populates='products')
+    collections = db.relationship('Collection', back_populates='products', secondary='collection_product')
 
     def to_dict(self):
         return {

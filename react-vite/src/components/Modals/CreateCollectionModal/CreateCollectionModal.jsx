@@ -8,13 +8,12 @@ import "./CreateCollectionModal.css";
 function CreateCollectionModal() {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-    const allProducts = useSelector(state => state.product.allProducts);
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
-    const [productId, setProductId] = useState([]);
-    const [userId, setUserId] = useState(currentUserId);
+    const [productId, _setProductId] = useState([]);
+    const [userId, _setUserId] = useState(currentUserId);
     const [productsToAdd, setProductsToAdd] = useState('');
-    const [errors, setErrors] = useState({});
+    const [_errors, setErrors] = useState({});
 
     const handleProductsToAdd = (data) => {
         // console.log('PRODUCT TO ADD:-->', data);

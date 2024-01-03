@@ -20,8 +20,19 @@ function CreateProductModal () {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
 
-    console.log('the curr user', user)
+    console.log('product in the making:---', {
+        brand_name: brandName,
+        product_name: productName,
+        product_type: productType,
+        description: description,
+        key_ingredients: keyIngredients,
+        skin_concern: skinConcern,
+        product_link: productLink,
+        notes: notes,
+        user_id: user.id
+    })
 
+    console.log('THE SKIN CONCERN', skinConcern)
 
     // Handle skin concern selections
     const handleSkinConcern = (e) => {
@@ -118,41 +129,7 @@ function CreateProductModal () {
 
     console.log(newProduct)
     dispatch(createProduct(newProduct));
-
-
-    // if (showErrors && !Object.keys(errors).length) {
-
-        // closeModal()
-
-
-        // if (data) {
-        //     const dataErrors = {};
-        //     data?.forEach(error => {
-        //     const [key, value] = error.split(':')
-        //     dataErrors[key.trim()] = value.trim()
-        //     });
-        //     setBackendErrors(dataErrors);
-        // }
-        // else {
-        //     closeModal();
-        // }
-    // }
-
-
-
-        // dispatch(productActions.createProduct(newProduct))
-        //   .then(async (newProduct) => {
-        //     history.push(`/products/${newProduct.id}`);
-        //   })
-        //   .catch(async (res) => {
-        //     if (res instanceof Response) {
-        //       const data = await res.json();
-        //       if (data.errors) {
-        //         return setErrors(validationErrors);
-        //       }
-        //     }
-        //   });
-      };
+    };
 
     return (
         <>

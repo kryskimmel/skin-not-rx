@@ -19,7 +19,7 @@ class Collection(db.Model):
 
     # RELATIONSHIPS
     user = db.relationship('User', back_populates='collections')
-    products = db.relationship('Product', secondary='collection_product', back_populates='collections')
+    products = db.relationship('Product', back_populates='collections', secondary='collection_product')
     favorite_collections = db.relationship('Favorite_Collection', back_populates='collections')
 
     def to_dict(self):

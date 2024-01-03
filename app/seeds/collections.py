@@ -3,6 +3,11 @@ from sqlalchemy.sql import text
 from .seed_data.collections_data import collections_data
 
 def seed_collections():
+
+    # test_one = Collection_Product(collection_id=1, product_id=1)
+    # db.session.add(test_one)
+    # db.session.commit
+
     for collection in collections_data:
         product_ids = collection.get('product_id', [])
 

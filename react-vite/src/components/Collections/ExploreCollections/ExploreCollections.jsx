@@ -22,15 +22,12 @@ function ExploreCollections() {
 
     const modifiedCollectionObj = {};
     for (const key in allCollections) {
-        if (allCollections.hasOwnProperty(key)) {
-            const {name, product_id} = allCollections[key];
-
-            if (modifiedCollectionObj[name]) {
-                modifiedCollectionObj[name].productIds.push(product_id);
-            }
-            else {
-                modifiedCollectionObj[name] = {name, productIds:[product_id]}
-            }
+        const {name, product_id} = allCollections[key];
+        if (modifiedCollectionObj[name]) {
+            modifiedCollectionObj[name].productIds.push(product_id);
+        }
+        else {
+            modifiedCollectionObj[name] = {name, productIds:[product_id]}
         }
     }
 
