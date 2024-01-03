@@ -165,7 +165,7 @@ export default function reducer(state = initialState, action) {
                   "Eye Serums": filterEyeSerums,
                   "Eye Creams": filterEyeCreams,
                   "Lip Repair And Protectants": filterLipRepairAndProtectants,
-                  "All": showAllProducts
+                  "All Products": showAllProducts
                 }
             };
             return newState;
@@ -215,7 +215,7 @@ export default function reducer(state = initialState, action) {
             "Eye Serums": filterEyeSerums,
             "Eye Creams": filterEyeCreams,
             "Lip Repair And Protectants": filterLipRepairAndProtectants,
-            "All": showAllProducts
+            "All Products": showAllProducts
           }
         };
         return newState;
