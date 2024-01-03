@@ -16,7 +16,7 @@ function LoginFormModal() {
     e.preventDefault();
     await dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
     closeModal();
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ function LoginFormModal() {
     } else {
       closeModal();
     }
-  };
+  }
 
   return (
     <div className="login-form-wrapper">
@@ -65,7 +65,7 @@ function LoginFormModal() {
         </div>
       </form>
     </div>
-  );
+  )
 }
 
 export default LoginFormModal;
