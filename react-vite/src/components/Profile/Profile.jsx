@@ -27,7 +27,7 @@ function Profile () {
         const premadeCollectionNames = [
           "Cleansers", "Exfoliators", "Moisturizers", "Treatments",
           "Serums", "Sunscreens", "Toners", "Face Masks",
-          "Eye Serums", "Eye Creams", "Lip Repair And Protectants", "All"
+          "Eye Serums", "Eye Creams", "Lip Repair And Protectants", "All Products"
         ];
 
         if (premadeCollectionNames.includes(premadeCollectionName)) {

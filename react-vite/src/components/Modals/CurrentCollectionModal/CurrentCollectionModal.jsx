@@ -9,7 +9,7 @@ import "./CurrentCollectionModal.css";
 function CurrentCollectionModal({premadeCollectionName, items}) {
     return (
         <div className='user-products-wrapper'>
-            <h1 className='user-products-h1'>{premadeCollectionName}</h1>
+            <h1 className='user-products-h1'>{premadeCollectionName} <span style={{color:"#4D4B4B", fontSize:"22px"}}>({items.length})</span></h1>
             <div className='user-products-div'>
                 {items?.map((item) => (
                     <div className='user-products-product-tile' key={item.id}>
@@ -23,7 +23,11 @@ function CurrentCollectionModal({premadeCollectionName, items}) {
                                 <button>UPDATE</button>
                                 <OpenModalButton
                                     buttonText="DELETE"
-                                    modalComponent={<DeleteProductModal productId={item.id} />}
+                                    modalComponent={<DeleteProductModal
+                                        brandName = {item.brand_name}
+                                        productName = {item.product_name}
+                                        productId={item.id}
+                                    />}
                                 />
                             </div>
                         </div>
