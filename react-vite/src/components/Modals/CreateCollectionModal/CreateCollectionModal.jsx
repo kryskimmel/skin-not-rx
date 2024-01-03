@@ -8,11 +8,8 @@ import "./CreateCollectionModal.css";
 function CreateCollectionModal() {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-    const allProducts = useSelector(state => state.product.allProducts);
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
-    const [productId, setProductId] = useState([]);
-    const [userId, setUserId] = useState(currentUserId);
     const [productsToAdd, setProductsToAdd] = useState('');
     const [errors, setErrors] = useState({});
 
@@ -36,7 +33,7 @@ function CreateCollectionModal() {
         if (name && name.length < 3) validationErrors.name = minChar3;
 
         setErrors(validationErrors);
-    }, [dispatch, name, productId, productsToAdd]);
+    }, [dispatch, name, productsToAdd]);
 
     // console.log('COLLECTION BEFORE SUBMIT', {
     //     'name': name,
@@ -50,10 +47,11 @@ function CreateCollectionModal() {
         e.preventDefault()
         const newCollection = {
             'name': name,
-            'user_id': userId,
+            'user_id': currentUserId,
             'product_id': productsToAdd
         }
         console.log('COLLECTION AFTER SUBMIT', newCollection)
+        console.log('errors', errors)
         await dispatch(collectionActions.createCollection(newCollection));
         closeModal();
     }

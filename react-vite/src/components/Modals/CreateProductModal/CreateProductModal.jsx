@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../redux/product';
-import { useModal } from "../../../context/Modal";
 import "./CreateProductModal.css";
 
 function CreateProductModal () {
