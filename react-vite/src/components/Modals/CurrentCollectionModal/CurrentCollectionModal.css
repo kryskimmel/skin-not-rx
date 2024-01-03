@@ -1,0 +1,63 @@
+.user-products-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 400px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+}
+
+.user-products-h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 24px;
+}
+
+.user-products-div {
+    padding: 20px;
+    height: 500px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+.user-products-product-tile{
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    display: flex;
+    background-color: #FFFFFF;
+    height: 200px;
+    width: 350px;
+    padding: 5px 5px;
+    margin-top: 10px;
+    cursor: pointer;
+
+}
+
+.user-products-product-tile li {
+    list-style: none;
+}
+
+.user-products-img {
+    width:'100px';
+    height:'100px';
+}
+
+.user-products-info-div {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-products-management-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.user-products-management-buttons button {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}

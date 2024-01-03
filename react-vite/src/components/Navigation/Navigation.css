@@ -1,29 +1,64 @@
-.profile-dropdown {
+.logo {
+  background-color: #9DB782;
+  font-weight: 600;
+  padding: 0 5px;
+}
+
+.logo:hover {
+  cursor: pointer;
+}
+
+.profile-dropdown-container {
   position: absolute;
-  top: 50px;
-}
-
-.profile-dropdown li {
-  padding: 2px 5px;
-  border: 1px solid #000000;
-  color: #000000;
-  text-align: center;
-  background-color: #FFFFFF;
+  top: 90px;
+  z-index: 100;
+  width:200px;
 }
 
 
-.profile-dropdown li:hover {
+.dropdown a, .logout-button{
   padding: 2px 5px;
-  border: 1px solid #000000;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.dropdown a:hover, .dropdown button:hover {
+  padding: 2px 5px;
   text-align: center;
   font-weight: 600;
-  background-color: #D6E3C2;
+  background-color: #D7E3C2;
+}
+
+
+.account-tools li {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 0px;
+  width: 180px
+}
+
+.account-tools li:hover {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background-color: #D7E3C2;
+  width: 180px
 }
 
 
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;;
+  background-color: rgba(0,0,0,.2);
+  width:100%
 }
 
 .nav-left {
@@ -32,28 +67,75 @@
   padding-left: 0;
 }
 
+.nav-left li {
+  margin: 15px 15px;
+}
+
 .nav-right {
   display: flex;
   list-style: none;
+  font-family: 'IBM Plex Sans Hebrew', sans-serif;
+  align-items: center;
 }
 
 .nav-right li {
   width: 100px;
   display: flex;
   justify-content: flex-end;
+  margin: 15px 15px;
+}
 
+.add-product-button-icon button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.add-product-button-icon button:hover {
+  cursor: pointer;
 }
 
 /* ********* */
-
-.explore-dropdown {
-  border: 1px solid #000000;
-  position: absolute;
-  top: 50px;
+.profile-image-icon-button {
+  width: 40px;
+  height: 40px;
+  border: 3px solid black;
+  border-radius: 25px;
 }
 
-.explore-dropdown li{
-  padding: 2px 5px;
-  text-align: center;
-  background-color: #FFFFFF;
+.profile-image-icon-button:hover {
+  cursor: pointer;
+}
+
+
+.explore {
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  font-weight: 600;
+}
+
+
+.logout-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }

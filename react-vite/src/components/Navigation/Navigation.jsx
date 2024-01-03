@@ -1,49 +1,35 @@
-
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import ExploreButton from "./ExploreButton";
-
+import CreateProductModal from "../Modals/CreateProductModal/CreateProductModal";
+import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
+import { Icon } from '@iconify/react';
 import "./Navigation.css";
 
 
 function Navigation() {
-  // const [theme, setTheme] = useState("light")
-
-  // // Function to change between light and dark themes
-  // const toggleTheme = () => {
-  //   if (theme === "light") {
-  //     setTheme("dark")
-  //   }
-  //   else if (theme === "dark") {
-  //     setTheme("light")
-  //   }
-  // };
-
-  // const themeSettings = {}
-  // useEffect(() => {
-  //   themeSettings.pageBackgroundColor = theme === "light" ? document.body.style.backgroundColor="#FBFFFF" : document.body.style.backgroundColor="#363537"
-  //   themeSettings.iconColor = theme === "light" ? "#000000" : "#FFFFFF"
-  // }, [theme, themeSettings])
-
-
-
-
-
+  const user = useSelector(state => state.session.user);
 
   return (
     <div className="nav-container">
       <ul className="nav-left">
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/" className="logo" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>SKIN-<span style={{textDecoration:"line-through"}}>rx</span></NavLink>
         </li>
       </ul>
       <ul className="nav-right">
         <li>
-          <ExploreButton />
+          <NavLink to="/explore" className="explore" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>EXPLORE</NavLink>
         </li>
-        {/* <li onClick={toggleTheme}>
-          {theme === "light" ? <Icon icon="mdi:theme-light-dark" rotate={2} width="30" height="30"/> : <Icon icon="mdi:theme-light-dark" width="30" height="30" color="#FFFFFF"/>}
-        </li> */}
+        {user ?
+            <li className="add-product-button-icon">
+              <OpenModalButton
+              buttonText={<><Icon icon="material-symbols:add" width="25" height="25" /></>}
+              modalComponent={<CreateProductModal/>}
+              />
+            </li>
+            : null
+        }
         <li>
           <ProfileButton />
         </li>

@@ -7,7 +7,7 @@ product_routes = Blueprint('products', __name__)
 
 
 # Get all products (Explore page)
-@product_routes.route('/explore', methods=['GET'])
+@product_routes.route('/', methods=['GET'])
 def explore_products():
     all_products = Product.query.all()
     products_list = []
@@ -68,14 +68,27 @@ def add_product():
         product_type=data.get('product_type'),
         description=data.get('description'),
         key_ingredients=data.get('key_ingredients'),
-        skin_conern=data.get('skin_concern'),
+        skin_concern=data.get('skin_concern'),
         product_link=data.get('product_link'),
         notes=data.get('notes'),
         user_id=current_user.id
     )
     db.session.add(new_product)
     db.session.commit()
-    return jsonify(new_product)
+
+    new_product_dict = {
+        'id': new_product.id,
+        'brand_name': new_product.brand_name,
+        'product_name': new_product.product_name,
+        'product_type': new_product.product_type,
+        'description': new_product.description,
+        'key_ingredients': new_product.key_ingredients,
+        'skin_concern': new_product.skin_concern,
+        'product_link': new_product.product_link,
+        'notes': new_product.notes,
+        'user_id': new_product.user_id
+    }
+    return jsonify(new_product_dict)
 
     # newPreviewImage = Product_Image(
     #     product_id=new_product.id,
@@ -100,7 +113,7 @@ def edit_product(product_id):
         return jsonify({'message': 'Product does not exist'}), 404
 
     if selected_product.user_id == current_user.id:
-        modification = request.to_json()
+        modification = request.get_json()
         for [k, i] in modification.items():
             setattr(selected_product, k, i)
 

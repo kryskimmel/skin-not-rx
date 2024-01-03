@@ -1,7 +1,8 @@
-const GET_COLLECTIONS = 'product/GET_COLLECTION';
-const ADD_COLLECTION = 'product/ADD_COLLECTION';
-const EDIT_COLLECTION = 'product/EDIT_COLLECTION';
-const DELETE_COLLECTION = 'product/DELETE_COLLECTION';
+const GET_COLLECTIONS = 'collection/GET_COLLECTIONS';
+const ADD_COLLECTION = 'collection/ADD_COLLECTION';
+const EDIT_COLLECTION = 'collection/EDIT_COLLECTION';
+const DELETE_COLLECTION = 'collection/DELETE_COLLECTION';
+const GET_CURR_USER_COLLECTIONS = 'collection/GET_CURR_USER_COLLECTIONS';
 
 
 const getCollections = (collections) => ({
@@ -22,13 +23,18 @@ const editCollection = (editedCollection) => ({
 const deleteCollection = (deletedCollection) => ({
     type: DELETE_COLLECTION,
     payload: deletedCollection
-})
+});
+
+const getCurrUserCollections = (currUserCollections) => ({
+  type: GET_CURR_USER_COLLECTIONS,
+  payload: currUserCollections
+});
 
 
 // GET ALL COLLECTIONS
 export const getAllCollections = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/collections/explore", {
+    const response = await fetch("/api/collections", {
       method: "GET",
     });
     if (!response.ok) {
@@ -44,18 +50,22 @@ export const getAllCollections = () => async (dispatch) => {
 
 // ADD A COLLECTION
 export const createCollection = (newCollectionData) => async (dispatch) => {
+  console.log('Inside thunk (new collection data):', newCollectionData)
   try {
-    const response = await fetch("/api/collections", {
+    const response = await fetch("/api/collections/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCollectionData),
     })
+    console.log('After fetch call');
     if (!response.ok) {
       throw new Error(`There was an error in creating your collection.`)
     }
     const newCollection = await response.json()
+    console.log('new collection', newCollection)
     await dispatch(addCollection(newCollection))
   } catch (error) {
+    console.error('Error:', error);
     throw new Error(`The following error occured while attempting to create your collection: ${error.message}`)
 
   }
@@ -97,6 +107,22 @@ export const removeCollection = (collection_id) => async (dispatch) => {
   }
 };
 
+// GET CURRENT USERS COLLECTIONS
+export const viewCurrUserCollections = () => async (dispatch) => {
+  try {
+    const response = await fetch("/api/users/current/collections", {
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error(`There was an error in fetching your collections.`)
+    }
+    const data = await response.json();
+    await dispatch(getCurrUserCollections(data))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to fetch your collections: ${error.message}`)
+  }
+}
+
 
 // Reducer
 const initialState = {allCollections:[], byId:{}}
@@ -106,12 +132,11 @@ export default function reducer(state = initialState, action){
 
   switch (action.type) {
     case GET_COLLECTIONS:
-      if (action.payload.Colletions) {
+      if (action.payload.Collections) {
         const byId = {};
-        action.payload.Colletions.forEach((collection) => {
+        action.payload.Collections.forEach((collection) => {
           byId[collection.id] = collection
         });
-
         newState = {
           allCollections: action.payload.Collections,
           byId: byId
@@ -130,6 +155,21 @@ export default function reducer(state = initialState, action){
     case DELETE_COLLECTION:
       delete newState[action.payload];
       return newState;
+    case GET_CURR_USER_COLLECTIONS:
+      if (action.payload.MyCollections) {
+        const byId = {};
+        action.payload.MyCollections.forEach((collection) => {
+          byId[collection.id] = collection
+        });
+        newState = {
+          allCollections: action.payload.MyCollections,
+          byId: byId
+        };
+        return newState;
+      } else {
+        newState = action.payload
+        return newState;
+      }
     default:
       return state;
   }

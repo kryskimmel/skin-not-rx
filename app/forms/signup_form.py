@@ -39,7 +39,7 @@ def character_min_3(form, field):
 def password_length(form, field):
     password = field.data
     if len(password) < 6:
-        raise ValidationError('Password must be at least 6 characters.')
+        raise ValidationError('Password must be at least 6 characters long.')
 
 def starting_with_spaces(form, field):
     if field.data and (field.data).startswith(' '):
@@ -51,17 +51,25 @@ def email_format(form, field):
     if not re.match(email_pattern, email):
         raise ValidationError("Not a valid email.")
 
+def username_format(form, field):
+    username = field.data,
+    username_pattern = r"^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$"
+    if not re.match(username_pattern, username):
+        raise ValidationError("Not a valid username.")
+
+
 def name_format(form, field):
     name_pattern = r"^[a-zA-Z][a-zA-Z ]*$"
     if not re.match(name_pattern, field.data):
         raise ValidationError("Input can only contain letters and spaces in between words.")
 
 
+
 class SignUpForm(FlaskForm):
     first_name = StringField('first_name', validators=[DataRequired(), name_format, character_max_15, character_min_3, starting_with_spaces])
     last_name = StringField('last_name', validators=[DataRequired(), name_format, character_max_15, character_min_3, starting_with_spaces])
-    username = StringField('username', validators=[DataRequired(), username_exists, character_max_15, character_min_3, starting_with_spaces])
+    username = StringField('username', validators=[DataRequired(), username_exists, username_format, character_max_15, character_min_3, starting_with_spaces])
     email = StringField('email', validators=[DataRequired(), user_exists, email_format, character_max_60, starting_with_spaces])
-    password = StringField('password', validators=[DataRequired(), character_max_255, password_length, starting_with_spaces])
+    password = StringField('password', validators=[DataRequired(), character_max_15, password_length, starting_with_spaces])
     profile_image = StringField('profile_image', validators=[DataRequired(), character_max_255, starting_with_spaces])
     skin_type = StringField('skin_type', validators=[DataRequired(), character_max_255, starting_with_spaces])

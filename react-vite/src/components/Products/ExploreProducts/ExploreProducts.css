@@ -2,28 +2,42 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
     gap: 30px;
 }
 
-.explore-page-star-icon {
-    margin-left: 25px;
+.products-star-icon {
+    /* margin-left: 10px; */
+    position: absolute;
+    left: 250px
 }
 
 .product-tile {
-    border: 2px solid #d6c7a5;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     border-radius: 15px;
+    display: flex;
     background-color: #FFFFFF;
-    height: 350px;
-    width: 200px;
+    height: 200px;
+    width: 350px;
     padding: 5px 5px;
+    cursor: pointer;
 }
+
+
+.product-tile:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
 
 .product-info ul{
     display: flex;
     flex-direction: column;
     list-style: none;
-    padding-left: 0px;
+    margin-top: 50px;
+    padding-left: 20px;
+    padding-right: 5px;
 }
+
 
 .product-tile-buttons ul{
     transform: scale(1.2);

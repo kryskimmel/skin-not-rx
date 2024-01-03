@@ -5,8 +5,6 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
-import CreateProductModal from "../Modals/CreateProductModal";
-import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import { Icon } from '@iconify/react';
 
 
@@ -42,46 +40,35 @@ function ProfileButton() {
     dispatch(thunkLogout());
     closeMenu();
   };
-
+{/* <li className="user-profile-icon-button"><Icon icon="iconoir:profile-circle" width="40" height="40" onClick={toggleMenu}/></li> */}
   return (
     <>
-      {!user ? <Icon icon="material-symbols:login" width="30" height="30" onClick={toggleMenu}/> : <Icon icon="iconoir:profile-circle" width="30" height="30" onClick={toggleMenu}/>}
+      {!user ? <Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <img src={user.profile_image} className="profile-image-icon-button" onClick={toggleMenu}/>}
       {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
-          {user ? (
-            <>
-              <li>Hello, {user.username}!</li>
-              <li><NavLink to="/current/profile" style={{ textDecoration: 'none', color: '#000000' }}>My Profile</NavLink></li>
-              <li>My Favorites</li>
-              <OpenModalMenuItem
-                itemText="Add A Product"
-                onModalClose={closeMenu}
-                modalComponent={<CreateProductModal />}
-              />
-               <OpenModalMenuItem
-                itemText="Create A Collection"
-                onModalClose={closeMenu}
-                modalComponent={<CreateCollectionModal />}
-              />
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
-            </>
-          ) : (
-            <>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
-            </>
-          )}
-        </ul>
+        <div className="profile-dropdown-container">
+          <div  className="dropdown" ref={ulRef}>
+            {user ? (
+              <>
+              <NavLink to="/users/current/profile" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Profile</NavLink>
+              <NavLink to="/users/current/favorites" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Favorites</NavLink>
+              <button className="logout-button" onClick={logout}>Log Out</button>
+              </>
+            ) : (
+              <div className="account-tools">
+                  <OpenModalMenuItem
+                    itemText="Log In"
+                    onItemClick={closeMenu}
+                    modalComponent={<LoginFormModal />}
+                  />
+                  <OpenModalMenuItem
+                    itemText="Sign Up"
+                    onItemClick={closeMenu}
+                    modalComponent={<SignupFormModal />}
+                  />
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </>
   );

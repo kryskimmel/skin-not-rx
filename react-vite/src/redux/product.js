@@ -2,6 +2,7 @@ const GET_PRODUCTS = 'product/GET_PRODUCTS';
 const ADD_PRODUCT = 'product/ADD_PRODUCT';
 const EDIT_PRODUCT = 'product/EDIT_PRODUCT';
 const DELETE_PRODUCT = 'product/DELETE_PRODUCT';
+const GET_CURR_USER_PRODUCTS = 'product/GET_CURR_USER_PRODUCTS';
 
 
 const getProducts = (products) => ({
@@ -22,13 +23,18 @@ const editProduct = (editedProduct) => ({
 const deleteProduct = (deletedProduct) => ({
     type: DELETE_PRODUCT,
     payload: deletedProduct
-})
+});
+
+const getCurrUserProducts = (currUserProducts) => ({
+  type: GET_CURR_USER_PRODUCTS,
+  payload: currUserProducts
+});
 
 
 // GET ALL PRODUCTS
 export const getAllProducts = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/products/explore", {
+    const response = await fetch("/api/products", {
       method: "GET",
     });
     if (!response.ok) {
@@ -45,20 +51,21 @@ export const getAllProducts = () => async (dispatch) => {
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
   try {
-    const response = await fetch("/api/products", {
+    console.log('THE NEW PRODUCT DATA:', newProductData)
+    const response = await fetch("/api/products/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newProductData),
+      headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify(newProductData)
     })
     if (!response.ok) {
-      throw new Error(`There was an error in creating your product.`)
+      console.log('message of failed response:', newProduct)
+      throw new Error(`There was an error in creating your product`)
     }
     const newProduct = await response.json()
-    await dispatch(addProduct(newProduct))
+    dispatch(addProduct(newProduct))
     return newProduct;
   } catch (error) {
     throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
-
   }
 };
 
@@ -93,12 +100,28 @@ export const removeProduct = (product_id) => async (dispatch) => {
     if (!response.ok) {
       throw new Error(`There was an error in deleting your product.`)
     }
-    await dispatch(deleteProduct(product_id))
+    dispatch(deleteProduct(product_id))
     return response
   } catch (error) {
     throw new Error(`The following error occured while attempting to delete your product: ${error.message}`)
   }
 };
+
+// GET CURRENT USERS PRODUCTS
+export const viewCurrUserProducts = () => async (dispatch) => {
+  try {
+    const response = await fetch("/api/users/current/products", {
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error(`There was an error in fetching your products.`)
+    }
+    const data = await response.json();
+    await dispatch(getCurrUserProducts(data))
+  } catch (error) {
+    throw new Error(`The following error occured while attempting to fetch your products: ${error.message}`)
+  }
+}
 
 
 // Reducer
@@ -125,22 +148,24 @@ export default function reducer(state = initialState, action) {
             const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
             const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
             const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
+            const showAllProducts = action.payload.Products
 
             newState = {
                 allProducts: action.payload.Products,
                 byId: byId,
                 byProductType: {
-                  "cleansers": filterCleansers,
-                  "exfoliators": filterExfoliators,
-                  "treatments" : filerTreatments,
-                  "serums": filterSerums,
-                  "sunscreens": filterSuncreeens,
-                  "moisturizers": filterMoisturizers,
-                  "toners": filterToners,
-                  "faceMasks": filterFaceMasks,
-                  "eyeSerums": filterEyeSerums,
-                  "eyeCreams": filterEyeCreams,
-                  "lipRepairAndProtectants": filterLipRepairAndProtectants
+                  "Cleansers": filterCleansers,
+                  "Exfoliators": filterExfoliators,
+                  "Treatments" : filerTreatments,
+                  "Serums": filterSerums,
+                  "Sunscreens": filterSuncreeens,
+                  "Moisturizers": filterMoisturizers,
+                  "Toners": filterToners,
+                  "Face Masks": filterFaceMasks,
+                  "Eye Serums": filterEyeSerums,
+                  "Eye Creams": filterEyeCreams,
+                  "Lip Repair And Protectants": filterLipRepairAndProtectants,
+                  "All Products": showAllProducts
                 }
             };
             return newState;
@@ -157,6 +182,47 @@ export default function reducer(state = initialState, action) {
     case DELETE_PRODUCT:
       delete newState[action.payload];
       return newState;
+    case GET_CURR_USER_PRODUCTS:
+      if (action.payload.MyProducts) {
+        const byId = {};
+        action.payload.MyProducts.forEach((product) => {
+          byId[product.id] = product
+        });
+        const filterCleansers = action.payload.MyProducts.filter((product => product.product_type === "Cleanser"))
+        const filterExfoliators = action.payload.MyProducts.filter((product => product.product_type === "Exfoliator"))
+        const filerTreatments = action.payload.MyProducts.filter((product => product.product_type === "Treatment"))
+        const filterSerums = action.payload.MyProducts.filter((product => product.product_type === "Serum"))
+        const filterSuncreeens = action.payload.MyProducts.filter((product => product.product_type === "Sunscreen"))
+        const filterMoisturizers = action.payload.MyProducts.filter((product => product.product_type === "Moisturizer"))
+        const filterToners = action.payload.MyProducts.filter((product => product.product_type === "Toner"))
+        const filterFaceMasks = action.payload.MyProducts.filter((product => product.product_type === "Face Mask"))
+        const filterEyeSerums = action.payload.MyProducts.filter((product => product.product_type === "Eye Serum"))
+        const filterEyeCreams = action.payload.MyProducts.filter((product => product.product_type === "Eye Cream"))
+        const filterLipRepairAndProtectants = action.payload.MyProducts.filter((product => product.product_type === "Lip Repair & Protectant"))
+        const showAllProducts = action.payload.MyProducts
+        newState = {
+          allProducts: action.payload.MyProducts,
+          byId: byId,
+          byProductType: {
+            "Cleansers": filterCleansers,
+            "Exfoliators": filterExfoliators,
+            "Treatments" : filerTreatments,
+            "Serums": filterSerums,
+            "Sunscreens": filterSuncreeens,
+            "Moisturizers": filterMoisturizers,
+            "Toners": filterToners,
+            "Face Masks": filterFaceMasks,
+            "Eye Serums": filterEyeSerums,
+            "Eye Creams": filterEyeCreams,
+            "Lip Repair And Protectants": filterLipRepairAndProtectants,
+            "All Products": showAllProducts
+          }
+        };
+        return newState;
+      } else {
+        newState = action.payload
+        return newState;
+      }
     default:
         return state;
   }

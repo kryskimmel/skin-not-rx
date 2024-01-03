@@ -1,14 +1,20 @@
-from app.models import db, Collection, environment, SCHEMA
+from app.models import db, Collection, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from .seed_data.collections_data import collections_data
 
 def seed_collections():
     for collection in collections_data:
+        product_ids = collection.get('product_id', [])
+
         seed_collection = Collection(
             name=collection['name'],
             user_id=collection['user_id'],
-            product_id=collection['product_id']
+            products=[]
         )
+
+        products = Product.query.filter(Product.id.in_(product_ids)).all()
+        seed_collection.products.extend(products)
+
         db.session.add(seed_collection)
     db.session.commit()
 

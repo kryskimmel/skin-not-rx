@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/Forms/LoginFormPage';
-import SignupFormPage from '../components/Forms/SignupFormPage';
-import SplashPage from '../components/SplashPage';
 import Layout from './Layout';
-import ExploreProducts from '../components/Products/ExploreProducts';
-import ProfilePage from '../components/ProfilePage';
+import SplashPage from '../components/SplashPage/SplashPage';
+import Explore from '../components/Explore';
+import Profile from '../components/Profile';
+import Favorites from '../components/Favorites'
+
 
 export const router = createBrowserRouter([
   {
@@ -15,21 +15,17 @@ export const router = createBrowserRouter([
         element: <SplashPage />,
       },
       {
-        path: "login",
-        element: <LoginFormPage />,
+        path: "/explore",
+        element: <Explore />
       },
       {
-        path: "signup",
-        element: <SignupFormPage />,
+        path: "users/current/profile",
+        element: <Profile />,
       },
       {
-        path: "products/explore",
-        element: <ExploreProducts />,
+        path: "users/current/favorites",
+        element: <Favorites />
       },
-      {
-        path: "current/profile",
-        element: <ProfilePage />
-      }
     ],
   },
 ]);
