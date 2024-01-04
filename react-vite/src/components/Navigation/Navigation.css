@@ -76,6 +76,7 @@
   list-style: none;
   font-family: 'IBM Plex Sans Hebrew', sans-serif;
   align-items: center;
+  border: 1px solid blue
 }
 
 .nav-right li {
@@ -83,23 +84,11 @@
   display: flex;
   justify-content: flex-end;
   margin: 15px 15px;
+  border: 1px solid red
 }
 
-.add-product-button-icon button {
-  border: none;
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-  background: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
 
-.add-product-button-icon button:hover {
-  cursor: pointer;
-}
+
 
 /* ********* */
 .profile-image-icon-button {
@@ -114,7 +103,7 @@
 }
 
 
-.explore {
+.explore, .profile, .create {
   border: none;
   padding: 0;
   margin: 0;
@@ -125,6 +114,20 @@
   cursor: pointer;
   outline: inherit;
   font-weight: 600;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.create button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 

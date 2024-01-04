@@ -19,15 +19,18 @@ function Navigation() {
       </ul>
       <ul className="nav-right">
         <li>
-          <NavLink to="/explore" className="explore" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>EXPLORE</NavLink>
+          <NavLink to="/explore" className="explore">EXPLORE</NavLink>
         </li>
         {user ?
-            <li className="add-product-button-icon">
-              <OpenModalButton
-              buttonText={<><Icon icon="material-symbols:add" width="25" height="25" /></>}
-              modalComponent={<CreateProductModal/>}
-              />
+            <>
+              <li><NavLink to='/users/current/profile' className="profile">PROFILE</NavLink></li>
+              <li className="create">
+                <OpenModalButton
+                buttonText="CREATE"
+                modalComponent={<CreateProductModal/>}
+                />
             </li>
+            </>
             : null
         }
         <li>
