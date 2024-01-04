@@ -46,7 +46,7 @@ function ProfileButton() {
 {/* <li className="user-profile-icon-button"><Icon icon="iconoir:profile-circle" width="40" height="40" onClick={toggleMenu}/></li> */}
   return (
     <>
-      {!user ? <Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <img src={user.profile_image} className="profile-image-icon-button" onClick={toggleMenu}/>}
+      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <Icon icon="solar:login-bold-duotone" width="40" height="40" rotate={2} onClick={toggleMenu} style={{cursor:"pointer"}} />}
       {showMenu && (
         <div className="profile-dropdown-container">
           <div  className="dropdown" ref={ulRef}>
