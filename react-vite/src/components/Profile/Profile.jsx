@@ -41,7 +41,7 @@ function Profile () {
         <div className="profile-page-container">
             <h1 className="profile-page-h1">Product Collections</h1>
             <div className="profile-page-premade-collections-div">
-                {Object.entries(userProducts)?.map((collection) => (
+                {userProducts ? Object.entries(userProducts)?.map((collection) => (
                     <div className="profile-page-collections-tile-div" key={collection[0]}>
                         <OpenModalMenuItem
                             itemText={<h2 className="profile-page-h2">{collection[0]} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection[1].length})</span></h2>}
@@ -56,7 +56,7 @@ function Profile () {
                             ))}
                         </div>
                     </div>
-                ))}
+                )) : <h2>You have not added any products!</h2>}
             </div>
             <h1 className="profile-page-h1">Custom Collections</h1>
             <div className="profile-page-custom-collections-div">
