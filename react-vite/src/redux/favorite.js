@@ -167,6 +167,7 @@ export default function reducer(state = initialState, action) {
       newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_FAVORITE_PRODUCT:
+      newState = JSON.parse(JSON.stringify(state));
       delete newState[action.payload];
       return newState;
     case GET_FAVORITE_COLLECTIONS:
@@ -189,6 +190,7 @@ export default function reducer(state = initialState, action) {
       newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_FAVORITE_COLLECTION:
+      newState = JSON.parse(JSON.stringify(state));
       delete newState[action.payload];
       return newState;
     default:
