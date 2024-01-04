@@ -41,6 +41,8 @@
 .login-form-buttons-div button {
     cursor: pointer;
     font-size: 18px;
+    border-radius: 20px;
+    height: 40px
 }
 
 .errors-text {

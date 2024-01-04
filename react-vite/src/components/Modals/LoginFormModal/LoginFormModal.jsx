@@ -3,7 +3,7 @@ import { thunkLogin } from "../../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { Icon } from '@iconify/react';
-import "./LoginForm.css";
+import "./LoginFormModal.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -15,6 +15,12 @@ function LoginFormModal() {
   const handleDemoUser = async (e) => {
     e.preventDefault();
     dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
+    closeModal();
+  }
+
+  const handleDemoUser2 = async (e) => {
+    e.preventDefault();
+    dispatch(thunkLogin({email:"vanessa@aa.io", password:"password"}));
     closeModal();
   }
 
@@ -62,6 +68,7 @@ function LoginFormModal() {
         <div className="login-form-buttons-div">
           <button type="submit">Log In</button>
           <button onClick={handleDemoUser} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User</button>
+          <button onClick={handleDemoUser2} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User 2</button>
         </div>
       </form>
     </div>
