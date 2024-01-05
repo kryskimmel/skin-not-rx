@@ -11,11 +11,12 @@ function ExploreProducts() {
     const dispatch = useDispatch();
     const allProducts = useSelector(state => state.product.allProducts);
     const [onHoverStar, setOnHoverStar] = useState(null);
-    const [productId, setProductId] = useState(null);
+    // const [productId, setProductId] = useState(null);
 
     useEffect(() => {
         dispatch(productActions.getAllProducts());
     }, [dispatch]);
+
 
     const handleOnHoverStar = (productId) => {
         setOnHoverStar(productId);
@@ -24,8 +25,6 @@ function ExploreProducts() {
     const handleOffHoverStar = () => {
         setOnHoverStar(null);
     }
-
-
 
     return (
         <>
@@ -44,7 +43,7 @@ function ExploreProducts() {
                     </div>
                     <div className="product-info-modal-button">
                         <OpenModalButton
-                            modalComponent={<ProductInfoModal productId={productId}/>}
+                            modalComponent={<ProductInfoModal productId={product.id}/>}
                         />
                     </div>
                     <img src={product.preview_image} alt={product.product_name} width={"175px"} height={"175px"} style={{objectFit:"cover", borderRadius:"15px"}}/>

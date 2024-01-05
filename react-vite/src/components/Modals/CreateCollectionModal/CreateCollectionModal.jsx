@@ -48,11 +48,12 @@ function CreateCollectionModal() {
         const newCollection = {
             'name': name,
             'user_id': currentUserId,
-            'product_id': productsToAdd
+            'product_ids': productsToAdd
         }
         console.log('COLLECTION AFTER SUBMIT', newCollection)
         console.log('errors', errors)
         await dispatch(collectionActions.createCollection(newCollection));
+        await dispatch(collectionActions.viewCurrUserCollections());
         closeModal();
     }
 

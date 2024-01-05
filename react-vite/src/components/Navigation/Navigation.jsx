@@ -20,7 +20,7 @@ function Navigation() {
         {user ?
             <>
               <li><NavLink to="/" className="home">HOME</NavLink></li>
-              <li><NavLink to="/explore" className="explore">EXPLORE</NavLink></li>
+              {/* <li><NavLink to="/explore" className="explore">EXPLORE</NavLink></li> */}
               <li className="create">
                 <OpenModalButton
                 buttonText="CREATE"

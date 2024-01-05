@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../../redux/product";
 import { Icon } from '@iconify/react';
@@ -7,16 +7,17 @@ import "./ProductInfoModal.css";
 
 function ProductInfoModal( {productId}) {
     const dispatch = useDispatch();
-    const product = useSelector(state => state.product.ProductDetails)
+    const product = useSelector(state => state.product.byId[productId])
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         console.log('the product id', productId)
-        dispatch(productActions.viewProductDetails(productId))
+        dispatch(productActions.viewProductDetails(productId)).then(() => {setIsLoaded(true)})
     }, [productId])
 
 
 
-    return (
+    return isLoaded && (
         <div className="product-info-modal-wrapper">
             <div className="product-info-image-div">
                <img src={product?.preview_image} alt={product?.product_name} className="product-info-image" width={175} height={175} />

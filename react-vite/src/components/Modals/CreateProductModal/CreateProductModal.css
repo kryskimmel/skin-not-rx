@@ -9,22 +9,26 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 3px;
     padding-top: 5px;
+}
+
+.skinconcern-choices-div {
+    gap: 5px
 }
 
 .create-product-container form {
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 400px;
     padding: 10px 20px;
-    background-color: #FCF5D8;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    /* background-color: #FCF5D8; */
 }
 
 .create-product-container input:not(.skinconcern-choices-div input), .product-type-select {
     background-color: #fffef6;
     border: 2px solid #f3e8ba;
-    height: 25px;
+    height: 30px;
 
 }
 
