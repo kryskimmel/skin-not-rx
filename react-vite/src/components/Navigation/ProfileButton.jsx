@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
+import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
 import LoginFormModal from "../Modals/LoginFormModal";
 import SignupFormModal from "../Modals/SignupFormModal";
 import { Icon } from '@iconify/react';
@@ -10,6 +10,7 @@ import { Icon } from '@iconify/react';
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigateTo = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -38,36 +39,29 @@ function ProfileButton() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
+    navigateTo('/');
     closeMenu();
   };
-{/* <li className="user-profile-icon-button"><Icon icon="iconoir:profile-circle" width="40" height="40" onClick={toggleMenu}/></li> */}
+
   return (
     <>
-      {!user ? <Icon icon="material-symbols:login" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <img src={user.profile_image} className="profile-image-icon-button" onClick={toggleMenu}/>}
+      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <Icon icon="solar:login-bold-duotone" width="40" height="40" rotate={2} onClick={logout} style={{cursor:"pointer"}} />}
       {showMenu && (
-        <div className="profile-dropdown-container">
-          <div  className="dropdown" ref={ulRef}>
-            {user ? (
-              <>
-              <NavLink to="/users/current/profile" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Profile</NavLink>
-              <NavLink to="/users/current/favorites" style={{ textDecoration: 'none', color: '#000000' }} onClick={closeMenu}>My Favorites</NavLink>
-              <button className="logout-button" onClick={logout}>Log Out</button>
-              </>
-            ) : (
+        <div className="account-tools-dropdown-container" ref={ulRef}>
+            {user ? null : (
               <div className="account-tools">
-                  <OpenModalMenuItem
-                    itemText="Log In"
-                    onItemClick={closeMenu}
+                  <OpenModalButton
+                    buttonText="Log In"
+                    onButtonClick={closeMenu}
                     modalComponent={<LoginFormModal />}
                   />
-                  <OpenModalMenuItem
-                    itemText="Sign Up"
-                    onItemClick={closeMenu}
+                  <OpenModalButton
+                    buttonText="Sign Up"
+                    onButtonClick={closeMenu}
                     modalComponent={<SignupFormModal />}
                   />
               </div>
             )}
-          </div>
         </div>
       )}
     </>

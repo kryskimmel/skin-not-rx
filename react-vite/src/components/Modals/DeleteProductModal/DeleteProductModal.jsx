@@ -16,6 +16,7 @@ function DeleteProductModal({brandName, productName, productId}) {
         console.log(productId, ':productId')
         await dispatch(ProductActions.removeProduct(productId));
         closeModal();
+        await dispatch(ProductActions.viewCurrUserProducts());
     };
 
     const handleNo = () => {

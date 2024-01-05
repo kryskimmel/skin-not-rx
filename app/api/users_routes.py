@@ -34,7 +34,7 @@ def view_current_user_products():
     curr_user_products = Product.query.filter_by(user_id=current_user.id).all()
 
     if not curr_user_products:
-        return {'message': 'You have not created any products.'}
+        return {'message': 'You have not created any products.'}, 200
 
     curr_user_products_list = []
     for user_product in curr_user_products:
