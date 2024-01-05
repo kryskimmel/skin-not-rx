@@ -1,0 +1,36 @@
+.product-info-modal-wrapper {
+    display: flex;
+    background-color: #F7F7F7;
+    border: 2px solid #ebeff4;
+    border-radius: 15px;
+    width: 600px;
+    height: 250px
+}
+
+.product-info-image-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 250px;
+    border-radius: 15px;
+    margin-left: 20px;
+    cursor: zoom-in;
+}
+
+
+.product-info-information-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.product-info-information-ul {
+    list-style: none;
+    font-family: monospace;
+}
+
+.product-info-information-ul li {
+    margin-bottom: 5px;
+}

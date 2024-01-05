@@ -46,3 +46,12 @@
     list-style: none;
     padding-left: 0px;
 }
+
+
+.product-info-modal-button button {
+    position: absolute;
+    border: 1px solid red;
+    height: 195px;
+    width: 345px;
+    opacity: 0;
+}
