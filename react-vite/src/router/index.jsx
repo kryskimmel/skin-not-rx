@@ -18,10 +18,10 @@ export const router = createBrowserRouter([
       //   path: "/explore",
       //   element: <Explore />
       // },
-      {
-        path: "users/current/profile",
-        element: <Profile />,
-      },
+      // {
+      //   path: "users/current/profile",
+      //   element: <Profile />,
+      // },
       {
         path: "users/current/favorites",
         element: <Favorites />

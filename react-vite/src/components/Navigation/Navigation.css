@@ -105,7 +105,7 @@
 }
 
 
-.home, .explore, .profile, .create {
+.home, .products, .collections, .create {
   padding: 11px 50px;
   margin: 0;
   overflow: visible;
@@ -120,7 +120,7 @@
 }
 
 
-.home:hover, .explore:hover, .create:hover, .profile:hover {
+.home:hover, .products:hover, .create:hover, .collections:hover {
   background-color: rgba(0,0,0,.3);
 }
 
