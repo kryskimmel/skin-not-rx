@@ -45,6 +45,7 @@ class Product(db.Model):
             'product_type': self.product_type,
             'description': self.description,
             'key_ingredients': self.key_ingredients,
+            'skin_concern': self.skin_concern,
             'product_link': self.product_link,
             'notes': self.notes,
             'user_id': self.user_id

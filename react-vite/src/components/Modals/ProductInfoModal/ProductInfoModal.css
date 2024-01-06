@@ -34,3 +34,30 @@
 .product-info-information-ul li {
     margin-bottom: 5px;
 }
+
+.product-info-tools-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 5px;
+}
+
+.product-info-tools-div button {
+    border: none
+}
+
+.product-info-tools-div svg {
+    cursor: pointer;
+}
+
+.product-info-tools-div svg:hover {
+    background-color: rgba(0,0,0,.2);
+    border-radius: 180%;
+    border: 2px solid rgba(0,0,0,.2)
+}
+
+.product-info-mgmt-tools-div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

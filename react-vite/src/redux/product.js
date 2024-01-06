@@ -205,7 +205,9 @@ export default function reducer(state = initialState, action) {
             return newState;
         }
     case ADD_PRODUCT:
+      // console.log('add product payload:--', action.payload)
       newState = {...state, [action.payload.id] : action.payload}
+      console.log(newState[action.payload.id].skin_concern)
       return newState;
     case EDIT_PRODUCT:
       newState = {...state, [action.payload.id] : action.payload}
@@ -215,8 +217,11 @@ export default function reducer(state = initialState, action) {
       delete newState[action.payload];
       return newState;
     case GET_PRODUCT_DETAILS:
+      console.log('the PAYLOAD', action.payload.ProductDetails)
       if (action.payload.ProductDetails) {
+        console.log('product type', state.byProductType)
         newState = {...state, selectedProduct: action.payload.productDetails}
+        return newState;
       }
     case GET_CURR_USER_PRODUCTS:
       if (action.payload.MyProducts) {

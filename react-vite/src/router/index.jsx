@@ -4,6 +4,7 @@ import SplashPage from '../components/SplashPage/SplashPage';
 import Explore from '../components/Explore';
 import Profile from '../components/Profile';
 import Favorites from '../components/Favorites'
+import UserProducts from '../components/Products/UserProducts';
 
 
 export const router = createBrowserRouter([
@@ -15,17 +16,21 @@ export const router = createBrowserRouter([
         element: <SplashPage />,
       },
       {
-        path: "/explore",
-        element: <Explore />
-      },
-      {
-        path: "users/current/profile",
-        element: <Profile />,
-      },
-      {
-        path: "users/current/favorites",
-        element: <Favorites />
-      },
+        path: "/users/current/products",
+        element: <UserProducts />
+      }
+      // {
+      //   path: "/explore",
+      //   element: <Explore />
+      // },
+      // {
+      //   path: "users/current/profile",
+      //   element: <Profile />,
+      // },
+      // {
+      //   path: "users/current/favorites",
+      //   element: <Favorites />
+      // },
     ],
   },
 ]);

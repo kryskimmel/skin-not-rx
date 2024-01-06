@@ -76,6 +76,15 @@ def add_product():
     db.session.add(new_product)
     db.session.commit()
 
+    new_preview_image = Product_Image(
+    product_id=new_product.id,
+    preview=data.get('preview'),
+    image_url=data.get('image_url')
+    )
+    db.session.add(newPreviewImage)
+    db.session.commit()
+
+
     new_product_dict = {
         'id': new_product.id,
         'brand_name': new_product.brand_name,
@@ -86,20 +95,13 @@ def add_product():
         'skin_concern': new_product.skin_concern,
         'product_link': new_product.product_link,
         'notes': new_product.notes,
-        'user_id': new_product.user_id
+        'user_id': new_product.user_id,
+        'preview_image': new_preview_image.image_url,
     }
+    print('new product', new_product_dict)
     return jsonify(new_product_dict)
 
-    # newPreviewImage = Product_Image(
-    #     product_id=new_product.id,
-    #     preview=data.get('preview'),
-    #     image_url=data.get('image_url')
-    # )
-    # db.session.add(newPreviewImage)
-    # db.session.commit()
 
-    # product_and_product_img=new_product.to_dict()
-    # return jsonify(product_and_product_img)
 
 
 

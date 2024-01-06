@@ -1,0 +1,49 @@
+.delete-product-modal-wrapper {
+    border: 1px solid red;
+    width: 400px;
+    height: 250px;
+    border-radius: 15px;
+    background-color: #FFFFFF
+}
+
+.delete-product-modal-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 250px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+}
+
+.delete-product-modal-heading {
+    margin: 5px 0;
+}
+
+.delete-product-modal-subheading {
+    margin: 5px 0;
+}
+
+.delete-product-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    margin-top: 30px;
+}
+
+.delete-product-modal-buttons button {
+    width: 150px;
+    height: 50px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.yes-button:hover {
+    background-color: #B4D3B2;
+}
+
+.no-button:hover {
+    background-color: #FAA0A0;
+}

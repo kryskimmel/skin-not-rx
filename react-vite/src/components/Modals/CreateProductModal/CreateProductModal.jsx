@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../redux/product';
+import { useModal } from '../../../context/Modal';
 import "./CreateProductModal.css";
 
 function CreateProductModal () {
@@ -12,6 +13,7 @@ function CreateProductModal () {
     const [skinConcern, setSkinConcern] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [notes, setNotes] = useState("");
+    const [previewImg, setPreviewImg] = useState("");
     const [errors, setErrors] = useState({});
     // const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
@@ -19,7 +21,19 @@ function CreateProductModal () {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
 
-    console.log('the curr user', user)
+
+    console.log({
+        brand_name: brandName,
+        product_name: productName,
+        product_type: productType,
+        description: description,
+        key_ingredients: keyIngredients,
+        skin_concern: skinConcern,
+        product_link: productLink,
+        notes: notes,
+        user_id: user.id,
+        previewImg: previewImg
+    })
 
 
     // Handle skin concern selections
@@ -72,11 +86,14 @@ function CreateProductModal () {
         if (notes && notes.startsWith(" ")) validationErrors.notes = cannotStartWithSpaces;
         if (notes && notes.length < 3) validationErrors.notes = minChar3;
         if (notes && notes.length > 500) validationErrors.notes = maxChar500;
+        //Preview Image
+        if (!previewImg) validationErrors.previewImg = inputRequired;
+        if (previewImg && previewImg.length < 3) validationErrors.previewImg = minChar3;
 
         setErrors(validationErrors);
 
         const hasValidationErrors = Object.values(validationErrors).some((error) => error);
-        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description || skinConcern.length === 0;
+        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description || skinConcern.length === 0 || !previewImg;
 
         setIsDisabled(hasValidationErrors || hasEmptyRequiredFields);
 
@@ -85,7 +102,7 @@ function CreateProductModal () {
         // } else {
         //     setIsDisabled(false);
         // }
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
+    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes, previewImg]);
 
     useEffect(() => {
         if (showErrors && Object.values(errors).length > 0) setIsDisabled(true)
@@ -112,11 +129,22 @@ function CreateProductModal () {
         skin_concern: skinConcern,
         product_link: productLink,
         notes: notes,
-        user_id: user.id
+        user_id: user.id,
+        previewImg: previewImg
     };
 
-    console.log(newProduct)
-    dispatch(createProduct(newProduct));
+
+    try {
+        console.log('PRODUCT TO BE CREATED', newProduct);
+        const createdProduct = await dispatch(createProduct(newProduct));
+        console.log('PRODUCT CREATED SUCCESSFULLY', createdProduct);
+
+        // Add any additional logic or state updates upon successful creation
+
+      } catch (error) {
+        console.error('Error creating product:', error.message);
+        // Add logic to handle the error, such as displaying an error message to the user
+      };
 
 
     // if (showErrors && !Object.keys(errors).length) {
@@ -184,17 +212,17 @@ function CreateProductModal () {
                     <label>Product Type: </label>
                     <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
                         <option value="" disabled>--</option>
-                        <option value="cleansers">Cleanser</option>
-                        <option value="exfoliators">Exfoliator</option>
-                        <option value="treatments">Treatment</option>
-                        <option value="serums">Serum</option>
-                        <option value="sunscreens">Sunscreen</option>
-                        <option value="moisturizers">Moisturizer</option>
-                        <option value="toners">Toner</option>
-                        <option value="faceMasks">Face Mask</option>
-                        <option value="eyeSerums">Eye Serum</option>
-                        <option value="eyeCreams">Eye Cream</option>
-                        <option value="lipRepairAndProtectants">Lip Repair & Protectant</option>
+                        <option value="Cleansers">Cleanser</option>
+                        <option value="Exfoliators">Exfoliator</option>
+                        <option value="Treatments">Treatment</option>
+                        <option value="Serums">Serum</option>
+                        <option value="Sunscreens">Sunscreen</option>
+                        <option value="Moisturizers">Moisturizer</option>
+                        <option value="Toners">Toner</option>
+                        <option value="Face Masks">Face Mask</option>
+                        <option value="Eye Serums">Eye Serum</option>
+                        <option value="Eye Creams">Eye Cream</option>
+                        <option value="Lip Repair & Protectants">Lip Repair & Protectant</option>
                     </select>
                     {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
                 </div>
@@ -220,7 +248,7 @@ function CreateProductModal () {
                 </div>
 
                 <div className='skinconcern-div'>
-                    <label>Skin Concern: </label>
+                    <label>Skin Concern <span style={{fontSize:"14px", color:"#222222"}}>(Select all that apply)</span>:</label>
                     <div className='skinconcern-choices-div'>
                         <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
                         <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
@@ -264,6 +292,16 @@ function CreateProductModal () {
                         placeholder='What are your thoughts on this product?'
                     ></textarea>
                     {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
+                </div>
+                <div className='preview-img-div'>
+                    <label>Preview Image: </label>
+                    <input
+                        type='file'
+                        value={previewImg}
+                        onChange={(e) => {setPreviewImg(e.target.value)}}
+                        required
+                    />
+                    {showErrors && errors?.previewImg && <p className="errors-text">{errors.previewImg}</p>}
                 </div>
                 <div className='create-product-button-div'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
