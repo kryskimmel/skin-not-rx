@@ -56,15 +56,6 @@ function CurrentCollectionModal({collectionName, items}) {
                                 <li>{item.product_name}</li>
                             </ul>
                             <div className='user-products-management-buttons'>
-                                <button>UPDATE</button>
-                                <OpenModalButton
-                                    buttonText="DELETE"
-                                    modalComponent={<DeleteProductModal
-                                        brandName = {item.brand_name}
-                                        productName = {item.product_name}
-                                        productId={item.id}
-                                    />}
-                                />
                                 <OpenModalButton
                                 buttonText="VIEW"
                                 modalComponent={<ProductInfoModal productId={item.id}/>}
