@@ -1,6 +1,7 @@
 import DeleteProductModal from '../DeleteProductModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ProductInfoModal from '../ProductInfoModal';
+import UpdateCollectionModal from '../UpdateCollectionModal';
 import DeleteCollectionModal from '../DeleteCollectionModal';
 import { useModal } from '../../../context/Modal';
 import { Icon } from '@iconify/react';
@@ -43,6 +44,7 @@ function CurrentCollectionModal({collectionName, items, collectionId}) {
                 <OpenModalButton
                     title={'Edit'}
                     buttonText={<Icon icon="bxs:edit" width="30" height="30"/>}
+                    modalComponent={<UpdateCollectionModal collectionId={collectionId} collectionName={collectionName}/>}
                 />
             </div>
             <div className='user-products-div'>
