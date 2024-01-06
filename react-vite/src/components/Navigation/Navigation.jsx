@@ -20,7 +20,7 @@ function Navigation() {
         {user ?
             <>
               <li><NavLink to="/" className="home">HOME</NavLink></li>
-              <li><NavLink to='' className="products">PRODUCTS</NavLink></li>
+              <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
               <li><NavLink to='' className="collections">COLLECTIONS</NavLink></li>
               <li className="create">
                 <OpenModalButton
