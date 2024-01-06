@@ -1,4 +1,4 @@
-
+/*
 .create-product-container div:not(.skinconcern-choices-div, .skinconcern-selection-div){
     display: flex;
     flex-direction: column;
@@ -9,26 +9,22 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 3px;
     padding-top: 5px;
-}
-
-.skinconcern-choices-div {
-    gap: 5px
 }
 
 .create-product-container form {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 350px;
     padding: 10px 20px;
-    font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    /* background-color: #FCF5D8; */
+    background-color: #FCF5D8;
 }
 
 .create-product-container input:not(.skinconcern-choices-div input), .product-type-select {
     background-color: #fffef6;
     border: 2px solid #f3e8ba;
-    height: 30px;
+    height: 25px;
 
 }
 
@@ -78,4 +74,4 @@
 
 .errors-text {
     color: #cc0000
-}
+} */
