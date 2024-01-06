@@ -156,7 +156,6 @@ export default function reducer(state = initialState, action) {
             const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
             const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
             const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
-            const showAllProducts = action.payload.Products
 
             newState = {
                 allProducts: action.payload.Products,
@@ -173,7 +172,6 @@ export default function reducer(state = initialState, action) {
                   "Eye Serums": filterEyeSerums,
                   "Eye Creams": filterEyeCreams,
                   "Lip Repair And Protectants": filterLipRepairAndProtectants,
-                  "All Products": showAllProducts
                 },
             };
             return newState;
@@ -216,7 +214,6 @@ export default function reducer(state = initialState, action) {
         const filterEyeSerums = action.payload.MyProducts.filter((product => product.product_type === "Eye Serum"))
         const filterEyeCreams = action.payload.MyProducts.filter((product => product.product_type === "Eye Cream"))
         const filterLipRepairAndProtectants = action.payload.MyProducts.filter((product => product.product_type === "Lip Repair & Protectant"))
-        const showAllProducts = action.payload.MyProducts
         newState = {
           allProducts: action.payload.MyProducts,
           byId: byId,
@@ -232,7 +229,6 @@ export default function reducer(state = initialState, action) {
             "Eye Serums": filterEyeSerums,
             "Eye Creams": filterEyeCreams,
             "Lip Repair And Protectants": filterLipRepairAndProtectants,
-            "All Products": showAllProducts
           },
         };
         return newState;
