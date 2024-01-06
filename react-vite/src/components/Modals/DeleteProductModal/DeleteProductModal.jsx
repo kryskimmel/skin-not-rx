@@ -14,7 +14,6 @@ function DeleteProductModal({brandName, productName, productId}) {
 
     const handleYes = async (e) => {
         e.preventDefault();
-        console.log(productId, ':productId')
         await dispatch(ProductActions.removeProduct(productId));
         closeModal();
         await dispatch(ProductActions.viewCurrUserProducts());
@@ -37,8 +36,6 @@ function DeleteProductModal({brandName, productName, productId}) {
                 </div>
             </div>
         </div>
-
-
     )
 }
 
