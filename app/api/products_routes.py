@@ -1,9 +1,20 @@
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from app.models import Product, Product_Image, db
+from app.forms import ProductForm
 
 
 product_routes = Blueprint('products', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 
 # Get all products (Explore page)
@@ -61,45 +72,37 @@ def get_product_details(product_id):
 @product_routes.route('/', methods=['POST'])
 @login_required
 def add_product():
+
     data = request.get_json()
-    new_product = Product(
-        brand_name=data.get('brand_name'),
-        product_name=data.get('product_name'),
-        product_type=data.get('product_type'),
-        description=data.get('description'),
-        key_ingredients=data.get('key_ingredients'),
-        skin_concern=data.get('skin_concern'),
-        product_link=data.get('product_link'),
-        notes=data.get('notes'),
-        user_id=current_user.id
-    )
-    db.session.add(new_product)
-    db.session.commit()
+    form = ProductForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        new_product = Product(
+            brand_name=data.get('brand_name'),
+            product_name=data.get('product_name'),
+            product_type=data.get('product_type'),
+            description=data.get('description'),
+            key_ingredients=data.get('key_ingredients'),
+            skin_concern=data.get('skin_concern'),
+            product_link=data.get('product_link'),
+            user_id=current_user.id
+        )
+        db.session.add(new_product)
+        db.session.commit()
 
-    new_preview_image = Product_Image(
-    product_id=new_product.id,
-    preview=data.get('preview'),
-    image_url=data.get('image_url')
-    )
-    db.session.add(newPreviewImage)
-    db.session.commit()
+        new_preview_image = Product_Image(
+            product_id=new_product.id,
+            preview=True,
+            image_url=data.get('image_url')
+        )
+        db.session.add(new_preview_image)
+        db.session.commit()
 
+        new_product_with_preview_img = new_product.to_dict()
+        new_product_with_preview_img["preview_image"] = data.get('image_url')
 
-    new_product_dict = {
-        'id': new_product.id,
-        'brand_name': new_product.brand_name,
-        'product_name': new_product.product_name,
-        'product_type': new_product.product_type,
-        'description': new_product.description,
-        'key_ingredients': new_product.key_ingredients,
-        'skin_concern': new_product.skin_concern,
-        'product_link': new_product.product_link,
-        'notes': new_product.notes,
-        'user_id': new_product.user_id,
-        'preview_image': new_preview_image.image_url,
-    }
-    print('new product', new_product_dict)
-    return jsonify(new_product_dict)
+        return jsonify(new_product_with_preview_img), 201
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
 
