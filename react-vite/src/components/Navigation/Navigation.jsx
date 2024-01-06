@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NavLink} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
@@ -8,6 +9,28 @@ import "./Navigation.css";
 
 function Navigation() {
   const user = useSelector(state => state.session.user);
+  const [showMenu, setShowMenu] = useState(false);
+  const createRef = useRef();
+
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
+  };
+
+  useEffect(() => {
+    if (!showMenu) return;
+    const closeMenu = (e) => {
+      if (createRef.current && !createRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
+  const closeMenu = () => setShowMenu(false);
+
+  console.log(showMenu, 'show menu?')
 
   return (
     <div className="nav-container">
@@ -22,12 +45,20 @@ function Navigation() {
               <li><NavLink to="/" className="home">HOME</NavLink></li>
               <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
               <li><NavLink to='' className="collections">COLLECTIONS</NavLink></li>
-              <li className="create">
-                <OpenModalButton
-                buttonText="CREATE"
-                modalComponent={<CreateProductModal/>}
-                />
-              </li>
+              <li className="create" onClick={toggleMenu}>CREATE</li>
+              {showMenu && (
+              <div className="create-options-container" ref={createRef}>
+                  <OpenModalButton
+                    buttonText="Product"
+                    onButtonClick={closeMenu}
+                    modalComponent={<CreateProductModal/>}
+                  />
+                  <OpenModalButton
+                    buttonText="Collection"
+                    onButtonClick={closeMenu}
+                  />
+              </div>
+              )}
             </>
             : null
         }
