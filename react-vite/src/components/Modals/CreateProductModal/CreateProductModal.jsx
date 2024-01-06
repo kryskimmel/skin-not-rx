@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../redux/product';
-import { useModal } from '../../../context/Modal';
+import { Icon } from '@iconify/react';
 import "./CreateProductModal.css";
 
 function CreateProductModal () {
@@ -182,10 +182,11 @@ function CreateProductModal () {
       };
 
     return (
-        <>
         <div className='create-product-container'>
+            <Icon icon="icon-park-solid:lotion" width="50" height="50" />
             <form onSubmit={handleSubmit}>
-                <h1>Add A Product</h1>
+                <h1>Create A Product</h1>
+
                 <div className='brand-name-div'>
                     <label>Brand Name: </label>
                     <input
@@ -283,16 +284,6 @@ function CreateProductModal () {
                     />
                     {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
                 </div>
-
-                <div className='notes-div'>
-                    <label>Notes: </label>
-                    <textarea
-                        value={notes}
-                        onChange={(e) => {setNotes(e.target.value)}}
-                        placeholder='What are your thoughts on this product?'
-                    ></textarea>
-                    {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
-                </div>
                 <div className='preview-img-div'>
                     <label>Preview Image: </label>
                     <input
@@ -308,7 +299,6 @@ function CreateProductModal () {
                 </div>
             </form>
         </div>
-        </>
     )
 }
 export default CreateProductModal;
