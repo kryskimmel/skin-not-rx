@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import * as collectionActions from "../../../redux/collection";
+import { createCollection } from "../../../redux/collection";
 import { useModal } from "../../../context/Modal";
 import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/SearchBarAndAddProduct";
 import "./CreateCollectionModal.css";
@@ -43,54 +43,76 @@ function CreateCollectionModal () {
         }
     })
 
-    console.log('BEFORE SUBMIT:--', {
-        'name': name,
-        'user_id': currentUserId,
-        'product_ids': productIds
-    })
 
     // useEffect to keep track of validation errors
-    // useEffect(() => {
-    //     const validationErrors = {};
-    //     const inputRequired = "Input is required."
-    //     const cannotStartWithSpaces = "Input cannot begin with a space."
-    //     const maxChar60 = "Input must not exceed 60 characters."
-    //     const minChar3 = "Input must be at least 3 characters long."
+    useEffect(() => {
+        const validationErrors = {};
+        const inputRequired = "Input is required."
+        const cannotStartWithSpaces = "Input cannot begin with a space."
+        const maxChar60 = "Input must not exceed 60 characters."
+        const minChar3 = "Input must be at least 3 characters long."
 
-    //     if (!name) validationErrors.name = inputRequired;
-    //     if (name && name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
-    //     if (name && name.length > 60) validationErrors.name = maxChar60;
-    //     if (name && name.length < 3) validationErrors.name = minChar3;
+        if (!name) validationErrors.name = inputRequired;
+        else if (name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
+        else if (name.length > 60) validationErrors.name = maxChar60;
+        else if (name.length < 3) validationErrors.name = minChar3;
 
-    //     setErrors(validationErrors);
-    // }, [dispatch, name, productsToAdd]);
+        setFrontendErrors(validationErrors);
+    }, [dispatch, name, productsToAdd]);
 
+    useEffect(() => {
+        setShowErrors(Object.values(frontendErrors).length > 0);
+    }, [frontendErrors]);
+
+
+    // console.log('the validation errors', validationErrors)
+    // console.log('the validation errors inside ERRORS state', frontendErrors)
+    // console.log('show errors?', showErrors)
+    // console.log(Object.values(frontendErrors).length)
+    // console.log('form submitted?', submittedForm)
+    // console.log('backend errors?', backendErrors)
 
     // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setSubmittedForm(true)
+
         const newCollection = {
             'name': name,
             'user_id': currentUserId,
             'product_ids': productIds
         }
-        await dispatch(collectionActions.createCollection(newCollection));
-        await dispatch(collectionActions.viewCurrUserCollections());
-        closeModal();
-    }
+        try {
+            const data = await dispatch(createCollection(newCollection));
+            if (Array.isArray(data)) {
+				const dataErrors = {};
+				data?.forEach(error => {
+				const [key, value] = error.split(':')
+				dataErrors[key.trim()] = value.trim()
+				});
+				setBackendErrors(dataErrors);
+            } else {
+                closeModal();
+            }
+        } catch (error) {
+            throw new Error(`There was an error in submitting your form for creating a new collection: ${error}`)
+        }
+    };
 
 
     return (
         <>
         <div className='create-collection-container'>
+            <h1>Create A Collection</h1>
             <form onSubmit={handleSubmit}>
-                <h1>Create A Collection</h1>
+
                 <label>Collection Name:</label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                 />
+                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
                 <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
             </form>
