@@ -26,7 +26,7 @@ def starting_with_spaces(form, field):
 
 def product_name_exists(form, field):
     product_name = field.data
-    product_exists = Product.query.filter(Product.product_name.lower() == product_name.lower()).first()
+    product_exists = Product.query.filter(Product.product_name == product_name).first()
     if product_exists:
         raise ValidationError('This product already exists. Please try adding a different product.')
 
