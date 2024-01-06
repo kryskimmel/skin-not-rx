@@ -13,28 +13,16 @@ function UserCollections () {
         const dispatch = useDispatch();
         const userProducts = useSelector(state => state.product.byProductType);
         const userCollections = useSelector(state => state.collection.allCollections)
-        // const [selectedModal, setSelectedModal] = useState(null);
+
 
         useEffect(() => {
             dispatch(productActions.viewCurrUserProducts())
             dispatch(collectionActions.viewCurrUserCollections())
         }, [dispatch]);
 
-        //handles modal selection based on collection click
-        // const handleCollectionClick = (premadeCollectionName, items) => {
-        //     console.log('clicked collection', premadeCollectionName)
-        //     const premadeCollectionNames = [
-        //       "Cleansers", "Exfoliators", "Moisturizers", "Treatments",
-        //       "Serums", "Sunscreens", "Toners", "Face Masks",
-        //       "Eye Serums", "Eye Creams", "Lip Repair And Protectants"
-        //     ];
+        console.log('USER COLLECTION' ,userCollections)
 
-        //     if (premadeCollectionNames.includes(premadeCollectionName)) {
-        //       setSelectedModal(<CurrentCollectionModal premadeCollectionName={premadeCollectionName} items={items}/>);
-        //     } else {
-        //       setSelectedModal(null);
-        //     }
-        //   };
+
 
         return (
             <div className="profile-page-container">
@@ -56,7 +44,7 @@ function UserCollections () {
                                     </div>
 
                                 }
-                                modalComponent={<CurrentCollectionModal premadeCollectionName={collection[0]} items={collection[1]}/>}
+                                modalComponent={<CurrentCollectionModal collectionName={collection[0]} items={collection[1]}/>}
                             />
                         </div>
                     )) : <h2>You have not added any products!</h2>}
@@ -74,15 +62,22 @@ function UserCollections () {
                         />
                     </div>
                     {userCollections?.map((collection) => (
-                        <div className="profile-page-collections-tile-div" key={collection.id}>
-                            <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products.length})</span></h2>
-                            <div className="profile-page-collections-grid">
-                                {collection.Products.slice(0,4)?.map((attr, idx) => (
-                                    <div className="profile-page-grid-images" key={idx}>
-                                        <img src={attr.preview_image[0].image_url} alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
+                        <div key={collection.id}>
+                            <OpenModalButton
+                                buttonText={
+                                <div className="profile-page-collections-tile-div">
+                                    <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products.length})</span></h2>
+                                    <div className="profile-page-collections-grid">
+                                    {collection.Products.slice(0,4)?.map((attr, idx) => (
+                                        <div className="profile-page-grid-images" key={idx}>
+                                            <img src={attr.preview_image[0].image_url} alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
+                                        </div>
+                                    ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                                }
+                                modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products}/>}
+                            />
                         </div>
                     ))}
                 </div>

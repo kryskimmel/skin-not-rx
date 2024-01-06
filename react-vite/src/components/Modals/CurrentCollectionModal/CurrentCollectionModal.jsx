@@ -6,14 +6,25 @@ import "./CurrentCollectionModal.css";
 
 
 
-function CurrentCollectionModal({premadeCollectionName, items}) {
+function CurrentCollectionModal({collectionName, items}) {
+
+    const selectImgURL = (key) => {
+        if (key.preview_image && key.preview_image[0] && key.preview_image[0].image_url) {
+            return key.preview_image[0].image_url;
+        } else if (key.preview_image) {
+            return key.preview_image;
+        } else {
+            return null
+        }
+    };
+
     return (
         <div className='user-products-wrapper'>
-            <h1 className='user-products-h1'>{premadeCollectionName} <span style={{color:"#4D4B4B", fontSize:"22px"}}>({items.length})</span></h1>
+            <h1 className='user-products-h1'>{collectionName} <span style={{color:"#4D4B4B", fontSize:"22px"}}>({items.length})</span></h1>
             <div className='user-products-div'>
                 {items?.map((item) => (
                     <div className='user-products-product-tile' key={item.id}>
-                        <img src={item.preview_image} alt={item.product_name} title={item.product_name} className="user-products-img" />
+                        <img src={selectImgURL(item)} alt={item.product_name} title={item.product_name} className="user-products-img" />
                         <div className='user-products-info-div'>
                             <ul>
                                 <li style={{fontWeight:'600'}}>{item.brand_name}</li>
