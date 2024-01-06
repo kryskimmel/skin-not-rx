@@ -76,7 +76,7 @@ function UserCollections () {
                                     </div>
                                 </div>
                                 }
-                                modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products}/>}
+                                modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                             />
                         </div>
                     ))}
