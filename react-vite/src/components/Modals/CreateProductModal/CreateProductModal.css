@@ -1,77 +1,115 @@
-/*
-.create-product-container div:not(.skinconcern-choices-div, .skinconcern-selection-div){
+.create-product-container {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    align-items: center;
+    width: 850px;
+    height: 550px;
 }
 
-.skinconcern-choices-div, .skinconcern-selection-div{
+.create-product-form {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 3px;
-    padding-top: 5px;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px auto;
+    width: 800px;
+    padding: 5px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
-.create-product-container form {
+.create-product-form div {
+    padding: 5px 0;
+}
+
+.product-form-left, .product-form-right {
     display: flex;
     flex-direction: column;
-    width: 350px;
-    padding: 10px 20px;
-    background-color: #FCF5D8;
 }
 
-.create-product-container input:not(.skinconcern-choices-div input), .product-type-select {
-    background-color: #fffef6;
-    border: 2px solid #f3e8ba;
+.product-form-left {
+    border-right: 1px solid #E8E8E8;
+    padding-right: 10px;
+}
+
+.skinconcern-choices-div {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+}
+
+.skinconcern-group-1,
+.skinconcern-group-2,
+.skinconcern-group-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.create-product-form input:not(.skinconcern-choices-div input),
+.create-product-form select {
+    width: 250px;
     height: 25px;
-
+    margin: 0 5px;
 }
 
-.create-product-container textarea {
-    background-color: #fffef6;
-    border: 2px solid #f3e8ba;
-    height:50px;
-    max-width: 345px;
-    min-width: 345px;
+.create-product-form input:not(.skinconcern-choices-div input):focus,
+.create-product-form select:focus {
+    width: 250px;
+    height: 25px;
+    background-color: #f8f5f5;
 }
 
-.skincare-selection-div {
+.description-div {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 3px;
+    flex-direction: column;
 }
 
-.skinconcern-buttons {
-   width: fit-content;
-   border-radius: 15px;
-   border: 1px solid black;
-   padding: 3px 5px;
-   background-color: pink;
-   color: black;
+.create-product-form textarea {
+    width: 350px;
+    max-width: 350px;
+    height: 50px;
+    max-height: 75px;
+    overflow: auto;
+}
+
+.create-product-form textarea:focus {
+    width: 350px;
+    max-width: 350px;
+    height: 50px;
+    max-height: 75px;
+    overflow: auto;
+    background-color: #f8f5f5;
+}
+
+.description-char-count {
+    color: #4D4B4B;
+    font-size: 12px;
+    text-align: right;
+    width: 350px
 }
 
 .create-product-button-div {
     display: flex;
+    justify-content: center;
     align-items: center;
+    margin-top: 100px;
+}
+
+
+.disabled-submit-button {
+    width: 150px;
+    height: 50px;
+    background-color: #FAA0A0;
+    opacity: .5;
 }
 
 .enabled-submit-button {
-    background-color: #97a4b0;
-    color: #FFFFFF;
-    width: 100px;
-    height: 30px;
-    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    background-color: #B4D3B2;
 }
-
-.disabled-submit-button {
-    width: 100px;
-    height: 30px;
-    border-radius: 30px;
-}
-
 
 .errors-text {
     color: #cc0000
-} */
+}
