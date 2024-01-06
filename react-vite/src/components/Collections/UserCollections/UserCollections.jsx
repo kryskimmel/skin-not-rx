@@ -20,9 +20,6 @@ function UserCollections () {
             dispatch(collectionActions.viewCurrUserCollections())
         }, [dispatch]);
 
-        console.log('USER COLLECTION' ,userCollections)
-
-
 
         return (
             <div className="profile-page-container">
@@ -66,9 +63,9 @@ function UserCollections () {
                             <OpenModalButton
                                 buttonText={
                                 <div className="profile-page-collections-tile-div">
-                                    <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products.length})</span></h2>
+                                    <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products?.length})</span></h2>
                                     <div className="profile-page-collections-grid">
-                                    {collection.Products.slice(0,4)?.map((attr, idx) => (
+                                    {collection.Products?.slice(0,4)?.map((attr, idx) => (
                                         <div className="profile-page-grid-images" key={idx}>
                                             <img src={attr.preview_image[0].image_url} alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
                                         </div>
