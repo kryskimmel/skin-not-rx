@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../redux/product";
 import * as collectionActions from "../../redux/collection";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import OpenModalMenuItem from "../Modals/OpenModalMenuButton";
 import CurrentCollectionModal from "../Modals/CurrentCollectionModal/CurrentCollectionModal";
 import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
 import { Icon } from '@iconify/react';
