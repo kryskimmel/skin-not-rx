@@ -73,6 +73,9 @@ def get_collection_details(collection_id):
     return jsonify({'CollectionDetails': collection_info})
 
 
+# Add a product
+@collections_routes.route('/', methods=['POST'])
+@login_required
 def add_collection():
     data = request.get_json()
     form = CollectionForm()
@@ -95,7 +98,24 @@ def add_collection():
         db.session.add(new_collection)
         db.session.commit()
 
-        return new_collection.to_dict(), 201
+
+        new_collection_with_products_info = new_collection.to_dict()
+
+        new_collection_with_products_info['Products'] = [
+                    {  'id':product.id,
+                        'brand_name':product.brand_name,
+                        'product_name':product.product_name,
+                        'product_type': product.product_type,
+                        'description': product.description,
+                        'key_ingredients': product.key_ingredients,
+                        'skin_concern': product.skin_concern,
+                        'product_link': product.product_link,
+                        'user_id': product.user_id,
+                        'preview_image': get_preview_image(product)
+                        } for product in new_collection.products]
+
+
+        return new_collection_with_products_info, 201
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
