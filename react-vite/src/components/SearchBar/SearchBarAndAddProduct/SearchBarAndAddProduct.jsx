@@ -58,22 +58,11 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     };
 
 
-
-
-
     // removes product to developing collection
     const removeProduct = (productId) => {
         const updatedProducts = addedProducts.filter((product) => product.productId !== productId);
         setAddedProducts(updatedProducts);
     };
-
-    // // sends an array of products to CreateCollectionModal component
-    // const handleProductsToAdd = () => {
-    //     const productIds = [];
-    //     addedProducts.map((product) => {productIds.push(product.productId)})
-    //     productsToAdd(productIds)
-    // };
-
 
 
     return (
