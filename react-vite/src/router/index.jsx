@@ -5,6 +5,7 @@ import Explore from '../components/Explore';
 import Profile from '../components/Profile';
 import Favorites from '../components/Favorites'
 import UserProducts from '../components/Products/UserProducts';
+import UserCollections from '../components/Collections/UserCollections';
 
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "/users/current/products",
         element: <UserProducts />
+      },
+      {
+        path: "/users/current/collections",
+        element: <UserCollections />
       }
       // {
       //   path: "/explore",
