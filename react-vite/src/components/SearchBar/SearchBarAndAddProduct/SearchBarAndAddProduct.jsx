@@ -11,7 +11,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     const [addedProducts, setAddedProducts] = useState([])
 
     useEffect(() => {
-        dispatch(productActions.getAllProducts())
+        dispatch(productActions.viewCurrUserProducts())
     }, [dispatch])
 
     const productList = [];
