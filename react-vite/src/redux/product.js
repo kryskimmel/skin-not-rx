@@ -2,7 +2,6 @@ const GET_PRODUCTS = 'product/GET_PRODUCTS';
 const ADD_PRODUCT = 'product/ADD_PRODUCT';
 const EDIT_PRODUCT = 'product/EDIT_PRODUCT';
 const DELETE_PRODUCT = 'product/DELETE_PRODUCT';
-const GET_PRODUCT_DETAILS = 'product/GET_PRODUCT_DETAILS';
 const GET_CURR_USER_PRODUCTS = 'product/GET_CURR_USER_PRODUCTS';
 
 
@@ -27,10 +26,6 @@ const deleteProduct = (deletedProduct) => ({
   payload: deletedProduct
 });
 
-const getProductDetails = (productDetails) => ({
-  type: GET_PRODUCT_DETAILS,
-  payload: productDetails
-})
 
 const getCurrUserProducts = (currUserProducts) => ({
   type: GET_CURR_USER_PRODUCTS,
@@ -60,15 +55,17 @@ export const getAllProducts = () => async (dispatch) => {
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
   try {
-    console.log('THE NEW PRODUCT DATA:', newProductData)
     const response = await fetch("/api/products/", {
       method: "POST",
       headers: {"Content-Type" : "application/json"},
       body: JSON.stringify(newProductData)
     })
-    if (!response.ok) {
-      console.log('message of failed response:', newProduct)
-      throw new Error(`There was an error in creating your product`)
+
+    if (!response.ok && response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
     }
     const newProduct = await response.json()
     dispatch(addProduct(newProduct))
@@ -117,25 +114,6 @@ export const removeProduct = (product_id) => async (dispatch) => {
 };
 
 
-// GET PRODUCT DETAILS
-export const viewProductDetails = (setSelectedProductId) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/products/${setSelectedProductId}`, {
-      method: "GET"
-    });
-    console.log('the response', response)
-    if (!response.ok) {
-      throw new Error("There was an error in fetching the selected product's details.")
-    }
-    const data = await response.json();
-
-    await dispatch(getProductDetails(data))
-  }
-  catch (error) {
-    throw new Error(`The following error occured while attempting to fetch the selected products details: ${error.message}`)
-  }
-}
-
 // GET CURRENT USERS PRODUCTS
 export const viewCurrUserProducts = () => async (dispatch) => {
   try {
@@ -155,7 +133,7 @@ export const viewCurrUserProducts = () => async (dispatch) => {
 
 
 // Reducer
-const initialState = {allProducts:[], byId:{}, byProductType:[], selectedProduct:{}}
+const initialState = {allProducts:[], byId:{}, byProductType:[]}
 
 export default function reducer(state = initialState, action) {
   let newState = {};
@@ -197,7 +175,6 @@ export default function reducer(state = initialState, action) {
                   "Lip Repair And Protectants": filterLipRepairAndProtectants,
                   "All Products": showAllProducts
                 },
-                selectedProduct: {}
             };
             return newState;
         } else {
@@ -205,9 +182,15 @@ export default function reducer(state = initialState, action) {
             return newState;
         }
     case ADD_PRODUCT:
-      // console.log('add product payload:--', action.payload)
-      newState = {...state, [action.payload.id] : action.payload}
-      console.log(newState[action.payload.id].skin_concern)
+      const updateAllProducts = [...state.allProducts, action.payload]
+      const updateById = {...state.byId, [action.payload.id]: action.payload}
+      const updateByProductType = []
+      newState = {
+        ...state,
+        allProducts: updateAllProducts,
+        byId: updateById,
+        byProductType: updateByProductType,
+      }
       return newState;
     case EDIT_PRODUCT:
       newState = {...state, [action.payload.id] : action.payload}
@@ -216,13 +199,6 @@ export default function reducer(state = initialState, action) {
       newState = JSON.parse(JSON.stringify(state));
       delete newState[action.payload];
       return newState;
-    case GET_PRODUCT_DETAILS:
-      console.log('the PAYLOAD', action.payload.ProductDetails)
-      if (action.payload.ProductDetails) {
-        console.log('product type', state.byProductType)
-        newState = {...state, selectedProduct: action.payload.productDetails}
-        return newState;
-      }
     case GET_CURR_USER_PRODUCTS:
       if (action.payload.MyProducts) {
         const byId = {};
@@ -258,7 +234,6 @@ export default function reducer(state = initialState, action) {
             "Lip Repair And Protectants": filterLipRepairAndProtectants,
             "All Products": showAllProducts
           },
-          selectedProduct: {}
         };
         return newState;
       } else {
