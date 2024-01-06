@@ -1,5 +1,6 @@
 import DeleteProductModal from '../DeleteProductModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import ProductInfoModal from '../ProductInfoModal';
 // import { useModal } from '../../../context/Modal';
 import "./CurrentCollectionModal.css";
 
@@ -40,6 +41,10 @@ function CurrentCollectionModal({collectionName, items}) {
                                         productId={item.id}
                                     />}
                                 />
+                                <OpenModalButton
+                                buttonText="VIEW"
+                                modalComponent={<ProductInfoModal productId={item.id}/>}
+                            />
                             </div>
                         </div>
                     </div>
