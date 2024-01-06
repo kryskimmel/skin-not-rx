@@ -11,7 +11,12 @@ function CreateCollectionModal () {
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
     const [productsToAdd, setProductsToAdd] = useState('');
-    const [errors, setErrors] = useState({});
+    const [frontendErrors, setFrontendErrors] = useState({});
+    const [backendErrors, setBackendErrors] = useState({});
+    const [showErrors, setShowErrors] = useState(false);
+    const [submittedForm, setSubmittedForm] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+    const validationErrors = {};
 
 
     // To collect the data from the SearchBarAndAddProduct component
@@ -25,22 +30,40 @@ function CreateCollectionModal () {
         productsToAdd.map((attr) => {productIds.push(attr.productId)})
     }
 
+    // Toggle submit button classname
+    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
+
+    // useEffect to that will set IsDisabled status to true if required fields are not empty
+    useEffect(() => {
+        if (name && productIds.length > 0) {
+            setIsDisabled(false)
+        }
+        else {
+            setIsDisabled(true)
+        }
+    })
+
+    console.log('BEFORE SUBMIT:--', {
+        'name': name,
+        'user_id': currentUserId,
+        'product_ids': productIds
+    })
 
     // useEffect to keep track of validation errors
-    useEffect(() => {
-        const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+    // useEffect(() => {
+    //     const validationErrors = {};
+    //     const inputRequired = "Input is required."
+    //     const cannotStartWithSpaces = "Input cannot begin with a space."
+    //     const maxChar60 = "Input must not exceed 60 characters."
+    //     const minChar3 = "Input must be at least 3 characters long."
 
-        if (!name) validationErrors.name = inputRequired;
-        if (name && name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
-        if (name && name.length > 60) validationErrors.name = maxChar60;
-        if (name && name.length < 3) validationErrors.name = minChar3;
+    //     if (!name) validationErrors.name = inputRequired;
+    //     if (name && name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
+    //     if (name && name.length > 60) validationErrors.name = maxChar60;
+    //     if (name && name.length < 3) validationErrors.name = minChar3;
 
-        setErrors(validationErrors);
-    }, [dispatch, name, productsToAdd]);
+    //     setErrors(validationErrors);
+    // }, [dispatch, name, productsToAdd]);
 
 
     // handle form submission
@@ -69,7 +92,7 @@ function CreateCollectionModal () {
                     onChange={(e) => {setName(e.target.value)}}
                 />
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
-                <button type="submit" className="create-collection-button">Create Collection</button>
+                <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
             </form>
         </div>
         </>
