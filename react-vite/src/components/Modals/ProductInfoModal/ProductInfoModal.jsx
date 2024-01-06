@@ -14,14 +14,14 @@ function ProductInfoModal( {productId}) {
 
     useEffect(() => {
         console.log('the product id', productId)
-        dispatch(productActions.viewProductDetails(productId)).then(() => {setIsLoaded(true)})
+        dispatch(productActions.viewCurrUserProducts()).then(() => {setIsLoaded(true)})
     }, [productId])
 
 
     return isLoaded && (
         <div className="product-info-modal-wrapper">
             <div className="product-info-image-div">
-               <img src={product?.preview_image} alt={product?.product_name} className="product-info-image" width={175} height={175} />
+               <img src={product?.preview_image} alt={product?.product_name} className="product-info-image" width={175} height={175} style={{objectFit:"fill", borderRadius:"15px"}} />
             </div>
             <div className="product-info-information-div">
                 <ul className="product-info-information-ul">

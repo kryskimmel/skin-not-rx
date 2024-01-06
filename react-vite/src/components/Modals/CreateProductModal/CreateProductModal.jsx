@@ -1,11 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../redux/product';
-import charCountRemaining from '../../../utils/charCountRemaining';
+import { useModal } from '../../../context/Modal';
 import { Icon } from '@iconify/react';
+import charCountRemaining from '../../../utils/charCountRemaining';
 import "./CreateProductModal.css";
 
 function CreateProductModal () {
+    const dispatch = useDispatch();
+    const descriptionRef = useRef();
+    const { closeModal } = useModal();
+    const user = useSelector(state => state.session.user);
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -14,26 +19,12 @@ function CreateProductModal () {
     const [skinConcern, setSkinConcern] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [previewImg, setPreviewImg] = useState("");
-    const [errors, setErrors] = useState({});
+    const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
+    const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.session.user);
-    const descriptionRef = useRef();
-
-
-    console.log({
-        brand_name: brandName,
-        product_name: productName,
-        product_type: productType,
-        description: description,
-        key_ingredients: keyIngredients,
-        skin_concern: skinConcern,
-        product_link: productLink,
-        user_id: user.id,
-        previewImg: previewImg
-    })
+    const validationErrors = {};
 
 
     // Handle skin concern selections
@@ -44,12 +35,22 @@ function CreateProductModal () {
     };
 
     // Toggle submit button classname
-    const submitButtonCN = Object.values(errors).length > 0 ? "disabled-submit-button" : "enabled-submit-button"
+    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
 
+    // Required fields to be filled in by user
+    const requiredFields = brandName && productName && productType && description && skinConcern.length > 0 && previewImg
 
-    // useEffect for validation errors
+    // useEffect to that will set IsDisabled status to true if required fields are not empty
     useEffect(() => {
-        const validationErrors = {}
+        if (!requiredFields) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false)
+        }
+    });
+
+    // useEffect to track validation errors
+    useEffect(() => {
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
@@ -57,204 +58,209 @@ function CreateProductModal () {
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
 
-        //Brand Name
         if (!brandName) validationErrors.brandName = inputRequired;
-        if (brandName && brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
-        if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
-        //Product Name
+        else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
+        else if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
+
         if (!productName) validationErrors.productName = inputRequired;
-        if (productName && productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
-        if (productName && productName.length > 60) validationErrors.productName = maxChar60;
-        //Product Type
+        else if (productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
+        else if (productName.length > 60) validationErrors.productName = maxChar60;
+
         if (!productType) validationErrors.productType = inputRequired;
-        if (productType && productType.length > 60) validationErrors.productType = maxChar60;
-        //Description
+        else if (productType.length > 60) validationErrors.productType = maxChar60;
+
         if (!description.length) validationErrors.description = inputRequired;
-        if (description && description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
-        if (description && description.length > 500) validationErrors.description = maxChar500;
-        //Key Ingredients
+        else if (description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
+        else if (description.length > 500) validationErrors.description = maxChar500;
+
         if (keyIngredients && keyIngredients.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
-        if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
-        //Skin Concern
-        if (!skinConcern.length) validationErrors.skinConcern = inputRequired;
-        if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
-        //Product Link
+        else if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
+        else if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
+
+        if (skinConcern.length === 0) validationErrors.skinConcern = inputRequired;
+        else if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
+
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
-        if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
-        if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
-        //Preview Image
+        else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
+        else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
+
         if (!previewImg) validationErrors.previewImg = inputRequired;
-        if (previewImg && previewImg.length < 3) validationErrors.previewImg = minChar3;
+        else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
 
-        setErrors(validationErrors);
+        setFrontendErrors(validationErrors);
+    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, previewImg])
 
-        const hasValidationErrors = Object.values(validationErrors).some((error) => error);
-        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description || skinConcern.length === 0 || !previewImg;
-
-        setIsDisabled(hasValidationErrors || hasEmptyRequiredFields);
-
-        // if (!brandName || !productName || !productType || !description || skinConcern.length === 0) {
-        //     setIsDisabled(true);
-        // } else {
-        //     setIsDisabled(false);
-        // }
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, previewImg]);
+    // console.log('the validation errors', validationErrors)
+    // console.log('the validation errors inside ERRORS state', frontendErrors)
+    // console.log('show errors?', showErrors)
+    // console.log(Object.values(frontendErrors).length)
+    // console.log('form submitted?', submittedForm)
+    // console.log('backend errors?', backendErrors)
 
     useEffect(() => {
-        if (showErrors && Object.values(errors).length > 0) setIsDisabled(true)
-        else setIsDisabled(false)
-    }, [errors, showErrors])
-
+        setShowErrors(Object.values(frontendErrors).length > 0);
+    }, [frontendErrors]);
 
 
     // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setShowErrors(true)
-        if (showErrors && Object.values(errors).length > 0) {
-            setIsDisabled(true)
-        }
-        setIsDisabled(false)
+        setSubmittedForm(true)
 
         const newProduct = {
-            brand_name: brandName,
-            product_name: productName,
-            product_type: productType,
-            description: description,
-            key_ingredients: keyIngredients,
-            skin_concern: skinConcern,
-            product_link: productLink,
-            user_id: user.id,
-            previewImg: previewImg
-        };
+            "brand_name": brandName,
+            "product_name": productName,
+            "product_type": productType,
+            "description": description,
+            "key_ingredients": keyIngredients,
+            "skin_concern": skinConcern,
+            "product_link": productLink,
+            "user_id": user.id,
+            "image_url": previewImg
+        }
 
-        try {
-            console.log('PRODUCT TO BE CREATED', newProduct);
-            const createdProduct = await dispatch(createProduct(newProduct));
-            console.log('PRODUCT CREATED SUCCESSFULLY', createdProduct);
-
+        try{
+            const data = await dispatch(createProduct(newProduct))
+            if (Array.isArray(data)) {
+				const dataErrors = {};
+				data?.forEach(error => {
+				const [key, value] = error.split(':')
+				dataErrors[key.trim()] = value.trim()
+				});
+				setBackendErrors(dataErrors);
+            } else {
+                closeModal();
+            }
         } catch (error) {
-            console.error('Error creating product:', error.message);
-        };
-
+            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`)
+        }
     };
+
+
+
+
+
+
 
     return (
         <div className='create-product-container'>
             <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{marginTop:"10px"}} />
             <h1>Create A Product</h1>
             <form className='create-product-form' onSubmit={handleSubmit}>
-                <div className='product-form-left'>
-                    <div className='brand-name-div'>
-                        <label>Brand Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                        <input
-                            type="text"
-                            value={brandName}
-                            onChange={(e) => {setBrandName(e.target.value)}}
-                        />
-                        {showErrors && errors?.brandName && <p className="errors-text">{errors.brandName}</p>}
+                <div className='product-form-div'>
+                    <div className='product-form-left'>
+                        <div className='brand-name-div'>
+                            <label>Brand Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <input
+                                type="text"
+                                value={brandName}
+                                onChange={(e) => {setBrandName(e.target.value)}}
+                            />
+                            {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
+                        </div>
+
+                        <div className='product-name-div'>
+                            <label>Product Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <input
+                                type="text"
+                                value={productName}
+                                onChange={(e) => {setProductName(e.target.value)}}
+                            />
+                            {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
+                            { submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
+                        </div>
+
+                        <div className='product-type-div'>
+                            <label>Product Type:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                                <option value="" disabled>--</option>
+                                <option value="Cleanser">Cleanser</option>
+                                <option value="Exfoliator">Exfoliator</option>
+                                <option value="Treatment">Treatment</option>
+                                <option value="Serum">Serum</option>
+                                <option value="Sunscreens">Sunscreen</option>
+                                <option value="Moisturizer">Moisturizer</option>
+                                <option value="Toner">Toner</option>
+                                <option value="Face Mask">Face Mask</option>
+                                <option value="Eye Serum">Eye Serum</option>
+                                <option value="Eye Cream">Eye Cream</option>
+                                <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
+                            </select>
+                            {showErrors && submittedForm && frontendErrors?.productType && <p className="errors-text">{frontendErrors.productType}</p>}
+                        </div>
+
+                        <div className='description-div'>
+                            <label>Description: <span style={{color: '#8B0000', fontWeight:'600'}}> *</span></label>
+                            <textarea
+                                ref={descriptionRef}
+                                value={description}
+                                onChange={(e) => {setDescription(e.target.value)}}
+                            ></textarea>
+                            <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
+                            {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
+                        </div>
                     </div>
 
-                    <div className='product-name-div'>
-                        <label>Product Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                        <input
-                            type="text"
-                            value={productName}
-                            onChange={(e) => {setProductName(e.target.value)}}
-                        />
-                        {showErrors && errors?.productName && <p className="errors-text">{errors.productName}</p>}
-                    </div>
 
-                    <div className='product-type-div'>
-                        <label>Product Type:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                        <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
-                            <option value="" disabled>--</option>
-                            <option value="Cleansers">Cleanser</option>
-                            <option value="Exfoliators">Exfoliator</option>
-                            <option value="Treatments">Treatment</option>
-                            <option value="Serums">Serum</option>
-                            <option value="Sunscreens">Sunscreen</option>
-                            <option value="Moisturizers">Moisturizer</option>
-                            <option value="Toners">Toner</option>
-                            <option value="Face Masks">Face Mask</option>
-                            <option value="Eye Serums">Eye Serum</option>
-                            <option value="Eye Creams">Eye Cream</option>
-                            <option value="Lip Repair & Protectants">Lip Repair & Protectant</option>
-                        </select>
-                        {showErrors && errors?.productType && <p className="errors-text">{errors.productType}</p>}
-                    </div>
+                    <div className='product-form-right'>
+                        <div className='key-ingredients-div'>
+                            <label>Key Ingredients: </label>
+                            <input
+                                type="text"
+                                value={keyIngredients}
+                                onChange={(e) => {setKeyIngredients(e.target.value)}}
+                            />
+                            {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
+                        </div>
 
-                    <div className='description-div'>
-                        <label>Description: <span style={{color: '#8B0000', fontWeight:'600'}}> *</span></label>
-                        <textarea
-                            ref={descriptionRef}
-                            value={description}
-                            onChange={(e) => {setDescription(e.target.value)}}
-                        ></textarea>
-                        <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                        {showErrors && errors?.description && <p className="errors-text">{errors.description}</p>}
+                        <div className='skinconcern-div'>
+                            <label>Skin Concern <span style={{fontSize:"14px", color:"#222222"}}>(Select all that apply)</span>:</label>
+                            <span style={{color: '#8B0000', fontWeight:'600'}}> *</span>
+                            <div className='skinconcern-choices-div'>
+                                <div className='skinconcern-group-1'>
+                                    <span><input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness</span>
+                                    <span><input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness</span>
+                                    <span><input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture</span>
+                                </div>
+                                <div className='skinconcern-group-2'>
+                                    <span><input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne</span>
+                                    <span><input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging</span>
+                                    <span><input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness</span>
+                                </div>
+                                <div className='skinconcern-group-3'>
+                                    <span><input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores</span>
+                                    <span><input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles</span>
+                                    <span><input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots</span>
+                                </div>
+                            </div>
+                            {showErrors && submittedForm && frontendErrors?.skinConcern && <p className="errors-text">{frontendErrors.skinConcern}</p>}
+                        </div>
+
+                        <div className='product-link-div'>
+                            <label>Product Link: </label>
+                            <input
+                                type="text"
+                                value={productLink}
+                                onChange={(e) => {setProductLink(e.target.value)}}
+                            />
+                            {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
+                        </div>
+                        <div className='preview-img-div'>
+                            <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <input
+                                type='text'
+                                value={previewImg}
+                                onChange={(e) => {setPreviewImg(e.target.value)}}
+                            />
+                            {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
+                        </div>
                     </div>
                 </div>
-
-
-                <div className='product-form-right'>
-                    <div className='key-ingredients-div'>
-                        <label>Key Ingredients: </label>
-                        <input
-                            type="text"
-                            value={keyIngredients}
-                            onChange={(e) => {setKeyIngredients(e.target.value)}}
-                        />
-                        {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
-                    </div>
-
-                    <div className='skinconcern-div'>
-                        <label>Skin Concern <span style={{fontSize:"14px", color:"#222222"}}>(Select all that apply)</span>:</label>
-                        <span style={{color: '#8B0000', fontWeight:'600'}}> *</span>
-                        <div className='skinconcern-choices-div'>
-                            <div className='skinconcern-group-1'>
-                                <span><input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness</span>
-                                <span><input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness</span>
-                                <span><input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture</span>
-                            </div>
-                            <div className='skinconcern-group-2'>
-                                <span><input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne</span>
-                                <span><input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging</span>
-                                <span><input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness</span>
-                            </div>
-                            <div className='skinconcern-group-3'>
-                                <span><input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores</span>
-                                <span><input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles</span>
-                                <span><input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots</span>
-                            </div>
-                        </div>
-                        {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
-                    </div>
-
-                    <div className='product-link-div'>
-                        <label>Product Link: </label>
-                        <input
-                            type="text"
-                            value={productLink}
-                            onChange={(e) => {setProductLink(e.target.value)}}
-                        />
-                        {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
-                    </div>
-                    <div className='preview-img-div'>
-                        <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                        <input
-                            type='file'
-                            value={previewImg}
-                            onChange={(e) => {setPreviewImg(e.target.value)}}
-                        />
-                        {showErrors && errors?.previewImg && <p className="errors-text">{errors.previewImg}</p>}
-                    </div>
+                <div className='create-product-button-div'>
+                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
                 </div>
             </form>
-            <div className='create-product-button-div'>
-                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
-            </div>
+
         </div>
     )
 }

@@ -4,7 +4,8 @@
     border: 2px solid #ebeff4;
     border-radius: 15px;
     width: 600px;
-    height: 250px
+    height: 300px;
+    padding: 5px
 }
 
 .product-info-image-div {
