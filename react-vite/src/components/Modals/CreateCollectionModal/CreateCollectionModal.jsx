@@ -5,7 +5,7 @@ import { useModal } from "../../../context/Modal";
 import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/SearchBarAndAddProduct";
 import "./CreateCollectionModal.css";
 
-function CreateCollectionModal() {
+function CreateCollectionModal () {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
@@ -35,11 +35,11 @@ function CreateCollectionModal() {
         setErrors(validationErrors);
     }, [dispatch, name, productsToAdd]);
 
-    // console.log('COLLECTION BEFORE SUBMIT', {
-    //     'name': name,
-    //     'user_id': userId,
-    //     'product_id': productsToAdd
-    // })
+    console.log('COLLECTION BEFORE SUBMIT', {
+        'name': name,
+        'user_id': currentUserId,
+        'product_id': productsToAdd
+    })
 
 
     // handle form submission
