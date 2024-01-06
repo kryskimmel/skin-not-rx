@@ -9,8 +9,9 @@ import "./CurrentCollectionModal.css";
 
 
 
-function CurrentCollectionModal({collectionName, items}) {
+function CurrentCollectionModal({collectionName, items, collectionId}) {
     const { closeModal } = useModal();
+
 
     const selectImgURL = (key) => {
         if (key.preview_image && key.preview_image[0] && key.preview_image[0].image_url) {
@@ -37,7 +38,7 @@ function CurrentCollectionModal({collectionName, items}) {
                 <OpenModalButton
                     title={"Delete"}
                     buttonText={<Icon icon="ph:trash-bold" width="30" height="30" />}
-                    modalComponent={<DeleteCollectionModal/>}
+                    modalComponent={<DeleteCollectionModal collectionId={collectionId} collectionName={collectionName} />}
                 />
                 <OpenModalButton
                     title={'Edit'}
