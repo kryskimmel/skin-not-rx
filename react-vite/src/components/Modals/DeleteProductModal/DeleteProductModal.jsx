@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import * as ProductActions from "../../../redux/product";
 import { useModal } from "../../../context/Modal";
+import { Icon } from '@iconify/react';
 import "./DeleteProductModal.css";
 
 
@@ -25,12 +26,15 @@ function DeleteProductModal({brandName, productName, productId}) {
 
 
     return (
-        <div className="overlay">
-            <div className="delete-product-modal">
-                <h1>Confirm Delete</h1>
-                <h4>Are you sure you want to delete <span style={{fontStyle:'italic',fontWeight:'600'}}>{brandName} {productName}</span>?</h4>
-                <button className="yes-button" onClick={handleYes}>Yes</button>
-                <button className="no-button" onClick={handleNo}>No</button>
+        <div className="delete-product-modal-wrapper">
+            <div className="delete-product-modal-div">
+                <Icon icon="ph:warning-duotone" color="red" width="50" height="50" />
+                <h1 className="delete-product-modal-heading">Confirm Delete</h1>
+                <h4 className="delete-product-modal-subheading">Are you sure you want to delete: <span style={{color:"#000435"}}>{brandName} {productName}</span>?</h4>
+                <div className="delete-product-modal-buttons">
+                    <button className="yes-button" onClick={handleYes}>Yes</button>
+                    <button className="no-button" onClick={handleNo}>No</button>
+                </div>
             </div>
         </div>
 
