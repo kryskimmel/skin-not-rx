@@ -50,22 +50,22 @@ export const getAllCollections = () => async (dispatch) => {
 
 // ADD A COLLECTION
 export const createCollection = (newCollectionData) => async (dispatch) => {
-  console.log('Inside thunk (new collection data):', newCollectionData)
   try {
     const response = await fetch("/api/collections/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCollectionData),
     })
-    console.log('After fetch call');
-    if (!response.ok) {
-      throw new Error(`There was an error in creating your collection.`)
+    if (!response.ok && response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
     }
     const newCollection = await response.json()
-    console.log('new collection', newCollection)
     await dispatch(addCollection(newCollection))
+    return newCollection;
   } catch (error) {
-    console.error('Error:', error);
     throw new Error(`The following error occured while attempting to create your collection: ${error.message}`)
 
   }
@@ -147,7 +147,13 @@ export default function reducer(state = initialState, action){
         return newState;
       }
     case ADD_COLLECTION:
-      newState = {...state, [action.payload.id] : action.payload}
+      const updateAllCollections = [...state.allCollections, action.payload]
+      const updateById = {...state.byId, [action.payload.id] : action.payload}
+      newState = {
+        ...state,
+        allCollections: updateAllCollections,
+        byId: updateById
+      }
       return newState;
     case EDIT_COLLECTION:
       newState = {...state, [action.payload.id] : action.payload}

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CreateProductModal from "../Modals/CreateProductModal/CreateProductModal";
+import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
 import "./Navigation.css";
 
@@ -56,6 +57,7 @@ function Navigation() {
                   <OpenModalButton
                     buttonText="Collection"
                     onButtonClick={closeMenu}
+                    modalComponent={<CreateCollectionModal/>}
                   />
               </div>
               )}

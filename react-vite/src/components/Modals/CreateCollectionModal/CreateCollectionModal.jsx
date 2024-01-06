@@ -1,22 +1,47 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import * as collectionActions from "../../../redux/collection";
+import { createCollection } from "../../../redux/collection";
 import { useModal } from "../../../context/Modal";
 import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/SearchBarAndAddProduct";
 import "./CreateCollectionModal.css";
 
-function CreateCollectionModal() {
+function CreateCollectionModal () {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
     const [productsToAdd, setProductsToAdd] = useState('');
-    const [errors, setErrors] = useState({});
+    const [frontendErrors, setFrontendErrors] = useState({});
+    const [backendErrors, setBackendErrors] = useState({});
+    const [showErrors, setShowErrors] = useState(false);
+    const [submittedForm, setSubmittedForm] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+    const validationErrors = {};
 
+
+    // To collect the data from the SearchBarAndAddProduct component
     const handleProductsToAdd = (data) => {
-        // console.log('PRODUCT TO ADD:-->', data);
         setProductsToAdd(data)
     }
+
+    // Grab product ids from the selected products to add
+    const productIds = [];
+    if (productsToAdd) {
+        productsToAdd.map((attr) => {productIds.push(attr.productId)})
+    }
+
+    // Toggle submit button classname
+    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
+
+    // useEffect to that will set IsDisabled status to true if required fields are not empty
+    useEffect(() => {
+        if (name && productIds.length > 0) {
+            setIsDisabled(false)
+        }
+        else {
+            setIsDisabled(true)
+        }
+    })
 
 
     // useEffect to keep track of validation errors
@@ -28,50 +53,68 @@ function CreateCollectionModal() {
         const minChar3 = "Input must be at least 3 characters long."
 
         if (!name) validationErrors.name = inputRequired;
-        if (name && name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
-        if (name && name.length > 60) validationErrors.name = maxChar60;
-        if (name && name.length < 3) validationErrors.name = minChar3;
+        else if (name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
+        else if (name.length > 60) validationErrors.name = maxChar60;
+        else if (name.length < 3) validationErrors.name = minChar3;
 
-        setErrors(validationErrors);
+        setFrontendErrors(validationErrors);
     }, [dispatch, name, productsToAdd]);
 
-    // console.log('COLLECTION BEFORE SUBMIT', {
-    //     'name': name,
-    //     'user_id': userId,
-    //     'product_id': productsToAdd
-    // })
+    useEffect(() => {
+        setShowErrors(Object.values(frontendErrors).length > 0);
+    }, [frontendErrors]);
 
+
+    // console.log('the validation errors', validationErrors)
+    // console.log('the validation errors inside ERRORS state', frontendErrors)
+    // console.log('show errors?', showErrors)
+    // console.log(Object.values(frontendErrors).length)
+    // console.log('form submitted?', submittedForm)
+    // console.log('backend errors?', backendErrors)
 
     // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setSubmittedForm(true)
+
         const newCollection = {
             'name': name,
             'user_id': currentUserId,
-            'product_ids': productsToAdd
+            'product_ids': productIds
         }
-        console.log('COLLECTION AFTER SUBMIT', newCollection)
-        console.log('errors', errors)
-        await dispatch(collectionActions.createCollection(newCollection));
-        await dispatch(collectionActions.viewCurrUserCollections());
-        closeModal();
-    }
-
+        try {
+            const data = await dispatch(createCollection(newCollection));
+            if (Array.isArray(data)) {
+				const dataErrors = {};
+				data?.forEach(error => {
+				const [key, value] = error.split(':')
+				dataErrors[key.trim()] = value.trim()
+				});
+				setBackendErrors(dataErrors);
+            } else {
+                closeModal();
+            }
+        } catch (error) {
+            throw new Error(`There was an error in submitting your form for creating a new collection: ${error}`)
+        }
+    };
 
 
     return (
         <>
         <div className='create-collection-container'>
+            <h1>Create A Collection</h1>
             <form onSubmit={handleSubmit}>
-                <h1>Create A Collection</h1>
+
                 <label>Collection Name:</label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                 />
+                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
-                <button type="submit" className="create-collection-button">Create Collection</button>
+                <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
             </form>
         </div>
         </>

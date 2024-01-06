@@ -52,7 +52,6 @@ def view_current_user_products():
             'preview_image':[product_img.image_url for product_img in user_product.product_images if product_img.preview == True]
         }
         curr_user_products_list.append(product)
-        print('MY PRODUCTSSSSS---', curr_user_products_list)
     return {'MyProducts': curr_user_products_list}
 
 

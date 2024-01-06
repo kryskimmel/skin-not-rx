@@ -1,9 +1,20 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Collection, Product, db
-from app.forms.collection_form import CollectionForm
+from app.forms import CollectionForm
+
 
 collections_routes = Blueprint('collections', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 # Get all collections (Explore page)
 @collections_routes.route('/', methods=['GET'])
@@ -62,29 +73,51 @@ def get_collection_details(collection_id):
     return jsonify({'CollectionDetails': collection_info})
 
 
-# Add a collection
+# Add a product
 @collections_routes.route('/', methods=['POST'])
 @login_required
 def add_collection():
     data = request.get_json()
+    form = CollectionForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
     product_ids = data.get('product_ids', [])
 
-    new_collection = Collection(
-        name=data.get('name'),
-        user_id=current_user.id,
-    )
+    if form.validate_on_submit():
+        new_collection = Collection(
+            name=data.get('name'),
+            user_id=current_user.id,
+        )
 
-    for product_id in product_ids:
-        product = Product.query.get(product_id)
+        for product_id in product_ids:
+            product = Product.query.get(product_id)
+
+            if product:
+                new_collection.products.append(product)
+
+        db.session.add(new_collection)
+        db.session.commit()
 
 
-        if product:
-            new_collection.products.append(product)
+        new_collection_with_products_info = new_collection.to_dict()
 
-    db.session.add(new_collection)
-    db.session.commit()
+        new_collection_with_products_info['Products'] = [
+                    {  'id':product.id,
+                        'brand_name':product.brand_name,
+                        'product_name':product.product_name,
+                        'product_type': product.product_type,
+                        'description': product.description,
+                        'key_ingredients': product.key_ingredients,
+                        'skin_concern': product.skin_concern,
+                        'product_link': product.product_link,
+                        'user_id': product.user_id,
+                        'preview_image': get_preview_image(product)
+                        } for product in new_collection.products]
 
-    return new_collection.to_dict()
+
+        return new_collection_with_products_info, 201
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
 

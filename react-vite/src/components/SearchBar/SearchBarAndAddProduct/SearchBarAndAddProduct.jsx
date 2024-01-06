@@ -10,9 +10,11 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     const [searchInput, setSearchInput] = useState('')
     const [addedProducts, setAddedProducts] = useState([])
 
+
     useEffect(() => {
-        dispatch(productActions.getAllProducts())
-    }, [dispatch])
+        dispatch(productActions.viewCurrUserProducts())
+        productsToAdd(addedProducts)
+    }, [dispatch, addedProducts])
 
     const productList = [];
     for (let product in allProducts){
@@ -33,6 +35,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
         setSearchInput("")
     };
 
+
     // adds product to developing collection
     const addProduct = (searchTerm) => {
         productList.forEach((product) => {
@@ -40,6 +43,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                 const productExists = addedProducts.some((addedProduct) => addedProduct.productId === product.productId);
 
                 if (!productExists) {
+
                     setAddedProducts((prev) => [...prev, {
                         'productId':product.productId,
                         'brandName':product.brandName,
@@ -59,14 +63,6 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
         const updatedProducts = addedProducts.filter((product) => product.productId !== productId);
         setAddedProducts(updatedProducts);
     };
-
-    // sends an array of products to CreateCollectionModal component
-    const handleProductsToAdd = () => {
-        const productIds = [];
-        addedProducts.map((product) => {productIds.push(product.productId)})
-        productsToAdd(productIds)
-    };
-
 
 
     return (
@@ -90,7 +86,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                     return (searchTerm && productName.startsWith(searchTerm) && productName !== searchTerm) || (searchTerm && brandName.startsWith(searchTerm) && brandName !== searchTerm)
                 })
                 .map((product) => (
-                    <div className="dropdown-row" key={product.productId} onClick={() => {handleSearch(product.productName); addProduct(product.productName); handleProductsToAdd(); resetSearch()}}>{product.brandName} - {product.productName}</div>
+                    <div className="dropdown-row" key={product.productId} onClick={() => {handleSearch(product.productName); addProduct(product.productName); resetSearch()}}>{product.brandName} - {product.productName}</div>
                 ))}
             </div>
 
