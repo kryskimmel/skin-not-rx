@@ -23,13 +23,19 @@ def starting_with_spaces(form, field):
     if field.data and (field.data).startswith(' '):
         raise ValidationError('Input cannot begin with a space.')
 
+
+def product_name_exists(form, field):
+    product_name = field.data
+    product_exists = Product.query.filter(Product.product_name.lower() == product_name.lower()).first()
+    if product_exists:
+        raise ValidationError('This product already exists. Please try adding a different product.')
+
 class ProductForm(FlaskForm):
     brand_name = StringField('brand_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
-    product_name = StringField('product_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
+    product_name = StringField('product_name', validators=[DataRequired(), product_name_exists, character_max_60, starting_with_spaces])
     product_type = StringField('product_type', validators=[DataRequired(), character_max_60, starting_with_spaces])
     description = StringField('description', validators=[DataRequired(), character_max_500, starting_with_spaces])
     key_ingredients = StringField('key_ingredients', validators=[character_max_500, character_min_3, starting_with_spaces])
     skin_concern = StringField('skin_concern', validators=[DataRequired(), character_max_300, starting_with_spaces])
     product_link = StringField('product_link', validators=[character_max_500, character_min_3, starting_with_spaces])
-    notes = StringField('notes', validators=[character_max_500, character_min_3, starting_with_spaces])
     image_url = StringField('image_url', validators=[DataRequired(), character_min_3])
