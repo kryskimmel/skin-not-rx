@@ -25,33 +25,38 @@
     border-radius: 15px;
     display: flex;
     background-color: #FFFFFF;
-    height: 200px;
+    height: 220px;
     width: 350px;
     padding: 5px 5px;
     margin-top: 10px;
     cursor: pointer;
-
+    display: flex;
+    gap: 5px;
 }
 
 .user-products-product-tile li {
     list-style: none;
+    font-size: 14px;
 }
 
-.user-products-img {
-    width:'100px';
-    height:'100px';
+.user-products-product-tile-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .user-products-info-div {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 10px;
 }
 
 .user-products-management-buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
     margin-top: 10px;
 }
@@ -60,4 +65,5 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
+    width: 100px;
 }

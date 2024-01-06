@@ -25,7 +25,9 @@ function CurrentCollectionModal({collectionName, items}) {
             <div className='user-products-div'>
                 {items?.map((item) => (
                     <div className='user-products-product-tile' key={item.id}>
-                        <img src={selectImgURL(item)} alt={item.product_name} title={item.product_name} className="user-products-img" />
+                        <div className='user-products-product-tile-img-div'>
+                            <img src={selectImgURL(item)} alt={item.product_name} title={item.product_name} className="user-products-img" width={175} height={175}/>
+                        </div>
                         <div className='user-products-info-div'>
                             <ul>
                                 <li style={{fontWeight:'600'}}>{item.brand_name}</li>
