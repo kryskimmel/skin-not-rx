@@ -13,9 +13,16 @@ function CreateCollectionModal () {
     const [productsToAdd, setProductsToAdd] = useState('');
     const [errors, setErrors] = useState({});
 
+
+    // To collect the data from the SearchBarAndAddProduct component
     const handleProductsToAdd = (data) => {
-        // console.log('PRODUCT TO ADD:-->', data);
         setProductsToAdd(data)
+    }
+
+    // Grab product ids from the selected products to add
+    const productIds = [];
+    if (productsToAdd) {
+        productsToAdd.map((attr) => {productIds.push(attr.productId)})
     }
 
 
@@ -35,12 +42,6 @@ function CreateCollectionModal () {
         setErrors(validationErrors);
     }, [dispatch, name, productsToAdd]);
 
-    console.log('COLLECTION BEFORE SUBMIT', {
-        'name': name,
-        'user_id': currentUserId,
-        'product_id': productsToAdd
-    })
-
 
     // handle form submission
     const handleSubmit = async (e) => {
@@ -48,15 +49,12 @@ function CreateCollectionModal () {
         const newCollection = {
             'name': name,
             'user_id': currentUserId,
-            'product_ids': productsToAdd
+            'product_ids': productIds
         }
-        console.log('COLLECTION AFTER SUBMIT', newCollection)
-        console.log('errors', errors)
         await dispatch(collectionActions.createCollection(newCollection));
         await dispatch(collectionActions.viewCurrUserCollections());
         closeModal();
     }
-
 
 
     return (
