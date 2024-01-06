@@ -67,3 +67,20 @@
     border-radius: 5px;
     width: 100px;
 }
+
+.collection-management-buttons button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.close-modal-button-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-modal-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
