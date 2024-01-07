@@ -6,37 +6,43 @@ import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/Searc
 import { Icon } from '@iconify/react';
 import "./UpdateCollectionModal.css";
 
-function UpdateCollectionModal ({collectionId, collectionName}) {
+function UpdateCollectionModal ({collectionId, collectionName, items}) {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
     const collectionToEdit = useSelector(state => state.collection.byId[collectionId])
-    const [name, setName] = useState('');
-    const [prevStoredProducts, setPrevStoredProducts] = useState([]);
-    const [newProductsToAdd, setNewProductsToAdd] = useState('');
+    const [name, setName] = useState(collectionName);
+    const [prevStoredProducts, setPrevStoredProducts] = useState(items);
+    const [newProductsToAdd, setNewProductsToAdd] = useState([]);
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-
     const validationErrors = {};
+
 
     useEffect(() => {
         if (collectionToEdit) {
             setName(collectionToEdit.name || "")
-            setPrevStoredProducts(collectionToEdit.Products || "")
+            setPrevStoredProducts(collectionToEdit.Products)
         }
-    }, [prevStoredProducts])
+    }, [])
+
+    console.log('Items:--', items)
     console.log("SELECTED COLLECTION TO EDIT:--", collectionToEdit)
     console.log("PREVIOUSLY STORED PRODUCTS:--", prevStoredProducts)
 
     // To collect the data from the SearchBarAndAddProduct component
     const handleProductsToAdd = (data) => {
-        setNewProductsToAdd(data)
+        console.log('*********DATA*****', data)
+        const noDuplicates = data.filter(product => !prevStoredProducts.some(existingProduct => existingProduct.id === product.id));
+
+        setNewProductsToAdd(noDuplicates);
+        setPrevStoredProducts([...noDuplicates, ...prevStoredProducts]);
+        console.log({ noDuplicates, prevStoredProducts });
     }
-    console.log('new products to add--', newProductsToAdd)
 
 
     // Grab product ids from the previously stored products
@@ -46,22 +52,18 @@ function UpdateCollectionModal ({collectionId, collectionName}) {
         prevStoredProducts.map((attr) => {prevStoredProductIds.push(attr.id)})
     }
 
-    console.log('OLD PRODUCT IDS TO SEND TO API', prevStoredProductIds)
-
 
     // Grab product ids from new products to add
     const productIdsToAdd = [];
     if (newProductsToAdd) {
-        console.log(true)
-        newProductsToAdd.map((attr) => {productIdsToAdd.push(attr.product_id)})
+        newProductsToAdd.map((attr) => {productIdsToAdd.push(attr.id)})
     }
 
-    console.log('NEW PRODUCT IDS TO SEND TO API', productIdsToAdd)
 
     // Concat previously stored product ids and new product ids to send to API
     let productIds = prevStoredProductIds.concat(productIdsToAdd)
 
-    console.log('ALL IDS TO SEND TO API', productIds)
+    // console.log('ALL IDS TO SEND TO API', productIds)
 
 
     // Toggle submit button classname
@@ -70,22 +72,10 @@ function UpdateCollectionModal ({collectionId, collectionName}) {
 
     // Function to remove a previously stored product from the collection
     const removeProduct = (productId) => {
-        const selectedProductIdx = productIds.indexOf(productId)
-        const updatedProductIdArr = productIds.splice(selectedProductIdx, 1)
-        productIds = updatedProductIdArr;
-
-        prevStoredProducts.map((product) => {
-            if (product.id === productId) {
-                const idxOfProduct = prevStoredProducts.indexOf(product)
-                const updatedPrevStoredProducts = prevStoredProducts.splice(idxOfProduct, 1)
-                setPrevStoredProducts(updatedPrevStoredProducts)
-            }
-        })
+        let newProductList = prevStoredProducts.filter(product => product.id !== productId);
+        setPrevStoredProducts(newProductList);
+        console.log('new list!!!',newProductList)
     }
-
-
-
-
 
 
     // useEffect to that will set IsDisabled status to true if required fields are not empty
@@ -120,30 +110,24 @@ function UpdateCollectionModal ({collectionId, collectionName}) {
     }, [frontendErrors]);
 
 
-    // console.log('the validation errors', validationErrors)
-    // console.log('the validation errors inside ERRORS state', frontendErrors)
-    // console.log('show errors?', showErrors)
-    // console.log(Object.values(frontendErrors).length)
-    // console.log('form submitted?', submittedForm)
-    // console.log('backend errors?', backendErrors)
-
-    console.log('before submit', {
+    console.log('BEFORE form submission', {
         'name': name,
         'user_id': currentUserId,
         'product_ids': prevStoredProductIds
     })
 
+
     // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmittedForm(true)
-
+        const prodIds = prevStoredProducts.map((prod) => prod.id)
         const updatedCollection = {
             'name': name,
             'user_id': currentUserId,
-            'product_ids': prevStoredProductIds
+            'product_ids': prodIds
         }
-        console.log('AFTER SUBMIT', updatedCollection)
+        console.log('AFTER form submission', updatedCollection)
         try {
             const data = await dispatch(modifyCollection(collectionId, updatedCollection));
             if (Array.isArray(data)) {
@@ -172,7 +156,7 @@ function UpdateCollectionModal ({collectionId, collectionName}) {
                 <input
                     type="text"
                     value={name}
-                    onChange={(e) => {setName(e.target.value)}}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>

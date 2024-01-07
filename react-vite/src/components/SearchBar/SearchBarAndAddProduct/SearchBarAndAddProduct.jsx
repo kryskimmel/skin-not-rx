@@ -18,7 +18,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
 
     const productList = [];
     for (let product in allProducts){
-        productList.push({'product_id':allProducts[product].id, 'brand_name':allProducts[product].brand_name, 'product_name':allProducts[product].product_name, 'preview_image':allProducts[product].preview_image},
+        productList.push({'id':allProducts[product].id, 'brand_name':allProducts[product].brand_name, 'product_name':allProducts[product].product_name, 'preview_image':allProducts[product].preview_image},
     )}
 
     const handleInputChange = (e) => {
@@ -40,12 +40,12 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     const addProduct = (searchTerm) => {
         productList.forEach((product) => {
             if (product["product_name"].match(searchTerm)) {
-                const productExists = addedProducts.some((addedProduct) => addedProduct.product_id === product.product_id);
+                const productExists = addedProducts.some((addedProduct) => addedProduct.id === product.id);
 
                 if (!productExists) {
 
                     setAddedProducts((prev) => [...prev, {
-                        'product_id':product.product_id,
+                        'id':product.id,
                         'brand_name':product.brand_name,
                         'product_name': product.product_name,
                         'preview_image':product.preview_image
@@ -58,9 +58,9 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     };
 
 
-    // removes product to developing collection
+    // removes product fromn developing collection
     const removeProduct = (productId) => {
-        const updatedProducts = addedProducts.filter((product) => product.product_id !== productId);
+        const updatedProducts = addedProducts.filter((product) => product.id !== productId);
         setAddedProducts(updatedProducts);
     };
 
@@ -86,14 +86,14 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                     return (searchTerm && productName.startsWith(searchTerm) && productName !== searchTerm) || (searchTerm && brandName.startsWith(searchTerm) && brandName !== searchTerm)
                 })
                 .map((product) => (
-                    <div className="dropdown-row" key={product.product_id} onClick={() => {handleSearch(product.product_name); addProduct(product.product_name); resetSearch()}}>{product.brand_name} - {product.product_name}</div>
+                    <div className="dropdown-row" key={product.id} onClick={() => {handleSearch(product.product_name); addProduct(product.product_name); resetSearch()}}>{product.brand_name} - {product.product_name}</div>
                 ))}
             </div>
 
             <div className="search-comp-product-tiles-div">
                 {addedProducts?.map((productTile) => (
-                    <div className="search-comp-product-tile" key={productTile.product_id}>
-                        <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.product_id)}}/>
+                    <div className="search-comp-product-tile" key={productTile.id}>
+                        <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.id)}}/>
                         <img src={productTile.preview_image} alt={productTile.product_name} title={productTile.product_name} className="search-comp-product-tile-img" />
                         <p style={{fontWeight:"600"}}>{productTile.brand_name}</p>
                         <p>{productTile.product_name}</p>

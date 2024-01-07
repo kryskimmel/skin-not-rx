@@ -44,7 +44,7 @@ function CurrentCollectionModal({collectionName, items, collectionId}) {
                 <OpenModalButton
                     title={'Edit'}
                     buttonText={<Icon icon="bxs:edit" width="30" height="30"/>}
-                    modalComponent={<UpdateCollectionModal collectionId={collectionId} collectionName={collectionName}/>}
+                    modalComponent={<UpdateCollectionModal collectionId={collectionId} collectionName={collectionName} items={items}/>}
                 />
             </div>
             <div className='user-products-div'>
