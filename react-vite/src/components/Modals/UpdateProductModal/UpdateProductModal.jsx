@@ -248,7 +248,7 @@ function UpdateProductModal ({productId, product}) {
                     </div>
                 </div>
                 <div className='create-product-button-div'>
-                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
+                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Update</button>
                 </div>
             </form>
 
