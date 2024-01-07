@@ -36,15 +36,6 @@ def upgrade() -> None:
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('collections',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=60), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('products',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('brand_name', sa.String(length=60), nullable=False),
@@ -59,6 +50,15 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('product_name')
+    )
+    op.create_table('collections',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=60), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('collection_product',
     sa.Column('collection_id', sa.Integer(), nullable=False),
@@ -101,8 +101,8 @@ def upgrade() -> None:
 
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE collections SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE products SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE collections SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE collection_product SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE favorite_collections SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE favorite_products SET SCHEMA {SCHEMA};")
@@ -115,7 +115,7 @@ def downgrade() -> None:
     op.drop_table('favorite_products')
     op.drop_table('favorite_collections')
     op.drop_table('collection_product')
-    op.drop_table('products')
     op.drop_table('collections')
+    op.drop_table('products')
     op.drop_table('users')
     # ### end Alembic commands ###
