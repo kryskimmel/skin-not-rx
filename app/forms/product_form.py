@@ -36,6 +36,5 @@ class ProductForm(FlaskForm):
     product_type = StringField('product_type', validators=[DataRequired(), character_max_60, starting_with_spaces])
     description = StringField('description', validators=[DataRequired(), character_max_500, starting_with_spaces])
     key_ingredients = StringField('key_ingredients', validators=[character_max_500, character_min_3, starting_with_spaces])
-    skin_concern = StringField('skin_concern', validators=[character_max_300, starting_with_spaces])
     product_link = StringField('product_link', validators=[character_max_500, character_min_3, starting_with_spaces])
     image_url = StringField('image_url', validators=[DataRequired(), character_min_3])
