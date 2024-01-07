@@ -1,8 +1,16 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, String, DateTime, Column, ForeignKey
+from sqlalchemy import Integer, String, DateTime, Column, ForeignKey, Table, PrimaryKeyConstraint
 from datetime import datetime
 # from flask_login import UserMixin
 
+collection_product = Table(
+    "collection_product",
+    db.Model.metadata,
+    Column("collection_id", ForeignKey(add_prefix_for_prod("collections.id")), primary_key=True),
+    Column("product_id", ForeignKey(add_prefix_for_prod("products.id")), primary_key=True),
+    PrimaryKeyConstraint("collection_id", "product_id"),
+    extend_existing=True
+)
 
 class Collection(db.Model):
     __tablename__ = 'collections'
