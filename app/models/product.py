@@ -16,9 +16,7 @@ class Product(db.Model):
     product_type = Column(String(60), nullable=False)
     description = Column(String(500), nullable=False)
     key_ingredients = Column(String(500), nullable=True)
-    skin_concern = Column(String(300), nullable=False)
     product_link = Column(String(500), nullable=True)
-    notes = Column(String(500), nullable=True)
 
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
 
@@ -39,8 +37,6 @@ class Product(db.Model):
             'product_type': self.product_type,
             'description': self.description,
             'key_ingredients': self.key_ingredients,
-            'skin_concern': self.skin_concern,
             'product_link': self.product_link,
-            'notes': self.notes,
             'user_id': self.user_id
         }
