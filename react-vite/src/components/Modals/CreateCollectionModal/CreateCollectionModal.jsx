@@ -18,7 +18,7 @@ function CreateCollectionModal () {
     const [isDisabled, setIsDisabled] = useState(true);
     const validationErrors = {};
 
-
+    console.log('products to add in create', productsToAdd)
     // To collect the data from the SearchBarAndAddProduct component
     const handleProductsToAdd = (data) => {
         setProductsToAdd(data)
@@ -27,7 +27,7 @@ function CreateCollectionModal () {
     // Grab product ids from the selected products to add
     const productIds = [];
     if (productsToAdd) {
-        productsToAdd.map((attr) => {productIds.push(attr.productId)})
+        productsToAdd.map((attr) => {productIds.push(attr.product_id)})
     }
 
     // Toggle submit button classname

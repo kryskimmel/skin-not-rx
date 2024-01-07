@@ -10,7 +10,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     const [searchInput, setSearchInput] = useState('')
     const [addedProducts, setAddedProducts] = useState([])
 
-
+    console.log('inside search', addedProducts)
     useEffect(() => {
         dispatch(productActions.viewCurrUserProducts())
         productsToAdd(addedProducts)
@@ -18,7 +18,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
 
     const productList = [];
     for (let product in allProducts){
-        productList.push({'productId':allProducts[product].id, 'brandName':allProducts[product].brand_name, 'productName':allProducts[product].product_name, 'previewImg':allProducts[product].preview_image},
+        productList.push({'id':allProducts[product].id, 'brand_name':allProducts[product].brand_name, 'product_name':allProducts[product].product_name, 'preview_image':allProducts[product].preview_image},
     )}
 
     const handleInputChange = (e) => {
@@ -39,16 +39,16 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     // adds product to developing collection
     const addProduct = (searchTerm) => {
         productList.forEach((product) => {
-            if (product["productName"].match(searchTerm)) {
-                const productExists = addedProducts.some((addedProduct) => addedProduct.productId === product.productId);
+            if (product["product_name"].match(searchTerm)) {
+                const productExists = addedProducts.some((addedProduct) => addedProduct.id === product.id);
 
                 if (!productExists) {
 
                     setAddedProducts((prev) => [...prev, {
-                        'productId':product.productId,
-                        'brandName':product.brandName,
-                        'productName': product.productName,
-                        'previewImg':product.previewImg
+                        'id':product.id,
+                        'brand_name':product.brand_name,
+                        'product_name': product.product_name,
+                        'preview_image':product.preview_image
                     }])
                 } else {
                     return;
@@ -58,9 +58,9 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     };
 
 
-    // removes product to developing collection
+    // removes product fromn developing collection
     const removeProduct = (productId) => {
-        const updatedProducts = addedProducts.filter((product) => product.productId !== productId);
+        const updatedProducts = addedProducts.filter((product) => product.id !== productId);
         setAddedProducts(updatedProducts);
     };
 
@@ -81,22 +81,22 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
             <div className="dropdown">
                 {productList.filter(product => {
                     const searchTerm = searchInput.toLowerCase();
-                    const productName = product.productName.toLowerCase();
-                    const brandName = product.brandName.toLowerCase();
+                    const productName = product.product_name.toLowerCase();
+                    const brandName = product.brand_name.toLowerCase();
                     return (searchTerm && productName.startsWith(searchTerm) && productName !== searchTerm) || (searchTerm && brandName.startsWith(searchTerm) && brandName !== searchTerm)
                 })
                 .map((product) => (
-                    <div className="dropdown-row" key={product.productId} onClick={() => {handleSearch(product.productName); addProduct(product.productName); resetSearch()}}>{product.brandName} - {product.productName}</div>
+                    <div className="dropdown-row" key={product.id} onClick={() => {handleSearch(product.product_name); addProduct(product.product_name); resetSearch()}}>{product.brand_name} - {product.product_name}</div>
                 ))}
             </div>
 
             <div className="search-comp-product-tiles-div">
                 {addedProducts?.map((productTile) => (
-                    <div className="search-comp-product-tile" key={productTile.productId}>
-                        <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.productId)}}/>
-                        <img src={productTile.previewImg} alt={productTile.productName} title={productTile.productName} className="search-comp-product-tile-img" />
-                        <p style={{fontWeight:"600"}}>{productTile.brandName}</p>
-                        <p>{productTile.productName}</p>
+                    <div className="search-comp-product-tile" key={productTile.id}>
+                        <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.id)}}/>
+                        <img src={productTile.preview_image} alt={productTile.product_name} title={productTile.product_name} className="search-comp-product-tile-img" />
+                        <p style={{fontWeight:"600"}}>{productTile.brand_name}</p>
+                        <p>{productTile.product_name}</p>
                     </div>
 
                 ))}

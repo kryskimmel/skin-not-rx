@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Collection, Product, db
+from app.models import Collection, Product, db, collection_product
 from app.forms import CollectionForm
 
 
@@ -73,7 +73,7 @@ def get_collection_details(collection_id):
     return jsonify({'CollectionDetails': collection_info})
 
 
-# Add a product
+# Add a collection
 @collections_routes.route('/', methods=['POST'])
 @login_required
 def add_collection():
@@ -125,20 +125,52 @@ def add_collection():
 @collections_routes.route('/<int:collection_id>', methods=['PUT'])
 @login_required
 def edit_collection(collection_id):
+
+    print("HEREEE!!!!!!!!!!!!!!!")
+    print(request.get_json())
     selected_collection = Collection.query.get(collection_id)
 
     if not selected_collection:
         return jsonify({'message': 'Collection does not exist'}), 404
 
     if selected_collection.user_id == current_user.id:
-        modification = request.to_json()
-        for [k, i] in modification.items():
-            setattr(selected_collection, k, i)
+        body = request.get_json()
+        updatedName = body['name']
+        updatedProductIds = body['product_ids']
 
-            db.session.commit()
-            return selected_collection.to_dict()
+        if updatedName:
+            selected_collection.name = updatedName
+
+        products = []
+
+        for id in updatedProductIds:
+            product = Product.query.get(id)
+            products.append(product)
+
+        print('IN PRODUCTS LIST----', products)
+
+        selected_collection.products = products
+
+        db.session.commit()
+
+        updatedCollection = selected_collection.to_dict()
+        updatedCollection['Products'] = [
+               {  'id':product.id,
+                        'brand_name':product.brand_name,
+                        'product_name':product.product_name,
+                        'product_type': product.product_type,
+                        'description': product.description,
+                        'key_ingredients': product.key_ingredients,
+                        'skin_concern': product.skin_concern,
+                        'product_link': product.product_link,
+                        'user_id': product.user_id,
+                        'preview_image': get_preview_image(product)
+                } for product in selected_collection.products]
+
+        return updatedCollection, 201
     else:
         return jsonify({'message': 'Forbidden'}), 403
+
 
 
 # Delete a collection by id

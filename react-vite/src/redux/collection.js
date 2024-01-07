@@ -80,13 +80,15 @@ export const modifyCollection = (collection_id, editedCollectionData) => async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editedCollectionData),
     })
-    if (!response.ok) {
-      throw new Error(`There was an error in modifying your collection.`)
+    if (response.ok) {
+      const data = await response.json()
+      await dispatch(editCollection(data))
+      return response;
+    } else {
+      throw response
     }
-    const modifiedCollection = await response.json()
-    await dispatch(editCollection(modifiedCollection))
   } catch (error) {
-    throw new Error(`The following error occured while attempting to modify your collection: ${error.message}`)
+    return error
   }
 };
 
@@ -155,9 +157,12 @@ export default function reducer(state = initialState, action){
         byId: updateById
       }
       return newState;
-    case EDIT_COLLECTION:
-      newState = {...state, [action.payload.id] : action.payload}
-      return newState;
+      case EDIT_COLLECTION:
+        newState = JSON.parse(JSON.stringify(state));
+        newState.byId[`${action.payload.id}`] = action.payload
+        newState.allCollections = Object.values(newState.byId)
+        // newState = {...state, [action.payload.id] : action.payload}
+        return newState;
     case DELETE_COLLECTION:
       newState = JSON.parse(JSON.stringify(state));
       delete newState[action.payload];
