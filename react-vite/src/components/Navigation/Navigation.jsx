@@ -31,7 +31,6 @@ function Navigation() {
 
   const closeMenu = () => setShowMenu(false);
 
-  console.log(showMenu, 'show menu?')
 
   return (
     <div className="nav-container">

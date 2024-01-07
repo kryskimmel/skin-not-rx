@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../../redux/product";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import UpdateProductModal from "../UpdateProductModal";
 import DeleteProductModal from "../DeleteProductModal";
 import { Icon } from '@iconify/react';
 import "./ProductInfoModal.css";
@@ -13,7 +14,6 @@ function ProductInfoModal( {productId}) {
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        console.log('the product id', productId)
         dispatch(productActions.viewCurrUserProducts()).then(() => {setIsLoaded(true)})
     }, [productId])
 
@@ -43,6 +43,7 @@ function ProductInfoModal( {productId}) {
                     <OpenModalButton
                         title={'Edit'}
                         buttonText={<Icon icon="bxs:edit" width="30" height="30"/>}
+                        modalComponent={<UpdateProductModal productId={productId} product={product}/>}
                     />
                     <OpenModalButton
                         title={'Delete'}
