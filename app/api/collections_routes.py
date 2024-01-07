@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Collection, Product, db
+from app.models import Collection, Product, db, collection_product
 from app.forms import CollectionForm
 
 
@@ -73,7 +73,7 @@ def get_collection_details(collection_id):
     return jsonify({'CollectionDetails': collection_info})
 
 
-# Add a product
+# Add a collection
 @collections_routes.route('/', methods=['POST'])
 @login_required
 def add_collection():
@@ -126,37 +126,31 @@ def add_collection():
 @login_required
 def edit_collection(collection_id):
 
+    print("HEREEE!!!!!!!!!!!!!!!")
+    print(request.get_json())
     selected_collection = Collection.query.get(collection_id)
-
-    print('SELECTED COLLECTION!!!!!!!!', selected_collection.to_dict())
 
     if not selected_collection:
         return jsonify({'message': 'Collection does not exist'}), 404
 
     if selected_collection.user_id == current_user.id:
-        modification = request.get_json()
+        body = request.get_json()
+        updatedName = body['name']
+        updatedProductIds = body['product_ids']
 
-        updatedProductIds = []
+        if updatedName:
+            selected_collection.name = updatedName
 
-        print('MODIFICATION!!!!!----', modification)
-        for [k, v] in modification.items():
-            print('KEY:--', k, 'VAL:--', v)
-            if k == 'product_ids':
-                print('exists', v)
-                updatedProductIds.extend(v)
-            else:
-                print('not there')
+        products = []
 
-            setattr(selected_collection, k, v)
-        print('!!!!!!!!!!!UPDATED PROUCTSSSS', updatedProductIds)
-        for product_id in updatedProductIds:
-            product = Product.query.get(product_id)
+        for id in updatedProductIds:
+            product = Product.query.get(id)
+            products.append(product)
 
-            if product:
-                selected_collection.products.append(product)
+        print('IN PRODUCTS LIST----', products)
 
-        # setattr(selected_collection, 'product_ids', updatedProductIds)
-        print('SELECTED COLLECTION NOW*********', selected_collection.to_dict())
+        selected_collection.products = products
+
         db.session.commit()
 
         updatedCollection = selected_collection.to_dict()
@@ -172,10 +166,11 @@ def edit_collection(collection_id):
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
                 } for product in selected_collection.products]
-        print('UPDTED COL!!!!!', updatedCollection)
+
         return updatedCollection, 201
     else:
         return jsonify({'message': 'Forbidden'}), 403
+
 
 
 # Delete a collection by id
