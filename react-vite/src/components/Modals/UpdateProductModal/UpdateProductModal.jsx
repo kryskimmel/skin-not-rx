@@ -18,7 +18,6 @@ function UpdateProductModal ({productId, product}) {
     const [productType, setProductType] = useState(product.product_type);
     const [description, setDescription] = useState(product.description);
     const [keyIngredients, setKeyIngredients] = useState(product.key_ingredients);
-    const [skinConcern, setSkinConcern] = useState(product.skin_concern);
     const [productLink, setProductLink] = useState(product.product_link);
     const [previewImg, setPreviewImg] = useState(product.preview_image);
     const [frontendErrors, setFrontendErrors] = useState({});
@@ -36,7 +35,6 @@ function UpdateProductModal ({productId, product}) {
         productType,
         description,
         keyIngredients,
-        skinConcern,
         productLink,
         previewImg
 
@@ -49,25 +47,17 @@ function UpdateProductModal ({productId, product}) {
             setProductType(product.product_type || "")
             setDescription(product.description || "")
             setKeyIngredients(product.key_ingredients || "")
-            setSkinConcern(product.skin_concern || "")
             setProductLink(product.product_link || "")
             setPreviewImg(product.preview_image || "")
         }
     }, [])
 
 
-    // Handle skin concern selections
-    const handleSkinConcern = (e) => {
-        const {value, checked} = e.target
-        if (checked) setSkinConcern(prev => [...prev, value])
-        else setSkinConcern(prev => {return [...prev.filter(concern => concern !== value)]})
-    };
-
     // Toggle submit button classname
     const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
 
     // Required fields to be filled in by user
-    const requiredFields = brandName && productName && productType && description && skinConcern.length > 0 && previewImg
+    const requiredFields = brandName && productName && productType && description
 
     // useEffect to that will set IsDisabled status to true if required fields are not empty
     useEffect(() => {
@@ -106,18 +96,13 @@ function UpdateProductModal ({productId, product}) {
         else if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
         else if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
 
-        if (skinConcern.length === 0) validationErrors.skinConcern = inputRequired;
-        else if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
-
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
 
-        if (!previewImg) validationErrors.previewImg = inputRequired;
-        else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
 
         setFrontendErrors(validationErrors);
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, previewImg])
+    }, [brandName, productName, productType, description, keyIngredients, productLink])
 
     // console.log('the validation errors', validationErrors)
     // console.log('the validation errors inside ERRORS state', frontendErrors)
@@ -142,17 +127,13 @@ function UpdateProductModal ({productId, product}) {
             "product_type": productType,
             "description": description,
             "key_ingredients": keyIngredients,
-            "skin_concern": skinConcern,
             "product_link": productLink,
             "user_id": user.id,
             "image_url": previewImg
         }
 
-        console.log('AFTER rubmit:', updatedProduct)
-
-
-        const data = await dispatch(modifyProduct(productId, updatedProduct))
-        console.log('the data', data)
+        try{
+            const data = await dispatch(modifyProduct(productId, updatedProduct))
             if (Array.isArray(data)) {
 				const dataErrors = {};
 				data?.forEach(error => {
@@ -161,9 +142,11 @@ function UpdateProductModal ({productId, product}) {
 				});
 				setBackendErrors(dataErrors);
             } else {
-                closeModal()
+                closeModal();
             }
-
+        } catch (error) {
+            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`)
+        }
     };
 
 
@@ -175,7 +158,7 @@ function UpdateProductModal ({productId, product}) {
     return (
         <div className='create-product-container'>
             <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{marginTop:"10px"}} />
-            <h1>Create A Product</h1>
+            <h1>Update Product</h1>
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='product-form-div'>
                     <div className='product-form-left'>
@@ -243,28 +226,6 @@ function UpdateProductModal ({productId, product}) {
                             {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                         </div>
 
-                        <div className='skinconcern-div'>
-                            <label>Skin Concern <span style={{fontSize:"14px", color:"#222222"}}>(Select all that apply)</span>:</label>
-                            <span style={{color: '#8B0000', fontWeight:'600'}}> *</span>
-                            <div className='skinconcern-choices-div'>
-                                <div className='skinconcern-group-1'>
-                                    <span><input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness</span>
-                                    <span><input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness</span>
-                                    <span><input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture</span>
-                                </div>
-                                <div className='skinconcern-group-2'>
-                                    <span><input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne</span>
-                                    <span><input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging</span>
-                                    <span><input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness</span>
-                                </div>
-                                <div className='skinconcern-group-3'>
-                                    <span><input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores</span>
-                                    <span><input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles</span>
-                                    <span><input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots</span>
-                                </div>
-                            </div>
-                            {showErrors && submittedForm && frontendErrors?.skinConcern && <p className="errors-text">{frontendErrors.skinConcern}</p>}
-                        </div>
 
                         <div className='product-link-div'>
                             <label>Product Link: </label>
@@ -275,7 +236,7 @@ function UpdateProductModal ({productId, product}) {
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
-                        <div className='preview-img-div'>
+                        {/* <div className='preview-img-div'>
                             <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
                             <input
                                 type='text'
@@ -283,7 +244,7 @@ function UpdateProductModal ({productId, product}) {
                                 onChange={(e) => {setPreviewImg(e.target.value)}}
                             />
                             {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className='create-product-button-div'>

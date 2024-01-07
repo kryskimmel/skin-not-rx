@@ -42,7 +42,6 @@ function RandomProductModal ({selected, isGenerateClicked}) {
                     <li><span style={{fontWeight:"600"}}>TYPE:</span> {randomProduct?.product_type}</li>
                     <li><span style={{fontWeight:"600"}}>DESCRIPTION:</span> {randomProduct?.description}</li>
                     <li><span style={{fontWeight:"600"}}>KEY INGREDIENTS:</span> {randomProduct?.key_ingredients}</li>
-                    <li><span style={{fontWeight:"600"}}>SKIN CONCERN:</span> {randomProduct?.skin_concern}</li>
                     <div className="random-product-tile-buttons">
                         <li
                             onMouseOver={()=> setOnHoverStar(true)}

@@ -30,7 +30,6 @@ function ProductInfoModal( {productId}) {
                     <li><span style={{fontWeight:"600"}}>TYPE: </span> {product?.product_type}</li>
                     <li><span style={{fontWeight:"600"}}>DESCRIPTION: </span> {product?.description}</li>
                     <li><span style={{fontWeight:"600"}}>KEY INGREDIENTS: </span> {product?.key_ingredients}</li>
-                    <li><span style={{fontWeight:"600"}}>SKIN CONCERN: </span> {product?.skin_concern}</li>
                     <li><span style={{fontWeight:"600"}}>PRODUCT LINK: </span><a href={product?.product_link} target="_blank" rel='noreferrer'><Icon icon="uil:link" width="20" height="20" /></a></li>
                 </ul>
             </div>
