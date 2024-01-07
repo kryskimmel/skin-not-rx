@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "../../../redux/product";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import UpdateProductModal from "../UpdateProductModal";
 import DeleteProductModal from "../DeleteProductModal";
 import { Icon } from '@iconify/react';
 import "./ProductInfoModal.css";
@@ -13,7 +14,6 @@ function ProductInfoModal( {productId}) {
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        console.log('the product id', productId)
         dispatch(productActions.viewCurrUserProducts()).then(() => {setIsLoaded(true)})
     }, [productId])
 
@@ -30,7 +30,6 @@ function ProductInfoModal( {productId}) {
                     <li><span style={{fontWeight:"600"}}>TYPE: </span> {product?.product_type}</li>
                     <li><span style={{fontWeight:"600"}}>DESCRIPTION: </span> {product?.description}</li>
                     <li><span style={{fontWeight:"600"}}>KEY INGREDIENTS: </span> {product?.key_ingredients}</li>
-                    <li><span style={{fontWeight:"600"}}>SKIN CONCERN: </span> {product?.skin_concern}</li>
                     <li><span style={{fontWeight:"600"}}>PRODUCT LINK: </span><a href={product?.product_link} target="_blank" rel='noreferrer'><Icon icon="uil:link" width="20" height="20" /></a></li>
                 </ul>
             </div>
@@ -43,6 +42,7 @@ function ProductInfoModal( {productId}) {
                     <OpenModalButton
                         title={'Edit'}
                         buttonText={<Icon icon="bxs:edit" width="30" height="30"/>}
+                        modalComponent={<UpdateProductModal productId={productId} product={product}/>}
                     />
                     <OpenModalButton
                         title={'Delete'}

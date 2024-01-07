@@ -32,9 +32,7 @@ def explore_products():
             'preview_image': [product_img.image_url for product_img in product.product_images if product_img.preview == True],
             'description': product.description,
             'key_ingredients': product.key_ingredients,
-            'skin_concern': product.skin_concern,
             'product_link': product.product_link,
-            'notes': product.notes,
             'user_id': product.user_id,
         }
         products_list.append(product_info)
@@ -58,9 +56,7 @@ def get_product_details(product_id):
         'preview_image': [product_img.image_url for product_img in selected_product.product_images if product_img.preview == True],
         'description': selected_product.description,
         'key_ingredients': selected_product.key_ingredients,
-        'skin_concern': selected_product.skin_concern,
         'product_link': selected_product.product_link,
-        'notes': selected_product.notes,
         'user_id': selected_product.user_id,
         'Product_Images': [{'id': image.id, 'product_id': selected_product.id, 'preview': image.preview, 'image_url': image.image_url} for image in selected_product.product_images]
     }
@@ -83,7 +79,6 @@ def add_product():
             product_type=data.get('product_type'),
             description=data.get('description'),
             key_ingredients=data.get('key_ingredients'),
-            skin_concern=data.get('skin_concern'),
             product_link=data.get('product_link'),
             user_id=current_user.id
         )
@@ -113,17 +108,31 @@ def add_product():
 @login_required
 def edit_product(product_id):
     selected_product = Product.query.get(product_id)
+    print("SELECTED PRODUCT-----", selected_product)
 
     if not selected_product:
         return jsonify({'message': 'Product does not exist'}), 404
 
     if selected_product.user_id == current_user.id:
-        modification = request.get_json()
-        for [k, i] in modification.items():
+        body = request.get_json()
+        for [k, i] in body.items():
             setattr(selected_product, k, i)
+        print('new selected Prod-----', selected_product)
 
-            db.session.commit()
-            return selected_product.to_dict()
+        selected_product_with_img = {
+        'id': selected_product.id,
+        'brand_name': selected_product.brand_name,
+        'product_name': selected_product.product_name,
+        'product_type': selected_product.product_type,
+        'preview_image': [product_img.image_url for product_img in selected_product.product_images if product_img.preview == True],
+        'description': selected_product.description,
+        'key_ingredients': selected_product.key_ingredients,
+        'product_link': selected_product.product_link,
+        'user_id': selected_product.user_id,
+    }
+
+        db.session.commit()
+        return selected_product_with_img, 200
     else:
         return jsonify({'message': 'Forbidden'}), 403
 

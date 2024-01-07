@@ -1,23 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../../redux/product';
-import { useModal } from '../../../context/Modal';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
+import { useModal } from "../../../context/Modal";
 import { Icon } from '@iconify/react';
+import { modifyProduct } from "../../../redux/product";
 import charCountRemaining from '../../../utils/charCountRemaining';
-import "./CreateProductModal.css";
+import "./UpdateProductModal.css";
 
-function CreateProductModal () {
+
+function UpdateProductModal ({productId, product}) {
     const dispatch = useDispatch();
     const descriptionRef = useRef();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
-    const [brandName, setBrandName] = useState("");
-    const [productName, setProductName] = useState("");
-    const [productType, setProductType] = useState("");
-    const [description, setDescription] = useState("");
-    const [keyIngredients, setKeyIngredients] = useState("");
-    const [productLink, setProductLink] = useState("");
-    const [previewImg, setPreviewImg] = useState("");
+    const [brandName, setBrandName] = useState(product.brand_name);
+    const [productName, setProductName] = useState(product.product_name);
+    const [productType, setProductType] = useState(product.product_type);
+    const [description, setDescription] = useState(product.description);
+    const [keyIngredients, setKeyIngredients] = useState(product.key_ingredients);
+    const [productLink, setProductLink] = useState(product.product_link);
+    const [previewImg, setPreviewImg] = useState(product.preview_image);
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
@@ -25,12 +27,37 @@ function CreateProductModal () {
     const [isDisabled, setIsDisabled] = useState(true);
     const validationErrors = {};
 
+    console.log({productId, product})
+    console.log('BEFORE submit' ,
+    {
+        brandName,
+        productName,
+        productType,
+        description,
+        keyIngredients,
+        productLink,
+        previewImg
+
+    })
+
+    useEffect(() => {
+        if (product) {
+            setBrandName(product.brand_name || "")
+            setProductName(product.product_name || "")
+            setProductType(product.product_type || "")
+            setDescription(product.description || "")
+            setKeyIngredients(product.key_ingredients || "")
+            setProductLink(product.product_link || "")
+            setPreviewImg(product.preview_image || "")
+        }
+    }, [])
+
 
     // Toggle submit button classname
     const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
 
     // Required fields to be filled in by user
-    const requiredFields = brandName && productName && productType && description && previewImg
+    const requiredFields = brandName && productName && productType && description
 
     // useEffect to that will set IsDisabled status to true if required fields are not empty
     useEffect(() => {
@@ -73,18 +100,16 @@ function CreateProductModal () {
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
 
-        if (!previewImg) validationErrors.previewImg = inputRequired;
-        else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
 
         setFrontendErrors(validationErrors);
-    }, [brandName, productName, productType, description, keyIngredients, productLink, previewImg])
+    }, [brandName, productName, productType, description, keyIngredients, productLink])
 
     // console.log('the validation errors', validationErrors)
-    console.log('the validation errors inside ERRORS state', frontendErrors)
+    // console.log('the validation errors inside ERRORS state', frontendErrors)
     // console.log('show errors?', showErrors)
     // console.log(Object.values(frontendErrors).length)
     // console.log('form submitted?', submittedForm)
-    console.log('backend errors?', backendErrors)
+    // console.log('backend errors?', backendErrors)
 
     useEffect(() => {
         setShowErrors(Object.values(frontendErrors).length > 0);
@@ -96,7 +121,7 @@ function CreateProductModal () {
         e.preventDefault();
         setSubmittedForm(true)
 
-        const newProduct = {
+        const updatedProduct = {
             "brand_name": brandName,
             "product_name": productName,
             "product_type": productType,
@@ -108,7 +133,7 @@ function CreateProductModal () {
         }
 
         try{
-            const data = await dispatch(createProduct(newProduct))
+            const data = await dispatch(modifyProduct(productId, updatedProduct))
             if (Array.isArray(data)) {
 				const dataErrors = {};
 				data?.forEach(error => {
@@ -133,7 +158,7 @@ function CreateProductModal () {
     return (
         <div className='create-product-container'>
             <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{marginTop:"10px"}} />
-            <h1>Create A Product</h1>
+            <h1>Update Product</h1>
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='product-form-div'>
                     <div className='product-form-left'>
@@ -201,6 +226,7 @@ function CreateProductModal () {
                             {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                         </div>
 
+
                         <div className='product-link-div'>
                             <label>Product Link: </label>
                             <input
@@ -210,7 +236,7 @@ function CreateProductModal () {
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
-                        <div className='preview-img-div'>
+                        {/* <div className='preview-img-div'>
                             <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
                             <input
                                 type='text'
@@ -218,15 +244,16 @@ function CreateProductModal () {
                                 onChange={(e) => {setPreviewImg(e.target.value)}}
                             />
                             {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className='create-product-button-div'>
-                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
+                    <button type='submit' className={submitButtonCN} disabled={isDisabled}>Update</button>
                 </div>
             </form>
 
         </div>
     )
 }
-export default CreateProductModal;
+
+export default UpdateProductModal;

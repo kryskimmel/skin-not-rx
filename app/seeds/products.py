@@ -10,9 +10,7 @@ def seed_products():
             product_type=product['product_type'],
             description=product['description'],
             key_ingredients=product['key_ingredients'],
-            skin_concern=product['skin_concern'],
             product_link=product['product_link'],
-            notes=product['notes'],
             user_id=product['user_id']
         )
         db.session.add(seed_product)

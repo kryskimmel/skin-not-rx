@@ -64,7 +64,6 @@ def get_collection_details(collection_id):
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
@@ -108,7 +107,6 @@ def add_collection():
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
@@ -135,15 +133,15 @@ def edit_collection(collection_id):
 
     if selected_collection.user_id == current_user.id:
         body = request.get_json()
-        updatedName = body['name']
-        updatedProductIds = body['product_ids']
+        updated_name = body['name']
+        updated_product_ids = body['product_ids']
 
-        if updatedName:
-            selected_collection.name = updatedName
+        if updated_name:
+            selected_collection.name = updated_name
 
         products = []
 
-        for id in updatedProductIds:
+        for id in updated_product_ids:
             product = Product.query.get(id)
             products.append(product)
 
@@ -153,21 +151,20 @@ def edit_collection(collection_id):
 
         db.session.commit()
 
-        updatedCollection = selected_collection.to_dict()
-        updatedCollection['Products'] = [
+        updated_collection = selected_collection.to_dict()
+        updated_collection['Products'] = [
                {  'id':product.id,
                         'brand_name':product.brand_name,
                         'product_name':product.product_name,
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
                 } for product in selected_collection.products]
 
-        return updatedCollection, 201
+        return updated_collection, 201
     else:
         return jsonify({'message': 'Forbidden'}), 403
 

@@ -45,9 +45,7 @@ def view_current_user_products():
             'product_type': user_product.product_type,
             'description': user_product.description,
             'key_ingredients': user_product.key_ingredients,
-            'skin_concern': user_product.skin_concern,
             'product_link': user_product.product_link,
-            'notes': user_product.notes,
             'user_id': user_product.user_id,
             'preview_image':[product_img.image_url for product_img in user_product.product_images if product_img.preview == True]
         }
@@ -77,7 +75,6 @@ def view_current_user_collections():
                     'product_type': product.product_type,
                     'description': product.description,
                     'key_ingredients': product.key_ingredients,
-                    'skin_concern': product.skin_concern,
                     'product_link': product.product_link,
                     'user_id': product.user_id,
                     'preview_image': get_preview_image(product)

@@ -33,29 +33,14 @@
 }
 
 
-.skinconcern-choices-div {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-}
-
-.skinconcern-group-1,
-.skinconcern-group-2,
-.skinconcern-group-3 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-}
-
-.create-product-form input:not(.skinconcern-choices-div input),
+.create-product-form input,
 .create-product-form select {
     width: 250px;
     height: 25px;
     margin: 0 5px;
 }
 
-.create-product-form input:not(.skinconcern-choices-div input):focus,
+.create-product-form input:focus,
 .create-product-form select:focus {
     width: 250px;
     height: 25px;
