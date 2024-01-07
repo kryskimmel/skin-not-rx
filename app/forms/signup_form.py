@@ -52,7 +52,7 @@ def email_format(form, field):
         raise ValidationError("Not a valid email.")
 
 def username_format(form, field):
-    username = field.data,
+    username = field.data
     username_pattern = r"^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$"
     if not re.match(username_pattern, username):
         raise ValidationError("Not a valid username.")
