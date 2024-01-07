@@ -74,17 +74,24 @@ export const createCollection = (newCollectionData) => async (dispatch) => {
 
 // EDIT A COLLECTION
 export const modifyCollection = (collection_id, editedCollectionData) => async (dispatch) => {
+
+  console.log('in thunk collection id', collection_id)
+  console.log('in thunk collection body', editedCollectionData)
   try {
     const response = await fetch(`/api/collections/${collection_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editedCollectionData),
     })
-    if (!response.ok) {
-      throw new Error(`There was an error in modifying your collection.`)
+    if (!response.ok && response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
     }
     const modifiedCollection = await response.json()
     await dispatch(editCollection(modifiedCollection))
+    return modifiedCollection
   } catch (error) {
     throw new Error(`The following error occured while attempting to modify your collection: ${error.message}`)
   }
