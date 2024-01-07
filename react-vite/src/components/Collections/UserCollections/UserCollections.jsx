@@ -12,7 +12,8 @@ import "./UserCollections.css";
 function UserCollections () {
         const dispatch = useDispatch();
         const userProducts = useSelector(state => state.product.byProductType);
-        const userCollections = useSelector(state => state.collection.allCollections)
+        const userCollections = useSelector(state => state.collection.allCollections);
+
 
 
         useEffect(() => {
@@ -48,17 +49,7 @@ function UserCollections () {
                 </div>
                 <h1 className="profile-page-h1">My Custom Collections</h1>
                 <div className="profile-page-custom-collections-div">
-                    <div className="create-custom-collection-div">
-                    <OpenModalButton
-                        buttonText={
-                            <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-                                <p>Create A Collection</p>
-                                <Icon icon="basil:add-outline" width="30" height="30" />
-                            </div>}
-                        modalComponent={<CreateCollectionModal/>}
-                        />
-                    </div>
-                    {userCollections?.map((collection) => (
+                    { userCollections ? userCollections.map((collection) => (
                         <div key={collection.id}>
                             <OpenModalButton
                                 buttonText={
@@ -76,7 +67,17 @@ function UserCollections () {
                                 modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                             />
                         </div>
-                    ))}
+                    )) : <h2>You have not added any collections!</h2>}
+                    <div className="create-custom-collection-div">
+                        <OpenModalButton
+                        buttonText={
+                            <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                                <p>Create A Collection</p>
+                                <Icon icon="basil:add-outline" width="30" height="30" />
+                            </div>}
+                        modalComponent={<CreateCollectionModal/>}
+                        />
+                    </div>
                 </div>
             </div>
 
