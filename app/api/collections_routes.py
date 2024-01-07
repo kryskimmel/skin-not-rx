@@ -64,7 +64,7 @@ def get_collection_details(collection_id):
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
+                        # 'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
@@ -108,7 +108,7 @@ def add_collection():
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
+                        # 'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
@@ -161,7 +161,7 @@ def edit_collection(collection_id):
                         'product_type': product.product_type,
                         'description': product.description,
                         'key_ingredients': product.key_ingredients,
-                        'skin_concern': product.skin_concern,
+                        # 'skin_concern': product.skin_concern,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
                         'preview_image': get_preview_image(product)
