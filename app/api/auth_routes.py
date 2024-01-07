@@ -48,6 +48,7 @@ def sign_up():
     """
     Creates a new user and logs them in
     """
+
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -60,6 +61,7 @@ def sign_up():
             profile_image=form.data["profile_image"],
             skin_type=form.data["skin_type"]
         )
+        print('-------USER------', user.to_dict())
         db.session.add(user)
         db.session.commit()
         login_user(user)
