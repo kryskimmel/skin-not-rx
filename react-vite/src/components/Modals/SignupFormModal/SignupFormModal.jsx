@@ -40,43 +40,55 @@ function SignupFormModal() {
     const nameFormatError = "Input can only contain letters and spaces in between words."
 
     if (!firstName) validationErrors.firstName = inputRequired;
-    if (firstName && firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
-    if (firstName && !firstName.test(nameFormat)) validationErrors.firstName = nameFormatError;
-    if (firstName && firstName.length > 15) validationErrors.firstName = maxChar15;
-    if (firstName && firstName.length < 3) validationErrors.firstName = minChar3;
+    else if (firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
+    else if (!nameFormat.test(firstName)) validationErrors.firstName = nameFormatError;
+    else if (firstName.length > 15) validationErrors.firstName = maxChar15;
+    else if (firstName.length < 3) validationErrors.firstName = minChar3;
 
     if (!lastName) validationErrors.lastName = inputRequired;
-    if (lastName && lastName.startsWith(" ")) validationErrors.lastName = cannotStartWithSpaces;
-    if (lastName && lastName.test(nameFormat)) validationErrors.lastName = nameFormatError;
-    if (lastName && lastName.length > 15) validationErrors.lastName = maxChar15;
-    if (lastName && lastName.length < 3) validationErrors.lastName = minChar3;
+    if (lastName.startsWith(" ")) validationErrors.lastName = cannotStartWithSpaces;
+    if (nameFormat.test(!lastName)) validationErrors.lastName = nameFormatError;
+    if (lastName.length > 15) validationErrors.lastName = maxChar15;
+    if (lastName.length < 3) validationErrors.lastName = minChar3;
 
     if (!username) validationErrors.username = inputRequired;
-    if (username && username.startsWith(" ")) validationErrors.username = cannotStartWithSpaces;
-    if (username && !username.test(usernameFormat)) validationErrors.username = usernameFormatError;
-    if (username && username.length > 15) validationErrors.username = maxChar15;
-    if (username && username.length < 3) validationErrors.username = minChar3;
+    if (username.startsWith(" ")) validationErrors.username = cannotStartWithSpaces;
+    if (!usernameFormat.test(username)) validationErrors.username = usernameFormatError;
+    if (username.length > 15) validationErrors.username = maxChar15;
+    if (username.length < 3) validationErrors.username = minChar3;
 
     if (!email) validationErrors.email = inputRequired;
-    if (email && email.startsWith(" ")) validationErrors.email = cannotStartWithSpaces;
-    if (email && !email.test(emailFormat)) validationErrors.email = emailFormatError;
-    if (email && email.length > 60) validationErrors.email = maxChar60;
+    if (email.startsWith(" ")) validationErrors.email = cannotStartWithSpaces;
+    if (!emailFormat.test(email)) validationErrors.email = emailFormatError;
+    if (email.length > 60) validationErrors.email = maxChar60;
 
     if (!password) validationErrors.password = inputRequired;
-    if (password && password.startsWith(" ")) validationErrors.password = cannotStartWithSpaces;
-    if (password && password.length < 6) validationErrors.password = passwordLength;
-    if (password && password.length > 15) validationErrors.password = maxChar15;
+    if (password.startsWith(" ")) validationErrors.password = cannotStartWithSpaces;
+    if (password.length < 6) validationErrors.password = passwordLength;
+    if (password.length > 15) validationErrors.password = maxChar15;
 
     if (!profileImage) validationErrors.profileImage = inputRequired;
-    if (profileImage && profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
-    if (profileImage && profileImage.length > 255) validationErrors.profileImage = maxChar255;
+    if ( profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
+    if ( profileImage.length > 255) validationErrors.profileImage = maxChar255;
 
     if (!skinType) validationErrors.skinType = inputRequired;
-    if (skinType && skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
-    if (skinType && skinType.length > 255) validationErrors.skinType = maxChar255;
+    if (skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
+    if (skinType.length > 255) validationErrors.skinType = maxChar255;
 
     setErrors(validationErrors);
   }, [dispatch, firstName, lastName, username, email, password, profileImage, skinType])
+
+
+
+  console.log('before submit user:', {
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+    profileImage,
+    skinType
+  })
 
 // Handle form submission
   const handleSubmit = async (e) => {
@@ -91,13 +103,13 @@ function SignupFormModal() {
     }
     const serverResponse = await dispatch(
       thunkSignup({
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-        profileImage,
-        skinType
+        'first_name': firstName,
+        'last_name': lastName,
+        'username': username,
+        'email': email,
+        'password': password,
+        'profile_image': profileImage,
+        'skin_type': skinType
       })
     );
     if (serverResponse) {
