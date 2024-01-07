@@ -10,6 +10,7 @@ function UserProducts() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const userProducts = useSelector(state => state.product.allProducts);
+    console.log('USER PRODS', userProducts)
 
     useEffect(() => {
         dispatch(ProductActions.viewCurrUserProducts())
