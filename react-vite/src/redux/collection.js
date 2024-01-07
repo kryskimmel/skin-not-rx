@@ -74,26 +74,21 @@ export const createCollection = (newCollectionData) => async (dispatch) => {
 
 // EDIT A COLLECTION
 export const modifyCollection = (collection_id, editedCollectionData) => async (dispatch) => {
-
-  console.log('in thunk collection id', collection_id)
-  console.log('in thunk collection body', editedCollectionData)
   try {
     const response = await fetch(`/api/collections/${collection_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editedCollectionData),
     })
-    if (!response.ok && response.status < 500) {
-      const data = await response.json();
-      if (data.errors) {
-        return data.errors;
-      }
+    if (response.ok) {
+      const data = await response.json()
+      await dispatch(editCollection(data))
+      return response;
+    } else {
+      throw response
     }
-    const modifiedCollection = await response.json()
-    await dispatch(editCollection(modifiedCollection))
-    return modifiedCollection
   } catch (error) {
-    throw new Error(`The following error occured while attempting to modify your collection: ${error.message}`)
+    return error
   }
 };
 
@@ -162,9 +157,12 @@ export default function reducer(state = initialState, action){
         byId: updateById
       }
       return newState;
-    case EDIT_COLLECTION:
-      newState = {...state, [action.payload.id] : action.payload}
-      return newState;
+      case EDIT_COLLECTION:
+        newState = JSON.parse(JSON.stringify(state));
+        newState.byId[`${action.payload.id}`] = action.payload
+        newState.allCollections = Object.values(newState.byId)
+        // newState = {...state, [action.payload.id] : action.payload}
+        return newState;
     case DELETE_COLLECTION:
       newState = JSON.parse(JSON.stringify(state));
       delete newState[action.payload];
