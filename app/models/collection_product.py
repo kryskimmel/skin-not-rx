@@ -1,4 +1,4 @@
-from .db import db, SCHEMA, add_prefix_for_prod
+from .db import db, SCHEMA, add_prefix_for_prod, environment
 from sqlalchemy import Column, ForeignKey, Table, PrimaryKeyConstraint
 from datetime import datetime
 
@@ -10,3 +10,6 @@ collection_product = Table(
     PrimaryKeyConstraint("collection_id", "product_id"),
     extend_existing=True
 )
+
+if environment == 'production':
+    collection_product.schema = SCHEMA
