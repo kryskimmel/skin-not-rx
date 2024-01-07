@@ -3,12 +3,6 @@ from sqlalchemy import Integer, String, Text, DateTime, Column, ForeignKey
 from datetime import datetime
 # from flask_login import UserMixin
 
-collections_products = db.Table(
-    'collections_products',
-    db.Column('collection_id', db.Integer, db.ForeignKey('collections.id')),
-    db.Column('product_id', db.Integer, db.ForeignKey('products.id'))
-)
-
 
 class Product(db.Model):
     __tablename__ = 'products'
