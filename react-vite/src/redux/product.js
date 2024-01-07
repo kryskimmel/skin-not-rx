@@ -78,19 +78,22 @@ export const createProduct = (newProductData) => async (dispatch) => {
 
 // EDIT A PRODUCT
 export const modifyProduct = (product_id, editedProductData) => async (dispatch) => {
+  console.log('modified product data in thunk', product_id, editedProductData)
   try {
     const response = await fetch(`/api/products/${product_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editedProductData),
     })
-    if (!response.ok) {
-      throw new Error(`There was an error in modifying your product.`)
+    if (response.ok) {
+      const data = await response.json()
+      await dispatch(editProduct(data))
+      return response;
+    } else {
+      throw response;
     }
-    const modifiedProduct = await response.json()
-    await dispatch(editProduct(modifiedProduct))
   } catch (error) {
-    throw new Error(`The following error occured while attempting to modify your product: ${error.message}`)
+    return error
   }
 };
 
@@ -191,7 +194,10 @@ export default function reducer(state = initialState, action) {
       }
       return newState;
     case EDIT_PRODUCT:
-      newState = {...state, [action.payload.id] : action.payload}
+      newState = JSON.parse(JSON.stringify(state));
+      newState.byId[`${action.payload.id}`] = action.payload
+      newState.allProducts = Object.values(newState.byId)
+      // newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_PRODUCT:
       newState = JSON.parse(JSON.stringify(state));
