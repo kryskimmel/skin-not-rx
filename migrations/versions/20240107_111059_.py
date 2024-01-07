@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: a5b3828e3f17
-Revises: 
+Revises:
 Create Date: 2024-01-07 11:10:59.501141
 
 """
@@ -49,9 +49,7 @@ def upgrade() -> None:
     sa.Column('product_type', sa.String(length=60), nullable=False),
     sa.Column('description', sa.String(length=500), nullable=False),
     sa.Column('key_ingredients', sa.String(length=500), nullable=True),
-    sa.Column('skin_concern', sa.String(length=300), nullable=False),
     sa.Column('product_link', sa.String(length=500), nullable=True),
-    sa.Column('notes', sa.String(length=500), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
