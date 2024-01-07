@@ -7,9 +7,7 @@ function CreateProductFormPage () {
     const [productType, setProductType] = useState("");
     const [description, setDescription] = useState("");
     const [keyIngredients, setKeyIngredients] = useState("");
-    const [skinConcern, setSkinConcern] = useState([]);
     const [productLink, setProductLink] = useState("");
-    const [notes, setNotes] = useState("");
     const [errors, setErrors] = useState({});
     // const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
@@ -17,13 +15,6 @@ function CreateProductFormPage () {
     // const dispatch = useDispatch();
 
 
-
-    // Handle skin concern selections
-    const handleSkinConcern = (e) => {
-        const {value, checked} = e.target
-        if (checked) setSkinConcern(prev => [...prev, value])
-        else setSkinConcern(prev => {return [...prev.filter(concern => concern !== value)]})
-    };
 
     // Toggle submit button classname
     const submitButtonCN = Object.values(errors).length > 0 ? "disabled-submit-button" : "enabled-submit-button"
@@ -57,31 +48,19 @@ function CreateProductFormPage () {
         if (keyIngredients && keyIngredients.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
         if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
         if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
-        //Skin Concern
-        if (!skinConcern.length) validationErrors.skinConcern = inputRequired;
-        if (skinConcern && skinConcern.length > 500) validationErrors.skinConcern = maxChar300;
         //Product Link
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
-        //Notes
-        if (notes && notes.startsWith(" ")) validationErrors.notes = cannotStartWithSpaces;
-        if (notes && notes.length < 3) validationErrors.notes = minChar3;
-        if (notes && notes.length > 500) validationErrors.notes = maxChar500;
 
         setErrors(validationErrors);
 
         const hasValidationErrors = Object.values(validationErrors).some((error) => error);
-        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description || skinConcern.length === 0;
+        const hasEmptyRequiredFields = !brandName || !productName || !productType || !description
 
         setIsDisabled(hasValidationErrors || hasEmptyRequiredFields);
 
-        // if (!brandName || !productName || !productType || !description || skinConcern.length === 0) {
-        //     setIsDisabled(true);
-        // } else {
-        //     setIsDisabled(false);
-        // }
-    }, [brandName, productName, productType, description, keyIngredients, skinConcern, productLink, notes]);
+    }, [brandName, productName, productType, description, keyIngredients, productLink]);
 
     useEffect(() => {
         if (showErrors && Object.values(errors).length > 0) setIsDisabled(true)
@@ -106,7 +85,6 @@ function CreateProductFormPage () {
     //     productType: productType,
     //     description: description,
     //     keyIngredients: keyIngredients,
-    //     skinConcern: skinConcern,
     //     productLink: productLink,
     //     notes: notes,
     //     user_id: user.id
@@ -211,33 +189,6 @@ function CreateProductFormPage () {
                     {showErrors && errors?.keyIngredients && <p className="errors-text">{errors.keyIngredients}</p>}
                 </div>
 
-                <div className='skinconcern-div'>
-                    <label>Skin Concern: </label>
-                    <div className='skinconcern-choices-div'>
-                        <input type="checkbox" name="dryness" value="Dryness" onChange={handleSkinConcern} /> Dryness
-                        <input type="checkbox" name="dullness" value="Dullness" onChange={handleSkinConcern} /> Dullness
-                        <input type="checkbox" name="uneven-texture" value="Uneven texture" onChange={handleSkinConcern} /> Uneven texture
-                        <input type="checkbox" name="acne"  value="Acne" onChange={handleSkinConcern} /> Acne
-                        <input type="checkbox" name="aging" value="Aging" onChange={handleSkinConcern} /> Aging
-                        <input type="checkbox" name="redness"  value="Redness" onChange={handleSkinConcern} /> Redness
-                        <input type="checkbox" name="large-pores" value="Large pores" onChange={handleSkinConcern} /> Large pores
-                        <input type="checkbox" name="dark-circles" value="Dark circles" onChange={handleSkinConcern} /> Dark circles
-                        <input type="checkbox" name="dark-spots"  value="Dark spots" onChange={handleSkinConcern} /> Dark spots
-                    </div>
-                    <div className='skinconcern-selection-div'>
-                        {skinConcern?.map((concern) => (
-                            <button
-                                key={concern}
-                                className='skinconcern-buttons'
-                                disabled='true'
-                                value={concern}>
-                                    {concern}
-                            </button>
-                        ))}
-                    </div>
-                    {showErrors && errors?.skinConcern && <p className="errors-text">{errors.skinConcern}</p>}
-                </div>
-
                 <div className='product-link-div'>
                     <label>Product Link: </label>
                     <input
@@ -246,16 +197,6 @@ function CreateProductFormPage () {
                         onChange={(e) => {setProductLink(e.target.value)}}
                     />
                     {showErrors && errors?.productLink && <p className="errors-text">{errors.productLink}</p>}
-                </div>
-
-                <div className='notes-div'>
-                    <label>Notes: </label>
-                    <textarea
-                        value={notes}
-                        onChange={(e) => {setNotes(e.target.value)}}
-                        placeholder='What are your thoughts on this product?'
-                    ></textarea>
-                    {showErrors && errors?.notes && <p className="errors-text">{errors.notes}</p>}
                 </div>
                 <div className='create-product-button-div'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
