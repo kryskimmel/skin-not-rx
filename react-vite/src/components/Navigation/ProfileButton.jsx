@@ -45,7 +45,7 @@ function ProfileButton() {
 
   return (
     <>
-      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <Icon icon="solar:login-bold-duotone" width="40" height="40" rotate={2} onClick={logout} style={{cursor:"pointer"}} />}
+      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <button className="logout-button" onClick={logout}>Log Out</button>}
       {showMenu && (
         <div className="account-tools-dropdown-container" ref={ulRef}>
             {user ? null : (
