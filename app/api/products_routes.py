@@ -113,17 +113,29 @@ def add_product():
 @login_required
 def edit_product(product_id):
     selected_product = Product.query.get(product_id)
+    print("SELECTED PRODUCT-----", selected_product)
 
     if not selected_product:
         return jsonify({'message': 'Product does not exist'}), 404
 
     if selected_product.user_id == current_user.id:
-        modification = request.get_json()
-        for [k, i] in modification.items():
+        body = request.get_json()
+        updated_preview_img = body.get('product_link')
+        for [k, i] in body.items():
             setattr(selected_product, k, i)
+        print('new selected Prod-----', selected_product)
+        print('UPDATED LINK', updated_preview_img)
 
-            db.session.commit()
-            return selected_product.to_dict()
+        selected_product_img = Product_Image.query.filter(product_id == product_id).first()
+        if selected_product_img:
+            selected_product_img.image_url = updated_preview_img
+
+        print ("SELECTED Product img***", selected_product_img.to_dict())
+        selected_product.preview_image = updated_preview_img
+        print ('SELECTED PROD', selected_product.to_dict())
+
+        db.session.commit()
+        return selected_product.to_dict()
     else:
         return jsonify({'message': 'Forbidden'}), 403
 
