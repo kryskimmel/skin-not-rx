@@ -32,9 +32,7 @@ def explore_products():
             'preview_image': [product_img.image_url for product_img in product.product_images if product_img.preview == True],
             'description': product.description,
             'key_ingredients': product.key_ingredients,
-            # 'skin_concern': product.skin_concern,
             'product_link': product.product_link,
-            # 'notes': product.notes,
             'user_id': product.user_id,
         }
         products_list.append(product_info)
@@ -58,9 +56,7 @@ def get_product_details(product_id):
         'preview_image': [product_img.image_url for product_img in selected_product.product_images if product_img.preview == True],
         'description': selected_product.description,
         'key_ingredients': selected_product.key_ingredients,
-        # 'skin_concern': selected_product.skin_concern,
         'product_link': selected_product.product_link,
-        # 'notes': selected_product.notes,
         'user_id': selected_product.user_id,
         'Product_Images': [{'id': image.id, 'product_id': selected_product.id, 'preview': image.preview, 'image_url': image.image_url} for image in selected_product.product_images]
     }
@@ -83,7 +79,6 @@ def add_product():
             product_type=data.get('product_type'),
             description=data.get('description'),
             key_ingredients=data.get('key_ingredients'),
-            # skin_concern=data.get('skin_concern'),
             product_link=data.get('product_link'),
             user_id=current_user.id
         )
@@ -132,9 +127,7 @@ def edit_product(product_id):
         'preview_image': [product_img.image_url for product_img in selected_product.product_images if product_img.preview == True],
         'description': selected_product.description,
         'key_ingredients': selected_product.key_ingredients,
-        # 'skin_concern': selected_product.skin_concern,
         'product_link': selected_product.product_link,
-        # 'notes': selected_product.notes,
         'user_id': selected_product.user_id,
     }
 
