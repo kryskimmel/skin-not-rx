@@ -27,8 +27,10 @@ function CreateCollectionModal () {
     // Grab product ids from the selected products to add
     const productIds = [];
     if (productsToAdd) {
-        productsToAdd.map((attr) => {productIds.push(attr.product_id)})
+        productsToAdd.map((attr) => {productIds.push(attr.id)})
     }
+
+    console.log('product id', productIds)
 
     // Toggle submit button classname
     const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
