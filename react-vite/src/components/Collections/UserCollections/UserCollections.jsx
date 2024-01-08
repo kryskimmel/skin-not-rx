@@ -23,18 +23,18 @@ function UserCollections () {
 
 
         return (
-            <div className="profile-page-container">
-                <h1 className="profile-page-h1">My Product Collections</h1>
-                <div className="profile-page-premade-collections-div">
+            <div className="collection-page-container">
+                <h1 className="collection-page-h1">My Product Collections</h1>
+                <div className="collection-page-premade-collections-div">
                     {userProducts ? Object.entries(userProducts)?.map((collection) => (
                         <div key={collection[0]}>
                             <OpenModalButton
                                 buttonText={
-                                    <div className="profile-page-collections-tile-div">
-                                         <h2 className="profile-page-h2">{collection[0]} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection[1].length})</span></h2>
-                                         <div className="profile-page-collections-grid">
+                                    <div className="collection-page-collections-tile-div">
+                                         <h2 className="collection-page-h2">{collection[0]} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection[1].length})</span></h2>
+                                         <div className="collection-page-collections-grid">
                                             {collection[1].slice(0, 4)?.map((attr, idx) => (
-                                                <div className="profile-page-grid-images" key={idx}>
+                                                <div className="collection-page-grid-images" key={idx}>
                                                     <img src={attr.preview_image } alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
                                                 </div>
                                             ))}
@@ -47,17 +47,17 @@ function UserCollections () {
                         </div>
                     )) : <h2>You have not added any products!</h2>}
                 </div>
-                <h1 className="profile-page-h1">My Custom Collections</h1>
-                <div className="profile-page-custom-collections-div">
+                <h1 className="collection-page-h1">My Custom Collections</h1>
+                <div className="collection-page-custom-collections-div">
                     { userCollections ? userCollections.map((collection) => (
                         <div key={collection.id}>
                             <OpenModalButton
                                 buttonText={
-                                <div className="profile-page-collections-tile-div">
-                                    <h2 className="profile-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products?.length})</span></h2>
-                                    <div className="profile-page-collections-grid">
+                                <div className="collection-page-collections-tile-div">
+                                    <h2 className="collection-page-h2">{collection.name} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection.Products?.length})</span></h2>
+                                    <div className="collection-page-collections-grid">
                                     {collection.Products?.slice(0,4)?.map((attr, idx) => (
-                                        <div className="profile-page-grid-images" key={idx}>
+                                        <div className="collection-page-grid-images" key={idx}>
                                             <img src={attr.preview_image[0].image_url} alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
                                         </div>
                                     ))}
