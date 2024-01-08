@@ -189,9 +189,24 @@ export default function reducer(state = initialState, action) {
       return newState;
 
     case EDIT_PRODUCT:
+      const byProductType = {}
+      if (action.payload.product_type === "Cleanser") byProductType["Cleansers"] = [action.payload];
+      if (action.payload.product_type === "Exfoliator") byProductType["Exfoliators"] = [action.payload];
+      if (action.payload.product_type === "Treatment") byProductType["Treatments"] = [action.payload];
+      if (action.payload.product_type === "Serum") byProductType["Serums"] = [action.payload];
+      if (action.payload.product_type === "Sunscreen") byProductType["Sunscreens"] = [action.payload];
+      if (action.payload.product_type === "Moisturizer") byProductType["Moisturizers"] = [action.payload];
+      if (action.payload.product_type === "Toner") byProductType["Toners"] =[action.payload];
+      if (action.payload.product_type === "Face Mask") byProductType["Face Masks"] = [action.payload];
+      if (action.payload.product_type === "Eye Serum") byProductType["Eye Serums"] = [action.payload];
+      if (action.payload.product_type === "Eye Cream") byProductType["Eye Creams"] = [action.payload];
+      if (action.payload.product_type === "Lip Repair & Protectant") byProductType["Lip Repair And Protectants"] = [action.payload];
+
       newState = JSON.parse(JSON.stringify(state));
       newState.byId[`${action.payload.id}`] = action.payload
       newState.allProducts = Object.values(newState.byId)
+
+
       // newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_PRODUCT:
