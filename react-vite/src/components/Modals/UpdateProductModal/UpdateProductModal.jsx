@@ -118,39 +118,42 @@ function UpdateProductModal ({productId, product}) {
     }, [frontendErrors]);
 
 
-    // Handles form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setSubmittedForm(true)
+   // Handles form submission
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmittedForm(true);
 
-        const updatedProduct = {
-            "brand_name": brandName,
-            "product_name": productName,
-            "product_type": productType,
-            "description": description,
-            "key_ingredients": keyIngredients,
-            "product_link": productLink,
-            "user_id": user.id,
-            "image_url": previewImg
-        }
-
-        try{
-            const data = await dispatch(modifyProduct(productId, updatedProduct))
-            if (Array.isArray(data)) {
-				const dataErrors = {};
-				data?.forEach(error => {
-				const [key, value] = error.split(':')
-				dataErrors[key.trim()] = value.trim()
-				});
-				setBackendErrors(dataErrors);
-            } else {
-                closeModal();
-            }
-        } catch (error) {
-            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`)
-        }
+    const updatedProduct = {
+        "brand_name": brandName,
+        "product_name": productName,
+        "product_type": productType,
+        "description": description,
+        "key_ingredients": keyIngredients,
+        "product_link": productLink,
+        "user_id": user.id,
+        "image_url": previewImg
     };
 
+    try {
+        const data = await dispatch(modifyProduct(productId, updatedProduct));
+
+        if (Array.isArray(data)) {
+            const dataErrors = {};
+            data?.forEach(error => {
+                const [key, value] = error.split(':');
+                dataErrors[key.trim()] = value.trim();
+            });
+            setBackendErrors(dataErrors);
+        } else {
+            // Only close the modal if there are no frontend validation errors
+            if (Object.values(frontendErrors).length === 0) {
+                closeModal();
+            }
+        }
+    } catch (error) {
+        throw new Error(`There was an error in submitting your form for creating a new product: ${error}`);
+    }
+};
 
 
 
@@ -193,7 +196,7 @@ function UpdateProductModal ({productId, product}) {
                                 <option value="Exfoliator">Exfoliator</option>
                                 <option value="Treatment">Treatment</option>
                                 <option value="Serum">Serum</option>
-                                <option value="Sunscreens">Sunscreen</option>
+                                <option value="Sunscreen">Sunscreen</option>
                                 <option value="Moisturizer">Moisturizer</option>
                                 <option value="Toner">Toner</option>
                                 <option value="Face Mask">Face Mask</option>
