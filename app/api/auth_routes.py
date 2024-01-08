@@ -58,18 +58,17 @@ def sign_up():
     """
     Creates a new user and logs them in
     """
-    data = request.get_json();
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User(
-            first_name =data.get['first_name'],
-            last_name =data.get['last_name'],
-            username=data.get['username'],
-            email=data.get['email'],
-            password=data.get['password'],
-            profile_image=data.get["profile_image"],
-            skin_type=data.get["skin_type"]
+            first_name=form.data['first_name'],
+            last_name=form.data['last_name'],
+            username=form.data['username'],
+            email=form.data['email'],
+            password=form.data['password'],
+            profile_image=form.data["profile_image"],
+            skin_type=form.data["skin_type"]
         )
         print('-------USER------', user.to_dict())
         db.session.add(user)
