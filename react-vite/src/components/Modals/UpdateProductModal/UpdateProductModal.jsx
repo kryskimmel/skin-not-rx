@@ -70,12 +70,14 @@ function UpdateProductModal ({productId, product}) {
 
     // useEffect to track validation errors
     useEffect(() => {
+
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
         const maxChar300 = "Input must not exceed 300 characters."
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
+
 
         if (!brandName) validationErrors.brandName = inputRequired;
         else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
