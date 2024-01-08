@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import * as ProductActions from "../../../redux/product";
+import * as CollectionActions from "../../../redux/collection"
 import { useModal } from "../../../context/Modal";
 import { Icon } from '@iconify/react';
 import "./DeleteProductModal.css";
@@ -14,9 +15,14 @@ function DeleteProductModal({brandName, productName, productId}) {
 
     const handleYes = async (e) => {
         e.preventDefault();
-        await dispatch(ProductActions.removeProduct(productId));
+        const productRemoved = await dispatch(ProductActions.removeProduct(productId));
         closeModal();
-        await dispatch(ProductActions.viewCurrUserProducts());
+        if (productRemoved) {
+            await dispatch(ProductActions.viewCurrUserProducts());
+            await dispatch(CollectionActions.viewCurrUserCollections());
+        } else {
+            throw error('Could not delete your product')
+        }
     };
 
     const handleNo = () => {
