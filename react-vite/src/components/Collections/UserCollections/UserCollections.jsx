@@ -67,7 +67,7 @@ function UserCollections () {
                                 modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                             />
                         </div>
-                    )) : <h2>You have not added any collections!</h2>}
+                    )) : <h2 style={{display:'flex', alignItems:'center'}}>You have not added any collections!</h2>}
                     <div className="create-custom-collection-div">
                         <OpenModalButton
                         buttonText={

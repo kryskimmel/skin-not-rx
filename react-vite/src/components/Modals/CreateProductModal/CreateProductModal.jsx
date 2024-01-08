@@ -49,6 +49,12 @@ function CreateProductModal () {
         const maxChar300 = "Input must not exceed 300 characters."
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
+        const imgFormatError = "Image must be in one of the following formats: .jpg, .jpeg or .png";
+        const imgFormats = [
+            ".jpg",
+            ".png",
+            "jpeg",
+          ];
 
         if (!brandName) validationErrors.brandName = inputRequired;
         else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
@@ -75,6 +81,7 @@ function CreateProductModal () {
 
         if (!previewImg) validationErrors.previewImg = inputRequired;
         else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
+        else if (!imgFormats.includes(previewImg.slice(-4))) validationErrors.previewImg = imgFormatError;
 
         setFrontendErrors(validationErrors);
     }, [brandName, productName, productType, description, keyIngredients, productLink, previewImg])
@@ -206,7 +213,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={productLink}
-                                onChange={(e) => {setProductLink(e.target.value)}}
+                                onChange={(e) => {setProductLink((e.target.value).trim())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
@@ -215,7 +222,7 @@ function CreateProductModal () {
                             <input
                                 type='text'
                                 value={previewImg}
-                                onChange={(e) => {setPreviewImg(e.target.value)}}
+                                onChange={(e) => {setPreviewImg((e.target.value).trim())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
                         </div>

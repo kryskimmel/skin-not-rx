@@ -46,10 +46,6 @@ function SignupFormModal() {
       ".jpg",
       ".png",
       "jpeg",
-      "http:",
-      "https",
-      "ftp:/",
-      "ftps:",
     ];
 
     const inputRequired = "Input is required."
@@ -137,6 +133,8 @@ function SignupFormModal() {
       closeModal();
     }
   };
+
+  console.log('backend errors', backendErrors)
 
 
   return (

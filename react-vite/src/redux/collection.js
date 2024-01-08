@@ -149,14 +149,13 @@ export default function reducer(state = initialState, action){
         return newState;
       }
     case ADD_COLLECTION:
-      const updateAllCollections = [...state.allCollections, action.payload]
-      const updateById = {...state.byId, [action.payload.id] : action.payload}
-      newState = {
-        ...state,
-        allCollections: updateAllCollections,
-        byId: updateById
-      }
+      newState.byId = { ...state.byId, [action.payload.id]: action.payload };
+      newState.allCollections = Object.values(newState.byId);
+      // newState = JSON.parse(JSON.stringify(state));
+      // newState.byId[`${action.payload.id}`] = action.payload
+      // newState.allCollections = Object.values(newState.byId)
       return newState;
+
       case EDIT_COLLECTION:
         newState = JSON.parse(JSON.stringify(state));
         newState.byId[`${action.payload.id}`] = action.payload

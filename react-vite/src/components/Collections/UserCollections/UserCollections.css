@@ -1,6 +1,8 @@
 .collection-page-container {
     display: flex;
     flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-bottom: 30px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
@@ -98,7 +100,7 @@
     align-items: center;
 }
 
-.create-custom-collection-div:button {
+.create-custom-collection-div button {
     cursor: pointer;
     height: 275px;
     width: 275px;
