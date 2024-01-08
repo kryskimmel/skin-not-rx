@@ -82,6 +82,7 @@ def add_collection():
 
     product_ids = data.get('product_ids', [])
 
+    print('----data-----', data)
     if form.validate_on_submit():
         new_collection = Collection(
             name=data.get('name'),
