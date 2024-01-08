@@ -33,7 +33,7 @@ function UserCollections () {
                                     <div className="collection-page-collections-tile-div">
                                          <h2 className="collection-page-h2">{collection[0]} <span style={{color:"#4D4B4B",fontSize: "16px"}}>({collection[1].length})</span></h2>
                                          <div className="collection-page-collections-grid">
-                                            {collection[1].slice(0, 4)?.map((attr, idx) => (
+                                            {collection[1]?.slice(0, 4)?.map((attr, idx) => (
                                                 <div className="collection-page-grid-images" key={idx}>
                                                     <img src={attr.preview_image } alt={attr.product_name} title={attr.product_name} width="100px" height="100px"/>
                                                 </div>

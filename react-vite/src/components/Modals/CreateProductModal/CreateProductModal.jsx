@@ -86,22 +86,23 @@ function CreateProductModal () {
         setFrontendErrors(validationErrors);
     }, [brandName, productName, productType, description, keyIngredients, productLink, previewImg])
 
-    // console.log('the validation errors', validationErrors)
-    console.log('the validation errors inside ERRORS state', frontendErrors)
-    // console.log('show errors?', showErrors)
-    // console.log(Object.values(frontendErrors).length)
-    // console.log('form submitted?', submittedForm)
+
+    console.log('frontenderrors', frontendErrors)
+    console.log('show errors?', showErrors)
+    console.log(Object.values(frontendErrors).length)
+    console.log('form submitted?', submittedForm)
     console.log('backend errors?', backendErrors)
 
-    useEffect(() => {
-        setShowErrors(Object.values(frontendErrors).length > 0);
-    }, [frontendErrors]);
+    // useEffect(() => {
+    //     setShowErrors(Object.values(frontendErrors).length > 0);
+    // }, [frontendErrors]);
 
 
     // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmittedForm(true)
+        setShowErrors(Object.values(frontendErrors).length > 0);
 
         const newProduct = {
             "brand_name": brandName,
@@ -114,20 +115,16 @@ function CreateProductModal () {
             "image_url": previewImg
         }
 
-        try{
-            const data = await dispatch(createProduct(newProduct))
-            if (Array.isArray(data)) {
-				const dataErrors = {};
-				data?.forEach(error => {
-				const [key, value] = error.split(':')
-				dataErrors[key.trim()] = value.trim()
-				});
-				setBackendErrors(dataErrors);
-            } else {
-                closeModal();
-            }
-        } catch (error) {
-            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`)
+    const data = await dispatch(createProduct(newProduct))
+        if (Array.isArray(data)) {
+            const dataErrors = {};
+            data?.forEach(error => {
+            const [key, value] = error.split(':')
+            dataErrors[key.trim()] = value.trim()
+            });
+            setBackendErrors(dataErrors);
+        } else {
+            closeModal();
         }
     };
 
@@ -173,7 +170,7 @@ function CreateProductModal () {
                                 <option value="Exfoliator">Exfoliator</option>
                                 <option value="Treatment">Treatment</option>
                                 <option value="Serum">Serum</option>
-                                <option value="Sunscreens">Sunscreen</option>
+                                <option value="Sunscreen">Sunscreen</option>
                                 <option value="Moisturizer">Moisturizer</option>
                                 <option value="Toner">Toner</option>
                                 <option value="Face Mask">Face Mask</option>
