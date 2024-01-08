@@ -184,9 +184,10 @@ export default function reducer(state = initialState, action) {
         }
     case ADD_PRODUCT:
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
-      newState.allCollections = Object.values(newState.byId);
-      newState.byProductType = []
+      newState.allProducts = Object.values(newState.byId);
+      newState.byProductType = {...state.byProductType, [`${action.payload.product_type}s`]: [action.payload] }
       return newState;
+
     case EDIT_PRODUCT:
       newState = JSON.parse(JSON.stringify(state));
       newState.byId[`${action.payload.id}`] = action.payload
@@ -194,9 +195,11 @@ export default function reducer(state = initialState, action) {
       // newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_PRODUCT:
-      newState = JSON.parse(JSON.stringify(state));
-      delete newState[action.payload];
-      return newState;
+      const {[action.payload]: deletedProduct, ...updatedState} = state.byId;
+      return {...state, byId: updatedState}
+      // newState = JSON.parse(JSON.stringify(state));
+      // delete newState[action.payload];
+      // return newState;
     case GET_CURR_USER_PRODUCTS:
       if (action.payload.MyProducts) {
         const byId = {};
