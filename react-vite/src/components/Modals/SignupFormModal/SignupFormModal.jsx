@@ -14,19 +14,43 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [skinType, setSkinType] = useState("");
-  const [errors, setErrors] = useState({});
+  const [frontendErrors, setFrontendErrors] = useState({});
+  const [backendErrors, setBackendErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
-  // const [disableSubmit, setDisableSubmit] = useState(true)
+  const [submittedForm, setSubmittedForm] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const { closeModal } = useModal();
+
+   // Toggle submit button classname
+   const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
+
+  // useEffect to that will set IsDisabled status to true if required fields are not empty
+  useEffect(() => {
+    // if (submittedForm && (Object.values(backendErrors).length > 0 || Object.values(frontendErrors).length > 0)) {
+    if (submittedForm && Object.values(frontendErrors).length > 0) {
+        setIsDisabled(true);
+    } else {
+        setIsDisabled(false)
+    }
+}, [backendErrors, frontendErrors, submittedForm]);
 
 
   // useEffect to track validation errors
   useEffect(() => {
     const validationErrors = {}
 
-    const nameFormat = /^[a-zA-Z][a-zA-Z ]*$/;
+    const nameFormat = /^[a-zA-Z]+$/;
     const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const usernameFormat= /^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$/;
+    const imgFormats = [
+      ".jpg",
+      ".png",
+      "jpeg",
+      "http:",
+      "https",
+      "ftp:/",
+      "ftps:",
+    ];
 
     const inputRequired = "Input is required."
     const cannotStartWithSpaces = "Input cannot begin with a space."
@@ -37,149 +61,157 @@ function SignupFormModal() {
     const passwordLength = "Password must be at least 6 characters long."
     const emailFormatError = "Not a valid email."
     const usernameFormatError = "Not a valid username."
-    const nameFormatError = "Input can only contain letters and spaces in between words."
+    const nameFormatError = "Input can only contain letters."
+    const imgFormatError = "Image must be in one of the following formats: .jpg, .jpeg or .png";
 
     if (!firstName) validationErrors.firstName = inputRequired;
-    if (firstName && firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
-    if (firstName && !firstName.test(nameFormat)) validationErrors.firstName = nameFormatError;
-    if (firstName && firstName.length > 15) validationErrors.firstName = maxChar15;
-    if (firstName && firstName.length < 3) validationErrors.firstName = minChar3;
+    else if (firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
+    else if (firstName.length > 15) validationErrors.firstName = maxChar15;
+    else if (!nameFormat.test(firstName)) validationErrors.firstName = nameFormatError;
 
     if (!lastName) validationErrors.lastName = inputRequired;
-    if (lastName && lastName.startsWith(" ")) validationErrors.lastName = cannotStartWithSpaces;
-    if (lastName && lastName.test(nameFormat)) validationErrors.lastName = nameFormatError;
-    if (lastName && lastName.length > 15) validationErrors.lastName = maxChar15;
-    if (lastName && lastName.length < 3) validationErrors.lastName = minChar3;
+    else if (lastName.startsWith(" ")) validationErrors.lastName = cannotStartWithSpaces;
+    else if (lastName.length > 15) validationErrors.lastName = maxChar15;
+    else if (!nameFormat.test(lastName)) validationErrors.lastName = nameFormatError;
 
     if (!username) validationErrors.username = inputRequired;
-    if (username && username.startsWith(" ")) validationErrors.username = cannotStartWithSpaces;
-    if (username && !username.test(usernameFormat)) validationErrors.username = usernameFormatError;
-    if (username && username.length > 15) validationErrors.username = maxChar15;
-    if (username && username.length < 3) validationErrors.username = minChar3;
+    else if (username.startsWith(" ")) validationErrors.username = cannotStartWithSpaces;
+    else if (username.length < 3) validationErrors.username = minChar3;
+    else if (username.length > 15) validationErrors.username = maxChar15;
+    else if (!usernameFormat.test(username)) validationErrors.username = usernameFormatError;
 
     if (!email) validationErrors.email = inputRequired;
-    if (email && email.startsWith(" ")) validationErrors.email = cannotStartWithSpaces;
-    if (email && !email.test(emailFormat)) validationErrors.email = emailFormatError;
-    if (email && email.length > 60) validationErrors.email = maxChar60;
+    else if (email.startsWith(" ")) validationErrors.email = cannotStartWithSpaces;
+    else if (email.length < 3) validationErrors.email = minChar3;
+    else if (email.length > 60) validationErrors.email = maxChar60;
+    else if (!emailFormat.test(email)) validationErrors.email = emailFormatError;
 
     if (!password) validationErrors.password = inputRequired;
-    if (password && password.startsWith(" ")) validationErrors.password = cannotStartWithSpaces;
-    if (password && password.length < 6) validationErrors.password = passwordLength;
-    if (password && password.length > 15) validationErrors.password = maxChar15;
+    else if (password.startsWith(" ")) validationErrors.password = cannotStartWithSpaces;
+    else if (password.length < 6) validationErrors.password = passwordLength;
+    else if (password.length > 15) validationErrors.password = maxChar15;
+
+    if (password !== confirmPassword) validationErrors.confirmPassword = "Confirm Password field must be the same as the Password field";
 
     if (!profileImage) validationErrors.profileImage = inputRequired;
-    if (profileImage && profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
-    if (profileImage && profileImage.length > 255) validationErrors.profileImage = maxChar255;
+    else if (profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
+    else if (profileImage.startsWith(".")) validationErrors.profileImage = "Input cannot begin with a '.'";
+    else if (profileImage.length > 255) validationErrors.profileImage = maxChar255;
+    else if (!imgFormats.includes(profileImage.slice(-4))) validationErrors.profileImage = imgFormatError;
 
     if (!skinType) validationErrors.skinType = inputRequired;
-    if (skinType && skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
-    if (skinType && skinType.length > 255) validationErrors.skinType = maxChar255;
+    else if (skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
+    else if (skinType.length > 255) validationErrors.skinType = maxChar255;
 
-    setErrors(validationErrors);
-  }, [dispatch, firstName, lastName, username, email, password, profileImage, skinType])
+    setFrontendErrors(validationErrors);
+  }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType])
+
+  useEffect(() => {
+    setShowErrors(Object.values(frontendErrors).length > 0);
+}, [frontendErrors, backendErrors]);
+
 
 // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setShowErrors(true)
-
+    e.preventDefault()
+    setSubmittedForm(true);
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
           "Confirm Password field must be the same as the Password field",
       });
     }
-    const serverResponse = await dispatch(
-      thunkSignup({
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-        profileImage,
-        skinType
-      })
-    );
-    if (serverResponse) {
-      setErrors(serverResponse);
+
+    const data = await dispatch(thunkSignup({
+      'first_name': firstName,
+      'last_name': lastName,
+      'username': username,
+      'email': email,
+      'password': password,
+      'profile_image': profileImage,
+      'skin_type': skinType
+    }));
+    if (data) {
+      setBackendErrors(data)
     } else {
       closeModal();
     }
   };
 
+
   return (
     <div className="signup-form-wrapper">
       <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
+      {backendErrors.server && <p>{backendErrors.server}</p>}
       <form onSubmit={handleSubmit} className="signup-form-div">
         <label>First Name</label>
             <input
               type="text"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => setFirstName((e.target.value).trim())}
               required
             />
-          {showErrors && errors.firstName && <p className="errors-text">{errors.firstName}</p>}
+          {showErrors && submittedForm && frontendErrors?.firstName && (<p className="errors-text">{frontendErrors.firstName}</p>)}
 
 
           <label>Last Name</label>
             <input
               type="text"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => setLastName((e.target.value).trim())}
               required
             />
-          {showErrors && errors.lastName && <p className="errors-text">{errors.lastName}</p>}
+          {showErrors && submittedForm && frontendErrors?.lastName && (<p className="errors-text">{frontendErrors.lastName}</p>)}
 
 
           <label>Username</label>
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername((e.target.value).trim())}
             required
           />
-        {showErrors && errors.username && <p className="errors-text">{errors.username}</p>}
+        {showErrors && submittedForm && frontendErrors?.username && (<p className="errors-text">{frontendErrors.username}</p>)}
 
 
         <label>Email</label>
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail((e.target.value).trim())}
             required
           />
-        {showErrors && errors.email && <p className="errors-text">{errors.email}</p>}
+        {showErrors && submittedForm && frontendErrors?.email && (<p className="errors-text">{frontendErrors.email}</p>)}
 
 
         <label>Password</label>
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword((e.target.value).trim())}
             required
           />
-        {showErrors && errors.password && <p className="errors-text">{errors.password}</p>}
+        {showErrors && submittedForm && frontendErrors?.password && (<p className="errors-text">{frontendErrors.password}</p>)}
 
 
         <label>Confirm Password</label>
           <input
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword((e.target.value).trim())}
             required
           />
-        {showErrors && errors.confirmPassword && <p className="errors-text">{errors.confirmPassword}</p>}
+        {showErrors && submittedForm && frontendErrors?.confirmPassword && (<p className="errors-text">{frontendErrors.confirmPassword}</p>)}
 
 
         <label>Profile Image</label>
           <input
-            type="file"
+            type="text"
             value={profileImage}
-            onChange={(e) => setProfileImage(e.target.value)}
+            onChange={(e) => setProfileImage((e.target.value).trim())}
             required
           />
-        {showErrors && errors.profileImage && <p className="errors-text">{errors.profileImage}</p>}
+        {showErrors && submittedForm && frontendErrors?.profileImage && (<p className="errors-text">{frontendErrors.profileImage}</p>)}
 
 
         <label>Skin Type</label>
@@ -194,9 +226,9 @@ function SignupFormModal() {
             <option value="Combination">Combination</option>
             <option value="Acne-Prone">Acne-Prone</option>
           </select>
-        {showErrors && errors.skinType && <p className="errors-text">{errors.skinType}</p>}
+        {showErrors && submittedForm && frontendErrors?.skinType && (<p className="errors-text">{frontendErrors.skinType}</p>)}
 
-        <button type="submit">Sign Up</button>
+        <button type="submit" className={submitButtonCN} disabled={isDisabled}>Sign Up</button>
       </form>
     </div>
   );

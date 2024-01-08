@@ -41,14 +41,16 @@ export const thunkLogin = (credentials) => async dispatch => {
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
+  console.log('In thunk: user: --', user)
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
   });
-
+  console.log('In thunk: response: --', response)
   if(response.ok) {
     const data = await response.json();
+    console.log('In thunk: data: --', data)
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
