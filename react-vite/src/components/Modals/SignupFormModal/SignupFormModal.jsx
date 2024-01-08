@@ -17,7 +17,6 @@ function SignupFormModal() {
   const [frontendErrors, setFrontendErrors] = useState({});
   const [backendErrors, setBackendErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
-  const [disableSubmit, setDisableSubmit] = useState(true)
   const [submittedForm, setSubmittedForm] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { closeModal } = useModal();
@@ -27,12 +26,13 @@ function SignupFormModal() {
 
   // useEffect to that will set IsDisabled status to true if required fields are not empty
   useEffect(() => {
-    if (submittedForm && (Object.values(backendErrors).length > 0 || Object.values(frontendErrors).length > 0)) {
+    // if (submittedForm && (Object.values(backendErrors).length > 0 || Object.values(frontendErrors).length > 0)) {
+    if (submittedForm && Object.values(frontendErrors).length > 0) {
         setIsDisabled(true);
     } else {
         setIsDisabled(false)
     }
-});
+}, [backendErrors, frontendErrors, submittedForm]);
 
 
   // useEffect to track validation errors
@@ -42,6 +42,15 @@ function SignupFormModal() {
     const nameFormat = /^[a-zA-Z]+$/;
     const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const usernameFormat= /^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$/;
+    const imgFormats = [
+      ".jpg",
+      ".png",
+      "jpeg",
+      "http:",
+      "https",
+      "ftp:/",
+      "ftps:",
+    ];
 
     const inputRequired = "Input is required."
     const cannotStartWithSpaces = "Input cannot begin with a space."
@@ -53,6 +62,7 @@ function SignupFormModal() {
     const emailFormatError = "Not a valid email."
     const usernameFormatError = "Not a valid username."
     const nameFormatError = "Input can only contain letters."
+    const imgFormatError = "Image must be in one of the following formats: .jpg, .jpeg or .png";
 
     if (!firstName) validationErrors.firstName = inputRequired;
     else if (firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
@@ -84,8 +94,10 @@ function SignupFormModal() {
     if (password !== confirmPassword) validationErrors.confirmPassword = "Confirm Password field must be the same as the Password field";
 
     if (!profileImage) validationErrors.profileImage = inputRequired;
-    else if ( profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
-    else if ( profileImage.length > 255) validationErrors.profileImage = maxChar255;
+    else if (profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
+    else if (profileImage.startsWith(".")) validationErrors.profileImage = "Input cannot begin with a '.'";
+    else if (profileImage.length > 255) validationErrors.profileImage = maxChar255;
+    else if (!imgFormats.includes(profileImage.slice(-4))) validationErrors.profileImage = imgFormatError;
 
     if (!skinType) validationErrors.skinType = inputRequired;
     else if (skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
@@ -96,58 +108,36 @@ function SignupFormModal() {
 
   useEffect(() => {
     setShowErrors(Object.values(frontendErrors).length > 0);
-}, [frontendErrors]);
-
-
-
-  console.log('before submit user:', {
-    firstName,
-    lastName,
-    email,
-    username,
-    password,
-    profileImage,
-    skinType
-  })
-
-  console.log('frontenderrors', frontendErrors.length > 0)
-  console.log('backenderrors:', backendErrors)
-  console.log('form submitted?', submittedForm)
-
-
+}, [frontendErrors, backendErrors]);
 
 
 // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmittedForm(true);
-
-    const newUser = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'username': username,
-        'email': email,
-        'password': password,
-        'profile_image': profileImage,
-        'skin_type': skinType
+    if (password !== confirmPassword) {
+      return setErrors({
+        confirmPassword:
+          "Confirm Password field must be the same as the Password field",
+      });
     }
 
-    try{
-      const data = await dispatch(thunkSignup(newUser));
-      if (Array.isArray(data)) {
-      const dataErrors = {};
-      data?.forEach(error => {
-      const [key, value] = error.split(':')
-      dataErrors[key.trim()] = value.trim()
-      });
-      setBackendErrors(dataErrors);
-      } else {
-          // closeModal();
-      }
-  } catch (error) {
-      throw new Error(`There was an error in submitting your form for creating a new product: ${error}`)
-  }
+    const data = await dispatch(thunkSignup({
+      'first_name': firstName,
+      'last_name': lastName,
+      'username': username,
+      'email': email,
+      'password': password,
+      'profile_image': profileImage,
+      'skin_type': skinType
+    }));
+    if (data) {
+      setBackendErrors(data)
+    } else {
+      closeModal();
+    }
   };
+
 
   return (
     <div className="signup-form-wrapper">
@@ -158,7 +148,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => setFirstName((e.target.value).trim())}
               required
             />
           {showErrors && submittedForm && frontendErrors?.firstName && (<p className="errors-text">{frontendErrors.firstName}</p>)}
@@ -168,7 +158,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => setLastName((e.target.value).trim())}
               required
             />
           {showErrors && submittedForm && frontendErrors?.lastName && (<p className="errors-text">{frontendErrors.lastName}</p>)}
@@ -178,7 +168,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername((e.target.value).trim())}
             required
           />
         {showErrors && submittedForm && frontendErrors?.username && (<p className="errors-text">{frontendErrors.username}</p>)}
@@ -188,7 +178,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail((e.target.value).trim())}
             required
           />
         {showErrors && submittedForm && frontendErrors?.email && (<p className="errors-text">{frontendErrors.email}</p>)}
@@ -198,7 +188,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword((e.target.value).trim())}
             required
           />
         {showErrors && submittedForm && frontendErrors?.password && (<p className="errors-text">{frontendErrors.password}</p>)}
@@ -208,7 +198,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword((e.target.value).trim())}
             required
           />
         {showErrors && submittedForm && frontendErrors?.confirmPassword && (<p className="errors-text">{frontendErrors.confirmPassword}</p>)}
@@ -216,9 +206,9 @@ function SignupFormModal() {
 
         <label>Profile Image</label>
           <input
-            type="file"
+            type="text"
             value={profileImage}
-            onChange={(e) => setProfileImage(e.target.value)}
+            onChange={(e) => setProfileImage((e.target.value).trim())}
             required
           />
         {showErrors && submittedForm && frontendErrors?.profileImage && (<p className="errors-text">{frontendErrors.profileImage}</p>)}
