@@ -58,3 +58,23 @@
     list-style: none;
     padding: 0 20px;
 }
+
+.create-custom-product-div {
+    height: 275px;
+    width: 275px;
+    background-color: #EFEFEF;
+    padding: 5px 5px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-custom-product-div button {
+    cursor: pointer;
+    height: 275px;
+    width: 275px;
+    border: none;
+    font-size: 20px;
+}

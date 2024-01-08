@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import * as ProductActions from "../../../redux/product";
 import OpenModalButton from "../../Modals/OpenModalButton/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductInfoModal";
+import CreateProductModal from "../../Modals/CreateProductModal";
+import { Icon } from '@iconify/react';
 import "./UserProducts.css";
 
 
@@ -44,6 +46,16 @@ function UserProducts() {
                 </div>
                 ))
                 : <h2>You have not created any products!</h2>}
+                <div className="create-custom-product-div">
+                        <OpenModalButton
+                        buttonText={
+                            <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                                <p>Create A Product</p>
+                                <Icon icon="basil:add-outline" width="30" height="30" />
+                            </div>}
+                        modalComponent={<CreateProductModal/>}
+                        />
+                </div>
             </div>
         </div>
     )

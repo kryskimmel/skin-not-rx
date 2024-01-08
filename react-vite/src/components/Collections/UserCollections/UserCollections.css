@@ -100,7 +100,7 @@
     align-items: center;
 }
 
-.create-custom-collection-div:button {
+.create-custom-collection-div button {
     cursor: pointer;
     height: 275px;
     width: 275px;
