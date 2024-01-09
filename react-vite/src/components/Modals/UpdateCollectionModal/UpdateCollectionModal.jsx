@@ -123,7 +123,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
         setSubmittedForm(true)
         const prodIds = prevStoredProducts.map((prod) => prod.id)
         const updatedCollection = {
-            'name': name,
+            'name': name.trimEnd(),
             'user_id': currentUserId,
             'product_ids': prodIds
         }
@@ -138,7 +138,9 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
 				});
 				setBackendErrors(dataErrors);
             } else {
-                closeModal();
+                if (Object.values(frontendErrors).length === 0) {
+                    closeModal();
+                }
             }
         } catch (error) {
             throw new Error(`There was an error in submitting your form for creating a new collection: ${error}`)
@@ -156,7 +158,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                 <input
                     type="text"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setName((e.target.value).trimStart())}
                 />
                 {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
