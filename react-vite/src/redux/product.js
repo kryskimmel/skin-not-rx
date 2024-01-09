@@ -207,6 +207,7 @@ export default function reducer(state = initialState, action) {
       newState.allProducts = Object.values(newState.byId)
 
 
+
       // newState = {...state, [action.payload.id] : action.payload}
       return newState;
     case DELETE_PRODUCT:
