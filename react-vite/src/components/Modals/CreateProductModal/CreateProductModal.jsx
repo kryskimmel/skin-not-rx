@@ -105,14 +105,14 @@ function CreateProductModal () {
         setShowErrors(Object.values(frontendErrors).length > 0);
 
         const newProduct = {
-            "brand_name": brandName,
-            "product_name": productName,
+            "brand_name": brandName.trimEnd(),
+            "product_name": productName.trimEnd(),
             "product_type": productType,
-            "description": description,
-            "key_ingredients": keyIngredients,
-            "product_link": productLink,
+            "description": description.trimEnd(),
+            "key_ingredients": keyIngredients.trimEnd(),
+            "product_link": productLink.trimEnd(),
             "user_id": user.id,
-            "image_url": previewImg
+            "image_url": previewImg.trimEnd()
         }
 
     const data = await dispatch(createProduct(newProduct))
@@ -124,7 +124,9 @@ function CreateProductModal () {
             });
             setBackendErrors(dataErrors);
         } else {
-            closeModal();
+            if (Object.values(frontendErrors).length === 0) {
+                closeModal();
+            }
         }
     };
 
@@ -146,7 +148,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={brandName}
-                                onChange={(e) => {setBrandName(e.target.value)}}
+                                onChange={(e) => {setBrandName((e.target.value).trimStart())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
                         </div>
@@ -156,7 +158,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={productName}
-                                onChange={(e) => {setProductName(e.target.value)}}
+                                onChange={(e) => {setProductName((e.target.value).trimStart())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
                             { submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
@@ -186,7 +188,7 @@ function CreateProductModal () {
                             <textarea
                                 ref={descriptionRef}
                                 value={description}
-                                onChange={(e) => {setDescription(e.target.value)}}
+                                onChange={(e) => {setDescription((e.target.value).trimStart())}}
                             ></textarea>
                             <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
                             {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
@@ -200,7 +202,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={keyIngredients}
-                                onChange={(e) => {setKeyIngredients(e.target.value)}}
+                                onChange={(e) => {setKeyIngredients((e.target.value).trimStart())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                         </div>
@@ -210,7 +212,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={productLink}
-                                onChange={(e) => {setProductLink((e.target.value).trim())}}
+                                onChange={(e) => {setProductLink((e.target.value).trimStart())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
@@ -219,7 +221,7 @@ function CreateProductModal () {
                             <input
                                 type='text'
                                 value={previewImg}
-                                onChange={(e) => {setPreviewImg((e.target.value).trim())}}
+                                onChange={(e) => {setPreviewImg((e.target.value).trimStart())}}
                             />
                             {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
                         </div>
