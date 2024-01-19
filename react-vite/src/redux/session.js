@@ -1,9 +1,9 @@
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 
-const setUser = (user) => ({
+const setUser = (formData) => ({
   type: SET_USER,
-  payload: user
+  payload: formData
 });
 
 const removeUser = () => ({
@@ -40,18 +40,21 @@ export const thunkLogin = (credentials) => async dispatch => {
   }
 };
 
-export const thunkSignup = (user) => async (dispatch) => {
-  console.log('In thunk: user: --', user)
+export const thunkSignup = (formData) => async (dispatch) => {
+
+  console.log('IN THUNK user', formData)
+
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
+    body: formData
+    // headers: { "Content-Type": "application/json" },
+    // body: JSON.stringify(user)
   });
-  console.log('In thunk: response: --', response)
+console.log('THE RESPONSE', response)
+
   if(response.ok) {
-    const data = await response.json();
-    console.log('In thunk: data: --', data)
-    dispatch(setUser(data));
+    const user = await response.json()
+    dispatch(setUser(user))
   } else if (response.status < 500) {
     const errorMessages = await response.json();
     return errorMessages
