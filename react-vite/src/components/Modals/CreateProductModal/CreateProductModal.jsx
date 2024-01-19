@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import charCountRemaining from '../../../utils/charCountRemaining';
 import "./CreateProductModal.css";
 
-function CreateProductModal () {
+function CreateProductModal() {
     const dispatch = useDispatch();
     const descriptionRef = useRef();
     const { closeModal } = useModal();
@@ -17,6 +17,7 @@ function CreateProductModal () {
     const [description, setDescription] = useState("");
     const [keyIngredients, setKeyIngredients] = useState("");
     const [productLink, setProductLink] = useState("");
+    // state for images
     const [previewImg, setPreviewImg] = useState("");
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
@@ -54,7 +55,7 @@ function CreateProductModal () {
             ".jpg",
             ".png",
             "jpeg",
-          ];
+        ];
 
         if (!brandName) validationErrors.brandName = inputRequired;
         else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
@@ -93,9 +94,6 @@ function CreateProductModal () {
     console.log('form submitted?', submittedForm)
     console.log('backend errors?', backendErrors)
 
-    // useEffect(() => {
-    //     setShowErrors(Object.values(frontendErrors).length > 0);
-    // }, [frontendErrors]);
 
 
     // Handles form submission
@@ -115,12 +113,12 @@ function CreateProductModal () {
             "image_url": previewImg.trimEnd()
         }
 
-    const data = await dispatch(createProduct(newProduct))
+        const data = await dispatch(createProduct(newProduct))
         if (Array.isArray(data)) {
             const dataErrors = {};
             data?.forEach(error => {
-            const [key, value] = error.split(':')
-            dataErrors[key.trim()] = value.trim()
+                const [key, value] = error.split(':')
+                dataErrors[key.trim()] = value.trim()
             });
             setBackendErrors(dataErrors);
         } else {
@@ -138,35 +136,35 @@ function CreateProductModal () {
 
     return (
         <div className='create-product-container'>
-            <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{marginTop:"10px"}} />
+            <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{ marginTop: "10px" }} />
             <h1>Create A Product</h1>
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='product-form-div'>
                     <div className='product-form-left'>
                         <div className='brand-name-div'>
-                            <label>Brand Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <label>Brand Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                             <input
                                 type="text"
                                 value={brandName}
-                                onChange={(e) => {setBrandName((e.target.value).trimStart())}}
+                                onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
                         </div>
 
                         <div className='product-name-div'>
-                            <label>Product Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <label>Product Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                             <input
                                 type="text"
                                 value={productName}
-                                onChange={(e) => {setProductName((e.target.value).trimStart())}}
+                                onChange={(e) => { setProductName((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
-                            { submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
+                            {submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
                         </div>
 
                         <div className='product-type-div'>
-                            <label>Product Type:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                            <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                            <label>Product Type:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                            <select className='product-type-select' value={productType} onChange={(e) => { setProductType(e.target.value) }}>
                                 <option value="" disabled>--</option>
                                 <option value="Cleanser">Cleanser</option>
                                 <option value="Exfoliator">Exfoliator</option>
@@ -184,11 +182,11 @@ function CreateProductModal () {
                         </div>
 
                         <div className='description-div'>
-                            <label>Description: <span style={{color: '#8B0000', fontWeight:'600'}}> *</span></label>
+                            <label>Description: <span style={{ color: '#8B0000', fontWeight: '600' }}> *</span></label>
                             <textarea
                                 ref={descriptionRef}
                                 value={description}
-                                onChange={(e) => {setDescription((e.target.value).trimStart())}}
+                                onChange={(e) => { setDescription((e.target.value).trimStart()) }}
                             ></textarea>
                             <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
                             {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
@@ -202,7 +200,7 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={keyIngredients}
-                                onChange={(e) => {setKeyIngredients((e.target.value).trimStart())}}
+                                onChange={(e) => { setKeyIngredients((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                         </div>
@@ -212,16 +210,16 @@ function CreateProductModal () {
                             <input
                                 type="text"
                                 value={productLink}
-                                onChange={(e) => {setProductLink((e.target.value).trimStart())}}
+                                onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
                         <div className='preview-img-div'>
-                            <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <label>Preview Image:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                             <input
                                 type='text'
                                 value={previewImg}
-                                onChange={(e) => {setPreviewImg((e.target.value).trimStart())}}
+                                onChange={(e) => { setPreviewImg((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
                         </div>
