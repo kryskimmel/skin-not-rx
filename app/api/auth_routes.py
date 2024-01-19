@@ -3,6 +3,7 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from app.awsS3 import upload_file_to_s3, get_unique_filename, allowed_file
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -61,26 +62,32 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-
-    # username_exists = User.query.filter(User.username == form.data['username']).first()
-    # email_exists = User.query.filter(User.email == form.data['email']).first()
-    # if username_exists:
-    #     return {'error': 'Username already exists.'}
-    # if email_exists:
-    #     return {'error': 'This email has already been taken.'}
-
     try:
         if form.validate_on_submit():
+        # Checks to see if there is an image to update from Redux
+            if "profile_image" in request.files:
+                # Grabs the image
+                profile_image = request.files["profile_image"]
+                if not allowed_file(profile_image.filename):
+                    return {"errors" : ["Image file type not permitted"]}, 400
+
+            # preparing and sending image to AWS
+            profile_image.filename = get_unique_filename(profile_image.filename)
+            upload = upload_file_to_s3(profile_image)
+
+            if "url" not in upload:
+                return upload, 400
+            url = upload["url"]
+
             user = User(
                 first_name=form.data['first_name'],
                 last_name=form.data['last_name'],
                 username=form.data['username'],
                 email=form.data['email'],
                 password=form.data['password'],
-                profile_image=form.data["profile_image"],
+                profile_image=url,
                 skin_type=form.data["skin_type"]
             )
-            print('-------USER------', user.to_dict())
             db.session.add(user)
             db.session.commit()
             login_user(user)
@@ -89,6 +96,7 @@ def sign_up():
     except Exception as e:
         return {'error': str(e)}, 400
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
 
 @auth_routes.route('/unauthorized')
 def unauthorized():
