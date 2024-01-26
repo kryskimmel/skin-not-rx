@@ -15,12 +15,11 @@ function SplashPage() {
                         and products that you wouldn't bother purchasing again shouldn't be hard...
                         and those are the conveniences that Skin-not-Rx aims to provide.</p>
                 </div>
-                <ProductRandomizer/>
             </div>
             {user && (
                 <div className="splashpage-user-greeting-container">
                     <h2 className="splashpage-greeting">Hello {user.username}!</h2>
-                    <img src={user.profile_image} alt={`${user.profile_image} profile image`} className="splashpage-profile-image"/>
+                    <img src={user.profile_image} alt={`${user.profile_image} profile image`} className="splashpage-profile-image" />
                 </div>
             )}
         </div>
