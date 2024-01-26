@@ -43,12 +43,13 @@ export const thunkLogin = (credentials) => async dispatch => {
 export const thunkSignup = (formData) => async (dispatch) => {
 
   console.log('IN THUNK user', formData)
+  for (const entry of formData.entries()) {
+    console.log('the entry',entry);
+  }
 
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     body: formData
-    // headers: { "Content-Type": "application/json" },
-    // body: JSON.stringify(user)
   });
 console.log('THE RESPONSE', response)
 
