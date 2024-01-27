@@ -16,7 +16,6 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px
-
 }
 
 .user-profile-products-buttons {
@@ -25,16 +24,16 @@
 }
 
 .user-profile-products-tile {
-     display: flex;
-     flex-direction: column;
-     /* align-items: center; */
-     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-     border-radius: 15px;
-     background-color: #FFFFFF;
-     height: 275px;
-     width: 200px;
-     padding: 5px 5px;
-     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    height: 275px;
+    width: 200px;
+    padding: 5px 5px;
+    cursor: pointer;
 
 }
 
@@ -54,15 +53,15 @@
     padding: 10px;
 }
 
-.user-profile-products-tile-ul{
+.user-profile-products-tile-ul {
     list-style: none;
     padding: 0 20px;
 }
 
 .create-custom-product-div {
     height: 275px;
-    width: 275px;
-    background-color: #EFEFEF;
+    width: 200px;
+    background-color: rgb(224, 223, 223);
     padding: 5px 5px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     border-radius: 15px;
@@ -73,8 +72,9 @@
 
 .create-custom-product-div button {
     cursor: pointer;
-    height: 275px;
-    width: 275px;
+    height: 250px;
+    width: 190px;
     border: none;
     font-size: 20px;
+    background-color: rgb(224, 223, 223);
 }
