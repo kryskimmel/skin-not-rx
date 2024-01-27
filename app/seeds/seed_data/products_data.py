@@ -48,7 +48,7 @@ products_data = [
        "description": "A peptide-rich, multifunctional serum helps reduce the visible signs of aging and keeps skin looking healthy.",
        "key_ingredients": "Matrixyl®3000, SYN®-AKE, Organic Green Tea, Organic Omega-3 Fatty Acids",
        "product_link": "https://www.getjackblack.com/protein-booster-skin-serum.aspx#",
-       "user_id": 3
+       "user_id": 1
     },
    #  #6
     {
@@ -58,7 +58,7 @@ products_data = [
        "description": "This clinically effective formula is inspired from our original cult-fave Watermelon Glow Sleeping Mask.",
        "key_ingredients": "2.5% pH-Balanced AHA Complex, Hyaluronic Acid, Niacinamide + Quinoa Peptides, Watermelon Enzymes",
        "product_link": "https://www.glowrecipe.com/products/watermelon-glow-aha-night-treatment",
-       "user_id": 4
+       "user_id": 1
     },
    #  #7
     {
@@ -78,7 +78,7 @@ products_data = [
        "description": "This wash-off mask starts as a smooth gel and tightens as it dries, leaving your skin visibly lifted and firmer. ",
        "key_ingredients": "Red Wine Extract, Centella Asiatica Extract",
        "product_link": "https://tonymoly.us/collections/skincare-masks/products/im-red-wine-pore-tightening-mask",
-       "user_id": 5
+       "user_id": 1
     },
    #  #9
     {
@@ -98,7 +98,7 @@ products_data = [
        "description": "Our best-selling anti-aging eye cream now visibly reduces wrinkles and diminishes the appearance of dark circles.",
        "key_ingredients": "Peptides, Squalane, Ginseng Extract, Vitamin E",
        "product_link": "https://www.shiseido.com/us/en/benefiance-wrinkle-smoothing-eye-cream-0768614208570.html?cgid=skincare",
-       "user_id": 4
+       "user_id": 1
     },
    # #  #11
     {
@@ -108,7 +108,7 @@ products_data = [
        "description": "An advanced-level exfoliating peel.",
        "key_ingredients": "Glycolic Acid, Lactic Acid,Tartaric Acid, Citric Acid, Salicylic Acid",
        "product_link": "https://theordinary.com/en-us/aha-30-bha-2-peeling-solution-exfoliator-100400.html",
-       "user_id": 3
+       "user_id": 1
     },
    # #  #12
     {
@@ -128,7 +128,7 @@ products_data = [
        "description": "This serum is made for those struggling with enlarged pores and skin inflammation. ",
        "key_ingredients": "Propolis Extract, Niacinamide",
        "product_link": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide?variant=40070016237733",
-       "user_id": 5
+       "user_id": 2
     },
    # #  #14
     {
@@ -148,7 +148,7 @@ products_data = [
        "description": "Light-weight essence which absorbs into the skin fast to give skin a natural glow from the inside.",
        "key_ingredients": "Snail Secretion Filtrate, Sodium Hyaluronate",
        "product_link": "https://www.cosrx.com/products/advanced-snail-96-mucin-power-essence",
-       "user_id": 4
+       "user_id": 1
     },
    # #  #16
     {
@@ -168,7 +168,7 @@ products_data = [
        "description": "A leave-on lip sleeping mask that delivers ultra-hydrating and nourishing benefits, kissing flakey lips goodbye!",
        "key_ingredients": "Shea Butter, Murumuru Butter, Vitamin C, Coconut Oil",
        "product_link": "https://us.laneige.com/products/lip-sleeping-mask",
-       "user_id": 5
+       "user_id": 1
     },
    # #  #18
     {
@@ -178,7 +178,7 @@ products_data = [
        "description": "A deep-cleansing, non-drying creamy clay mask—formulated with absorbent Jeju Super Volcanic Clusters™ and AHA—that helps clear and visibly minimize the look of pores while it exfoliates.",
        "key_ingredients": "Jeju Super Volcanic Clusters™",
        "product_link": "https://us.innisfree.com/products/pore-clearing-clay-mask-2x-with-super-volcanic-clusters",
-       "user_id": 3
+       "user_id": 1
     },
    # #  #19
     {
@@ -188,7 +188,7 @@ products_data = [
        "description": "An innovative jelly cleanser that removes all traces of makeup, excess oil, pollution, and any other grime from the day. ",
        "key_ingredients": "Mild Surfactant Blend, Glycerin, Cantaloupe Fruit Extract, Virgin Marula Oil",
        "product_link": "https://www.drunkelephant.com/collections/holidayfavorites/beste%E2%84%A2-no.-9-jelly-cleanser-856556004852.html?cgid=q",
-       "user_id": 5
+       "user_id": 1
     },
    # #  #20
     {
@@ -198,6 +198,6 @@ products_data = [
        "description": "An energizing, non-greasy men's face moisturizer. Paraben-free & sulfate-free.",
        "key_ingredients": "Chestnut Extract, Vitamin C, Caffeine",
        "product_link": "https://www.kiehls.com/mens/mens-moisturizers/facial-fuel-daily-energizing-moisture-treatment-for-men/555.html",
-       "user_id": 3
+       "user_id": 1
     },
 ]
