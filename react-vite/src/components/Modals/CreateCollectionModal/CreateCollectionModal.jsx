@@ -5,7 +5,7 @@ import { useModal } from "../../../context/Modal";
 import SearchBarAndAddProduct from "../../SearchBar/SearchBarAndAddProduct/SearchBarAndAddProduct";
 import "./CreateCollectionModal.css";
 
-function CreateCollectionModal () {
+function CreateCollectionModal() {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
@@ -27,7 +27,7 @@ function CreateCollectionModal () {
     // Grab product ids from the selected products to add
     const productIds = [];
     if (productsToAdd) {
-        productsToAdd.map((attr) => {productIds.push(attr.id)})
+        productsToAdd.map((attr) => { productIds.push(attr.id) })
     }
 
     console.log('product id', productIds)
@@ -87,12 +87,12 @@ function CreateCollectionModal () {
         try {
             const data = await dispatch(createCollection(newCollection));
             if (Array.isArray(data)) {
-				const dataErrors = {};
-				data?.forEach(error => {
-				const [key, value] = error.split(':')
-				dataErrors[key.trim()] = value.trim()
-				});
-				setBackendErrors(dataErrors);
+                const dataErrors = {};
+                data?.forEach(error => {
+                    const [key, value] = error.split(':')
+                    dataErrors[key.trim()] = value.trim()
+                });
+                setBackendErrors(dataErrors);
             } else {
                 if (Object.values(frontendErrors).length === 0) {
                     closeModal();
@@ -106,21 +106,21 @@ function CreateCollectionModal () {
 
     return (
         <>
-        <div className='create-collection-container'>
-            <h1>Create A Collection</h1>
-            <form onSubmit={handleSubmit}>
+            <div className='create-collection-container'>
+                <h1 className="create-collection-h1">Create A Collection</h1>
+                <form onSubmit={handleSubmit}>
 
-                <label>Collection Name:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => {setName((e.target.value).trimStart())}}
-                />
-                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
-                <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
-                <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
-            </form>
-        </div>
+                    <label>Collection Name:</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => { setName((e.target.value).trimStart()) }}
+                    />
+                    {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
+                    <SearchBarAndAddProduct productsToAdd={handleProductsToAdd} />
+                    <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
+                </form>
+            </div>
         </>
     )
 }
