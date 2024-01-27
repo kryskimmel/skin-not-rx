@@ -42,6 +42,11 @@ function CreateProductModal() {
         }
     });
 
+    const imgFormats = [
+        ".jpg",
+        ".png",
+        "jpeg",
+    ];
     // useEffect to track validation errors
     useEffect(() => {
         const inputRequired = "Input is required."
@@ -51,11 +56,7 @@ function CreateProductModal() {
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
         const imgFormatError = "Image must be in one of the following formats: .jpg, .jpeg or .png";
-        const imgFormats = [
-            ".jpg",
-            ".png",
-            "jpeg",
-        ];
+
 
         if (!brandName) validationErrors.brandName = inputRequired;
         else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
@@ -102,30 +103,37 @@ function CreateProductModal() {
         setSubmittedForm(true)
         setShowErrors(Object.values(frontendErrors).length > 0);
 
-        const newProduct = {
-            "brand_name": brandName.trimEnd(),
-            "product_name": productName.trimEnd(),
-            "product_type": productType,
-            "description": description.trimEnd(),
-            "key_ingredients": keyIngredients.trimEnd(),
-            "product_link": productLink.trimEnd(),
-            "user_id": user.id,
-            "image_url": previewImg.trimEnd()
+        if (!imgFormats.includes(previewImg.slice(-4))) {
+            validationErrors.previewImg = "Image must be in one of the following formats: .jpg, .jpeg or .png"
+        } else {
+            const newProduct = {
+                "brand_name": brandName.trimEnd(),
+                "product_name": productName.trimEnd(),
+                "product_type": productType,
+                "description": description.trimEnd(),
+                "key_ingredients": keyIngredients.trimEnd(),
+                "product_link": productLink.trimEnd(),
+                "user_id": user.id,
+                "image_url": previewImg.trimEnd()
+            }
+
+            const data = await dispatch(createProduct(newProduct))
+            if (Array.isArray(data)) {
+                const dataErrors = {};
+                data?.forEach(error => {
+                    const [key, value] = error.split(':')
+                    dataErrors[key.trim()] = value.trim()
+                });
+                setBackendErrors(dataErrors);
+            } else {
+                if (Object.values(frontendErrors).length === 0) {
+                    closeModal();
+                }
+            }
+
         }
 
-        const data = await dispatch(createProduct(newProduct))
-        if (Array.isArray(data)) {
-            const dataErrors = {};
-            data?.forEach(error => {
-                const [key, value] = error.split(':')
-                dataErrors[key.trim()] = value.trim()
-            });
-            setBackendErrors(dataErrors);
-        } else {
-            if (Object.values(frontendErrors).length === 0) {
-                closeModal();
-            }
-        }
+
     };
 
 
