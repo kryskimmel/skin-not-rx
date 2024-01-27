@@ -51,10 +51,12 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
     return (
         <div className='user-products-wrapper'>
             <div className='collection-info-tools-div'>
-                <button onClick={toggleMenu}>
-                    <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
-                </button>
-                {showMenu && (
+                {collectionId && (
+                    <button onClick={toggleMenu}>
+                        <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
+                    </button>)
+                }
+                {showMenu && collectionId && (
                     <div className="collection-details-dropdown-container" >
 
                         <OpenModalButton
