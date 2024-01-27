@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // import OpenModalMenuItem from "../../Modals/OpenModalMenuButton";
 import OpenModalButton from "../../Modals/OpenModalButton/OpenModalButton";
 import CurrentCollectionModal from "../../Modals/CurrentCollectionModal";
@@ -13,6 +14,7 @@ function UserCollections() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.product.byProductType);
     const userCollections = useSelector(state => state.collection.allCollections);
+    const navigate = useNavigate();
 
 
 
@@ -45,7 +47,7 @@ function UserCollections() {
                             modalComponent={<CurrentCollectionModal collectionName={collection[0]} items={collection[1]} />}
                         />
                     </div>
-                )) : <h2>You have not added any products!</h2>}
+                )) : <h2 className="no-products-text-collections" onClick={() => { navigate('/users/current/products') }}>You have not added any products!</h2>}
             </div>
             <h1 className="collection-page-h1">My Custom Collections</h1>
             <div className="collection-page-custom-collections-div">
@@ -77,7 +79,7 @@ function UserCollections() {
                             modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                         />
                     </div>
-                )) : <h2 style={{ display: 'flex', alignItems: 'center' }}>You have not added any collections!</h2>}
+                )) : <h2 className="no-collections-text" style={{ display: 'flex', alignItems: 'center' }}>You have not added any collections!</h2>}
 
             </div>
         </div>
