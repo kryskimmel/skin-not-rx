@@ -12,8 +12,7 @@ import SearchBarAndFilter from "../SearchBar/SearchBarAndFilter";
 function Navigation() {
   const user = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const createRef = useRef();
+  const searchRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -23,7 +22,7 @@ function Navigation() {
   useEffect(() => {
     if (!showMenu) return;
     const closeMenu = (e) => {
-      if (createRef.current && !createRef.current.contains(e.target)) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -47,7 +46,8 @@ function Navigation() {
         {user ?
           <>
             <li><NavLink to="/" className="home">HOME</NavLink></li>
-            <li onClick={() => setShowSearch(!showSearch)} className="search">SEARCH</li>
+            <li onClick={toggleMenu} ref={searchRef} className="search">SEARCH</li>
+            {showMenu && (<SearchBarAndFilter showMenu={showMenu} searchRef={searchRef} />)}
             <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
             <li><NavLink to='/users/current/collections' className="collections">COLLECTIONS</NavLink></li>
           </>
@@ -59,7 +59,6 @@ function Navigation() {
           <ProfileButton />
         </li>
       </ul>
-      <SearchBarAndFilter showSearch={showSearch} />
     </div>
   );
 }
