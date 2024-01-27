@@ -8,7 +8,7 @@ import charCountRemaining from '../../../utils/charCountRemaining';
 import "./UpdateProductModal.css";
 
 
-function UpdateProductModal ({productId, product}) {
+function UpdateProductModal({ productId, product }) {
     const dispatch = useDispatch();
     const descriptionRef = useRef();
     const { closeModal } = useModal();
@@ -27,18 +27,18 @@ function UpdateProductModal ({productId, product}) {
     const [isDisabled, setIsDisabled] = useState(true);
     const validationErrors = {};
 
-    console.log({productId, product})
-    console.log('BEFORE submit' ,
-    {
-        brandName,
-        productName,
-        productType,
-        description,
-        keyIngredients,
-        productLink,
-        previewImg
+    console.log({ productId, product })
+    console.log('BEFORE submit',
+        {
+            brandName,
+            productName,
+            productType,
+            description,
+            keyIngredients,
+            productLink,
+            previewImg
 
-    })
+        })
 
     useEffect(() => {
         if (product) {
@@ -74,7 +74,6 @@ function UpdateProductModal ({productId, product}) {
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
-        const maxChar300 = "Input must not exceed 300 characters."
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
 
@@ -118,43 +117,43 @@ function UpdateProductModal ({productId, product}) {
     }, [frontendErrors]);
 
 
-   // Handles form submission
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmittedForm(true);
+    // Handles form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmittedForm(true);
 
 
-    const updatedProduct = {
-        "brand_name": brandName.trimEnd(),
-        "product_name": productName.trimEnd(),
-        "product_type": productType,
-        "description": description.trimEnd(),
-        "key_ingredients": keyIngredients.trimEnd(),
-        "product_link": productLink.trimEnd(),
-        "user_id": user.id,
-        "image_url": previewImg
-    };
+        const updatedProduct = {
+            "brand_name": brandName.trimEnd(),
+            "product_name": productName.trimEnd(),
+            "product_type": productType,
+            "description": description.trimEnd(),
+            "key_ingredients": keyIngredients.trimEnd(),
+            "product_link": productLink.trimEnd(),
+            "user_id": user.id,
+            "image_url": previewImg
+        };
 
-    try {
-        const data = await dispatch(modifyProduct(productId, updatedProduct));
+        try {
+            const data = await dispatch(modifyProduct(productId, updatedProduct));
 
-        if (Array.isArray(data)) {
-            const dataErrors = {};
-            data?.forEach(error => {
-                const [key, value] = error.split(':');
-                dataErrors[key.trim()] = value.trim();
-            });
-            setBackendErrors(dataErrors);
-        } else {
-            // Only close the modal if there are no frontend validation errors
-            if (Object.values(frontendErrors).length === 0) {
-                closeModal();
+            if (Array.isArray(data)) {
+                const dataErrors = {};
+                data?.forEach(error => {
+                    const [key, value] = error.split(':');
+                    dataErrors[key.trim()] = value.trim();
+                });
+                setBackendErrors(dataErrors);
+            } else {
+                // Only close the modal if there are no frontend validation errors
+                if (Object.values(frontendErrors).length === 0) {
+                    closeModal();
+                }
             }
+        } catch (error) {
+            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`);
         }
-    } catch (error) {
-        throw new Error(`There was an error in submitting your form for creating a new product: ${error}`);
-    }
-};
+    };
 
 
 
@@ -163,35 +162,35 @@ const handleSubmit = async (e) => {
 
     return (
         <div className='create-product-container'>
-            <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{marginTop:"10px"}} />
+            <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{ marginTop: "10px" }} />
             <h1>Update Product</h1>
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='product-form-div'>
                     <div className='product-form-left'>
                         <div className='brand-name-div'>
-                            <label>Brand Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <label>Brand Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                             <input
                                 type="text"
                                 value={brandName}
-                                onChange={(e) => {setBrandName((e.target.value).trimStart())}}
+                                onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
                         </div>
 
                         <div className='product-name-div'>
-                            <label>Product Name:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
+                            <label>Product Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                             <input
                                 type="text"
                                 value={productName}
-                                onChange={(e) => {setProductName((e.target.value).trimStart())}}
+                                onChange={(e) => { setProductName((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
-                            { submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
+                            {submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
                         </div>
 
                         <div className='product-type-div'>
-                            <label>Product Type:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                            <select className='product-type-select' value={productType} onChange={(e) => {setProductType(e.target.value)}}>
+                            <label>Product Type:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                            <select className='product-type-select' value={productType} onChange={(e) => { setProductType(e.target.value) }}>
                                 <option value="" disabled>--</option>
                                 <option value="Cleanser">Cleanser</option>
                                 <option value="Exfoliator">Exfoliator</option>
@@ -209,11 +208,11 @@ const handleSubmit = async (e) => {
                         </div>
 
                         <div className='description-div'>
-                            <label>Description: <span style={{color: '#8B0000', fontWeight:'600'}}> *</span></label>
+                            <label>Description: <span style={{ color: '#8B0000', fontWeight: '600' }}> *</span></label>
                             <textarea
                                 ref={descriptionRef}
                                 value={description}
-                                onChange={(e) => {setDescription((e.target.value).trimStart())}}
+                                onChange={(e) => { setDescription((e.target.value).trimStart()) }}
                             ></textarea>
                             <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
                             {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
@@ -227,7 +226,7 @@ const handleSubmit = async (e) => {
                             <input
                                 type="text"
                                 value={keyIngredients}
-                                onChange={(e) => {setKeyIngredients((e.target.value).trimStart())}}
+                                onChange={(e) => { setKeyIngredients((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                         </div>
@@ -238,7 +237,7 @@ const handleSubmit = async (e) => {
                             <input
                                 type="text"
                                 value={productLink}
-                                onChange={(e) => {setProductLink((e.target.value).trimStart())}}
+                                onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
                             />
                             {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                         </div>
