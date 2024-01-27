@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import DeleteProductModal from '../DeleteProductModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ProductInfoModal from '../ProductInfoModal';
@@ -10,8 +11,31 @@ import "./CurrentCollectionModal.css";
 
 
 
-function CurrentCollectionModal({collectionName, items, collectionId}) {
+function CurrentCollectionModal({ collectionName, items, collectionId }) {
     const { closeModal } = useModal();
+    const optionsRef = useRef();
+    const [showMenu, setShowMenu] = useState(false);
+
+    const toggleMenu = (e) => {
+        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        setShowMenu(!showMenu);
+    };
+
+    useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = (e) => {
+            if (optionsRef.current && !optionsRef.current.contains(e.target)) {
+                setShowMenu(false);
+            }
+        };
+        document.addEventListener("click", closeMenu);
+        return () => document.removeEventListener("click", closeMenu);
+    }, [showMenu]);
+
+    const closeMenu = () => setShowMenu(false);
+
+    console.log(showMenu, 'show menu??')
 
 
     const selectImgURL = (key) => {
@@ -26,43 +50,51 @@ function CurrentCollectionModal({collectionName, items, collectionId}) {
 
     return (
         <div className='user-products-wrapper'>
-            <div className='close-modal-button-div'>
+            <div className='collection-info-tools-div'>
+                <button onClick={toggleMenu}>
+                    <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
+                </button>
+                {showMenu && (
+                    <div className="collection-details-dropdown-container" >
+
+                        <OpenModalButton
+                            title={'Edit'}
+                            buttonText={'Edit'}
+                            modalComponent={<UpdateCollectionModal collectionId={collectionId} collectionName={collectionName} items={items} />}
+                        />
+                        <OpenModalButton
+                            title={'Delete'}
+                            buttonText={'Delete'}
+                            modalComponent={<DeleteCollectionModal collectionId={collectionId} collectionName={collectionName} />}
+                        />
+                    </div>
+                )}
+
                 <OpenModalButton
                     className={'close-modal-button'}
                     title={'Close'}
                     buttonText={<Icon icon="ph:x-square-bold" width="30" height="30" />}
-                    onButtonClick={() => {closeModal()}}
+                    onButtonClick={() => { closeModal() }}
                 />
             </div>
-            <h1 className='user-products-h1'>{collectionName} <span style={{color:"#4D4B4B", fontSize:"22px"}}>({items.length})</span></h1>
-            <div className='collection-management-buttons'>
-                <OpenModalButton
-                    title={"Delete"}
-                    buttonText={<Icon icon="ph:trash-bold" width="30" height="30" />}
-                    modalComponent={<DeleteCollectionModal collectionId={collectionId} collectionName={collectionName} />}
-                />
-                <OpenModalButton
-                    title={'Edit'}
-                    buttonText={<Icon icon="bxs:edit" width="30" height="30"/>}
-                    modalComponent={<UpdateCollectionModal collectionId={collectionId} collectionName={collectionName} items={items}/>}
-                />
-            </div>
+            <h1 className='user-products-h1'>{collectionName} <span style={{ color: "#4D4B4B", fontSize: "22px" }}>({items.length})</span></h1>
+
             <div className='user-products-div'>
                 {items?.map((item) => (
                     <div className='user-products-product-tile' key={item.id}>
                         <div className='user-products-product-tile-img-div'>
-                            <img src={selectImgURL(item)} alt={item.product_name} title={item.product_name} className="user-products-img" width={175} height={175}/>
+                            <img src={selectImgURL(item)} alt={item.product_name} title={item.product_name} className="user-products-img" width={175} height={175} />
                         </div>
                         <div className='user-products-info-div'>
                             <ul>
-                                <li style={{fontWeight:'600'}}>{item.brand_name}</li>
+                                <li style={{ fontWeight: '600' }}>{item.brand_name}</li>
                                 <li>{item.product_name}</li>
                             </ul>
                             <div className='user-products-management-buttons'>
                                 <OpenModalButton
-                                buttonText="VIEW"
-                                modalComponent={<ProductInfoModal productId={item.id}/>}
-                            />
+                                    buttonText="VIEW"
+                                    modalComponent={<ProductInfoModal productId={item.id} />}
+                                />
                             </div>
                         </div>
                     </div>
