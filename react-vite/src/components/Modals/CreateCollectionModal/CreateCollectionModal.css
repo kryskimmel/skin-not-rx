@@ -2,7 +2,12 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    font-family: 'Barlow', sans-serif;
+}
 
+.create-collection-h1 {
+    display: flex;
+    justify-content: center;
 }
 
 .create-collection-container form {
@@ -12,7 +17,8 @@
     padding: 10px 20px;
 }
 
-.create-collection-container input, .create-collection-container select {
+.create-collection-container input,
+.create-collection-container select {
     margin-bottom: 10px;
 }
 
@@ -23,5 +29,5 @@
 }
 
 .create-collection-button:hover {
-   cursor: pointer;
+    cursor: pointer;
 }

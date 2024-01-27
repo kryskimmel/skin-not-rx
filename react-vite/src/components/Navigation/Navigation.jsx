@@ -1,17 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CreateProductModal from "../Modals/CreateProductModal/CreateProductModal";
 import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import OpenModalButton from "../Modals/OpenModalButton/OpenModalButton";
 import "./Navigation.css";
+import SearchBarAndFilter from "../SearchBar/SearchBarAndFilter";
 
 
 function Navigation() {
   const user = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
-  const createRef = useRef();
+  const searchRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -21,7 +22,7 @@ function Navigation() {
   useEffect(() => {
     if (!showMenu) return;
     const closeMenu = (e) => {
-      if (createRef.current && !createRef.current.contains(e.target)) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -32,41 +33,30 @@ function Navigation() {
   const closeMenu = () => setShowMenu(false);
 
 
+
+
   return (
     <div className="nav-container">
       <ul className="nav-left">
         <li>
-          <NavLink to="/" className="logo" style={{ textDecoration: 'none', color: '#000000' ,fontSize:'20px' }}>SKIN-<span style={{textDecoration:"line-through"}}>rx</span></NavLink>
+          <NavLink to="/" className="logo"><img src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/static/skin-not-rx-logo.png" /></NavLink>
         </li>
       </ul>
       <ul className="nav-center">
         {user ?
-            <>
-              <li><NavLink to="/" className="home">HOME</NavLink></li>
-              <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
-              <li><NavLink to='/users/current/collections' className="collections">COLLECTIONS</NavLink></li>
-              <li className="create" onClick={toggleMenu}>CREATE</li>
-              {showMenu && (
-              <div className="create-options-container" ref={createRef}>
-                  <OpenModalButton
-                    buttonText="Product"
-                    onButtonClick={closeMenu}
-                    modalComponent={<CreateProductModal/>}
-                  />
-                  <OpenModalButton
-                    buttonText="Collection"
-                    onButtonClick={closeMenu}
-                    modalComponent={<CreateCollectionModal/>}
-                  />
-              </div>
-              )}
-            </>
-            : null
+          <>
+            <li><NavLink to="/" className="home">HOME</NavLink></li>
+            <li onClick={toggleMenu} ref={searchRef} className="search">SEARCH</li>
+            {showMenu && (<SearchBarAndFilter showMenu={showMenu} searchRef={searchRef} />)}
+            <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
+            <li><NavLink to='/users/current/collections' className="collections">COLLECTIONS</NavLink></li>
+          </>
+          : null
         }
       </ul>
       <ul className="nav-right">
         <li>
-            <ProfileButton />
+          <ProfileButton />
         </li>
       </ul>
     </div>
@@ -74,3 +64,21 @@ function Navigation() {
 }
 
 export default Navigation;
+
+
+
+{/* <li className="create" onClick={toggleMenu}>CREATE</li>
+{showMenu && (
+<div className="create-options-container" ref={createRef}>
+    <OpenModalButton
+      buttonText="Product"
+      onButtonClick={closeMenu}
+      modalComponent={<CreateProductModal/>}
+    />
+    <OpenModalButton
+      buttonText="Collection"
+      onButtonClick={closeMenu}
+      modalComponent={<CreateCollectionModal/>}
+    />
+</div>
+)} */}

@@ -45,23 +45,23 @@ function ProfileButton() {
 
   return (
     <>
-      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{cursor:"pointer"}}/> : <button className="logout-button" onClick={logout}>Log Out</button>}
+      {!user ? <Icon icon="solar:login-bold-duotone" width="40" height="40" onClick={toggleMenu} style={{ cursor: "pointer" }} /> : <button className="logout-button" onClick={logout}>Log Out</button>}
       {showMenu && (
         <div className="account-tools-dropdown-container" ref={ulRef}>
-            {user ? null : (
-              <div className="account-tools">
-                  <OpenModalButton
-                    buttonText="Log In"
-                    onButtonClick={closeMenu}
-                    modalComponent={<LoginFormModal />}
-                  />
-                  <OpenModalButton
-                    buttonText="Sign Up"
-                    onButtonClick={closeMenu}
-                    modalComponent={<SignupFormModal />}
-                  />
-              </div>
-            )}
+          {user ? null : (
+            <div className="account-tools">
+              <OpenModalButton
+                buttonText="Log In"
+                onButtonClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
+              <OpenModalButton
+                buttonText="Sign Up"
+                onButtonClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+          )}
         </div>
       )}
     </>
