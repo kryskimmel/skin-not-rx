@@ -62,7 +62,6 @@ function ProductInfoModal({ productId }) {
                 {showMenu && (
                     <div className="product-details-dropdown-container" >
                         {productId && (
-                            // <div className="product-details-tools">
                             <>
                                 <OpenModalButton
                                     buttonText="Edit"
