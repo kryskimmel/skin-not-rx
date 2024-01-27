@@ -107,3 +107,8 @@
     flex-direction: column;
     gap: 15px;
 }
+
+.product-details-dropdown-container button {
+    z-index: 500;
+    background-color: white;
+}
