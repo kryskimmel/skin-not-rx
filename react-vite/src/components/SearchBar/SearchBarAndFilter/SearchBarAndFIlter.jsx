@@ -53,14 +53,14 @@ function SearchBarAndFilter({ showMenu, searchRef }) {
         setIsDropdownVisible(true);
     }, []);
 
-    const goToProductDetails = (productId) => {
-        if (productId !== null) {
-            //
-            setSearchInput("");
-        } else {
-            setSearchInput("");
-        }
-    };
+    // const goToProductDetails = (productId) => {
+    //     if (productId !== null) {
+    //         //
+    //         setSearchInput("");
+    //     } else {
+    //         setSearchInput("");
+    //     }
+    // };
 
     const handleClickOutside = (e) => {
         // Check if the click is outside the search bar or dropdown
@@ -96,14 +96,14 @@ function SearchBarAndFilter({ showMenu, searchRef }) {
                 onChange={handleInputChange}
                 className="search-bar-div"
             />
-            <button
+            {/* <button
                 className="search-button"
                 onClick={() => {
                     goToProductDetails(productId);
                 }}
             >
                 <Icon icon="ri:search-line" width="25" height="25" color="white" />
-            </button>
+            </button> */}
             <div
                 className="search-dropdown"
                 style={{
