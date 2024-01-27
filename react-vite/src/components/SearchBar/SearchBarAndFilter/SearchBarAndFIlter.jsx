@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Icon } from '@iconify/react';
 import "./SearchBarAndFilter.css"
 
 
-function SearchBarAndFilter({ showSearch }) {
+function SearchBarAndFilter({ showMenu, searchRef }) {
     const [searchInput, setSearchInput] = useState("")
 
-    const toggleSearchBarDisplay = showSearch ? "block" : "none"
+    const toggleSearchBarDisplay = showMenu ? "block" : "none"
 
     return (
-        <div className="search-bar-wrapper" style={{ display: toggleSearchBarDisplay }}>
+        <div className="search-bar-wrapper" style={{ display: toggleSearchBarDisplay }} ref={searchRef}>
             <input
                 type="text"
                 placeholder="Type in a product or collection name..."
