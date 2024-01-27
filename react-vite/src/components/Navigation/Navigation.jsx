@@ -40,7 +40,7 @@ function Navigation() {
     <div className="nav-container">
       <ul className="nav-left">
         <li>
-          <NavLink to="/" className="logo" style={{ textDecoration: 'none', color: '#000000', fontSize: '20px' }}>SKIN-<span style={{ textDecoration: "line-through" }}>rx</span></NavLink>
+          <NavLink to="/" className="logo"><img src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/static/skin-not-rx-logo.png" /></NavLink>
         </li>
       </ul>
       <ul className="nav-center">
