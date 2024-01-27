@@ -1,5 +1,5 @@
+
 import { useSelector } from "react-redux";
-import ProductRandomizer from "../Products/ProductRandomizer";
 import "./SplashPage.css";
 
 
@@ -11,7 +11,6 @@ function SplashPage() {
             <div className="splashpage-content">
                 <div className="splashpage-heading">
                     <h1 style={{ fontSize: '70px', }}>SKIN-NOT-RX</h1>
-                    {/* <h2>(Skin-r̶x̶)</h2> */}
                 </div>
                 {user && (
                     <div className="splashpage-user-greeting-container">
