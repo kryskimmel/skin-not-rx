@@ -115,3 +115,6 @@
 
 <br>
 <h3 id="acknowledgments-section">Acknowledgments</h3>
+
+ - Icons by <a href="https://iconify.design/docs/icon-components/react/"><i>Iconify</i></a>
+ - Background Image (Splash Page) by <a href="https://openai.com/dall-e-2"><i>DALL·E 2</i></a>
