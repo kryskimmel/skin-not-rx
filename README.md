@@ -1,7 +1,10 @@
 # Skin-not-Rx
 ## NAVIGATION
-- [About the project](#about-section)
+- [About](#about-section)
 - [Database Schema](https://github.com/kryskimmel/skin-not-rx/wiki/Database-Schema)
+- [Routes](https://github.com/kryskimmel/skin-not-rx/wiki/Frontend-Routes)
+- [User Stories](https://github.com/kryskimmel/skin-not-rx/wiki/User-Stories)
+
 
 <h2 id="about-section">ABOUT</h2>
 
