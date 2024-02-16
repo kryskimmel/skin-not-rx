@@ -1,78 +1,56 @@
 .splashpage-container {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    font-family: monospace;
-    background: center / contain repeat url(https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/static/skincare-products_DALL-E.png);
-    overflow-x: hidden;
-
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 25px;
 }
 
-.splashpage-heading {
+.splashpage-heading-div {
+    background-color: black;
+    color: white;
+    font-family: 'Barlow', sans-serif;
+    width: 100%;
+    height: 75px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 15vh;
-    margin-top: 30px;
-    font-family: 'Barlow', sans-serif;
-    letter-spacing: -1px;
-    -webkit-text-stroke: 3px #eae6db;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
 }
 
-.splashpage-content {
-    display: flex;
-    flex-direction: column;
+/* 
+.left-img-div {
+    width: 50vw;
 }
 
-.splashpage-header-container {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(234, 230, 220, 0.8);
-    font-family: 'Barlow', sans-serif;
-    padding: 20px;
+.left-img-div img {
+    width: 50vw;
+    object-fit: cover;
+    border: 1px solid blue
+} */
 
+.grid-imgs-div {
+    width: 50vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }
 
-
-.splashpage-header {
-    line-height: 1;
-    /* margin-top: 1px; */
-    width: 500px
+.grid-imgs-div img {
+    width: 25vw;
+    object-fit: cover;
 }
 
-.splashpage-subtext {
-    line-height: 20px;
-    margin-top: 10px;
-    width: 500px
+.bottom-imgs-div {
+    width: 50vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }
 
-.splashpage-user-greeting-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    padding: 10px;
-    /* margin-top: 50px;
-    margin-right: 50px; */
-}
-
-
-.splashpage-greeting {
-    margin: 10px 2px;
-}
-
-.splashpage-profile-image {
-    width: 150px;
-    height: 150px;
-    border: 2px solid black;
-    border-radius: 180%;
-}
-
-.splashpage-body {
-    display: flex;
+.bottom-imgs-div img {
+    width: 25vw;
+    object-fit: cover;
 }
