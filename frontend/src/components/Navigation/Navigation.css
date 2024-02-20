@@ -1,0 +1,214 @@
+.nav-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ede8dd;
+  background-color: rgba(234, 230, 220, 0.5);
+  width: 100%;
+  height: 50px;
+  font-family: 'IBM Plex Sans Hebrew', sans-serif;
+}
+
+.logo img {
+  width: 52px;
+  height: 52px;
+}
+
+.logo img:hover {
+  cursor: pointer;
+}
+
+.account-tools-dropdown-container {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  z-index: 200px;
+  width: 150px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.account-tools {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-evenly; */
+  width: 150px;
+
+}
+
+
+.account-tools button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 30px;
+  border: none;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  /* border-radius: 20px; */
+  background-color: #CFE0C3;
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  height: 50px;
+}
+
+.account-tools button:hover {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+
+
+
+
+.nav-left {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  width: 200px
+}
+
+.nav-left li {
+  margin: 0px 15px;
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  width: 100%;
+}
+
+
+.nav-right {
+  display: flex;
+  list-style: none;
+  font-family: 'IBM Plex Sans Hebrew', sans-serif;
+  align-items: center;
+  width: 200px;
+
+}
+
+.nav-right li {
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px 15px;
+}
+
+
+
+
+/* ********* */
+.profile-image-icon-button {
+  width: 30px;
+  height: 30px;
+  border: 3px solid black;
+  border-radius: 25px;
+}
+
+.profile-image-icon-button:hover {
+  cursor: pointer;
+}
+
+
+.home,
+.products,
+.collections,
+.create,
+.search {
+  padding: 11px 50px;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+
+.home:hover,
+.products:hover,
+.create:hover,
+.collections:hover,
+.search:hover {
+  background-color: rgba(0, 0, 0, .3);
+}
+
+
+.create button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+
+.logout-button {
+  border: 1px solid #1a1a1a;
+  border-radius: 30px;
+  padding: 7px 12px;
+  margin: 0;
+  overflow: visible;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: 'IBM Plex Sans Hebrew', sans-serif;
+  ;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 4px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+
+.create-options-container {
+  position: absolute;
+  top: 50px;
+  right: 325px;
+  z-index: 300px;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, .2);
+}
+
+.create-options-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px 10px;
+  padding: 0 75px;
+  height: 30px;
+  border: none;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  border-radius: 20px;
+  background-color: #CFE0C3;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.create-options-container button:hover {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}

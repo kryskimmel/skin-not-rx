@@ -1,0 +1,148 @@
+.user-products-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 420px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+}
+
+.user-products-h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 24px;
+}
+
+.user-products-div {
+    padding: 20px;
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.user-products-product-tile {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    display: flex;
+    background-color: #FFFFFF;
+    height: 220px;
+    width: 350px;
+    padding: 5px 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+}
+
+.user-products-product-tile li {
+    list-style: none;
+    font-size: 14px;
+}
+
+.user-products-product-tile-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.user-products-info-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.user-products-management-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.user-products-management-buttons button {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.collection-management-buttons button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.close-modal-button-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-modal-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+.collection-info-tools-div {
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.collection-info-tools-div button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.collection-info-tools-div svg:hover {
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: 180%;
+    border: 2px solid rgba(0, 0, 0, .2)
+}
+
+.collection-details-dropdown-container {
+    position: absolute;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    top: 42px;
+    right: 40px;
+    z-index: 300px;
+    height: 100px;
+    width: 200px;
+}
+
+.collection-details-dropdown-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    background-color: #ffffff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    height: 30px;
+    z-index: 300px;
+    padding: 0 25px;
+
+}
+
+.collection-details-dropdown-container button:hover {
+    background-color: black;
+    color: white;
+}
+
+.collection-details-dropdown-container svg {
+    background-color: transparent;
+}
