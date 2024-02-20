@@ -2,8 +2,11 @@ import { useState } from "react";
 import { thunkLogin } from "../../../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
+import OpenModalMenuItem from "../../../../utils/OpenModalMenuItem";
+import SignupFormModal from "../SignupFormModal";
 import { Icon } from '@iconify/react';
 import "./LoginFormModal.css";
+
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -15,12 +18,6 @@ function LoginFormModal() {
   const handleDemoUser = async (e) => {
     e.preventDefault();
     dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
-    closeModal();
-  }
-
-  const handleDemoUser2 = async (e) => {
-    e.preventDefault();
-    dispatch(thunkLogin({email:"vanessa@aa.io", password:"password"}));
     closeModal();
   }
 
@@ -42,7 +39,7 @@ function LoginFormModal() {
   
   return (
     <div className="login-form-wrapper">
-      <h1>Log In</h1>
+      <h1 style={{marginTop: '15px'}}>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div className="login-inputs-div">
             <Icon icon="material-symbols:person" width="30" height="30"/>
@@ -68,9 +65,16 @@ function LoginFormModal() {
         <div className="login-form-buttons-div">
           <button type="submit">Log In</button>
           <button onClick={handleDemoUser} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User</button>
-          <button onClick={handleDemoUser2} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User 2</button>
         </div>
       </form>
+      <div className="create-account-div">
+          <h4>Don't have an account?</h4>
+          <OpenModalMenuItem
+            itemText="Create one."
+            modalComponent={<SignupFormModal/>}
+            className="create-account-link"
+          />
+      </div>
     </div>
   )
 }
