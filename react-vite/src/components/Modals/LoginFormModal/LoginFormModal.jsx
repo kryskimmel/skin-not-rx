@@ -39,7 +39,7 @@ function LoginFormModal() {
       closeModal();
     }
   }
-
+  
   return (
     <div className="login-form-wrapper">
       <h1>Log In</h1>
