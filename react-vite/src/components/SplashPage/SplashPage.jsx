@@ -21,7 +21,7 @@ function SplashPage() {
             <m.div 
                 initial={{ opacity: 0}}
                 animate={{ opacity: 1}}
-                transition={{ duration: 2.5}}
+                transition={{ duration: 1.0, ease: 'easeIn'}}
                 className="splashpage-subtext-container"> 
                 <h1 className="splashpage-header">Your personal skincare tracker</h1>
                 <p className="splashpage-subtext">Keeping track of what products you have, products you've loved,
