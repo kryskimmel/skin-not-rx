@@ -7,7 +7,6 @@
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
-
 .signup-form-div {
     display: flex;
     flex-direction: column;
@@ -15,7 +14,6 @@
     padding: 10px 20px;
     border-radius: 15px;
 }
-
 
 .signup-form-div input,
 .signup-form-div select {
@@ -26,11 +24,11 @@
     cursor: text
 }
 
+.signup-form-div label {
+    font-size: 18px;
+}
+
 .profile-img-div {
     display: flex;
     justify-content: center
-}
-
-.signup-form-div label {
-    font-size: 18px;
 }
