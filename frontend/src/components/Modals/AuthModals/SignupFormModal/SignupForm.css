@@ -7,6 +7,22 @@
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
+.signup-form-heading-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    margin-top: 10px;
+}
+
+.signup-form-close-modal-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 .signup-form-div {
     display: flex;
     flex-direction: column;
