@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import { thunkSignup } from "../../../../redux/session";
+import { Icon } from "@iconify/react";
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -134,7 +135,17 @@ function SignupFormModal() {
 
   return (
     <div className="signup-form-wrapper">
-      <h1>Sign Up</h1>
+      <div className="signup-form-heading-div">
+        <h1>Sign Up</h1>
+        <div className="signup-form-close-modal-div" onClick={()=> closeModal()}>
+          <Icon 
+            icon="material-symbols-light:close" 
+            width="25" 
+            height="25" 
+          />
+        </div>
+      </div>
+   
       {backendErrors.server && <p>{backendErrors.server}</p>}
       <form
         onSubmit={handleSubmit}
