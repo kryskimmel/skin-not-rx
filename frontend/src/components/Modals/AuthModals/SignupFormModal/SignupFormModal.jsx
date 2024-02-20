@@ -23,7 +23,7 @@ function SignupFormModal() {
   const [submittedForm, setSubmittedForm] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { closeModal } = useModal();
-  const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"  // toggle submit button classname
+  const submitButtonCN = isDisabled ? "disabled-signup-submit-button" : "enabled-signup-submit-button"  // toggle submit button classname
 
 
   useEffect(() => {
@@ -145,108 +145,128 @@ function SignupFormModal() {
           />
         </div>
       </div>
-   
-      {backendErrors.server && <p>{backendErrors.server}</p>}
+      {/* {backendErrors.server && <p>{backendErrors.server}</p>} */}
       <form
         onSubmit={handleSubmit}
         encType="multipart/form-data"
         className="signup-form-div">
-        <label>First Name</label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.firstName && (<p className="errors-text">{frontendErrors.firstName}</p>)}
-
-
-        <label>Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.lastName && (<p className="errors-text">{frontendErrors.lastName}</p>)}
-
-
-        <label>Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.username && (<p className="errors-text">{frontendErrors.username}</p>)}
-
-
-        <label>Email</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.email && (<p className="errors-text">{frontendErrors.email}</p>)}
-
-
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.password && (<p className="errors-text">{frontendErrors.password}</p>)}
-
-
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword((e.target.value).trim())}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.confirmPassword && (<p className="errors-text">{frontendErrors.confirmPassword}</p>)}
-
-
-        <label htmlFor="file-upload">Profile Image</label>
-        <input
-          type="file"
-          id="file-upload"
-          name="img_url"
-          accept=".jpeg, .jpg, .png, .gif, .webp"
-          // value={profileImage}
-          onChange={updateImage}
-          required
-        />
-        {showErrors && submittedForm && frontendErrors?.profileImage && (<p className="errors-text">{frontendErrors.profileImage}</p>)}
-        {!showImage && (
-          <div className="profile-img-div">
-            <img
-              src={profileImage}
-              alt="profile image"
-              style={{ width: "100px", height: "100px", border: "1px solid black", borderRadius: "180%" }}
+        <div className="signup-section" id="signup-sec-1">
+          <div className="first-name-div">
+            <label>First Name</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName((e.target.value).trim())}
+              required
             />
+            {showErrors && submittedForm && frontendErrors?.firstName && (<p className="errors-text">{frontendErrors.firstName}</p>)}
           </div>
-        )}
+          <div className="last-name-div">
+            <label>Last Name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName((e.target.value).trim())}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.lastName && (<p className="errors-text">{frontendErrors.lastName}</p>)}
+          </div>
+        </div>
+       
+        <div className="signup-section" id="signup-sec-2">
+          <div className="username-div">
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername((e.target.value).trim())}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.username && (<p className="errors-text">{frontendErrors.username}</p>)}
+          </div>
+          <div className="email-div">
+            <label>Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail((e.target.value).trim())}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.email && (<p className="errors-text">{frontendErrors.email}</p>)}
+          </div>
+        </div>
 
-        <label>Skin Type</label>
-        <select
-          value={skinType}
-          onChange={(e) => setSkinType(e.target.value)}
-          required
-        >
-          <option value="" disabled>--Select your primary skin type--</option>
-          <option value="Dry">Dry</option>
-          <option value="Oily">Oily</option>
-          <option value="Combination">Combination</option>
-          <option value="Acne-Prone">Acne-Prone</option>
-        </select>
-        {showErrors && submittedForm && frontendErrors?.skinType && (<p className="errors-text">{frontendErrors.skinType}</p>)}
+        <div className="signup-section" id="signup-sec-3">
+          <div className="password-div">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword((e.target.value).trim())}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.password && (<p className="errors-text">{frontendErrors.password}</p>)}
+          </div>
+          <div className="confirm-password-div">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword((e.target.value).trim())}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.confirmPassword && (<p className="errors-text">{frontendErrors.confirmPassword}</p>)}
+          </div>
+        </div>
 
-        <button type="submit" className={submitButtonCN} disabled={isDisabled}>Sign Up</button>
+        <div className="signup-section" id="signup-sec-4">
+          <div className="profile-image-div">
+            <label htmlFor="file-upload">Profile Image</label>
+            <input
+              type="file"
+              id="file-upload"
+              name="img_url"
+              accept=".jpeg, .jpg, .png, .gif, .webp"
+              // value={profileImage}
+              onChange={updateImage}
+              required
+            />
+            {showErrors && submittedForm && frontendErrors?.profileImage && (<p className="errors-text">{frontendErrors.profileImage}</p>)}
+            {!showImage && (
+              <div className="profile-img-div">
+                <img
+                  src={profileImage}
+                  alt="profile image"
+                  style={{ width: "100px", height: "100px", border: "1px solid black", borderRadius: "180%" }}
+                />
+              </div>
+            )}
+          </div>
+          <div className="skin-type-div">
+            <label>Skin Type</label>
+            <input
+              type="text"
+              value={skinType}
+              required
+            />
+            {/* <select
+              value={skinType}
+              onChange={(e) => setSkinType(e.target.value)}
+              required
+            >
+              <option value="" disabled>--Select your primary skin type--</option>
+              <option value="Dry">Dry</option>
+              <option value="Oily">Oily</option>
+              <option value="Combination">Combination</option>
+              <option value="Acne-Prone">Acne-Prone</option>
+            </select> */}
+            {showErrors && submittedForm && frontendErrors?.skinType && (<p className="errors-text">{frontendErrors.skinType}</p>)}
+          </div>
+        </div>
+        
+        <div className="signup-submit-button-div">
+          <button type="submit" className={submitButtonCN} disabled={isDisabled}>Sign Up</button>
+        </div>
       </form>
     </div>
   );
