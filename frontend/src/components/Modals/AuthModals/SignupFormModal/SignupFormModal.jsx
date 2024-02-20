@@ -12,28 +12,20 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // To be sent to AWS
-  const [imgUrl, setImgUrl] = useState("");
-  // To determine if image should be displayed
   const [showImage, setShowImage] = useState(true);
-  // To display with React
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState(""); // to be displayed on frontend
   const [skinType, setSkinType] = useState("");
+  const [imgUrl, setImgUrl] = useState(""); // to be sent to AWS
   const [frontendErrors, setFrontendErrors] = useState({});
   const [backendErrors, setBackendErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { closeModal } = useModal();
+  const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"  // toggle submit button classname
 
 
-  // Toggle submit button classname
-  const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
-
-  // useEffect to that will set IsDisabled status to true if required fields are not empty
   useEffect(() => {
-    // if (submittedForm && (Object.values(backendErrors).length > 0 || Object.values(frontendErrors).length > 0)) {
     if (submittedForm && Object.values(frontendErrors).length > 0) {
       setIsDisabled(true);
     } else {
@@ -41,8 +33,8 @@ function SignupFormModal() {
     }
   }, [backendErrors, frontendErrors, submittedForm]);
 
-  // Function to add AWS image
-  const updateImage = async (e) => {
+
+  const updateImage = async (e) => {  // function to prepare image for sending to AWS S3
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -51,22 +43,14 @@ function SignupFormModal() {
     }
     setImgUrl(file);
     setShowImage(false);
-  }
+  };
 
 
-  // useEffect to track validation errors
   useEffect(() => {
     const validationErrors = {}
-
     const nameFormat = /^[a-zA-Z]+$/;
     const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const usernameFormat = /^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$/;
-    // const imgFormats = [
-    //   ".jpg",
-    //   ".png",
-    //   "jpeg",
-    // ];
-
     const inputRequired = "Input is required."
     const cannotStartWithSpaces = "Input cannot begin with a space."
     const maxChar15 = "Input must not exceed 15 characters."
@@ -77,7 +61,6 @@ function SignupFormModal() {
     const emailFormatError = "Not a valid email."
     const usernameFormatError = "Not a valid username."
     const nameFormatError = "Input can only contain letters."
-    // const imgFormatError = "Image must be in one of the following formats: .jpg, .jpeg or .png";
 
     if (!firstName) validationErrors.firstName = inputRequired;
     else if (firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
@@ -109,23 +92,20 @@ function SignupFormModal() {
     if (password !== confirmPassword) validationErrors.confirmPassword = "Confirm Password field must be the same as the Password field";
 
     if (!profileImage) validationErrors.profileImage = inputRequired;
-    // else if (profileImage.startsWith(" ")) validationErrors.profileImage = cannotStartWithSpaces;
-    // else if (profileImage.startsWith(".")) validationErrors.profileImage = "Input cannot begin with a '.'";
 
     if (!skinType) validationErrors.skinType = inputRequired;
     else if (skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
     else if (skinType.length > 255) validationErrors.skinType = maxChar255;
 
     setFrontendErrors(validationErrors);
-  }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType])
+  }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType]);
 
   useEffect(() => {
     setShowErrors(Object.values(frontendErrors).length > 0);
   }, [frontendErrors, backendErrors]);
 
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {    // handle form submission
     e.preventDefault()
     setSubmittedForm(true);
     if (password !== confirmPassword) {
@@ -148,26 +128,8 @@ function SignupFormModal() {
       setBackendErrors(data)
     } else {
       closeModal();
-    }
-
-
-    // const data = await dispatch(thunkSignup({
-    //   'first_name': firstName,
-    //   'last_name': lastName,
-    //   'username': username,
-    //   'email': email,
-    //   'password': password,
-    //   'profile_image': imgUrl,
-    //   'skin_type': skinType
-    // }));
-    // if (data) {
-    //   setBackendErrors(data)
-    // } else {
-    //   closeModal();
-    // }
+    };
   };
-
-  console.log('backend errors', backendErrors)
 
 
   return (
@@ -176,7 +138,7 @@ function SignupFormModal() {
       {backendErrors.server && <p>{backendErrors.server}</p>}
       <form
         onSubmit={handleSubmit}
-        // encType="multipart/form-data"
+        encType="multipart/form-data"
         className="signup-form-div">
         <label>First Name</label>
         <input
