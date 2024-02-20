@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import OpenModalButton from "../../utils/OpenModalMenuButton";
+import OpenModalButton from "../../utils/OpenModalButton/OpenModalButton";
 import LoginFormModal from "../Modals/AuthModals/LoginFormModal";
 import SignupFormModal from "../Modals/AuthModals/SignupFormModal";
 import { Icon } from '@iconify/react';
