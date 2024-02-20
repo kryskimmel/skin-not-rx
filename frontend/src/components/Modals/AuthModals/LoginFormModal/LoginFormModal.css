@@ -9,6 +9,22 @@
     background: rgba(255, 255, 255, 0.9);
 }
 
+.login-form-heading-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  margin-top: 10px;
+}
+
+.login-form-close-modal-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 .login-form-wrapper form {
     width: 350px;
     margin: 10px 10px;
