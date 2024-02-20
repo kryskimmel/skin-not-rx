@@ -14,7 +14,7 @@ function SplashPage() {
             <m.div 
                 initial={{ opacity: 0}}
                 animate={{ opacity: 1}}
-                transition={{ duration: 2.5}}
+                transition={{ duration: 1.0, ease: 'easeIn'}}
                 className="splashpage-heading-div">
                 <h1 style={{fontSize: '160px'}}>SKIN-NOT-RX</h1>
             </m.div>
@@ -31,7 +31,7 @@ function SplashPage() {
                 {!user && (
                     <OpenModalButton
                         className="login-modal-button"
-                        buttonText="Log in"
+                        buttonText="LOG IN"
                         modalComponent={<LoginFormModal/>}
                     />
                 )}
