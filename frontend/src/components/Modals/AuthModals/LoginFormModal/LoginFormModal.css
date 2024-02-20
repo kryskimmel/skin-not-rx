@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+
     border-radius: 15px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
     z-index: 3;
@@ -11,6 +11,7 @@
 
 .login-form-wrapper form {
     width: 350px;
+    margin: 10px 10px;
     padding: 10px 20px;
     border-radius: 15px;
 }
@@ -18,9 +19,8 @@
 .login-inputs-div {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 10px;
 }
-
 
 .login-inputs-div input{
     border-top:none;
@@ -31,7 +31,6 @@
     font-size: 18px;
     cursor:text
 }
-
 
 .login-form-buttons-div {
     display: flex;
@@ -45,6 +44,25 @@
     font-size: 18px;
     border-radius: 20px;
     height: 40px
+}
+
+.create-account-div {
+    width: 370px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    padding: 15px 0px;
+    border-top: 1px solid #767676;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.create-account-link {
+    list-style: none;
+    color: #19aa8e;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .errors-text {
