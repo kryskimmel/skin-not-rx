@@ -13,7 +13,7 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showImage, setShowImage] = useState(true);
+  const [showImage, setShowImage] = useState(false);
   const [profileImage, setProfileImage] = useState(""); // to be displayed on frontend
   const [skinType, setSkinType] = useState("");
   const [imgUrl, setImgUrl] = useState(""); // to be sent to AWS
@@ -35,15 +35,21 @@ function SignupFormModal() {
   }, [backendErrors, frontendErrors, submittedForm]);
 
 
-  const updateImage = async (e) => {  // function to prepare image for sending to AWS S3
+  const addImage = async (e) => {  // function to prepare image for sending to AWS S3
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      setProfileImage(reader.result);
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        setProfileImage(reader.result);
+      }
+      setImgUrl(file);
+      setShowImage(true);
+    } else {
+      setImgUrl(null);
+      setShowImage(false);
+      setProfileImage(null);
     }
-    setImgUrl(file);
-    setShowImage(false);
   };
 
 
@@ -152,106 +158,128 @@ function SignupFormModal() {
         className="signup-form-div">
         <div className="signup-section" id="signup-sec-1">
           <div className="first-name-div">
-            <label>First Name</label>
+            <label>First Name<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="text"
               value={firstName}
               onChange={(e) => setFirstName((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.firstName && (<p className="errors-text">{frontendErrors.firstName}</p>)}
+            {showErrors && submittedForm && frontendErrors?.firstName && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.firstName}</p>
+              </div>
+            )}
           </div>
+      
           <div className="last-name-div">
-            <label>Last Name</label>
+            <label>Last Name<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="text"
               value={lastName}
               onChange={(e) => setLastName((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.lastName && (<p className="errors-text">{frontendErrors.lastName}</p>)}
+            {showErrors && submittedForm && frontendErrors?.lastName && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.lastName}</p>
+              </div>
+            )}
           </div>
         </div>
        
         <div className="signup-section" id="signup-sec-2">
           <div className="username-div">
-            <label>Username</label>
+            <label>Username<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.username && (<p className="errors-text">{frontendErrors.username}</p>)}
+            {showErrors && submittedForm && frontendErrors?.username && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.username}</p>
+              </div>
+            )}
           </div>
           <div className="email-div">
-            <label>Email</label>
+            <label>Email<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="text"
               value={email}
               onChange={(e) => setEmail((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.email && (<p className="errors-text">{frontendErrors.email}</p>)}
+            {showErrors && submittedForm && frontendErrors?.email && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.email}</p>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="signup-section" id="signup-sec-3">
           <div className="password-div">
-            <label>Password</label>
+            <label>Password<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.password && (<p className="errors-text">{frontendErrors.password}</p>)}
+            {showErrors && submittedForm && frontendErrors?.password && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.password}</p>
+              </div>
+            )}
           </div>
           <div className="confirm-password-div">
-            <label>Confirm Password</label>
+            <label>Confirm Password<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword((e.target.value).trim())}
+              className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.confirmPassword && (<p className="errors-text">{frontendErrors.confirmPassword}</p>)}
+            {showErrors && submittedForm && frontendErrors?.confirmPassword && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.confirmPassword}</p>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="signup-section" id="signup-sec-4">
           <div className="profile-image-div">
-            <label htmlFor="file-upload">Profile Image</label>
+            <label htmlFor="file-upload">Profile Image<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="file"
               id="file-upload"
               name="img_url"
               accept=".jpeg, .jpg, .png, .gif, .webp"
-              // value={profileImage}
-              onChange={updateImage}
+              onChange={addImage}
+              style={{marginTop:"2px", cursor:"pointer"}}
               required
             />
-            {showErrors && submittedForm && frontendErrors?.profileImage && (<p className="errors-text">{frontendErrors.profileImage}</p>)}
-            {!showImage && (
-              <div className="profile-img-div">
-                <img
-                  src={profileImage}
-                  alt="profile image"
-                  style={{ width: "100px", height: "100px", border: "1px solid black", borderRadius: "180%" }}
-                />
+            {showErrors && submittedForm && frontendErrors?.profileImage && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.profileImage}</p>
               </div>
             )}
           </div>
           <div className="skin-type-div">
-            <label>Skin Type</label>
-            <input
-              type="text"
-              value={skinType}
-              required
-            />
-            {/* <select
+            <label>Skin Type<span style={{color: "#8B0000"}}>*</span></label>
+            <select
               value={skinType}
               onChange={(e) => setSkinType(e.target.value)}
+              className="signup-input"
               required
             >
               <option value="" disabled>--Select your primary skin type--</option>
@@ -259,11 +287,28 @@ function SignupFormModal() {
               <option value="Oily">Oily</option>
               <option value="Combination">Combination</option>
               <option value="Acne-Prone">Acne-Prone</option>
-            </select> */}
-            {showErrors && submittedForm && frontendErrors?.skinType && (<p className="errors-text">{frontendErrors.skinType}</p>)}
+            </select>
+            {showErrors && submittedForm && frontendErrors?.skinType && (
+              <div className="errors-div">
+                <p className="errors-text">{frontendErrors.skinType}</p>
+              </div>
+            )}
           </div>
         </div>
-        
+        <div className="selected-profile-image-div">
+          {showImage ? (
+            <img
+              src={profileImage}
+              alt="profile image"
+              style={{ width: "100px", height: "100px", border: "2px solid #767676", borderRadius: "180%" }}
+            /> ): 
+            <img
+            src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/splashpage/portrait-placeholder.png"
+            alt="profile image"
+            style={{ width: "100px", height: "100px", border: "2px solid #767676", borderRadius: "180%" }}
+            />
+          }
+        </div>
         <div className="signup-submit-button-div">
           <button type="submit" className={submitButtonCN} disabled={isDisabled}>Sign Up</button>
         </div>
