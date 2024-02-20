@@ -19,7 +19,7 @@ function LoginFormModal() {
     e.preventDefault();
     dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
     closeModal();
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +39,16 @@ function LoginFormModal() {
   
   return (
     <div className="login-form-wrapper">
-      <h1 style={{marginTop: '15px'}}>Log In</h1>
+      <div className="login-form-heading-div">
+        <h1>Log In</h1>
+        <div className="login-form-close-modal-div" onClick={()=> closeModal()}>
+          <Icon 
+            icon="material-symbols-light:close" 
+            width="25" 
+            height="25" 
+          />
+        </div>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="login-inputs-div">
             <Icon icon="material-symbols:person" width="30" height="30"/>
@@ -77,6 +86,6 @@ function LoginFormModal() {
       </div>
     </div>
   )
-}
+};
 
 export default LoginFormModal;
