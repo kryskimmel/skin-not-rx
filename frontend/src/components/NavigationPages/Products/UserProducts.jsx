@@ -55,7 +55,6 @@ function UserProducts() {
                         </div>
                     ))
                     : <h2 className="no-products-text">You have not created any products!</h2>}
-
             </div>
         </div>
     )
