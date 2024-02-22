@@ -40,7 +40,7 @@ function SignupFormModal() {
     const reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);
-      reader.onload = (e) => {
+      reader.onload = () => {
         setProfileImage(reader.result);
       }
       setImgUrl(file);
@@ -116,7 +116,7 @@ function SignupFormModal() {
     e.preventDefault()
     setSubmittedForm(true);
     if (password !== confirmPassword) {
-      return setErrors({
+      return setFrontendErrors({
         confirmPassword:
           "Confirm Password field must be the same as the Password field",
       });
@@ -135,7 +135,7 @@ function SignupFormModal() {
       setBackendErrors(data)
     } else {
       closeModal();
-    };
+    }
   };
 
 
@@ -258,10 +258,10 @@ function SignupFormModal() {
 
         <div className="signup-section" id="signup-sec-4">
           <div className="profile-image-div">
-            <label htmlFor="file-upload">Profile Image<span style={{color: "#8B0000"}}>*</span></label>
+            <label htmlFor="signup-file-upload">Profile Image<span style={{color: "#8B0000"}}>*</span></label>
             <input
               type="file"
-              id="file-upload"
+              id="signup-file-upload"
               name="img_url"
               accept=".jpeg, .jpg, .png, .gif, .webp"
               onChange={addImage}
