@@ -39,7 +39,6 @@ function Navigation() {
       <ul className="nav-center">
         {user ?
           <>
-            <li><NavLink to="/" className="home">HOME</NavLink></li>
             <li onClick={toggleMenu} ref={searchRef} className="search">SEARCH</li>
             {showMenu && (<SearchBarAndFilter showMenu={showMenu} searchRef={searchRef} />)}
             <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
