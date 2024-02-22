@@ -1,4 +1,4 @@
-.user-profile-products-wrapper {
+.products-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,24 +6,24 @@
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
-.user-profile-products-h1 {
+.products-title {
     margin: 20px 0;
     color: #4D4B4B
 }
 
-.user-profile-products-div {
+.products-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px
 }
 
-.user-profile-products-buttons {
+.product-tile-button {
     border-radius: 15px;
     border: none;
 }
 
-.user-profile-products-tile {
+.product-tile {
     display: flex;
     flex-direction: column;
     /* align-items: center; */
@@ -37,28 +37,22 @@
 
 }
 
-.user-profile-products-tile:hover {
+.product-tile:hover {
     box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
     opacity: .5;
 }
 
-.user-profile-products-tile-img-div {
+.product-tile-img {
     display: flex;
     justify-content: center;
 }
 
-.user-profile-products-tile-img {
-    height: 175px;
-    width: 175px;
-    padding: 10px;
-}
-
-.user-profile-products-tile-ul {
+.product-tile-info-ul {
     list-style: none;
     padding: 0 20px;
 }
 
-.create-custom-product-div {
+.custom-product {
     height: 275px;
     width: 200px;
     background-color: rgb(224, 223, 223);
@@ -70,7 +64,7 @@
     align-items: center;
 }
 
-.create-custom-product-div button {
+.custom-product button {
     cursor: pointer;
     height: 250px;
     width: 190px;

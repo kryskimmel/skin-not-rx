@@ -10,7 +10,6 @@ import "./UserProducts.css";
 
 function UserProducts() {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.session.user);
     const userProducts = useSelector(state => state.product.allProducts);
     console.log('USER PRODS', userProducts)
 
@@ -20,10 +19,10 @@ function UserProducts() {
 
 
     return (
-        <div className="user-profile-products-wrapper">
-            <h1 className="user-profile-products-h1">My Products</h1>
-            <div className="user-profile-products-div">
-                <div className="create-custom-product-div">
+        <div className="products-container">
+            <h1 className="products-title">My Products</h1>
+            <div className="products-wrapper">
+                <div className="custom-product">
                     <OpenModalButton
                         buttonText={
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -37,14 +36,14 @@ function UserProducts() {
                     ? userProducts.map((attr) => (
                         <div key={attr.id}>
                             <OpenModalButton
-                                className="user-profile-products-buttons"
+                                className="product-tile-button"
                                 buttonText={
-                                    <div className="user-profile-products-tile">
-                                        <div className="user-profile-products-tile-img-div">
-                                            <img src={attr.preview_image} className="user-profile-products-tile-img" />
+                                    <div className="product-tile">
+                                        <div className="product-tile-img">
+                                            <img src={attr.preview_image} style={{width:'175px', height:'175px', padding:'10px'}} />
                                         </div>
-                                        <div className="user-profile-products-tile-info">
-                                            <ul className="user-profile-products-tile-ul">
+                                        <div>
+                                            <ul className="product-tile-info-ul">
                                                 <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
                                                 <li>{attr.product_name}</li>
                                             </ul>
