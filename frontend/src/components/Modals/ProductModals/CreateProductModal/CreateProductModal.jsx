@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
+import { Icon } from "@iconify/react";
 import charCountRemaining from '../../../../utils/charCountRemaining';
 import "./CreateProductModal.css";
 
@@ -169,12 +170,20 @@ function CreateProductModal() {
 
     return (
         <div className='create-product-container'>
-            <h1>Create A Product</h1>
+            <h1 className='create-product-heading-div'>Create A Product</h1>
+            <div className="signup-form-close-modal-div" onClick={()=> closeModal()}>
+                <Icon 
+                    icon="material-symbols-light:close" 
+                    width="25" 
+                    height="25" 
+                />
+            </div>
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='create-product-fields'>
                     <div className='f-brandname'>
                         <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
                         <input
+                            className='product-input'
                             type="text"
                             value={brandName}
                             onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
@@ -185,6 +194,7 @@ function CreateProductModal() {
                 <div className='f-productname'>
                     <label>Product Name<span style={{color: "#8B0000"}}>*</span></label>
                     <input
+                        className='product-input'
                         type="text"
                         value={productName}
                         onChange={(e) => { setProductName((e.target.value).trimStart()) }}
@@ -194,7 +204,10 @@ function CreateProductModal() {
                 </div>
                 <div className='f-producttype'>
                     <label>Product Type<span style={{color: "#8B0000"}}>*</span></label>
-                    <select className='product-type-select' value={productType} onChange={(e) => { setProductType(e.target.value) }}>
+                    <select 
+                        className='product-input' 
+                        value={productType} 
+                        onChange={(e) => { setProductType(e.target.value) }}>
                         <option value="" disabled>--</option>
                         <option value="Cleanser">Cleanser</option>
                         <option value="Exfoliator">Exfoliator</option>
@@ -213,6 +226,7 @@ function CreateProductModal() {
                 <div className='f-description'>
                     <label>Description<span style={{color: "#8B0000"}}>*</span></label>
                     <textarea
+                        className='product-textarea'
                         ref={descriptionRef}
                         value={description}
                         onChange={(e) => { setDescription((e.target.value).trimStart()) }}
@@ -223,18 +237,21 @@ function CreateProductModal() {
                 <div className='f-keyingredients'>
                     <label>Key Ingredients</label>
                     <input
+                        className='product-input'
                         type="text"
                         placeholder='Key Ingredient #1'
                         value={keyIngredient1}
                         onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
                     />
                     <input
+                        className='product-input'
                         type="text"
                         placeholder='Key Ingredient #2'
                         value={keyIngredient2}
                         onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
                     />
                     <input
+                        className='product-input'
                         type="text"
                         placeholder='Key Ingredient #3'
                         value={keyIngredient3}
@@ -245,6 +262,7 @@ function CreateProductModal() {
                 <div className='f-productlink'>
                     <label>Product Link</label>
                     <input
+                        className='product-input'
                         type="text"
                         value={productLink}
                         onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
@@ -269,9 +287,8 @@ function CreateProductModal() {
                         <img
                         src={previewImage}
                         alt="product preview image"
-                        style={{ width: "100px", height: "100px", border: "2px solid #767676", borderRadius: "180%" }}
-                        /> ): 
-                        null
+                        className='preview-img'
+                        /> ): null
                     }
                     </div>
                 <div className='create-product-button'>
