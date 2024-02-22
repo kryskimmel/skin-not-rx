@@ -18,36 +18,90 @@
     border-radius: 15px;
 }
 
+.create-product-heading-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    margin-top: 10px;
+}
 
-/* .create-product-form input:focus,
-.create-product-form select:focus {
-    width: 250px;
-    height: 25px;
-    background-color: #f8f5f5;
-} */
+.create-product-form-close-modal-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
 
-.f-description textarea {
+.f-brandname,
+.f-productname,
+.f-producttype,
+.f-description,
+.f-keyingredients,
+.f-productlink,
+.f-previewimg {
     display: flex;
     flex-direction: column;
-    width: 350px;
-    max-width: 350px;
-    height: 50px;
+    justify-content: center;
+}
+
+.product-input {
+    width: 465px;
+    height: 30px;
+    border: 1.5px solid #767676;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    padding-left: 5px;
+    margin-top: 2px;
+}
+
+.product-input:focus {
+    background-color: #f8f5f5;
+}
+
+.product-textarea {
+    width: 465px;
+    min-width: 465px;
+    max-width: 465px;
+    height: 75px;
+    min-height: 75px;
     max-height: 75px;
     overflow: auto;
+    border: 1.5px solid #767676;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+}
+
+.product-textarea:focus {
+    background-color: #f8f5f5;
 }
 
 .f-description-char-count {
     color: #4D4B4B;
     font-size: 12px;
     text-align: right;
-    width: 350px
+}
+
+.selected-preview-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.preview-img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #767676;
+    border-radius: 10px;
 }
 
 .create-product-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
 }
 
 .enabled-product-submit-button {
