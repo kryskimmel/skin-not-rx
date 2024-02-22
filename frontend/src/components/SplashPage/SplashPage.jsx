@@ -9,7 +9,7 @@ function SplashPage() {
         return <SplashPageNoUser/>
     } else {
         return <SplashPageUser/>
-    };
-};
+    }
+}
 
 export default SplashPage;
