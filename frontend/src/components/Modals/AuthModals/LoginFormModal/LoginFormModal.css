@@ -1,0 +1,85 @@
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    z-index: 3;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.login-form-heading-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  margin-top: 10px;
+}
+
+.login-form-close-modal-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.login-form-wrapper form {
+    width: 350px;
+    margin: 10px 10px;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+.login-inputs-div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.login-inputs-div input{
+    border-top:none;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    height: 30px;
+    font-size: 18px;
+    cursor:text
+}
+
+.login-form-buttons-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.login-form-buttons-div button {
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 320px;
+    height: 50px;
+}
+
+.create-account-div {
+    width: 370px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    padding: 15px 0px;
+    border-top: 1px solid #767676;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.create-account-link {
+    list-style: none;
+    color: #19aa8e;
+    font-weight: 600;
+    cursor: pointer;
+}
