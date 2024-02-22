@@ -19,7 +19,9 @@ function CreateProductModal() {
     const [keyIngredient3, setKeyIngredient3] = useState("");
     const [keyIngredients, setKeyIngredients] = useState("");
     const [productLink, setProductLink] = useState("");
-    const [previewImg, setPreviewImg] = useState("");
+    const [previewImage, setPreviewImage] = useState("");
+    const [previewImageURL, setPreviewImageURL] = useState("");
+    const [showPreviewImage, setShowPreviewImage] = useState(false);
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
@@ -34,7 +36,7 @@ function CreateProductModal() {
     productName && 
     productType && 
     description && 
-    previewImg
+    previewImage
 
 
     useEffect(() => {
@@ -53,6 +55,25 @@ function CreateProductModal() {
         if (keyIngredient3) keyIngredientsArr.push(keyIngredient3);
     };
     addToKeyIngredients();
+
+
+    // function to prepare image for sending to AWS S3
+    const addImage = async (e) => { 
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+            setPreviewImage(reader.result);
+            }
+            setPreviewImageURL(file);
+            setShowPreviewImage(true);
+        } else {
+            setPreviewImageURL(null);
+            setShowPreviewImage(false);
+            setPreviewImage(null);
+        }
+    };
 
 
     // useEffect to track validation errors
@@ -98,7 +119,7 @@ function CreateProductModal() {
         setFrontendErrors(validationErrors);
         setKeyIngredients(keyIngredientsArr.join(','));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImg])
+    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink])
 
 
     console.log('frontenderrors', frontendErrors)
@@ -126,7 +147,7 @@ function CreateProductModal() {
             "key_ingredients": keyIngredients.trimEnd(),
             "product_link": productLink.trimEnd(),
             "user_id": user.id,
-            "image_url": previewImg.trimEnd()
+            "image_url": previewImageURL
         }
 
 
@@ -152,7 +173,7 @@ function CreateProductModal() {
             <form className='create-product-form' onSubmit={handleSubmit}>
                 <div className='create-product-fields'>
                     <div className='f-brandname'>
-                        <label>Brand Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                        <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
                         <input
                             type="text"
                             value={brandName}
@@ -162,7 +183,7 @@ function CreateProductModal() {
                     </div>
                 </div>
                 <div className='f-productname'>
-                    <label>Product Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                    <label>Product Name<span style={{color: "#8B0000"}}>*</span></label>
                     <input
                         type="text"
                         value={productName}
@@ -172,7 +193,7 @@ function CreateProductModal() {
                     {submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
                 </div>
                 <div className='f-producttype'>
-                    <label>Product Type:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                    <label>Product Type<span style={{color: "#8B0000"}}>*</span></label>
                     <select className='product-type-select' value={productType} onChange={(e) => { setProductType(e.target.value) }}>
                         <option value="" disabled>--</option>
                         <option value="Cleanser">Cleanser</option>
@@ -190,7 +211,7 @@ function CreateProductModal() {
                     {showErrors && submittedForm && frontendErrors?.productType && <p className="errors-text">{frontendErrors.productType}</p>}
                 </div>
                 <div className='f-description'>
-                    <label>Description: <span style={{ color: '#8B0000', fontWeight: '600' }}> *</span></label>
+                    <label>Description<span style={{color: "#8B0000"}}>*</span></label>
                     <textarea
                         ref={descriptionRef}
                         value={description}
@@ -200,7 +221,7 @@ function CreateProductModal() {
                     {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
                 </div>
                 <div className='f-keyingredients'>
-                    <label>Key Ingredients: </label>
+                    <label>Key Ingredients</label>
                     <input
                         type="text"
                         placeholder='Key Ingredient #1'
@@ -222,7 +243,7 @@ function CreateProductModal() {
                     {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                 </div>
                 <div className='f-productlink'>
-                    <label>Product Link: </label>
+                    <label>Product Link</label>
                     <input
                         type="text"
                         value={productLink}
@@ -231,14 +252,28 @@ function CreateProductModal() {
                     {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
                 </div>
                 <div className='f-previewimg'>
-                    <label>Preview Image:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
+                    <label htmlFor='product-file-upload'>Preview Image<span style={{color: "#8B0000"}}>*</span></label>
                     <input
                         type='file'
+                        id='product-file-upload'
+                        name='product_img_url'
                         accept='.jpeg, .jpg, .png, .webp'
-                        value={previewImg} 
+                        onChange={addImage}
+                        style={{marginTop:"2px", cursor:"pointer"}}
+                        required
                     />
                     {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
                 </div>
+                <div className="selected-preview-img-div">
+                    {showPreviewImage ? (
+                        <img
+                        src={previewImage}
+                        alt="product preview image"
+                        style={{ width: "100px", height: "100px", border: "2px solid #767676", borderRadius: "180%" }}
+                        /> ): 
+                        null
+                    }
+                    </div>
                 <div className='create-product-button'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
                 </div>
