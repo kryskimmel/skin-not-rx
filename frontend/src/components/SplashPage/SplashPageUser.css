@@ -1,0 +1,44 @@
+.splashpage-user-container {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Barlow', sans-serif;
+}
+
+.splashpage-user-profile-div {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 50px 0;
+    box-shadow: rgba(29, 29, 29, 0.2) 0px 2px 8px 0px;
+    background-color: rgb(255, 253, 253);
+    border-radius: 5px;
+}
+
+.sp-profile-img {
+    align-self: center;
+    margin-bottom: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border-radius: 180%
+}
+
+.sp-user-span {
+    padding: 0px 10px;
+    border: 1px solid #9cb781;
+    border-radius: 15px;
+    background-color: #9cb781;
+    font-weight: 400;
+} 
+
+.sp-user-info {
+    margin-left: 85px;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 30px;
+} 
