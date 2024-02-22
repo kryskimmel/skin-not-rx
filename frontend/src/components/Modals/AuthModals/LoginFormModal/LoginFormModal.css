@@ -58,11 +58,13 @@
 }
 
 .login-form-buttons-div button {
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 20px;
     width: 320px;
     height: 50px;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+
+
 }
 
 .create-account-div {
