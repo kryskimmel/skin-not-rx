@@ -2,57 +2,33 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 850px;
-    height: 550px;
-}
-
-.create-product-form div {
-    padding: 5px 0;
-}
-
-.product-form-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px auto;
-    width: 800px;
-    height: 320px;
-    padding: 5px;
+    padding: 10px;
+    border-radius: 15px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
-.product-form-left, .product-form-right {
+.create-product-form {
+    width: 505px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 10px;
+    padding: 10px 20px;
+    border-radius: 15px;
 }
 
-.product-form-left {
-    border-right: 1px solid #E8E8E8;
-    padding-right: 10px;
-}
 
-
-.create-product-form input,
-.create-product-form select {
-    width: 250px;
-    height: 25px;
-    margin: 0 5px;
-}
-
-.create-product-form input:focus,
+/* .create-product-form input:focus,
 .create-product-form select:focus {
     width: 250px;
     height: 25px;
     background-color: #f8f5f5;
-}
+} */
 
-.description-div {
+.f-description textarea {
     display: flex;
     flex-direction: column;
-}
-
-.create-product-form textarea {
     width: 350px;
     max-width: 350px;
     height: 50px;
@@ -60,43 +36,37 @@
     overflow: auto;
 }
 
-.create-product-form textarea:focus {
-    width: 350px;
-    max-width: 350px;
-    height: 50px;
-    max-height: 75px;
-    overflow: auto;
-    background-color: #f8f5f5;
-}
-
-.description-char-count {
+.f-description-char-count {
     color: #4D4B4B;
     font-size: 12px;
     text-align: right;
     width: 350px
 }
 
-.create-product-button-div {
+.create-product-button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 40px;
 }
 
-
-.disabled-submit-button {
-    width: 150px;
+.enabled-product-submit-button {
+    width: 320px;
     height: 50px;
-    background-color: #FAA0A0;
-    cursor: not-allowed;
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.enabled-submit-button {
-    width: 150px;
-    height: 50px;
-    background-color: #B4D3B2;
+    border-radius: 20px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 18px;
     cursor: pointer;
 }
 
+.disabled-product-submit-button {
+    width: 320px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #efefef;
+    color: #000000;
+    font-size: 18px;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
