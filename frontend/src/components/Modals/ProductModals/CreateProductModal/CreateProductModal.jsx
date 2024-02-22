@@ -17,6 +17,7 @@ function CreateProductModal() {
     const [keyIngredient1, setKeyIngredient1] = useState("");
     const [keyIngredient2, setKeyIngredient2] = useState("");
     const [keyIngredient3, setKeyIngredient3] = useState("");
+    const [keyIngredients, setKeyIngredients] = useState("");
     const [productLink, setProductLink] = useState("");
     const [previewImg, setPreviewImg] = useState("");
     const [frontendErrors, setFrontendErrors] = useState({});
@@ -24,7 +25,7 @@ function CreateProductModal() {
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const keyIngredients = [];
+    const keyIngredientsArr = [];
     const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
     // required fields to be filled in by user
@@ -47,12 +48,11 @@ function CreateProductModal() {
 
     // function to add individual key ingredrient to key ingredients array
     const addToKeyIngredients = () => {
-        if (keyIngredient1) keyIngredients.push(keyIngredient1);
-        if (keyIngredient2) keyIngredients.push(keyIngredient2);
-        if (keyIngredient3) keyIngredients.push(keyIngredient3);
-    }
-    addToKeyIngredients()
-    console.log('key ingredients--', keyIngredients)
+        if (keyIngredient1) keyIngredientsArr.push(keyIngredient1);
+        if (keyIngredient2) keyIngredientsArr.push(keyIngredient2);
+        if (keyIngredient3) keyIngredientsArr.push(keyIngredient3);
+    };
+    addToKeyIngredients();
 
 
     // useEffect to track validation errors
@@ -94,11 +94,10 @@ function CreateProductModal() {
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
-
-        if (!previewImg) validationErrors.previewImg = inputRequired;
-        else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
        
         setFrontendErrors(validationErrors);
+        setKeyIngredients(keyIngredientsArr.join(','));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImg])
 
 
@@ -107,6 +106,8 @@ function CreateProductModal() {
     console.log(Object.values(frontendErrors).length)
     console.log('form submitted?', submittedForm)
     console.log('backend errors?', backendErrors)
+    console.log('key ingredients--', keyIngredientsArr)
+    console.log('key ingredients state -->', keyIngredients)
 
 
 
@@ -127,6 +128,7 @@ function CreateProductModal() {
             "user_id": user.id,
             "image_url": previewImg.trimEnd()
         }
+
 
         const data = await dispatch(createProduct(newProduct))
         if (Array.isArray(data)) {
@@ -201,16 +203,19 @@ function CreateProductModal() {
                     <label>Key Ingredients: </label>
                     <input
                         type="text"
+                        placeholder='Key Ingredient #1'
                         value={keyIngredient1}
                         onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
                     />
                     <input
                         type="text"
+                        placeholder='Key Ingredient #2'
                         value={keyIngredient2}
                         onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
                     />
                     <input
                         type="text"
+                        placeholder='Key Ingredient #3'
                         value={keyIngredient3}
                         onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
                     />
@@ -228,9 +233,9 @@ function CreateProductModal() {
                 <div className='f-previewimg'>
                     <label>Preview Image:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
                     <input
-                        type='text'
-                        value={previewImg}
-                        onChange={(e) => { setPreviewImg((e.target.value).trimStart()) }}
+                        type='file'
+                        accept='.jpeg, .jpg, .png, .webp'
+                        value={previewImg} 
                     />
                     {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
                 </div>
