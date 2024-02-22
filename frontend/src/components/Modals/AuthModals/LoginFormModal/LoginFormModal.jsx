@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { thunkLogin } from "../../../../redux/session";
 import { useDispatch } from "react-redux";
@@ -73,7 +74,7 @@ function LoginFormModal() {
         </div>
         <div className="login-form-buttons-div">
           <button type="submit">Log In</button>
-          <button onClick={handleDemoUser} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User</button>
+          <button type="submit" onClick={handleDemoUser} style={{backgroundColor:"#000000", color:"#FFFFFF"}}>Demo User</button>
         </div>
       </form>
       <div className="create-account-div">
@@ -86,6 +87,6 @@ function LoginFormModal() {
       </div>
     </div>
   )
-};
+}
 
 export default LoginFormModal;
