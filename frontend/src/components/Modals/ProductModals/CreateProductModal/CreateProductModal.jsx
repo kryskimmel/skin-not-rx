@@ -116,11 +116,13 @@ function CreateProductModal() {
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
+
+        if (!previewImage) validationErrors.previewImage = inputRequired;
        
         setFrontendErrors(validationErrors);
         setKeyIngredients(keyIngredientsArr.join(','));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink])
+    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
 
     console.log('frontenderrors', frontendErrors)
@@ -132,27 +134,23 @@ function CreateProductModal() {
     console.log('key ingredients state -->', keyIngredients)
 
 
-
     // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmittedForm(true)
         setShowErrors(Object.values(frontendErrors).length > 0);
 
+        const formData = new FormData();
+        formData.append('brand_name', brandName.trimEnd());
+        formData.append('product_name', productName.trimEnd());
+        formData.append('product_type', productType);
+        formData.append('description', description.trimEnd());
+        formData.append('key_ingredients', keyIngredients.trimEnd());
+        formData.append('product_link', productLink.trimEnd());
+        formData.append('user_id', user.id);
+        formData.append('product_preview_url', previewImageURL)
 
-        const newProduct = {
-            "brand_name": brandName.trimEnd(),
-            "product_name": productName.trimEnd(),
-            "product_type": productType,
-            "description": description.trimEnd(),
-            "key_ingredients": keyIngredients.trimEnd(),
-            "product_link": productLink.trimEnd(),
-            "user_id": user.id,
-            "image_url": previewImageURL
-        }
-
-
-        const data = await dispatch(createProduct(newProduct))
+        const data = dispatch(createProduct(formData))
         if (Array.isArray(data)) {
             const dataErrors = {};
             data?.forEach(error => {
@@ -188,7 +186,11 @@ function CreateProductModal() {
                             value={brandName}
                             onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
                         />
-                        {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
+                        {showErrors && submittedForm && frontendErrors?.brandName && (
+                            <div className="errors-div">
+                                <p className="errors-text">{frontendErrors.brandName}</p>
+                            </div>
+                        )}  
                     </div>
                 </div>
                 <div className='f-productname'>
@@ -199,8 +201,16 @@ function CreateProductModal() {
                         value={productName}
                         onChange={(e) => { setProductName((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
-                    {submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
+                    {showErrors && submittedForm && frontendErrors?.productName && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productName}</p>
+                        </div>
+                    )}  
+                    {submittedForm && backendErrors?.product_name && (
+                        <div>
+                            <p className="errors-text">{backendErrors.product_name}</p>
+                        </div>
+                    )}
                 </div>
                 <div className='f-producttype'>
                     <label>Product Type<span style={{color: "#8B0000"}}>*</span></label>
@@ -221,7 +231,11 @@ function CreateProductModal() {
                         <option value="Eye Cream">Eye Cream</option>
                         <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
                     </select>
-                    {showErrors && submittedForm && frontendErrors?.productType && <p className="errors-text">{frontendErrors.productType}</p>}
+                    {showErrors && submittedForm && frontendErrors?.productType && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productType}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className='f-description'>
                     <label>Description<span style={{color: "#8B0000"}}>*</span></label>
@@ -232,7 +246,11 @@ function CreateProductModal() {
                         onChange={(e) => { setDescription((e.target.value).trimStart()) }}
                     ></textarea>
                     <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                    {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
+                    {showErrors && submittedForm && frontendErrors?.description && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.description}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className='f-keyingredients'>
                     <label>Key Ingredients</label>
@@ -257,7 +275,11 @@ function CreateProductModal() {
                         value={keyIngredient3}
                         onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
+                    {showErrors && submittedForm && frontendErrors?.keyIngredients && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.keyIngredients}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className='f-productlink'>
                     <label>Product Link</label>
@@ -267,20 +289,28 @@ function CreateProductModal() {
                         value={productLink}
                         onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
+                    {showErrors && submittedForm && frontendErrors?.productLink && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productLink}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className='f-previewimg'>
                     <label htmlFor='product-file-upload'>Preview Image<span style={{color: "#8B0000"}}>*</span></label>
                     <input
                         type='file'
                         id='product-file-upload'
-                        name='product_img_url'
+                        name='product_preview_url'
                         accept='.jpeg, .jpg, .png, .webp'
                         onChange={addImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
                         required
                     />
-                    {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
+                    {showErrors && submittedForm && frontendErrors?.previewImage && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.previewImage}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className="selected-preview-img-div">
                     {showPreviewImage ? (
