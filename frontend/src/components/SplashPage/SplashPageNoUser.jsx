@@ -28,7 +28,7 @@ function SplashPageNoUser() {
                 </p>
                 <OpenModalButton
                     className="login-modal-button"
-                    buttonText="LOG IN"
+                    buttonText="ENTER"
                     modalComponent={<LoginFormModal/>}
                 />
             </m.div>
