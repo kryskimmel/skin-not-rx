@@ -14,7 +14,9 @@ function CreateProductModal() {
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
     const [description, setDescription] = useState("");
-    const [keyIngredients, setKeyIngredients] = useState("");
+    const [keyIngredient1, setKeyIngredient1] = useState("");
+    const [keyIngredient2, setKeyIngredient2] = useState("");
+    const [keyIngredient3, setKeyIngredient3] = useState("");
     const [productLink, setProductLink] = useState("");
     const [previewImg, setPreviewImg] = useState("");
     const [frontendErrors, setFrontendErrors] = useState({});
@@ -22,7 +24,8 @@ function CreateProductModal() {
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button" // toggle submit button classname
+    const keyIngredients = [];
+    const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
     // required fields to be filled in by user
     const requiredFields = 
@@ -32,6 +35,7 @@ function CreateProductModal() {
     description && 
     previewImg
 
+
     useEffect(() => {
         if (!requiredFields) {
             setIsDisabled(true);
@@ -39,6 +43,16 @@ function CreateProductModal() {
             setIsDisabled(false)
         }
     }, [dispatch, requiredFields]);
+
+
+    // function to add individual key ingredrient to key ingredients array
+    const addToKeyIngredients = () => {
+        if (keyIngredient1) keyIngredients.push(keyIngredient1);
+        if (keyIngredient2) keyIngredients.push(keyIngredient2);
+        if (keyIngredient3) keyIngredients.push(keyIngredient3);
+    }
+    addToKeyIngredients()
+    console.log('key ingredients--', keyIngredients)
 
 
     // useEffect to track validation errors
@@ -65,9 +79,17 @@ function CreateProductModal() {
         else if (description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
         else if (description.length > 500) validationErrors.description = maxChar500;
 
-        if (keyIngredients && keyIngredients.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
+        else if (keyIngredient1 && keyIngredient1.length < 3) validationErrors.keyIngredients = minChar3;
+        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = maxChar500;
+
+        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
+        else if (keyIngredient2 && keyIngredient2.length < 3) validationErrors.keyIngredients = minChar3;
+        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = maxChar500;
+
+        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
+        else if (keyIngredient3 && keyIngredient3.length < 3) validationErrors.keyIngredients = minChar3;
+        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = maxChar500;
 
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
@@ -77,7 +99,7 @@ function CreateProductModal() {
         else if (previewImg.length < 3) validationErrors.previewImg = minChar3;
        
         setFrontendErrors(validationErrors);
-    }, [brandName, productName, productType, description, keyIngredients, productLink, previewImg])
+    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImg])
 
 
     console.log('frontenderrors', frontendErrors)
@@ -94,40 +116,32 @@ function CreateProductModal() {
         setSubmittedForm(true)
         setShowErrors(Object.values(frontendErrors).length > 0);
 
-       
-            const newProduct = {
-                "brand_name": brandName.trimEnd(),
-                "product_name": productName.trimEnd(),
-                "product_type": productType,
-                "description": description.trimEnd(),
-                "key_ingredients": keyIngredients.trimEnd(),
-                "product_link": productLink.trimEnd(),
-                "user_id": user.id,
-                "image_url": previewImg.trimEnd()
-            }
 
-            const data = await dispatch(createProduct(newProduct))
-            if (Array.isArray(data)) {
-                const dataErrors = {};
-                data?.forEach(error => {
-                    const [key, value] = error.split(':')
-                    dataErrors[key.trim()] = value.trim()
-                });
-                setBackendErrors(dataErrors);
-            } else {
-                if (Object.values(frontendErrors).length === 0) {
-                    closeModal();
-                }
-            }
-
+        const newProduct = {
+            "brand_name": brandName.trimEnd(),
+            "product_name": productName.trimEnd(),
+            "product_type": productType,
+            "description": description.trimEnd(),
+            "key_ingredients": keyIngredients.trimEnd(),
+            "product_link": productLink.trimEnd(),
+            "user_id": user.id,
+            "image_url": previewImg.trimEnd()
         }
 
-
-
-
-
-
-
+        const data = await dispatch(createProduct(newProduct))
+        if (Array.isArray(data)) {
+            const dataErrors = {};
+            data?.forEach(error => {
+                const [key, value] = error.split(':')
+                dataErrors[key.trim()] = value.trim()
+            });
+            setBackendErrors(dataErrors);
+        } else {
+            if (Object.values(frontendErrors).length === 0) {
+                closeModal();
+            }
+        }
+    };
 
 
     return (
@@ -187,8 +201,18 @@ function CreateProductModal() {
                     <label>Key Ingredients: </label>
                     <input
                         type="text"
-                        value={keyIngredients}
-                        onChange={(e) => { setKeyIngredients((e.target.value).trimStart()) }}
+                        value={keyIngredient1}
+                        onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
+                    />
+                    <input
+                        type="text"
+                        value={keyIngredient2}
+                        onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
+                    />
+                    <input
+                        type="text"
+                        value={keyIngredient3}
+                        onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
                     />
                     {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
                 </div>
