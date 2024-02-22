@@ -27,7 +27,6 @@ function Navigation() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
 
   return (
     <div className="nav-container">
