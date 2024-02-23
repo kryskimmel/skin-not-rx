@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
 import { Icon } from "@iconify/react";
@@ -10,7 +10,7 @@ function CreateProductModal() {
     const dispatch = useDispatch();
     const descriptionRef = useRef();
     const { closeModal } = useModal();
-    const user = useSelector(state => state.session.user);
+    // const user = useSelector(state => state.session.user);
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -147,8 +147,8 @@ function CreateProductModal() {
         formData.append('description', description.trimEnd());
         formData.append('key_ingredients', keyIngredients.trimEnd());
         formData.append('product_link', productLink.trimEnd());
-        formData.append('user_id', user.id);
-        formData.append('product_preview_url', previewImageURL)
+        // formData.append('user_id', user.id);
+        formData.append('image_url', previewImageURL)
 
         const data = dispatch(createProduct(formData))
         if (Array.isArray(data)) {
@@ -300,7 +300,7 @@ function CreateProductModal() {
                     <input
                         type='file'
                         id='product-file-upload'
-                        name='product_preview_url'
+                        name='image_url'
                         accept='.jpeg, .jpg, .png, .webp'
                         onChange={addImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
