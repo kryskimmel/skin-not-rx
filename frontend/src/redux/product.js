@@ -54,11 +54,15 @@ export const getAllProducts = () => async (dispatch) => {
 
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
+  for (let data of newProductData.entries()){
+    console.log('inside thunk for creating new product-->', data)
+    console.log('data???', newProductData.entries())
+  }
+
   try {
     const response = await fetch("/api/products/", {
       method: "POST",
-      headers: {"Content-Type" : "application/json"},
-      body: JSON.stringify(newProductData)
+      body: newProductData
     })
 
     if (!response.ok && response.status < 500) {
