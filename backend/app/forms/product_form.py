@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, Email, ValidationError
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from app.awsS3 import ALLOWED_EXTENSIONS
 from app.models import Product
 
 def character_max_60(form, field):
@@ -32,9 +34,9 @@ def product_name_exists(form, field):
 
 class ProductForm(FlaskForm):
     brand_name = StringField('brand_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
-    product_name = StringField('product_name', validators=[DataRequired(), product_name_exists, character_max_60, starting_with_spaces])
+    product_name = StringField('product_name', validators=[DataRequired(), character_max_60, starting_with_spaces])
     product_type = StringField('product_type', validators=[DataRequired(), character_max_60, starting_with_spaces])
     description = StringField('description', validators=[DataRequired(), character_max_500, starting_with_spaces])
     key_ingredients = StringField('key_ingredients', validators=[character_max_500, character_min_3, starting_with_spaces])
     product_link = StringField('product_link', validators=[character_max_500, character_min_3, starting_with_spaces])
-    image_url = StringField('image_url', validators=[DataRequired(), character_min_3])
+    image_url = FileField('image_url', validators=[FileRequired(), FileAllowed(ALLOWED_EXTENSIONS)])
