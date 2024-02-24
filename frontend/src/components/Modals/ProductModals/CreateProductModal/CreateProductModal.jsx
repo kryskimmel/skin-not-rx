@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
 import { Icon } from "@iconify/react";
@@ -10,7 +10,7 @@ function CreateProductModal() {
     const dispatch = useDispatch();
     const descriptionRef = useRef();
     const { closeModal } = useModal();
-    // const user = useSelector(state => state.session.user);
+    const user = useSelector(state => state.session.user);
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -19,16 +19,17 @@ function CreateProductModal() {
     const [keyIngredient2, setKeyIngredient2] = useState("");
     const [keyIngredient3, setKeyIngredient3] = useState("");
     const [keyIngredients, setKeyIngredients] = useState("");
+    const [keyIngredientsArr, setKeyIngredientsArr] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [previewImageURL, setPreviewImageURL] = useState("");
     const [showPreviewImage, setShowPreviewImage] = useState(false);
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
+    // eslint-disable-next-line no-unused-vars
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const keyIngredientsArr = [];
     const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
     // required fields to be filled in by user
@@ -49,13 +50,19 @@ function CreateProductModal() {
     }, [dispatch, requiredFields]);
 
 
-    // function to add individual key ingredrient to key ingredients array
     const addToKeyIngredients = () => {
-        if (keyIngredient1) keyIngredientsArr.push(keyIngredient1);
-        if (keyIngredient2) keyIngredientsArr.push(keyIngredient2);
-        if (keyIngredient3) keyIngredientsArr.push(keyIngredient3);
+        const ingredients = [];
+        if (keyIngredient1) ingredients.push(keyIngredient1);
+        if (keyIngredient2) ingredients.push(keyIngredient2);
+        if (keyIngredient3) ingredients.push(keyIngredient3);
+        setKeyIngredientsArr(ingredients);
     };
-    addToKeyIngredients();
+ 
+
+    useEffect(() => {
+        addToKeyIngredients();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyIngredient1, keyIngredient2, keyIngredient3]);
 
 
     // function to prepare image for sending to AWS S3
@@ -134,32 +141,32 @@ function CreateProductModal() {
     console.log('key ingredients state -->', keyIngredients)
 
 
-    // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmittedForm(true)
-        setShowErrors(Object.values(frontendErrors).length > 0);
-
-        const formData = new FormData();
-        formData.append('brand_name', brandName.trimEnd());
-        formData.append('product_name', productName.trimEnd());
-        formData.append('product_type', productType);
-        formData.append('description', description.trimEnd());
-        formData.append('key_ingredients', keyIngredients.trimEnd());
-        formData.append('product_link', productLink.trimEnd());
-        // formData.append('user_id', user.id);
-        formData.append('image_url', previewImageURL)
-
-        const data = dispatch(createProduct(formData))
-        if (Array.isArray(data)) {
-            const dataErrors = {};
-            data?.forEach(error => {
-                const [key, value] = error.split(':')
-                dataErrors[key.trim()] = value.trim()
-            });
-            setBackendErrors(dataErrors);
-        } else {
-            if (Object.values(frontendErrors).length === 0) {
+        setSubmittedForm(true);
+    
+        if (Object.keys(frontendErrors).length === 0) {
+            const keyIngredientsString = keyIngredientsArr.join(', ');
+    
+            const formData = new FormData();
+            formData.append('brand_name', brandName.trim());
+            formData.append('product_name', productName.trim());
+            formData.append('product_type', productType);
+            formData.append('description', description.trim());
+            formData.append('key_ingredients', keyIngredientsString);
+            formData.append('product_link', productLink.trim());
+            formData.append('user_id', user.id);
+            formData.append('image_url', previewImageURL);
+    
+            const data = dispatch(createProduct(formData));
+            if (Array.isArray(data)) {
+                const dataErrors = {};
+                data.forEach(error => {
+                    const [key, value] = error.split(':');
+                    dataErrors[key.trim()] = value.trim();
+                });
+                setBackendErrors(dataErrors);
+            } else {
                 closeModal();
             }
         }
@@ -181,6 +188,7 @@ function CreateProductModal() {
                     <div className='f-brandname'>
                         <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
                         <input
+                            required
                             className='product-input'
                             type="text"
                             value={brandName}
@@ -196,6 +204,7 @@ function CreateProductModal() {
                 <div className='f-productname'>
                     <label>Product Name<span style={{color: "#8B0000"}}>*</span></label>
                     <input
+                        required
                         className='product-input'
                         type="text"
                         value={productName}
@@ -215,6 +224,7 @@ function CreateProductModal() {
                 <div className='f-producttype'>
                     <label>Product Type<span style={{color: "#8B0000"}}>*</span></label>
                     <select 
+                        required
                         className='product-input' 
                         value={productType} 
                         onChange={(e) => { setProductType(e.target.value) }}>
@@ -240,6 +250,7 @@ function CreateProductModal() {
                 <div className='f-description'>
                     <label>Description<span style={{color: "#8B0000"}}>*</span></label>
                     <textarea
+                        required
                         className='product-textarea'
                         ref={descriptionRef}
                         value={description}
@@ -298,13 +309,13 @@ function CreateProductModal() {
                 <div className='f-previewimg'>
                     <label htmlFor='product-file-upload'>Preview Image<span style={{color: "#8B0000"}}>*</span></label>
                     <input
+                        required
                         type='file'
                         id='product-file-upload'
                         name='image_url'
                         accept='.jpeg, .jpg, .png, .webp'
                         onChange={addImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
-                        required
                     />
                     {showErrors && submittedForm && frontendErrors?.previewImage && (
                         <div className="errors-div">
