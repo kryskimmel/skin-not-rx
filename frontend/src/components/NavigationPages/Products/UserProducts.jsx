@@ -41,9 +41,7 @@ function UserProducts() {
                                 className="product-tile-button"
                                 buttonText={
                                     <div className="product-tile">
-                                        <div className="product-tile-img">
-                                            <img src={attr.preview_image} style={{width:'175px', height:'175px', padding:'10px'}} />
-                                        </div>
+                                        <img src={attr.preview_image} className="product-tile-img"/>
                                         <div>
                                             <ul className="product-tile-info-ul">
                                                 <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
@@ -60,30 +58,35 @@ function UserProducts() {
             </div>
             <div className="products-by-type-wrapper">
             <h2> PRODUCT TYPES</h2>
-                {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
-                    <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
-                        <div style={{display:'flex'}}>
-                        {products.map((product, index) => (
-                            <div key={`${product}-${index}`}>
-                                <OpenModalButton
-                                    className="products-by-type-button"
-                                    buttonText={
-                                        <div className="products-by-type-tile">
-                                            <img 
-                                                src={product.preview_image} 
-                                                alt={product.product_name}
-                                                className="products-by-type-img"
-                                            />
-                                        </div>
-                                    }
-                                    modalComponent={<ProductInfoModal productId={product.id} />}
-                            
-                                />
+            {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
+                <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
+                    <div className="product-collapsible-content">
+                        {products.length > 0 ? (
+                            products.map((product, index) => (
+                                <div key={`${product}-${index}`}>
+                                    <OpenModalButton
+                                        className="products-by-type-button"
+                                        buttonText={
+                                            <div className="products-by-type-tile">
+                                                <img 
+                                                    src={product.preview_image} 
+                                                    alt={product.product_name}
+                                                    className="products-by-type-img"
+                                                />
+                                            </div>
+                                        }
+                                        modalComponent={<ProductInfoModal productId={product.id} />}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div>
+                                <p>You have not added any {productType.toLowerCase()}!</p>
                             </div>
-                        ))}
-                        </div>
-                    </Collapsible>
-                ))}
+                        )}
+                    </div>
+                </Collapsible>
+            ))}
             </div>
         </div>
     )
