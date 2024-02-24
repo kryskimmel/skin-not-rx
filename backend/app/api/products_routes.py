@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from app.models import Product, Product_Image, db
 from app.forms import ProductForm
-
+from app.awsS3 import upload_file_to_s3, get_unique_filename, allowed_file
 
 product_routes = Blueprint('products', __name__)
 
@@ -68,39 +68,52 @@ def get_product_details(product_id):
 @product_routes.route('/', methods=['POST'])
 @login_required
 def add_product():
-
-    data = request.get_json()
     form = ProductForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        new_product = Product(
-            brand_name=data.get('brand_name'),
-            product_name=data.get('product_name'),
-            product_type=data.get('product_type'),
-            description=data.get('description'),
-            key_ingredients=data.get('key_ingredients'),
-            product_link=data.get('product_link'),
-            user_id=current_user.id
-        )
-        db.session.add(new_product)
-        db.session.commit()
+    try:
+        if form.validate_on_submit():
+            if "image_url" in request.files:
+                image_url = request.files["image_url"]
+                if not allowed_file(image_url.filename):
+                    return {"errors": ["Image file type not permitted"]}, 400
 
-        new_preview_image = Product_Image(
-            product_id=new_product.id,
-            preview=True,
-            image_url=data.get('image_url')
-        )
-        db.session.add(new_preview_image)
-        db.session.commit()
+                image_url.filename = get_unique_filename(image_url.filename)
+                upload = upload_file_to_s3(image_url)
+                if "url" not in upload:
+                    return upload, 400
+                url = upload["url"]
+            else:
+                url = None
 
-        new_product_with_preview_img = new_product.to_dict()
-        new_product_with_preview_img["preview_image"] = data.get('image_url')
+            new_product = Product(
+                brand_name=form.data['brand_name'],
+                product_name=form.data['product_name'],
+                product_type=form.data['product_type'],
+                description=form.data['description'],
+                key_ingredients=form.data['key_ingredients'],
+                product_link=form.data['product_link'],
+                user_id=current_user.id
+            )
 
-        return jsonify(new_product_with_preview_img), 201
+            db.session.add(new_product)
+            db.session.commit()
+
+            if url:
+                add_product_img = Product_Image(
+                    product_id=new_product.id,
+                    preview=True,
+                    image_url=url
+                )
+                db.session.add(add_product_img)
+                db.session.commit()
+
+            new_product_with_preview = new_product.to_dict()
+            new_product_with_preview['preview_image'] = url
+
+            return jsonify(new_product_with_preview), 201
+    except Exception as e:
+        return {'error': str(e)}, 500
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
-
-
-
 
 
 # Edit a product by id
