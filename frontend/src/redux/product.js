@@ -60,12 +60,10 @@ export const createProduct = (newProductData) => async (dispatch) => {
     })
     if (response.ok) {
       const newProduct = await response.json()
-      console.log('the new PRODUCT----->', newProduct)
       dispatch(addProduct(newProduct));
       return newProduct;
     } else if (response.status < 500) {
       const errorMessages = await response.json()
-      console.log('errors???---', errorMessages)
       return errorMessages
     } else {
       return { server: "Something went wrong"}
