@@ -1,8 +1,11 @@
 .products-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 0.75fr;
+    margin: 0 15px;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
@@ -11,11 +14,24 @@
     color: #4D4B4B
 }
 
+.products-title-span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 35px;
+    background-color: #9cb781;
+    color: #000000;
+    font-size: 18px;
+}
+
 .products-wrapper {
+    grid-column: 1;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px
+    justify-content: flex-start;
+    gap: 30px;
 }
 
 .product-tile-button {
@@ -71,6 +87,41 @@
     border: none;
     font-size: 20px;
     background-color: rgb(224, 223, 223);
+}
+
+.products-by-type-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.products-collapsible {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: transparent;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.products-by-type-tile {
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    height: 115px;
+    width: 115px;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+
+.products-by-type-img {
+    width: 100px;
+    height: 100px;
 }
 
 .no-products-text {
