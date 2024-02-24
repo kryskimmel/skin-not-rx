@@ -90,7 +90,6 @@ function UserProducts() {
             </div>
         </div>
     )
-
 }
 
 export default UserProducts;
