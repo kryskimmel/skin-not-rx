@@ -46,7 +46,7 @@ products_data = [
        "product_name": "Protein Booster Skin Serum",
        "product_type": "Serum",
        "description": "A peptide-rich, multifunctional serum helps reduce the visible signs of aging and keeps skin looking healthy.",
-       "key_ingredients": "Matrixyl®3000, SYN®-AKE, Organic Green Tea, Organic Omega-3 Fatty Acids",
+       "key_ingredients": "Matrixyl®3000, SYN®-AKE, Organic Green Tea",
        "product_link": "https://www.getjackblack.com/protein-booster-skin-serum.aspx#",
        "user_id": 1
     },
@@ -56,7 +56,7 @@ products_data = [
        "product_name": "Watermelon Glow AHA Night Treatment",
        "product_type": "Treatment",
        "description": "This clinically effective formula is inspired from our original cult-fave Watermelon Glow Sleeping Mask.",
-       "key_ingredients": "2.5% pH-Balanced AHA Complex, Hyaluronic Acid, Niacinamide + Quinoa Peptides, Watermelon Enzymes",
+       "key_ingredients": "2.5% pH-Balanced AHA Complex, Hyaluronic Acid, Niacinamide + Quinoa Peptides",
        "product_link": "https://www.glowrecipe.com/products/watermelon-glow-aha-night-treatment",
        "user_id": 1
     },
@@ -86,7 +86,7 @@ products_data = [
        "product_name": "Intense Care Gold 24K Snail Eye Serum",
        "product_type": "Eye Serum",
        "description": "Depuff, brighten, hydrate, and reduce the appearance of fine lines and wrinkles with this powerful yet gentle eye serum! ",
-       "key_ingredients": "Snail Secretion Filtrate, Niacinamide, Centella Asiatica (Cica) Extract, Ceramides, Collagen",
+       "key_ingredients": "Snail Secretion Filtrate, Niacinamide, Centella Asiatica (Cica) Extract",
        "product_link": "https://tonymoly.us/collections/eye-care-eye-cream/products/intense-care-gold-24k-snail-eye-serum-ball",
        "user_id": 2
     },
@@ -96,7 +96,7 @@ products_data = [
        "product_name": "Wrinkle Smoothing Eye Cream",
        "product_type": "Eye Cream",
        "description": "Our best-selling anti-aging eye cream now visibly reduces wrinkles and diminishes the appearance of dark circles.",
-       "key_ingredients": "Peptides, Squalane, Ginseng Extract, Vitamin E",
+       "key_ingredients": "Peptides, Squalane, Ginseng Extract",
        "product_link": "https://www.shiseido.com/us/en/benefiance-wrinkle-smoothing-eye-cream-0768614208570.html?cgid=skincare",
        "user_id": 1
     },
@@ -106,7 +106,7 @@ products_data = [
        "product_name": "AHA 30% + BHA 2% Peeling Solution",
        "product_type": "Exfoliator",
        "description": "An advanced-level exfoliating peel.",
-       "key_ingredients": "Glycolic Acid, Lactic Acid,Tartaric Acid, Citric Acid, Salicylic Acid",
+       "key_ingredients": "Glycolic Acid, Lactic Acid, Tartaric Acid",
        "product_link": "https://theordinary.com/en-us/aha-30-bha-2-peeling-solution-exfoliator-100400.html",
        "user_id": 1
     },
@@ -182,12 +182,12 @@ products_data = [
     },
    # #  #19
     {
-       "brand_name": "Drunk Elephant",
-       "product_name": "Beste™ No. 9 Jelly Cleanser",
-       "product_type": "Cleanser",
-       "description": "An innovative jelly cleanser that removes all traces of makeup, excess oil, pollution, and any other grime from the day. ",
-       "key_ingredients": "Mild Surfactant Blend, Glycerin, Cantaloupe Fruit Extract, Virgin Marula Oil",
-       "product_link": "https://www.drunkelephant.com/collections/holidayfavorites/beste%E2%84%A2-no.-9-jelly-cleanser-856556004852.html?cgid=q",
+       "brand_name": "Bubble",
+       "product_name": "Slam Dunk Hydrating Moisturizer",
+       "product_type": "Moisturizer",
+       "description": "An everyday cream moisturizer that uses natural ingredients to deeply hydrate and restore essential nutrients for dry to normal skin.",
+       "key_ingredients": "Aloe Leaf Juice, Vitamin E, Avocado Oil",
+       "product_link": "https://hellobubble.com/cdn/shop/products/slamdunk_01_38cf4528-da30-43a5-959c-2d63413febdf.jpg",
        "user_id": 1
     },
    # #  #20
