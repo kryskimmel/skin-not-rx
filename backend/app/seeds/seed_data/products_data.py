@@ -187,7 +187,7 @@ products_data = [
        "product_type": "Moisturizer",
        "description": "An everyday cream moisturizer that uses natural ingredients to deeply hydrate and restore essential nutrients for dry to normal skin.",
        "key_ingredients": "Aloe Leaf Juice, Vitamin E, Avocado Oil",
-       "product_link": "https://hellobubble.com/cdn/shop/products/slamdunk_01_38cf4528-da30-43a5-959c-2d63413febdf.jpg",
+       "product_link": "https://hellobubble.com/products/slam-dunk-hydrating-moisturizer",
        "user_id": 1
     },
    # #  #20
