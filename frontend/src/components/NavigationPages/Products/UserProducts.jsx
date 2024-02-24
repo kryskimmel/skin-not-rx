@@ -4,7 +4,7 @@ import * as ProductActions from "../../../redux/product";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
-import Collapsible from "../../../utils/collapsible";
+import Collapsible from "../../../utils/Collapsible";
 import { Icon } from '@iconify/react';
 import "./UserProducts.css";
 
@@ -67,7 +67,7 @@ function UserProducts() {
                                     <OpenModalButton
                                         className="products-by-type-button"
                                         buttonText={
-                                            <div className="products-by-type-tile">
+                                            <div className="products-by-type-tile" title={`${product.brand_name} ${product.product_name}`}>
                                                 <img 
                                                     src={product.preview_image} 
                                                     alt={product.product_name}
