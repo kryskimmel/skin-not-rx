@@ -54,30 +54,23 @@ export const getAllProducts = () => async (dispatch) => {
 
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
-  for (let data of newProductData.entries()){
-    console.log('inside thunk for creating new product-->', data)
-    console.log('data???', newProductData.entries())
-  }
-
-  try {
     const response = await fetch("/api/products/", {
       method: "POST",
       body: newProductData
     })
-
-    if (!response.ok && response.status < 500) {
-      const data = await response.json();
-      if (data.errors) {
-        return data.errors;
-      }
+    if (response.ok) {
+      const newProduct = await response.json()
+      console.log('the new PRODUCT----->', newProduct)
+      dispatch(addProduct(newProduct));
+      return newProduct;
+    } else if (response.status < 500) {
+      const errorMessages = await response.json()
+      console.log('errors???---', errorMessages)
+      return errorMessages
+    } else {
+      return { server: "Something went wrong"}
     }
-    const newProduct = await response.json()
-    dispatch(addProduct(newProduct))
-    return newProduct;
-  } catch (error) {
-    throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
-  }
-};
+}
 
 
 // EDIT A PRODUCT
