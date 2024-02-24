@@ -4,6 +4,7 @@ import * as ProductActions from "../../../redux/product";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
+import Collapsible from "../../../utils/collapsible";
 import { Icon } from '@iconify/react';
 import "./UserProducts.css";
 
@@ -11,6 +12,7 @@ import "./UserProducts.css";
 function UserProducts() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.product.allProducts);
+    const userProductsByType = useSelector(state => state.product.byProductType);
     console.log('USER PRODS', userProducts)
 
     useEffect(() => {
@@ -20,7 +22,7 @@ function UserProducts() {
 
     return (
         <div className="products-container">
-            <h1 className="products-title">My Products</h1>
+            <h1 className="products-title">PRODUCTS<span className="products-title-span">{userProducts.length}</span></h1>
             <div className="products-wrapper">
                 <div className="custom-product">
                     <OpenModalButton
@@ -55,6 +57,33 @@ function UserProducts() {
                         </div>
                     ))
                     : <h2 className="no-products-text">You have not created any products!</h2>}
+            </div>
+            <div className="products-by-type-wrapper">
+            <h2> PRODUCT TYPES</h2>
+                {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
+                    <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
+                        <div style={{display:'flex'}}>
+                        {products.map((product, index) => (
+                            <div key={`${product}-${index}`}>
+                                <OpenModalButton
+                                    className="products-by-type-button"
+                                    buttonText={
+                                        <div className="products-by-type-tile">
+                                            <img 
+                                                src={product.preview_image} 
+                                                alt={product.product_name}
+                                                className="products-by-type-img"
+                                            />
+                                        </div>
+                                    }
+                                    modalComponent={<ProductInfoModal productId={product.id} />}
+                            
+                                />
+                            </div>
+                        ))}
+                        </div>
+                    </Collapsible>
+                ))}
             </div>
         </div>
     )
