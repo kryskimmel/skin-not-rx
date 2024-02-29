@@ -40,14 +40,15 @@ function Navigation() {
         <div className="nav-container-after">
           <ul className="nav-after-focus">
               <div className='nav-top-after'>
-                <li onClick={handleNavExpansion}><Icon icon="charm:menu-hamburger" width={45}/></li>
+                <li onClick={handleNavExpansion}><Icon icon="ion:caret-back" width={45}/></li>
+                <li><h2>{user.username}</h2></li>
                 <li><img src={user.profile_image} alt="profile-img" width={125}/></li>
             </div>
             <div className="nav-center-after">
-              <li><Icon icon="ph:magnifying-glass-bold" width={35}/>SEARCH</li>
-              <li><Icon icon="fluent:square-16-regular" width={35}/>PRODUCTS</li>
+              <li><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li>
+              <li><Icon icon="fluent:square-20-regular" width={35}/>PRODUCTS</li>
               <li><Icon icon="fluent:squares-nested-20-regular" width={35}/>COLLECTIONS</li>
-              <li><Icon icon="fluent:heart-20-filled" width={35}/>FAVORITES</li>
+              <li><Icon icon="fluent:heart-20-regular" width={35}/>FAVORITES</li>
             </div>
             <div className="nav-bottom-after">
               <button className="logout-button" onClick={logout}>LOG OUT</button>
