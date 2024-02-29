@@ -9,6 +9,7 @@ import { Icon } from "@iconify/react";
 
 function Navigation() {
   const user = useSelector(state => state.session.user);
+  const [expandNav, setExpandNav] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const searchRef = useRef();
 
@@ -31,20 +32,28 @@ function Navigation() {
 
   return (
     <div className="nav-container">
-      <ul className="nav-before-focus">
+      {!expandNav ? (
+        <ul className="nav-before-focus">
         <div className='nav-top'>
           <li><Icon icon="charm:menu-hamburger" width={45}/></li>
         </div>
-        <div className="nav-middle">
+        <div className="nav-center">
           <li><Icon icon="ph:magnifying-glass-bold" width={45}/></li>
           <li><Icon icon="fluent:square-16-regular" width={45}/></li>
           <li><Icon icon="fluent:squares-nested-20-regular" width={45}/></li>
           <li><Icon icon="fluent:heart-20-filled" width={45}/></li>
         </div>
         <div className="nav-bottom">
-          <li><img src={user.profile_image} alt="profile-img" width={45}/></li>
+          <li><img src={user.profile_image} alt="profile-img" width={45} className="nav-profile"/></li>
         </div>
       </ul>
+      ) : (
+        <ul className="nav-after-focus">
+
+        </ul>
+      )
+    }
+
       {/* <ul className="nav-left">
         <li>
           <NavLink to="/" className="logo"><img src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/splashpage/skin-not-rx-logo.png" /></NavLink>
