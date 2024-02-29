@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { thunkLogout } from "../../redux/session";
 // import { NavLink } from "react-router-dom";
 // import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
@@ -8,75 +10,53 @@ import { Icon } from "@iconify/react";
 
 
 function Navigation() {
+  const dispatch = useDispatch();
+  const navigateTo = useNavigate();
   const user = useSelector(state => state.session.user);
   const [expandNav, setExpandNav] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const searchRef = useRef();
 
-  const toggleMenu = (e) => {
-    e.stopPropagation();
-    setShowMenu(!showMenu);
+  const handleNavExpansion = () => {
+    setExpandNav(!expandNav)
+  }
+
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(thunkLogout());
+    navigateTo('/');
   };
-
-  useEffect(() => {
-    if (!showMenu) return;
-    const closeMenu = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
-    document.addEventListener("click", closeMenu);
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
 
 
   return (
-    <div className="nav-container">
-      {!expandNav ? (
-        <ul className="nav-before-focus">
-        <div className='nav-top'>
-          <li><Icon icon="charm:menu-hamburger" width={45}/></li>
-        </div>
-        <div className="nav-center">
-          <li><Icon icon="ph:magnifying-glass-bold" width={45}/></li>
-          <li><Icon icon="fluent:square-16-regular" width={45}/></li>
-          <li><Icon icon="fluent:squares-nested-20-regular" width={45}/></li>
-          <li><Icon icon="fluent:heart-20-filled" width={45}/></li>
-        </div>
-        <div className="nav-bottom">
-          <li><img src={user.profile_image} alt="profile-img" width={45} className="nav-profile"/></li>
-        </div>
-      </ul>
-      ) : (
-        <ul className="nav-after-focus">
-
+    <>
+    {!expandNav ? (
+        <div className="nav-container-before">
+          <ul className="nav-before-focus">
+          <div className='nav-top-before'>
+            <li onClick={handleNavExpansion}><Icon icon="charm:menu-hamburger" width={45}/></li>
+          </div>
         </ul>
-      )
-    }
-
-      {/* <ul className="nav-left">
-        <li>
-          <NavLink to="/" className="logo"><img src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/splashpage/skin-not-rx-logo.png" /></NavLink>
-        </li>
-      </ul>
-      <ul className="nav-center">
-        {user ?
-          <>
-            <li onClick={toggleMenu} ref={searchRef} className="search">SEARCH</li>
-            {showMenu && (<SearchBarAndFilter showMenu={showMenu} searchRef={searchRef} />)}
-            <li><NavLink to='/users/current/products' className="products">PRODUCTS</NavLink></li>
-            <li><NavLink to='/users/current/collections' className="collections">COLLECTIONS</NavLink></li>
-          </>
-          : null
-        }
-      </ul>
-      <ul className="nav-right">
-        <li>
-          <ProfileButton />
-        </li>
-      </ul> */}
-    </div>
-  );
+      </div>
+      ) : (
+        <div className="nav-container-after">
+          <ul className="nav-after-focus">
+              <div className='nav-top-after'>
+                <li onClick={handleNavExpansion}><Icon icon="charm:menu-hamburger" width={45}/></li>
+                <li><img src={user.profile_image} alt="profile-img" width={125}/></li>
+            </div>
+            <div className="nav-center-after">
+              <li><Icon icon="ph:magnifying-glass-bold" width={35}/>SEARCH</li>
+              <li><Icon icon="fluent:square-16-regular" width={35}/>PRODUCTS</li>
+              <li><Icon icon="fluent:squares-nested-20-regular" width={35}/>COLLECTIONS</li>
+              <li><Icon icon="fluent:heart-20-filled" width={35}/>FAVORITES</li>
+            </div>
+            <div className="nav-bottom-after">
+              <button className="logout-button" onClick={logout}>LOG OUT</button>
+            </div>
+          </ul>
+        </div>
+      )}
+    </>
+  )
 }
 
 export default Navigation;
