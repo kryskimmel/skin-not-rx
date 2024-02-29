@@ -1,10 +1,10 @@
 .search-bar-wrapper {
-    width: 100%;
+    width: 100vw;
     height: 100px;
     position: absolute;
-    top: 51px;
+    top: 0px;
+    z-index: 5;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 500;
 }
 
 .search-bar-div {
