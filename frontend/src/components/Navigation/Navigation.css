@@ -2,15 +2,14 @@
 .nav-container-before {
   background-color: lightgrey;
   width: 65px;
-  /* height: 100px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 5%;
- 
   margin-left: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 10px;
   font-family: 'Barlow', sans-serif;
 }
@@ -34,7 +33,7 @@
   border-top-right-radius: 10px;
 }
 
-
+/*************************/
 /** nav AFTER expanded **/
 .nav-container-after {
   background-color: lightgrey;
@@ -47,6 +46,7 @@
   position: fixed;
   top: 5%;
   margin-left: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 10px;
   font-family: 'Barlow', sans-serif;
 }
@@ -68,7 +68,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 10px;
   padding-top: 10px;
   padding-bottom: 100px;
   border-bottom: 1px solid white;
@@ -112,5 +112,6 @@
   height: 50px;
   border-radius: 10px;
   border: transparent;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   cursor: pointer;
 }
