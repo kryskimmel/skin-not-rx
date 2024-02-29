@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Icon } from '@iconify/react';
+// import { Icon } from '@iconify/react';
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import * as ProductActions from "../../../redux/product";
 import "./SearchBarAndFilter.css"
 
 
-function SearchBarAndFilter({ showMenu, searchRef }) {
+function SearchBarAndFilter({ showSearch, searchRef }) {
     const [searchInput, setSearchInput] = useState("")
     const [productId, setProductId] = useState(null);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    const toggleSearchBarDisplay = showMenu ? "block" : "none"
+    const toggleSearchBarDisplay = showSearch ? "block" : "none"
     const dispatch = useDispatch()
     const allProducts = useSelector((state) => state.product.allProducts);
 
@@ -51,7 +51,7 @@ function SearchBarAndFilter({ showMenu, searchRef }) {
                 setProductId(product.id)
         );
         setIsDropdownVisible(true);
-    }, []);
+    }, [productList, searchInput]);
 
     // const goToProductDetails = (productId) => {
     //     if (productId !== null) {
@@ -118,19 +118,21 @@ function SearchBarAndFilter({ showMenu, searchRef }) {
                         return searchTerm && (productName.startsWith(searchTerm) || productBrandName.startsWith(searchTerm));
                     })
                     .map((product) => (
-                        <OpenModalButton
-                            className="search-dropdown-row-button"
-                            buttonText={
-                                <div className="search-dropdown-row">
-                                    <img className="search-result-img" src={product.preview_image} />
-                                    <div className="search-result-name">
-                                        <div>{product.brand_name}: {product.product_name}</div>
+                        <div key={`search-${product.id}`}>
+                            <OpenModalButton
+                                className="search-dropdown-row-button"
+                                buttonText={
+                                    <div className="search-dropdown-row">
+                                        <img className="search-result-img" src={product.preview_image} />
+                                        <div className="search-result-name">
+                                            <div>{product.brand_name}: {product.product_name}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            modalComponent={<ProductInfoModal productId={product.id} />}
-                            onButtonClick={() => { logSearchTerm(product); setSearchInput("") }}
-                        />
+                                }
+                                modalComponent={<ProductInfoModal productId={product.id} />}
+                                onButtonClick={() => { logSearchTerm(product); setSearchInput("") }}
+                            />
+                        </div>
                     ))}
             </div>
         </div >
