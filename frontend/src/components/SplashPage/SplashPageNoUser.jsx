@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { motion as m } from 'framer-motion';
 import OpenModalButton from "../../utils/OpenModalButton";
 import LoginFormModal from "../Modals/AuthModals/LoginFormModal";
@@ -27,12 +28,12 @@ function SplashPageNoUser() {
                 </p>
                 <OpenModalButton
                     className="login-modal-button"
-                    buttonText="LOG IN"
+                    buttonText="ENTER"
                     modalComponent={<LoginFormModal/>}
                 />
             </m.div>
         </div>
     )
-};
+}
 
 export default SplashPageNoUser;
