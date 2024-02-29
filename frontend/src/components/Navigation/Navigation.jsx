@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import { NavLink } from "react-router-dom";
 // import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
-// import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
+import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
 import { Icon } from "@iconify/react";
 
 
@@ -14,10 +14,19 @@ function Navigation() {
   const navigateTo = useNavigate();
   const user = useSelector(state => state.session.user);
   const [expandNav, setExpandNav] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef();
 
+  
   const handleNavExpansion = () => {
     setExpandNav(!expandNav)
   }
+
+  const handleSearch = (e) => {
+    e.stopPropagation();
+    setShowSearch(!showSearch);
+    handleNavExpansion();
+  };
 
   const logout = (e) => {
     e.preventDefault();
@@ -25,9 +34,21 @@ function Navigation() {
     navigateTo('/');
   };
 
+  useEffect(() => {
+    if (!showSearch) return;
+    const closeMenu = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSearch(false);
+      }
+    };
+    document.addEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showSearch]);
+
 
   return (
     <>
+    {showSearch && (<SearchBarAndFilter showSearch={showSearch} searchRef={searchRef} />)}
     {!expandNav ? (
         <div className="nav-container-before">
           <ul className="nav-before-focus">
@@ -45,7 +66,7 @@ function Navigation() {
                 <NavLink to={'/'}><img src={user.profile_image} alt="profile-img" width={125}/></NavLink>
             </div>
             <div className="nav-center-after">
-              <li className='nav-item' style={{margin:'0px'}}><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li>
+              <li className='nav-item' style={{margin:'0px'}} onClick={handleSearch}><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li>
               <NavLink to={'/users/current/products'} className='nav-item'><Icon icon="fluent:square-20-regular" width={35}/>PRODUCTS</NavLink>
               <NavLink to={'/users/current/collections'} className='nav-item'><Icon icon="fluent:squares-nested-20-regular" width={35}/>COLLECTIONS</NavLink>
               <NavLink className='nav-item'><Icon icon="fluent:heart-20-regular" width={35}/>FAVORITES</NavLink>
