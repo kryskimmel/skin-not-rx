@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import ProfileButton from "./ProfileButton";
+// import { NavLink } from "react-router-dom";
+// import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
-import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
+// import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
+import { Icon } from "@iconify/react";
 
 
 function Navigation() {
@@ -30,7 +31,21 @@ function Navigation() {
 
   return (
     <div className="nav-container">
-      <ul className="nav-left">
+      <ul className="nav-before-focus">
+        <div className='nav-top'>
+          <li><Icon icon="charm:menu-hamburger" width={45}/></li>
+        </div>
+        <div className="nav-middle">
+          <li><Icon icon="ph:magnifying-glass-bold" width={45}/></li>
+          <li><Icon icon="fluent:square-16-regular" width={45}/></li>
+          <li><Icon icon="fluent:squares-nested-20-regular" width={45}/></li>
+          <li><Icon icon="fluent:heart-20-filled" width={45}/></li>
+        </div>
+        <div className="nav-bottom">
+          <li><img src={user.profile_image} alt="profile-img" width={45}/></li>
+        </div>
+      </ul>
+      {/* <ul className="nav-left">
         <li>
           <NavLink to="/" className="logo"><img src="https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/splashpage/skin-not-rx-logo.png" /></NavLink>
         </li>
@@ -50,7 +65,7 @@ function Navigation() {
         <li>
           <ProfileButton />
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 }
