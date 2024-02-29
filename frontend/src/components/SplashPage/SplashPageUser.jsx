@@ -19,6 +19,6 @@ function SplashPageUser() {
             </div>
         </div>
     )
-};
+}
 
 export default SplashPageUser;

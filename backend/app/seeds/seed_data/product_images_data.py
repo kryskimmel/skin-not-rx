@@ -37,7 +37,7 @@ product_images_data = [
     # Innisfree: Pore Clearing Clay Mask 2X
     {"product_id": 18, "preview": True, "image_url": "https://us.innisfree.com/cdn/shop/products/VCMaks_20ml.jpg"},
     # Drunk Elephant: Beste™ No. 9 Jelly Cleanser
-    {"product_id": 19, "preview": True, "image_url": "https://img.shopstyle-cdn.com/sim/09/c7/09c7597ef7d7bfab0aad492349771b4e_best/mini-bestetm-no-9-jelly-cleanser.jpg"},
+    {"product_id": 19, "preview": True, "image_url": "https://hellobubble.com/cdn/shop/products/slamdunk_01_38cf4528-da30-43a5-959c-2d63413febdf.jpg"},
     # Kiehls: Facial Fuel Daily Energizing Moisture Treatment for Men
     {"product_id": 20, "preview": True, "image_url": "https://www.kiehls.com/dw/image/v2/AAFM_PRD/on/demandware.static/-/Sites-kiehls-master-catalog/default/dwee37f86f/nextgen/men/face-moisturizers/facial-fuel/facial-fuel-energizing-moisture-treatment-for-men/kiehls-men-face-moisturizer-facial-fuel-energizing-moisture-treatment-75ml-000-3700194714628-front.jpg?sw=1100&sh=1100&sm=cut&sfrm=png"},
 ]

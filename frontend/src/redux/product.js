@@ -54,26 +54,21 @@ export const getAllProducts = () => async (dispatch) => {
 
 // ADD A PRODUCT
 export const createProduct = (newProductData) => async (dispatch) => {
-  try {
     const response = await fetch("/api/products/", {
       method: "POST",
-      headers: {"Content-Type" : "application/json"},
-      body: JSON.stringify(newProductData)
+      body: newProductData
     })
-
-    if (!response.ok && response.status < 500) {
-      const data = await response.json();
-      if (data.errors) {
-        return data.errors;
-      }
+    if (response.ok) {
+      const newProduct = await response.json()
+      dispatch(addProduct(newProduct));
+      return newProduct;
+    } else if (response.status < 500) {
+      const errorMessages = await response.json()
+      return errorMessages
+    } else {
+      return { server: "Something went wrong"}
     }
-    const newProduct = await response.json()
-    dispatch(addProduct(newProduct))
-    return newProduct;
-  } catch (error) {
-    throw new Error(`The following error occured while attempting to create your product: ${error.message}`)
-  }
-};
+}
 
 
 // EDIT A PRODUCT
@@ -142,53 +137,54 @@ export default function reducer(state = initialState, action) {
   let newState = {};
 
   switch (action.type) {
-    case GET_PRODUCTS:
-        if (action.payload.Products) {
-            const byId = {};
-            action.payload.Products.forEach((product) => {
-                byId[product.id] = product
-            });
-            const filterCleansers = action.payload.Products.filter((product => product.product_type === "Cleanser"))
-            const filterExfoliators = action.payload.Products.filter((product => product.product_type === "Exfoliator"))
-            const filerTreatments = action.payload.Products.filter((product => product.product_type === "Treatment"))
-            const filterSerums = action.payload.Products.filter((product => product.product_type === "Serum"))
-            const filterSuncreeens = action.payload.Products.filter((product => product.product_type === "Sunscreen"))
-            const filterMoisturizers = action.payload.Products.filter((product => product.product_type === "Moisturizer"))
-            const filterToners = action.payload.Products.filter((product => product.product_type === "Toner"))
-            const filterFaceMasks = action.payload.Products.filter((product => product.product_type === "Face Mask"))
-            const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
-            const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
-            const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
+    case GET_PRODUCTS: {
+      if (action.payload.Products) {
+        const byId = {};
+        action.payload.Products.forEach((product) => {
+            byId[product.id] = product
+        });
+        const filterCleansers = action.payload.Products.filter((product => product.product_type === "Cleanser"))
+        const filterExfoliators = action.payload.Products.filter((product => product.product_type === "Exfoliator"))
+        const filerTreatments = action.payload.Products.filter((product => product.product_type === "Treatment"))
+        const filterSerums = action.payload.Products.filter((product => product.product_type === "Serum"))
+        const filterSuncreeens = action.payload.Products.filter((product => product.product_type === "Sunscreen"))
+        const filterMoisturizers = action.payload.Products.filter((product => product.product_type === "Moisturizer"))
+        const filterToners = action.payload.Products.filter((product => product.product_type === "Toner"))
+        const filterFaceMasks = action.payload.Products.filter((product => product.product_type === "Face Mask"))
+        const filterEyeSerums = action.payload.Products.filter((product => product.product_type === "Eye Serum"))
+        const filterEyeCreams = action.payload.Products.filter((product => product.product_type === "Eye Cream"))
+        const filterLipRepairAndProtectants = action.payload.Products.filter((product => product.product_type === "Lip Repair & Protectant"))
 
-            newState = {
-                allProducts: action.payload.Products,
-                byId: byId,
-                byProductType: {
-                  "Cleansers": filterCleansers,
-                  "Exfoliators": filterExfoliators,
-                  "Treatments" : filerTreatments,
-                  "Serums": filterSerums,
-                  "Sunscreens": filterSuncreeens,
-                  "Moisturizers": filterMoisturizers,
-                  "Toners": filterToners,
-                  "Face Masks": filterFaceMasks,
-                  "Eye Serums": filterEyeSerums,
-                  "Eye Creams": filterEyeCreams,
-                  "Lip Repair And Protectants": filterLipRepairAndProtectants,
-                },
-            };
-            return newState;
-        } else {
-            newState = action.payload
-            return newState;
-        }
-    case ADD_PRODUCT:
+        newState = {
+            allProducts: action.payload.Products,
+            byId: byId,
+            byProductType: {
+              "Cleansers": filterCleansers,
+              "Exfoliators": filterExfoliators,
+              "Treatments" : filerTreatments,
+              "Serums": filterSerums,
+              "Sunscreens": filterSuncreeens,
+              "Moisturizers": filterMoisturizers,
+              "Toners": filterToners,
+              "Face Masks": filterFaceMasks,
+              "Eye Serums": filterEyeSerums,
+              "Eye Creams": filterEyeCreams,
+              "Lip Repair And Protectants": filterLipRepairAndProtectants,
+            },
+        };
+        return newState;
+      } else {
+          newState = action.payload
+          return newState;
+      } 
+    }   
+    case ADD_PRODUCT: {
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
       newState.allProducts = Object.values(newState.byId);
       newState.byProductType = {...state.byProductType, [`${action.payload.product_type}s`]: [action.payload] }
       return newState;
-
-    case EDIT_PRODUCT:
+    }
+    case EDIT_PRODUCT: {
       const byProductType = {}
       if (action.payload.product_type === "Cleanser") byProductType["Cleansers"] = [action.payload];
       if (action.payload.product_type === "Exfoliator") byProductType["Exfoliators"] = [action.payload];
@@ -205,18 +201,14 @@ export default function reducer(state = initialState, action) {
       newState = JSON.parse(JSON.stringify(state));
       newState.byId[`${action.payload.id}`] = action.payload
       newState.allProducts = Object.values(newState.byId)
-
-
-
-      // newState = {...state, [action.payload.id] : action.payload}
       return newState;
-    case DELETE_PRODUCT:
+    }
+    case DELETE_PRODUCT: {
+      // eslint-disable-next-line no-unused-vars
       const {[action.payload]: deletedProduct, ...updatedState} = state.byId;
       return {...state, byId: updatedState}
-      // newState = JSON.parse(JSON.stringify(state));
-      // delete newState[action.payload];
-      // return newState;
-    case GET_CURR_USER_PRODUCTS:
+    }
+    case GET_CURR_USER_PRODUCTS: {
       if (action.payload.MyProducts) {
         const byId = {};
         action.payload.MyProducts.forEach((product) => {
@@ -255,6 +247,7 @@ export default function reducer(state = initialState, action) {
         newState = action.payload
         return newState;
       }
+    }
     default:
         return state;
   }
