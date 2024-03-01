@@ -9,6 +9,7 @@ import "./SearchBarAndFilter.css"
 
 function SearchBarAndFilter({ showSearch, searchRef }) {
     const [searchInput, setSearchInput] = useState("")
+    // eslint-disable-next-line no-unused-vars
     const [productId, setProductId] = useState(null);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     const toggleSearchBarDisplay = showSearch ? "block" : "none"
@@ -53,17 +54,7 @@ function SearchBarAndFilter({ showSearch, searchRef }) {
         setIsDropdownVisible(true);
     }, [productList, searchInput]);
 
-    // const goToProductDetails = (productId) => {
-    //     if (productId !== null) {
-    //         //
-    //         setSearchInput("");
-    //     } else {
-    //         setSearchInput("");
-    //     }
-    // };
-
     const handleClickOutside = (e) => {
-        // Check if the click is outside the search bar or dropdown
         const searchBar = document.querySelector(".searchBarSmall");
         const dropdown = document.querySelector(".search-dropdown-row");
 
@@ -77,10 +68,8 @@ function SearchBarAndFilter({ showSearch, searchRef }) {
         }
     };
 
-    // Attach the handleClickOutside function to the document click event
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
-
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -96,14 +85,6 @@ function SearchBarAndFilter({ showSearch, searchRef }) {
                 onChange={handleInputChange}
                 className="search-bar-div"
             />
-            {/* <button
-                className="search-button"
-                onClick={() => {
-                    goToProductDetails(productId);
-                }}
-            >
-                <Icon icon="ri:search-line" width="25" height="25" color="white" />
-            </button> */}
             <div
                 className="search-dropdown"
                 style={{

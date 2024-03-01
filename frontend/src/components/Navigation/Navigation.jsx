@@ -17,10 +17,16 @@ function Navigation() {
   const searchRef = useRef();
   const navRef = useRef();
 
-  
+
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(thunkLogout());
+    navigateTo('/');
+  };
+
   const handleNavExpansion = () => {
     setExpandNav(!expandNav)
-  }
+  };
 
   const handleSearch = (e) => {
     e.stopPropagation();
@@ -36,17 +42,10 @@ function Navigation() {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideNav);
-
     return () => {
-        document.removeEventListener("mousedown", handleClickOutsideNav);
+      document.removeEventListener("mousedown", handleClickOutsideNav);
     };
 }, []);
-
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(thunkLogout());
-    navigateTo('/');
-  };
 
   useEffect(() => {
     if (!showSearch) return;
