@@ -1,8 +1,13 @@
 .products-container {
+    width: 75vw;
     display: grid;
     grid-template-columns: 1fr 0.75fr;
-    margin: 15px 15px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 350px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 15px;
 }
 
 .products-title {
@@ -93,7 +98,7 @@
 }
 
 .products-collapsible {
-    width: 100%;
+    width: 200px;
     height: 50px;
     display: flex;
     justify-content: center;
