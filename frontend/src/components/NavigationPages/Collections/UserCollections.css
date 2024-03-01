@@ -1,10 +1,13 @@
 .collection-page-container {
+    width: 75vw;
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 30px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 350px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 15px;
 }
 
 .collection-page-h1 {
