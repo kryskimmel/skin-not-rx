@@ -16,10 +16,12 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
     const [prevStoredProducts, setPrevStoredProducts] = useState(items);
     const [newProductsToAdd, setNewProductsToAdd] = useState([]);
     const [frontendErrors, setFrontendErrors] = useState({});
+    // eslint-disable-next-line no-unused-vars
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    // eslint-disable-next-line no-unused-vars
     const validationErrors = {};
 
 
@@ -28,7 +30,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
             setName(collectionToEdit.name || "")
             setPrevStoredProducts(collectionToEdit.Products)
         }
-    }, [])
+    }, [collectionToEdit])
 
     console.log('Items:--', items)
     console.log("SELECTED COLLECTION TO EDIT:--", collectionToEdit)
@@ -60,14 +62,8 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
     }
 
 
-    // Concat previously stored product ids and new product ids to send to API
-    let productIds = prevStoredProductIds.concat(productIdsToAdd)
-
-    // console.log('ALL IDS TO SEND TO API', productIds)
-
-
     // Toggle submit button classname
-    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
+    const submitButtonCN = isDisabled ? "disabled-collection-update-button" : "enabled-collection-update-button"
 
 
     // Function to remove a previously stored product from the collection
@@ -86,7 +82,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
         else {
             setIsDisabled(true)
         }
-    })
+    }, [name, prevStoredProductIds.length])
 
 
     // useEffect to keep track of validation errors
@@ -150,10 +146,16 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
 
     return (
         <>
-        <div className='create-collection-container'>
+        <div className='update-collection-container'>
             <h1 className="update-collection-h1">Update A Collection</h1>
-            <form onSubmit={handleSubmit}>
-
+            <div className="update-collection-close-modal-div" onClick={()=> closeModal()}>
+                <Icon 
+                    icon="material-symbols-light:close" 
+                    width="25" 
+                    height="25" 
+                />
+            </div>
+            <form className='update-collection-form' onSubmit={handleSubmit}>
                 <label>Collection Name:</label>
                 <input
                     type="text"
@@ -162,13 +164,13 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                 />
                 {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
                 <SearchBarAndAddProduct productsToAdd={handleProductsToAdd}/>
-                <h4 style={{textAlign:"center"}}>- Products currently in colection -</h4>
+                <p style={{marginTop:'10px'}}>Products currently in colection:</p>
                 <div className="previously-stored-products-div">
                     <ul className="previously-stored-products-ul">
                     {Array.isArray(prevStoredProducts) && prevStoredProducts.map((product) => (
-                        <li className="previously-stored-products-item" key={product.id} onClick={() => removeProduct(product.id)}>
-                            <Icon icon="octicon:x-12" color="#000000" width="15" height="15" style={{marginRight:"10px"}} />
+                        <li className="previously-stored-products-item" key={product.id}>
                             {product.brand_name}: {product.product_name}
+                            <p className="remove-prod" onClick={() => removeProduct(product.id)}>Remove</p>
                         </li>
                     ))}
                     </ul>
