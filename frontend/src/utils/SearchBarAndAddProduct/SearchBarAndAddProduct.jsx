@@ -15,8 +15,10 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
     useEffect(() => {
         dispatch(productActions.viewCurrUserProducts())
         productsToAdd(addedProducts)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, addedProducts])
 
+    
     const productList = [];
     for (let product in allProducts){
         productList.push({'id':allProducts[product].id, 'brand_name':allProducts[product].brand_name, 'product_name':allProducts[product].product_name, 'preview_image':allProducts[product].preview_image},
@@ -24,7 +26,8 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
 
     const handleInputChange = (e) => {
         e.preventDefault();
-        setSearchInput(e.target.value)
+        setListAllProducts(false);
+        setSearchInput(e.target.value);
     };
 
     const handleSearch = (searchTerm) => {
