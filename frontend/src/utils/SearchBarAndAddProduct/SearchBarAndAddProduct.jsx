@@ -67,7 +67,7 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
 
     return (
         <div className="searchbar-container">
-            <label htmlFor="search">Find a product <Icon icon="ph:magnifying-glass" width="20" height="15" /></label>
+            <label htmlFor="search"><Icon icon="ph:magnifying-glass" width="20" height="15" />Find a product to add to this collection:</label>
             <div className="searchbar">
                 <input
                     type="text"
