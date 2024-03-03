@@ -5,7 +5,6 @@ import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
 import Collapsible from "../../../utils/Collapsible";
-import { Icon } from '@iconify/react';
 import "./UserProducts.css";
 
 
@@ -22,18 +21,20 @@ function UserProducts() {
 
     return (
         <div className="products-container">
-            <h1 className="products-title">PRODUCTS<span className="products-title-span">{userProducts.length}</span></h1>
+            <div className="products-header">
+                <h1 className="products-title">PRODUCTS<span className="products-title-span">{userProducts.length}</span></h1>
+                <OpenModalButton
+                    buttonText={
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                            <p>Create A Product</p>
+                        </div>}
+                    className="products-create-button"
+                    modalComponent={<CreateProductModal />}
+                />
+            </div>
+        <div className="products-inner-container">
+    
             <div className="products-wrapper">
-                <div className="custom-product">
-                    <OpenModalButton
-                        buttonText={
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                <p>Create A Product</p>
-                                <Icon icon="basil:add-outline" width="30" height="30" />
-                            </div>}
-                        modalComponent={<CreateProductModal />}
-                    />
-                </div>
                 {userProducts
                     ? userProducts.map((attr) => (
                         <div key={attr.id}>
@@ -57,7 +58,6 @@ function UserProducts() {
                     : <h2 className="no-products-text">You have not created any products!</h2>}
             </div>
             <div className="products-by-type-wrapper">
-            <h2> PRODUCT TYPES</h2>
             {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
                 <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
                     <div className="product-collapsible-content">
@@ -88,7 +88,8 @@ function UserProducts() {
                 </Collapsible>
             ))}
             </div>
-        </div>
+        </div>        
+    </div>
     )
 }
 

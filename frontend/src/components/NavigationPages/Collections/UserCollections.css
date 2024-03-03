@@ -1,44 +1,37 @@
 .collection-page-container {
+    width: 75vw;
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 30px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 350px;
+    padding: 30px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 15px; */
 }
 
 .collection-page-h1 {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
-    margin-bottom: 30px;
-    color: #4D4B4B
+    align-items: center;
+    width: 100%;
+    /* background-color: #d3d3d3; */
+    /* text-shadow: 2px 2px 5px rgba(80, 78, 78, 0.2); */
+    color: #4d4b4b
 }
 
-.collection-page-premade-collections-div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    gap: 30px;
-}
-
-.collection-page-premade-collections-div button {
-    border: none;
-    background-color: transparent;
-}
 
 .collection-page-collections-tile-div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
-    padding: 5px 5px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-    border-radius: 15px;
     background-color: #FFFFFF;
-    height: 275px;
-    width: 275px;
+    height: 200px;
+    width: 200px;
+    padding: 5px 5px;
+    cursor: pointer;
 }
 
 .collection-page-collections-tile-div:hover,
@@ -50,26 +43,23 @@
     list-style: none;
 }
 
-.collection-page-h2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 18px;
-    text-align: center;
-    width: 250px;
-    margin-bottom: 5px;
-}
 
 .collection-page-collections-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin: 10px auto;
-    width: 205px;
-    height: 205px;
+    grid-template-rows: repeat(2, 1fr);
+    margin: 2px 2px;
+    width: 100%;
+    height: 100%;
 }
 
 .collection-page-grid-images img {
     border: 1px solid lightgray;
+}
+
+.collection-image {
+    width: 75px;
+    height: 75px;
 }
 
 
@@ -86,25 +76,23 @@
     background-color: transparent;
 }
 
-.create-custom-collection-div {
-    height: 275px;
-    width: 200px;
-    background-color: rgb(224, 223, 223);
-    padding: 5px 5px;
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-    border-radius: 15px;
+.collections-header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
-.create-custom-collection-div button {
+.collection-create-button{
+    width: 225px;
+    height: 30px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 2px solid #4d4b4b;
+    background-color: inherit;
+    font-size: 16px;
     cursor: pointer;
-    height: 275px;
-    width: 200px;
-    border: none;
-    font-size: 20px;
-    background-color: rgb(224, 223, 223);
 }
 
 .no-collections-text {
