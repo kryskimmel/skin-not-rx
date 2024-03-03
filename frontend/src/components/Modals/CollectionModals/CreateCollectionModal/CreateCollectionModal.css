@@ -32,6 +32,7 @@
 .collection-submit-button-div {
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .enabled-collection-submit-button {
