@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { createCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import SearchBarAndAddProduct from "../../../../utils/SearchBarAndAddProduct";
+import { Icon } from "@iconify/react";
 import "./CreateCollectionModal.css";
 
 function CreateCollectionModal() {
@@ -61,13 +62,6 @@ function CreateCollectionModal() {
     }, [frontendErrors]);
 
 
-    // console.log('the validation errors', validationErrors)
-    // console.log('the validation errors inside ERRORS state', frontendErrors)
-    // console.log('show errors?', showErrors)
-    // console.log(Object.values(frontendErrors).length)
-    // console.log('form submitted?', submittedForm)
-    // console.log('backend errors?', backendErrors)
-
     // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -101,6 +95,13 @@ function CreateCollectionModal() {
     return (
         <div className='create-collection-container'>
             <h1 className='create-collection-h1'>Create A Collection</h1>
+            <div className="create-collection-close-modal-div" onClick={()=> closeModal()}>
+                <Icon 
+                    icon="material-symbols-light:close" 
+                    width="25" 
+                    height="25" 
+                />
+            </div>
             <form className='create-collection-form' onSubmit={handleSubmit}>
                 <label>Collection Name:</label>
                 <input
