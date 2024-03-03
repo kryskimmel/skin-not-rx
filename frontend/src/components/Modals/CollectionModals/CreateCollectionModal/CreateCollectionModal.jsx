@@ -12,38 +12,32 @@ function CreateCollectionModal() {
     const [name, setName] = useState('');
     const [productsToAdd, setProductsToAdd] = useState('');
     const [frontendErrors, setFrontendErrors] = useState({});
+    // eslint-disable-next-line no-unused-vars
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    // eslint-disable-next-line no-unused-vars
     const validationErrors = {};
 
     console.log('products to add in create', productsToAdd)
-    // To collect the data from the SearchBarAndAddProduct component
+    // to collect the data from the SearchBarAndAddProduct component
     const handleProductsToAdd = (data) => {
         setProductsToAdd(data)
     }
 
-    // Grab product ids from the selected products to add
+    // grab product ids from the selected products to add
     const productIds = [];
     if (productsToAdd) {
         productsToAdd.map((attr) => { productIds.push(attr.id) })
     }
 
-    console.log('product id', productIds)
+    const submitButtonCN = isDisabled ? "disabled-collection-submit-button" : "enabled-collection-submit-button"
 
-    // Toggle submit button classname
-    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
-
-    // useEffect to that will set IsDisabled status to true if required fields are not empty
     useEffect(() => {
-        if (name && productIds.length > 0) {
-            setIsDisabled(false)
-        }
-        else {
-            setIsDisabled(true)
-        }
-    })
+        if (name && productIds.length > 0) setIsDisabled(false);
+        else setIsDisabled(true);
+    }, [name, productIds.length])
 
 
     // useEffect to keep track of validation errors
@@ -105,23 +99,22 @@ function CreateCollectionModal() {
 
 
     return (
-        <>
-            <div className='create-collection-container'>
-                <h1 className="create-collection-h1">Create A Collection</h1>
-                <form onSubmit={handleSubmit}>
-
-                    <label>Collection Name:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => { setName((e.target.value).trimStart()) }}
-                    />
-                    {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
-                    <SearchBarAndAddProduct productsToAdd={handleProductsToAdd} />
+        <div className='create-collection-container'>
+            <h1 className='create-collection-h1'>Create A Collection</h1>
+            <form className='create-collection-form' onSubmit={handleSubmit}>
+                <label>Collection Name:</label>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => { setName((e.target.value).trimStart()) }}
+                />
+                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
+                <SearchBarAndAddProduct productsToAdd={handleProductsToAdd} />
+                <div className="collection-submit-button-div">
                     <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
-                </form>
-            </div>
-        </>
+                </div>
+            </form>
+        </div>
     )
 }
 
