@@ -6,9 +6,10 @@ import "./SearchBarAndAddProduct.css";
 
 function SearchBarAndAddProduct ({ productsToAdd }) {
     const dispatch = useDispatch();
-    const allProducts = useSelector(state => state.product.allProducts)
-    const [searchInput, setSearchInput] = useState('')
-    const [addedProducts, setAddedProducts] = useState([])
+    const allProducts = useSelector(state => state.product.allProducts);
+    const [searchInput, setSearchInput] = useState('');
+    const [addedProducts, setAddedProducts] = useState([]);
+    const [listAllProducts, setListAllProducts] = useState(false);
 
     console.log('inside search', addedProducts)
     useEffect(() => {
@@ -50,7 +51,9 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                         'product_name': product.product_name,
                         'preview_image':product.preview_image
                     }])
+                    setListAllProducts(false)
                 } else {
+                    setListAllProducts(false)
                     return;
                 }
             }
@@ -74,10 +77,31 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
                     placeholder="Type in a product name..."
                     onChange={handleInputChange}
                     value={searchInput}
+                    style={{height:'30px', fontSize:'16px'}}
                 />
-                <button type="button" onClick={resetSearch}><Icon icon="octicon:x-12" width="15" height="15"/></button>
+                <button 
+                    className="full-prod-list-button" 
+                    title="Full product list"
+                    type="button"
+                    onClick={() => setListAllProducts(!listAllProducts)}>
+                    <Icon icon="fluent:list-16-regular" width={20} height={20}/>
+                </button>
             </div>
-
+            {listAllProducts && (
+                <div>
+                    <ul className="full-prod-list-ul">
+                        <p style={{marginBottom:'10px',color: '#4d4b4b'}}>{allProducts.length} products</p>
+                        {productList.map((product) => (
+                            <li 
+                                key={`product-item-search-${product.product_name}-${product.id}`}
+                                className="full-prod-list-li"
+                                onClick={() => addProduct(product.product_name)}>
+                                {product.brand_name}: {product.product_name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
             <div className="dropdown">
                 {productList.filter(product => {
                     const searchTerm = searchInput.toLowerCase();
@@ -93,15 +117,15 @@ function SearchBarAndAddProduct ({ productsToAdd }) {
             <div className="search-comp-product-tiles-div">
                 {addedProducts?.map((productTile) => (
                     <div className="search-comp-product-tile" key={productTile.id}>
-                        <Icon className="search-comp-close-icon" icon="octicon:x-12" color="#000000" width="15" height="15" onClick={() => {removeProduct(productTile.id)}}/>
-                        <img src={productTile.preview_image} alt={productTile.product_name} title={productTile.product_name} className="search-comp-product-tile-img" />
-                        <p style={{fontWeight:"600"}}>{productTile.brand_name}</p>
-                        <p>{productTile.product_name}</p>
+                        <img src={productTile.preview_image} alt={productTile.product_name} title={`${productTile.brand_name}: ${productTile.product_name}`} className="search-comp-product-tile-img" />
+                        <button 
+                            className="remove-product-button"
+                            onClick={() => {removeProduct(productTile.id)}}>
+                            Remove
+                        </button>
                     </div>
-
                 ))}
             </div>
-
         </div>
     )
 }
