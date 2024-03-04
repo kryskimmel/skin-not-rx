@@ -1,6 +1,10 @@
+import FavoriteProducts from "./FavoriteProducts";
+
 function Favorites () {
     return (
-        <h1>This is the favorites page!</h1>
+        <div className="favorites-container">
+            <FavoriteProducts/>
+        </div>
     )
 }
 
