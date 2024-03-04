@@ -41,7 +41,7 @@ const getFavoriteCollections = (favoriteCollection) => ({
 // GET ALL FAVORITED PRODUCTS
 export const getAllFavoritedProducts = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/current/favorites/products", {
+    const response = await fetch("/api/users/current/favorites/products", {
       method: "GET",
     });
     if (!response.ok) {
@@ -57,7 +57,7 @@ export const getAllFavoritedProducts = () => async (dispatch) => {
 // ADD A PRODUCT TO FAVORITES
 export const addProductToFavorites = (newFavoriteProductData) => async (dispatch) => {
   try {
-    const response = await fetch("/api/current/favorites/products", {
+    const response = await fetch("/api/users/current/favorites/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newFavoriteProductData),
@@ -75,7 +75,7 @@ export const addProductToFavorites = (newFavoriteProductData) => async (dispatch
 // REMOVE A PRODUCT FROM FAVORITES
 export const removeProductFromFavorites = (favorite_id) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/current/favorites/products/${favorite_id}`, {
+    const response = await fetch(`/api/users/current/favorites/products/${favorite_id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
@@ -92,7 +92,7 @@ export const removeProductFromFavorites = (favorite_id) => async (dispatch) => {
 // GET ALL FAVORITED COLLECTIONS
 export const getAllFavoritedCollections = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/current/favorites/collections", {
+    const response = await fetch("/api/users/current/favorites/collections", {
       method: "GET",
     });
     if (!response.ok) {
@@ -108,7 +108,7 @@ export const getAllFavoritedCollections = () => async (dispatch) => {
 // ADD A COLLECTION TO FAVORITES
 export const addCollectionToFavorites = (newFavoriteCollectionData) => async (dispatch) => {
   try {
-    const response = await fetch("/api/current/favorites/collections", {
+    const response = await fetch("/api/users/current/favorites/collections", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newFavoriteCollectionData),
@@ -126,7 +126,7 @@ export const addCollectionToFavorites = (newFavoriteCollectionData) => async (di
 // REMOVE A COLLECTION FROM FAVORITES
 export const removeCollectionFromFavorites = (favorite_id) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/current/favorites/collections/${favorite_id}`, {
+    const response = await fetch(`/api/users/current/favorites/collections/${favorite_id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
