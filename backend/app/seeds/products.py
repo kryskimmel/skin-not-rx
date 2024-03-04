@@ -11,6 +11,7 @@ def seed_products():
             description=product['description'],
             key_ingredients=product['key_ingredients'],
             product_link=product['product_link'],
+            preview_image=product['preview_image'],
             user_id=product['user_id']
         )
         db.session.add(seed_product)
