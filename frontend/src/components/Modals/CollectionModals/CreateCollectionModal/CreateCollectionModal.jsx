@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { createCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
-import SearchBarAndAddProduct from "../../../../utils/SearchBarAndAddProduct";
+import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import { Icon } from "@iconify/react";
 import "./CreateCollectionModal.css";
 
@@ -11,37 +12,33 @@ function CreateCollectionModal() {
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
-    const [productsToAdd, setProductsToAdd] = useState('');
+    const [addProducts, setAddProducts] = useState(null);
     const [frontendErrors, setFrontendErrors] = useState({});
-    // eslint-disable-next-line no-unused-vars
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    // eslint-disable-next-line no-unused-vars
-    const validationErrors = {};
+    const submitButtonCN = isDisabled ? "disabled-collection-submit-button" : "enabled-collection-submit-button";
 
-    console.log('products to add in create', productsToAdd)
-    // to collect the data from the SearchBarAndAddProduct component
-    const handleProductsToAdd = (data) => {
-        setProductsToAdd(data)
-    }
+  
+    const productIdsToAdd = useMemo(() => {
+        const ids = [];
+        if (addProducts) {
+            addProducts.map((prod) => ids.push(prod.id));
+        }
+        return ids
+    }, [addProducts]);
 
-    // grab product ids from the selected products to add
-    const productIds = [];
-    if (productsToAdd) {
-        productsToAdd.map((attr) => { productIds.push(attr.id) })
-    }
-
-    const submitButtonCN = isDisabled ? "disabled-collection-submit-button" : "enabled-collection-submit-button"
+  
+    const removeProduct = (prodId) => {
+        setAddProducts(addProducts.filter((prod) => prod.id !== prodId));
+    };
 
     useEffect(() => {
-        if (name && productIds.length > 0) setIsDisabled(false);
+        if (name && productIdsToAdd.length > 0) setIsDisabled(false);
         else setIsDisabled(true);
-    }, [name, productIds.length])
+    }, [name, productIdsToAdd.length])
 
-
-    // useEffect to keep track of validation errors
     useEffect(() => {
         const validationErrors = {};
         const inputRequired = "Input is required."
@@ -55,7 +52,7 @@ function CreateCollectionModal() {
         else if (name.length < 3) validationErrors.name = minChar3;
 
         setFrontendErrors(validationErrors);
-    }, [dispatch, name, productsToAdd]);
+    }, [dispatch, name]);
 
     useEffect(() => {
         setShowErrors(Object.values(frontendErrors).length > 0);
@@ -70,10 +67,10 @@ function CreateCollectionModal() {
         const newCollection = {
             'name': name.trimEnd(),
             'user_id': currentUserId,
-            'product_ids': productIds
+            'product_ids': productIdsToAdd
         }
         try {
-            const data = await dispatch(createCollection(newCollection));
+            const data = dispatch(createCollection(newCollection));
             if (Array.isArray(data)) {
                 const dataErrors = {};
                 data?.forEach(error => {
@@ -95,7 +92,7 @@ function CreateCollectionModal() {
     return (
         <div className='create-collection-container'>
             <h1 className='create-collection-h1'>Create A Collection</h1>
-            <div className="create-collection-close-modal-div" onClick={()=> closeModal()}>
+            <div className="login-form-close-modal-div" onClick={()=> closeModal()}>
                 <Icon 
                     icon="material-symbols-light:close" 
                     width="25" 
@@ -110,7 +107,7 @@ function CreateCollectionModal() {
                     onChange={(e) => { setName((e.target.value).trimStart()) }}
                 />
                 {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
-                <SearchBarAndAddProduct productsToAdd={handleProductsToAdd} />
+                <SearchBarAndAddProduct setAddProducts={setAddProducts}/>
                 <div className="collection-submit-button-div">
                     <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
                 </div>
