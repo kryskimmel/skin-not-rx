@@ -18,6 +18,7 @@ class Product(db.Model):
     description = Column(String(500), nullable=False)
     key_ingredients = Column(String(500), nullable=True)
     product_link = Column(String(500), nullable=True)
+    preview_image = Column(String(500), nullable=False)
 
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
 
@@ -26,7 +27,6 @@ class Product(db.Model):
 
     # RELATIONSHIPS
     user = db.relationship('User', back_populates='products')
-    product_images = db.relationship('Product_Image', back_populates='products', cascade='all, delete-orphan')
     favorite_products = db.relationship('Favorite_Product', back_populates='products', cascade='all, delete-orphan')
     collections = db.relationship('Collection', secondary='collection_product', back_populates='products')
 
@@ -39,5 +39,6 @@ class Product(db.Model):
             'description': self.description,
             'key_ingredients': self.key_ingredients,
             'product_link': self.product_link,
+            'preview_image': self.product_image,
             'user_id': self.user_id
         }
