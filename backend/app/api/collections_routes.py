@@ -30,20 +30,11 @@ def explore_collections():
             'Products': [{'id':product.id,
                           'brand_name':product.brand_name,
                           'product_name':product.product_name,
-                          'preview_image': get_preview_image(product)
+                          'preview_image': product.preview_image
                           } for product in collection.products]
         }
         collections_list.append(collection_info)
     return jsonify({'Collections': collections_list})
-
-
-def get_preview_image(product):
-    preview_images = [
-        {'image_url': image.image_url}
-        for image in product.product_images
-        if image.preview == True
-    ]
-    return preview_images
 
 
 # Get a collection's details
@@ -66,7 +57,7 @@ def get_collection_details(collection_id):
                         'key_ingredients': product.key_ingredients,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
-                        'preview_image': get_preview_image(product)
+                        'preview_image': product.preview_image
                         } for product in selected_collection.products]
     }
     return jsonify({'CollectionDetails': collection_info})
@@ -110,9 +101,8 @@ def add_collection():
                         'key_ingredients': product.key_ingredients,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
-                        'preview_image': get_preview_image(product)
+                        'preview_image': product.preview_image
                         } for product in new_collection.products]
-
 
         return new_collection_with_products_info, 201
     else:
@@ -162,7 +152,7 @@ def edit_collection(collection_id):
                         'key_ingredients': product.key_ingredients,
                         'product_link': product.product_link,
                         'user_id': product.user_id,
-                        'preview_image': get_preview_image(product)
+                        'preview_image': product.preview_image
                 } for product in selected_collection.products]
 
         return updated_collection, 201
