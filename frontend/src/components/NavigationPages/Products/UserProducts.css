@@ -12,8 +12,6 @@
     grid-template-columns: 1fr 0.75fr;
 }
 
-
-
 .products-title {
     display: flex;
     justify-content: center;
@@ -66,10 +64,21 @@
     opacity: .5;
 }
 
+.favorited-text {
+    position: absolute;
+    padding: 15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #4d4b4b;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
 .product-tile-img {
     width: 175px;
     height: 175px;
     padding: 10px;
+    margin-top: 20px;
     border-radius: 15px;
 }
 
