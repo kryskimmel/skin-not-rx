@@ -1,5 +1,5 @@
 # 5 favorite collections seed sata
-favorite_products_data = [
+favorite_collections_data = [
     {
         "user_id": 1,
         "collection_id": 1
