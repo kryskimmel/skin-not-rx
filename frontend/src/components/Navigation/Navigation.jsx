@@ -88,7 +88,7 @@ function Navigation() {
               <NavLink to={'/users/current/collections'} className='nav-item' onClick={handleNavExpansion}>
                 <Icon icon="fluent:squares-nested-20-regular" width={35}/>COLLECTIONS
               </NavLink>
-              <NavLink className='nav-item' onClick={handleNavExpansion}>
+              <NavLink to={'/users/current/favorites'} className='nav-item' onClick={handleNavExpansion}>
                 <Icon icon="fluent:heart-20-regular" width={35}/>FAVORITES
               </NavLink>
             </div>
