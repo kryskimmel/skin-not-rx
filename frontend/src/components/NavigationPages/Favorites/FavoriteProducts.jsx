@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllFavoritedProducts } from "../../../redux/favorite";
+import OpenModalButton from "../../../utils/OpenModalButton";
+import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 
 function FavoriteProducts () {
     const dispatch = useDispatch();
@@ -15,9 +17,23 @@ function FavoriteProducts () {
     return (
         <div className="favorite-products-container">
             {favoriteProducts ? favoriteProducts.map((faveProd) => (
-                <div key={`${faveProd.id}-faveProd-${faveProd.product_id}`}>
-                    <h2>{faveProd.product_details['product_name']}</h2>
-                </div>)): 
+                 <OpenModalButton
+                 className="product-tile-button"
+                 key={`${faveProd.id}-faveProd-${faveProd.product_id}`}
+                 buttonText={
+                     <div className="product-tile">
+                         <img src={faveProd.product_details.preview_image} className="product-tile-img"/>
+                         <div>
+                             <ul className="product-tile-info-ul">
+                                 <li style={{ fontWeight: "600" }}>{faveProd.product_details.brand_name}</li>
+                                 <li>{faveProd.product_details.product_name}</li>
+                             </ul>
+                         </div>
+                     </div>
+                 }
+                 modalComponent={<ProductInfoModal productId={faveProd.product_id} />}
+             />
+             )): 
                 <div>
                     <h2>Nothing to display here</h2>
                 </div>
@@ -25,5 +41,5 @@ function FavoriteProducts () {
         </div>
     )
 }
-
+// onFavoriteChange={handleFavoriteChange} 
 export default FavoriteProducts;
