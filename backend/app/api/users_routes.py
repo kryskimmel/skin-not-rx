@@ -91,17 +91,31 @@ def view_favorite_products():
     favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_products:
-        return {'message': 'You do not have any favorited products yet!'}
+        return jsonify({'message': 'You do not have any favorited products yet!'})
 
     favorite_products_list = []
-    for product in favorite_products:
-        fave_product = {
-            'id': product.id,
-            'user_id': current_user.id,
-            'product_id': product.product_id,
-        }
-        favorite_products_list.append(fave_product)
+    for favorite_product in favorite_products:
+        product = Product.query.get(favorite_product.product_id)
+        if product:
+            fave_product = {
+                'id': favorite_product.id,
+                'user_id': current_user.id,
+                'product_id': favorite_product.product_id,
+                'product_details': {
+                    'id': product.id,
+                    'brand_name': product.brand_name,
+                    'product_name': product.product_name,
+                    'product_type': product.product_type,
+                    'description': product.description,
+                    'key_ingredients': product.key_ingredients,
+                    'product_link': product.product_link,
+                    'preview_image': product.preview_image
+                }
+            }
+            favorite_products_list.append(fave_product)
+
     return jsonify({'FavoriteProducts': favorite_products_list})
+
 
 
 
