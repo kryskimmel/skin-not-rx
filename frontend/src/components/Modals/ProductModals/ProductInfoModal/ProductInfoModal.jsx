@@ -8,16 +8,39 @@ import { Icon } from '@iconify/react';
 import "./ProductInfoModal.css";
 
 
-function ProductInfoModal({ productId }) {
+function ProductInfoModal({ productId, onFavoriteChange }) {
     const dispatch = useDispatch();
     const product = useSelector(state => state.product.byId[productId])
     const [isLoaded, setIsLoaded] = useState(false)
     const optionsRef = useRef();
     const [showMenu, setShowMenu] = useState(false);
+    const [favoritedProducts, setFavoritedProducts] = useState({});
+   
 
     useEffect(() => {
         dispatch(productActions.viewCurrUserProducts()).then(() => { setIsLoaded(true) })
-    }, [productId])
+    }, [dispatch, productId])
+
+    const toggleHeartClick = (prodId) => {
+        setFavoritedProducts((prev) => {
+            const updatedFavorites = { ...prev };
+            if (prev[prodId]) {
+                delete updatedFavorites[prodId];
+            } else {
+                updatedFavorites[prodId] = true; 
+            }
+            localStorage.setItem('favoritedProducts', JSON.stringify(updatedFavorites));
+            onFavoriteChange(updatedFavorites);
+            return updatedFavorites;
+        });
+    };
+    
+    useEffect(() => {
+        const savedFavorites = localStorage.getItem('favoritedProducts');
+        if (savedFavorites) {
+            setFavoritedProducts(JSON.parse(savedFavorites));
+        }
+    }, []);
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -56,6 +79,10 @@ function ProductInfoModal({ productId }) {
                 </ul>
             </div>
             <div className="product-info-tools-div">
+                <div className="product-favorite-icon" onClick={()=>toggleHeartClick(product.id)}>
+                    {favoritedProducts[product.id] ? (<Icon icon={"fluent:heart-20-filled"}  color="#8B0000" width="30" height="30"/> ) 
+                    : (<Icon icon={"fluent:heart-20-regular"}  width="30" height="30"/>)}
+                </div>
                 <button onClick={toggleMenu}>
                     <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
                 </button>
