@@ -126,16 +126,33 @@ def view_favorite_collections():
     favorite_collections = Favorite_Collection.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_collections:
-        return {'message': 'You do not have any favorited collections yet!'}
+        return jsonify({'message': 'You do not have any favorited collections yet!'})
 
     favorite_collections_list = []
-    for collection in favorite_collections:
-        fave_collection = {
-            'id': collection.id,
-            'user_id': current_user.id,
-            'collection_id': collection.collection_id
-        }
-        favorite_collections_list.append(fave_collection)
+    for favorite_collection in favorite_collections:
+        collection = Collection.query.get(favorite_collection.collection_id)
+        if collection:
+            products = []
+            for product in collection.products:
+                products.append({
+                    'id': product.id,
+                    'brand_name': product.brand_name,
+                    'product_name': product.product_name,
+                    'product_type': product.product_type,
+                    'description': product.description,
+                    'key_ingredients': product.key_ingredients,
+                    'product_link': product.product_link,
+                    'preview_image': product.preview_image
+                })
+            fave_collection = {
+                'id': favorite_collection.id,
+                'user_id': current_user.id,
+                'collection_id': favorite_collection.collection_id,
+                'name': collection.name, 
+                'products': products
+            }
+            favorite_collections_list.append(fave_collection)
+
     return jsonify({'FavoriteCollections': favorite_collections_list})
 
 
