@@ -43,7 +43,7 @@ function UserCollections() {
                                     <div className="collection-page-collections-grid">
                                         {collection.Products?.slice(0, 4)?.map((attr, idx) => (
                                             <div className="collection-page-grid-images" key={idx}>
-                                                <img src={attr.preview_image[0].image_url} alt={attr.product_name} title={attr.product_name} className="collection-image"/>
+                                                <img src={attr.preview_image} alt={attr.product_name} title={attr.product_name} className="collection-image"/>
                                             </div>
                                         ))}
                                     </div>
