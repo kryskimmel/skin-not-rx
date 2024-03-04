@@ -12,7 +12,7 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
     const [productsToAdd, setProductsToAdd] = useState([]);
     const [listAllProducts, setListAllProducts] = useState(false);
 
-    
+
     useEffect(() => {
         dispatch(productActions.viewCurrUserProducts())
         setAddProducts(productsToAdd)
@@ -118,15 +118,23 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
                 {productsToAdd?.map((productTile) => (
                     <div className="search-comp-product-tile" key={`${productTile.id}-tile-${productTile.product_name}`}>
                         <img src={productTile.preview_image} alt={productTile.product_name} title={`${productTile.brand_name}: ${productTile.product_name}`} className="search-comp-product-tile-img" />
+                        <div className="product-tile-name">
+                            <p style={{fontWeight:'600'}}>{productTile.brand_name}</p>
+                            <p>{productTile.product_name}</p>
+                        </div>
                         <button className="remove-product-button" onClick={() => removeProduct(productTile.id)}>
                             Remove
                         </button>
                     </div>
                 ))}
-                {prevStoredProducts?.map((prod) => (
-                    <div className="search-comp-product-tile" key={`${prod.id}-prev-${prod.product_name}`}>
-                        <img src={prod.preview_image} alt={prod.product_name} title={`${prod.brand_name}: ${prod.product_name}`} className="search-comp-product-tile-img" />
-                        <button className="remove-product-button" onClick={() => removeProduct(prod.id)}>
+                {prevStoredProducts?.map((productTile) => (
+                    <div className="search-comp-product-tile" key={`${productTile.id}-tile-${productTile.product_name}`}>
+                        <img src={productTile.preview_image} alt={productTile.product_name} title={`${productTile.brand_name}: ${productTile.product_name}`} className="search-comp-product-tile-img" />
+                        <div className="product-tile-name">
+                            <p style={{fontWeight:'600'}}>{productTile.brand_name}</p>
+                            <p>{productTile.product_name}</p>
+                        </div>
+                        <button className="remove-product-button" onClick={() => removeProduct(productTile.id)}>
                             Remove
                         </button>
                     </div>
