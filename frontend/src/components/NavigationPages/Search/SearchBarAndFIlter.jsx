@@ -100,19 +100,19 @@ function SearchBarAndFilter({ showSearch, searchRef }) {
                     })
                     .map((product) => (
                         <div key={`search-${product.id}`}>
-                            <OpenModalButton
-                                className="search-dropdown-row-button"
-                                buttonText={
-                                    <div className="search-dropdown-row">
-                                        <img className="search-result-img" src={product.preview_image} />
-                                        <div className="search-result-name">
-                                            <div>{product.brand_name}: {product.product_name}</div>
-                                        </div>
+                          <OpenModalButton
+                            className="search-dropdown-row-button"
+                            buttonText={
+                                <div className="search-dropdown-row">
+                                    <img className="search-result-img" src={product.preview_image} />
+                                    <div className="search-result-name">
+                                        <div>{product.brand_name}: {product.product_name}</div>
                                     </div>
-                                }
-                                modalComponent={<ProductInfoModal productId={product.id} />}
-                                onButtonClick={() => { logSearchTerm(product); setSearchInput("") }}
-                            />
+                                </div>
+                            }
+                            modalComponent={<ProductInfoModal productId={product.id} onFavoriteChange={logSearchTerm} />}
+                            onButtonClick={() => { setSearchInput(""); }}
+                        />
                         </div>
                     ))}
             </div>
