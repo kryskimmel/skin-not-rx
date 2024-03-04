@@ -6,7 +6,7 @@ favorite_products_data = [
     },
     {
         "user_id": 1,
-        "product_id": 4
+        "product_id": 2
     },
     {
         "user_id": 1,
@@ -22,7 +22,15 @@ favorite_products_data = [
     },
     {
         "user_id": 2,
-        "product_id": 10
+        "product_id": 3
+    },
+    {
+        "user_id": 2,
+        "product_id": 4
+    },
+    {
+        "user_id": 2,
+        "product_id": 13
     },
     {
         "user_id": 2,
@@ -30,14 +38,6 @@ favorite_products_data = [
     },
     {
         "user_id": 2,
-        "product_id": 6
-    },
-    {
-        "user_id": 3,
-        "product_id": 2
-    },
-    {
-        "user_id": 3,
-        "product_id": 3
+        "product_id": 8
     }
 ]

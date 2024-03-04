@@ -35,13 +35,13 @@ products_data = [
     },
    #  #4
     {
-       "brand_name": "The Ordinary",
-       "product_name": "Salicylic Acid 2% Solution",
-       "product_type": "Exfoliator",
-       "description": "A serum formulated to target acne and allow skin to heal.",
-       "key_ingredients": "Salicylic Acid",
-       "product_link": "https://theordinary.com/en-us/salicylic-acid-2-solution-acne-control-100098.html",
-       "preview_image": "https://static.thcdn.com/images/large/original//productimg/1600/1600/11429305-6714896459464898.jpg",
+       "brand_name": "Krave Beauty",
+       "product_name": "Matcha Hemp Hydrating Cleanser",
+       "product_type": "Cleanser",
+       "description": "A gentle, nourishing cleanser that restores hydration and antioxidants to the skin.",
+       "key_ingredients": "Matcha, Hemp Seed Oil, Sodium PCA",
+       "product_link": "https://kravebeauty.com/products/matcha-hemp-hydrating-cleanser",
+       "preview_image": "https://i.ebayimg.com/images/g/QG4AAOSwolNkHSd6/s-l960.webp",
        "user_id": 2
     },
    #  #5
