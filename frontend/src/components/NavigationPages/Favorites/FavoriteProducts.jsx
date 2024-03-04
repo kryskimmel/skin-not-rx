@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { getAllFavoritedProducts } from "../../../redux/favorite";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
+import "./Favorites.css";
 
 function FavoriteProducts () {
     const dispatch = useDispatch();
