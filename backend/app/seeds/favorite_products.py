@@ -2,7 +2,7 @@ from app.models import db, Favorite_Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from .seed_data.favorite_products_data import favorite_products_data
 
-def seed_products():
+def seed_favorite_products():
     for favorite_product in favorite_products_data:
         seed_favorite_product = Favorite_Product(
             user_id=favorite_product['user_id'],
@@ -12,7 +12,7 @@ def seed_products():
     db.session.commit()
 
 
-def undo_products():
+def undo_favorite_products():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
     else:
