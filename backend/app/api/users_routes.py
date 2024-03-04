@@ -47,7 +47,7 @@ def view_current_user_products():
             'key_ingredients': user_product.key_ingredients,
             'product_link': user_product.product_link,
             'user_id': user_product.user_id,
-            'preview_image':[product_img.image_url for product_img in user_product.product_images if product_img.preview == True]
+            'preview_image': user_product.preview_image
         }
         curr_user_products_list.append(product)
     return {'MyProducts': curr_user_products_list}
@@ -77,20 +77,11 @@ def view_current_user_collections():
                     'key_ingredients': product.key_ingredients,
                     'product_link': product.product_link,
                     'user_id': product.user_id,
-                    'preview_image': get_preview_image(product)
+                    'preview_image': product.preview_image
                     } for product in user_collection.products]
         }
         curr_user_collections_list.append(collection)
     return jsonify({'MyCollections': curr_user_collections_list})
-
-def get_preview_image(product):
-    preview_images = [
-        {'image_url': image.image_url}
-        for image in product.product_images
-        if image.preview == True
-    ]
-    return preview_images
-
 
 
 # View current user's FAVORITE products

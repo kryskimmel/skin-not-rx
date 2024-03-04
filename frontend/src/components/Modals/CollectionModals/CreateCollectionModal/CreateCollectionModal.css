@@ -1,33 +1,66 @@
 .create-collection-container {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
-    font-family: 'Barlow', sans-serif;
+    align-items: center;
+    padding: 10px;
+    border-radius: 15px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
 .create-collection-h1 {
     display: flex;
     justify-content: center;
+    align-items: center;  
+    margin-top: 10px;
 }
 
-.create-collection-container form {
+.create-collection-close-modal-div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.create-collection-form {
+    width: 505px;
+    margin: 10px 10px;
+    padding: 10px 20px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
-    width: 400px;
-    padding: 10px 20px;
+    gap: 5px;
 }
 
-.create-collection-container input,
-.create-collection-container select {
-    margin-bottom: 10px;
-}
-
-.create-collection-button {
-    width: 120px;
+.create-collection-form input {
     height: 30px;
-    border-radius: 30px;
+    font-size: 16px;
 }
 
-.create-collection-button:hover {
+.collection-submit-button-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.enabled-collection-submit-button {
+    width: 320px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 18px;
     cursor: pointer;
+}
+
+.disabled-collection-submit-button {
+    width: 320px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #efefef;
+    color: #000000;
+    font-size: 18px;
+    opacity: 0.4;
+    cursor: not-allowed;
 }
