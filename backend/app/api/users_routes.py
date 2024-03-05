@@ -61,7 +61,7 @@ def view_current_user_collections():
     curr_user_collections = Collection.query.filter_by(user_id=current_user.id).all()
 
     if not curr_user_collections:
-        return {'message': 'You have not created any collections.'}
+        return jsonify({'message': 'You have not created any collections.'}), 200
 
     curr_user_collections_list = []
     for user_collection in curr_user_collections:
@@ -69,19 +69,20 @@ def view_current_user_collections():
             'id': user_collection.id,
             'name': user_collection.name,
             'user_id': user_collection.user_id,
-            'Products': [{  'id':product.id,
-                    'brand_name':product.brand_name,
-                    'product_name':product.product_name,
-                    'product_type': product.product_type,
-                    'description': product.description,
-                    'key_ingredients': product.key_ingredients,
-                    'product_link': product.product_link,
-                    'user_id': product.user_id,
-                    'preview_image': product.preview_image
-                    } for product in user_collection.products]
+            'Products': [{  
+                'id': product.id,
+                'brand_name': product.brand_name,
+                'product_name': product.product_name,
+                'product_type': product.product_type,
+                'description': product.description,
+                'key_ingredients': product.key_ingredients,
+                'product_link': product.product_link,
+                'user_id': product.user_id,
+                'preview_image': product.preview_image
+            } for product in user_collection.products]
         }
         curr_user_collections_list.append(collection)
-    return jsonify(curr_user_collections), 200
+    return jsonify(curr_user_collections_list), 200
 
 
 # View current user's FAVORITE products
@@ -113,7 +114,6 @@ def view_favorite_products():
                 }
             }
             favorite_products_list.append(fave_product)
-
     return jsonify({'FavoriteProducts': favorite_products_list})
 
 
