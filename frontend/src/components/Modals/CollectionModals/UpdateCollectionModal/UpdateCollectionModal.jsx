@@ -12,7 +12,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
-    const collectionToEdit = useSelector(state => state.collection.byId[collectionId])
+    const collectionToEdit = useSelector(state => state.collections.byId[collectionId])
     const [name, setName] = useState(collectionName);
     const [prevStoredProducts, setPrevStoredProducts] = useState(items);
     const [addProducts, setAddProducts] = useState([]);

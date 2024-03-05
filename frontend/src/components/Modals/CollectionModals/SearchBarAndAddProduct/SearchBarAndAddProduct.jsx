@@ -7,7 +7,7 @@ import "./SearchBarAndAddProduct.css";
 
 function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, setAddProducts}) {
     const dispatch = useDispatch();
-    const allProducts = useSelector(state => state.product.allProducts);
+    const allProducts = useSelector(state => state.products.allProducts);
     const [searchInput, setSearchInput] = useState('');
     const [productsToAdd, setProductsToAdd] = useState([]);
     const [listAllProducts, setListAllProducts] = useState(false);
