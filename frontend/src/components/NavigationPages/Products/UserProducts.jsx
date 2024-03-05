@@ -23,14 +23,20 @@ function UserProducts() {
             <div className="prod-header-div">
                 <h1 className="prod-heading">PRODUCTS</h1>
                 <p className="prod-count-text">{userProducts.length} items</p>
-                <OpenModalButton
-                    buttonText={
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <p>Create A Product</p>
-                        </div>}
-                    className="prod-create-btn"
-                    modalComponent={<CreateProductModal />}
-                />
+                <div className="prod-heading-btns-div">
+                    <OpenModalButton
+                        buttonText={
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                <p>Create A Product</p>
+                            </div>}
+                        className="prod-create-btn"
+                        modalComponent={<CreateProductModal />}
+                    />
+                    <OpenModalButton
+                        buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
+                        className="prod-search-btn"
+                    />
+                </div>
             </div>
             <div className="prod-page-contents-div">
                 <div className="prod-tiles-div">

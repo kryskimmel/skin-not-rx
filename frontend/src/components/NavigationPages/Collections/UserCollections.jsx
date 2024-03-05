@@ -23,14 +23,20 @@ function UserCollections() {
              <div className="coll-header-div">
                 <h1 className="coll-heading">COLLECTIONS</h1>
                 <p className="coll-count-text">{userCollections.length} items</p>
+                <div className="coll-heading-btns-div">
                     <OpenModalButton
                         buttonText={
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                 <p>Create A Collection</p>
                             </div>}
-                            className="coll-create-btn"
+                        className="coll-create-btn"
                         modalComponent={<CreateCollectionModal />}
                     />
+                    <OpenModalButton
+                        buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
+                        className="coll-search-btn"
+                    />
+                </div>
             </div>
             <div className="coll-tiles-div">
                 {userCollections ? userCollections.map((collection) => (
