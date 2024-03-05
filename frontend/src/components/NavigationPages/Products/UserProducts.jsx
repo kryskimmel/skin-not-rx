@@ -5,6 +5,7 @@ import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
 import Collapsible from "../../../utils/Collapsible";
+import { Icon } from "@iconify/react";
 import "./UserProducts.css";
 
 function UserProducts() {
@@ -18,59 +19,78 @@ function UserProducts() {
     }, [dispatch]);
 
     return (
-        <div className="products-container">
-            <div className="products-header">
-                <h1 className="products-title">PRODUCTS<span className="products-title-span">{userProducts.length}</span></h1>
+        <div className="prod-page-container">
+            <div className="prod-header-div">
+                <h1 className="prod-heading">PRODUCTS</h1>
+                <p className="prod-count-text">{userProducts.length} items</p>
                 <OpenModalButton
                     buttonText={
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <p>Create A Product</p>
                         </div>}
-                    className="products-create-button"
+                    className="prod-create-btn"
                     modalComponent={<CreateProductModal />}
                 />
             </div>
-            <div className="products-inner-container">
-                <div className="products-wrapper">
-                    {userProducts
-                        ? userProducts.map((attr) => (
-                            <div key={attr.id} style={{position:'relative'}}>
-                                <OpenModalButton
-                                    className="product-tile-button"
-                                    buttonText={
-                                        <div className="product-tile">
-                                            <img src={attr.preview_image} className="product-tile-img"/>
-                                            <div>
-                                                <ul className="product-tile-info-ul">
-                                                    <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
-                                                    <li>{attr.product_name}</li>
-                                                </ul>
-                                            </div>
+            <div className="prod-page-contents-div">
+                <div className="prod-tiles-div">
+                    {userProducts ? userProducts.map((attr) => (
+                        <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
+                            <OpenModalButton
+                                className="prod-tile-btn"
+                                buttonText={
+                                    <>
+                                        <img 
+                                            src={attr.preview_image} 
+                                            className="prod-tile-img"
+                                        />
+                                        <div className="prod-star-div">
+                                            <Icon 
+                                                icon='fluent:star-20-filled' 
+                                                width={25} 
+                                                height={25} 
+                                                color="#FEDC56" 
+                                                className="star-icon"/>
                                         </div>
-                                    }
-                                    modalComponent={<ProductInfoModal productId={attr.id} />}
-                                />
-                            </div>
+                                        <div>
+                                            <ul className="prod-tile-info-ul">
+                                                <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
+                                                <li>{attr.product_name}</li>
+                                            </ul>
+                                        </div>
+                                    </>
+                                }
+                                modalComponent={<ProductInfoModal productId={attr.id} />}
+                            />
+                        </div>
                         ))
-                        : <h2 className="no-products-text">You have not created any products!</h2>}
+                        :(
+                        <div>
+                            <p>You have not added any products!</p>
+                        </div>
+                    )}
                 </div>
-                <div className="products-by-type-wrapper">
+                <div className="prod-by-type-div">
                     {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
-                        <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
-                            <div className="product-collapsible-content">
+                        <Collapsible 
+                            key={`${productType}-${products[0]}`} 
+                            label={productType} 
+                            className='prod-collapsible'>
+                            <div className="prod-collapsible-content">
                                 {products.length > 0 ? (
                                     products.map((product, index) => (
                                         <div key={`${product}-${index}`}>
                                             <OpenModalButton
-                                                className="products-by-type-button"
+                                                className="prod-by-type-btn"
                                                 buttonText={
-                                                    <div className="products-by-type-tile" title={`${product.brand_name} ${product.product_name}`}>
+                                                    <>
                                                         <img 
+                                                            className="prod-by-type-img"
                                                             src={product.preview_image} 
                                                             alt={product.product_name}
-                                                            className="products-by-type-img"
+                                                            title={`${product.brand_name}-${product.product_name}`}
                                                         />
-                                                    </div>
+                                                    </>
                                                 }
                                                 modalComponent={<ProductInfoModal productId={product.id} />}
                                             />
