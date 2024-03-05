@@ -70,6 +70,23 @@ export const removeCollection = createAsyncThunk(
   }
 );
 
+const initialCollectionState = {
+  allCollections: [],
+  byId: {},
+};
+
+const collectionSlice = createSlice({
+  name: 'collections',
+  initialState: initialCollectionState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      
+    }
+});
+
+export default collectionSlice;
+
 
 // // Reducer
 // const initialState = {allCollections:[], byId:{}}
