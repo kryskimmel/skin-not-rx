@@ -27,13 +27,14 @@ export const getCurrUserProducts = createAsyncThunk(
 );
 
 export const addProduct = createAsyncThunk(
-  'products/createProduct', async (newProductData) => {
-    const req = await fetch('/api/products', {
+  'products/createProduct',
+  async (newProductData) => {
+    const req = await fetch('/api/products/', {
       method: 'POST',
-      body: newProductData
+      body: newProductData,
     });
     if (!req.ok) {
-      throw new Error(`There was an error in creating your new product`)
+      throw new Error(`There was an error in creating your new product`);
     }
     const res = await req.json();
     return res;
