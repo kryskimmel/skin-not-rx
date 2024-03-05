@@ -5,6 +5,7 @@ import { getCurrUserProducts } from "../../../redux/product";
 import { getCurrUserCollections } from "../../../redux/collection";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
+import { Icon } from "@iconify/react";
 import "./UserCollections.css";
 
 function UserCollections() {
@@ -18,43 +19,61 @@ function UserCollections() {
 
 
     return (
-        <div className="collection-page-container">
-             <div className="collections-header">
-                <h1 className="collection-page-h1">COLLECTIONS</h1>
+        <div className="coll-page-container">
+             <div className="coll-header-div">
+                <h1 className="coll-heading">COLLECTIONS</h1>
+                <p className="coll-count-text">{userCollections.length} items</p>
                     <OpenModalButton
                         buttonText={
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                 <p>Create A Collection</p>
                             </div>}
-                            className="collection-create-button"
+                            className="coll-create-btn"
                         modalComponent={<CreateCollectionModal />}
                     />
             </div>
-            <div className="collection-page-custom-collections-div">
-           
+            <div className="coll-tiles-div">
                 {userCollections ? userCollections.map((collection) => (
-                    <div key={collection.id}>
+                    <div key={`colltile-${collection.id}-${collection.name}`}>
                         <OpenModalButton
+                            className="coll-tile-btn"
                             buttonText={
-                                <div className="collection-page-collections-tile-div">
-                                    <h2 className="collection-page-h2">{collection.name}</h2>
-                                    <div className="collection-page-collections-grid">
+                                <>
+                                    <div className="coll-img-grid-div">
                                         {collection.Products?.slice(0, 4)?.map((attr, idx) => (
-                                            <div className="collection-page-grid-images" key={idx}>
-                                                <img src={attr.preview_image} alt={attr.product_name} title={attr.product_name} className="collection-image"/>
-                                            </div>
+                                            <img
+                                                key={`${attr.preview_image}-${idx}-collimgs`}
+                                                src={attr.preview_image} 
+                                                alt={attr.product_name} 
+                                                title={attr.product_name} 
+                                                className="coll-tile-img" 
+                                            />
                                         ))}
                                     </div>
-                                </div>
+                                    <div className="coll-star-div">
+                                        <Icon 
+                                            icon='fluent:star-20-regular' 
+                                            width={25}
+                                            height={25} 
+                                            // color="#FEDC56" 
+                                            className="star-icon"
+                                        />
+                                    </div>
+                                    <div className="coll-title-div">
+                                        <p className="coll-title">{collection.name}</p>
+                                    </div>
+                                </>
                             }
                             modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                         />
                     </div>
-                )) : <h2 className="no-collections-text" style={{ display: 'flex', alignItems: 'center' }}>You have not added any collections!</h2>}
-
+                )) : (
+                    <div>
+                        <h2>You have not created any collections</h2>
+                    </div>
+                )}
             </div>
         </div>
-
     )
 }
 
