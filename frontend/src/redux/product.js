@@ -57,8 +57,8 @@ export const editProduct = createAsyncThunk(
 );
 
 export const removeProduct = createAsyncThunk(
-  'products/deleteProduct', async (product_id) => {
-    const req = await fetch(`/api/products/${product_id}`, {
+  'products/deleteProduct', async (productId) => {
+    const req = await fetch(`/api/products/${productId}`, {
       method: 'DELETE',
     });
     if (!req.ok) {
