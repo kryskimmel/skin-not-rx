@@ -135,15 +135,15 @@ const productSlice = createSlice({
       .addCase(removeProduct.fulfilled, (state, action) => {
         const productId = action.payload;
         delete state.byId[productId];
-        state.allProducts = Object.values(state.byId);
-
+        state.allProducts = state.allProducts.filter(product => product.id !== productId);
+      
         for (const key in state.byProductType) {
           state.byProductType[key] = state.byProductType[key].filter(
             (product) => product.id !== productId
           );
         }
       });
-  }
+    }
 });
 
 export default productSlice;
