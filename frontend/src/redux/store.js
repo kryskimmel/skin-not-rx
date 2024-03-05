@@ -1,34 +1,48 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  compose,
-  combineReducers,
-} from "redux";
-import thunk from "redux-thunk";
-import sessionReducer from "./session";
-import productReducer from "./product";
-import collectionReducer from "./collection";
-import favoriteReducer from "./favorite";
+import { configureStore } from '@reduxjs/toolkit';
+import productSlice from './product';
+import sessionSlice from './session';
 
-const rootReducer = combineReducers({
-  session: sessionReducer,
-  product: productReducer,
-  collection: collectionReducer,
-  favorite: favoriteReducer
-});
+export const store = configureStore({
+  reducer: {
+    products: productSlice.reducer,
+    session: sessionSlice.reducer
+  },
+})
 
-let enhancer;
-if (import.meta.env.MODE === "production") {
-  enhancer = applyMiddleware(thunk);
-} else {
-  const logger = (await import("redux-logger")).default;
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  enhancer = composeEnhancers(applyMiddleware(thunk, logger));
-}
+export default store;
 
-const configureStore = (preloadedState) => {
-  return createStore(rootReducer, preloadedState, enhancer);
-};
 
-export default configureStore;
+// import {
+//   legacy_createStore as createStore,
+//   applyMiddleware,
+//   compose,
+//   combineReducers,
+// } from "redux";
+// import thunk from "redux-thunk";
+// import sessionReducer from "./session";
+// import productReducer from "./product";
+// import collectionReducer from "./collection";
+// import favoriteReducer from "./favorite";
+
+// const rootReducer = combineReducers({
+//   session: sessionReducer,
+//   product: productReducer,
+//   collection: collectionReducer,
+//   favorite: favoriteReducer
+// });
+
+// let enhancer;
+// if (import.meta.env.MODE === "production") {
+//   enhancer = applyMiddleware(thunk);
+// } else {
+//   const logger = (await import("redux-logger")).default;
+//   const composeEnhancers =
+//     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
+// }
+
+// const configureStore = (preloadedState) => {
+//   return createStore(rootReducer, preloadedState, enhancer);
+// };
+
+// export default configureStore;
