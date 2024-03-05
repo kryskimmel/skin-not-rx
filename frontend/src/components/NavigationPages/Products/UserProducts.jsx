@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import * as ProductActions from "../../../redux/product";
+import { useEffect } from "react";
+import { getCurrUserProducts } from "../../../redux/product";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
@@ -9,24 +9,12 @@ import "./UserProducts.css";
 
 function UserProducts() {
     const dispatch = useDispatch();
-    const userProducts = useSelector(state => state.product.allProducts);
-    const userProductsByType = useSelector(state => state.product.byProductType);
-    const [favoritedProducts, setFavoritedProducts] = useState({});
-
-    const handleFavoriteChange = (updatedFavorites) => {
-        setFavoritedProducts(updatedFavorites);
-        localStorage.setItem('favoritedProducts', JSON.stringify(updatedFavorites));
-    };
-
+    const userProducts = useSelector(state => state.products.allProducts);
+    console.log(useSelector(state=> state.products))
+    const userProductsByType = useSelector(state => state.products.byProductType);
+ 
     useEffect(() => {
-        const savedFavorites = localStorage.getItem('favoritedProducts');
-        if (savedFavorites) {
-            setFavoritedProducts(JSON.parse(savedFavorites));
-        }
-    }, []);
-
-    useEffect(() => {
-        dispatch(ProductActions.viewCurrUserProducts())
+        dispatch(getCurrUserProducts())
     }, [dispatch]);
 
     return (
@@ -51,7 +39,6 @@ function UserProducts() {
                                     className="product-tile-button"
                                     buttonText={
                                         <div className="product-tile">
-                                            {favoritedProducts[attr.id] ? <p className="favorited-text">Favorited</p> : null}
                                             <img src={attr.preview_image} className="product-tile-img"/>
                                             <div>
                                                 <ul className="product-tile-info-ul">
@@ -61,7 +48,7 @@ function UserProducts() {
                                             </div>
                                         </div>
                                     }
-                                    modalComponent={<ProductInfoModal productId={attr.id} onFavoriteChange={handleFavoriteChange} />}
+                                    modalComponent={<ProductInfoModal productId={attr.id} />}
                                 />
                             </div>
                         ))
@@ -85,7 +72,7 @@ function UserProducts() {
                                                         />
                                                     </div>
                                                 }
-                                                modalComponent={<ProductInfoModal productId={product.id} onFavoriteChange={handleFavoriteChange} />}
+                                                modalComponent={<ProductInfoModal productId={product.id} />}
                                             />
                                         </div>
                                     ))
