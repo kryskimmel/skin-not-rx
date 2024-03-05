@@ -46,10 +46,10 @@ function UserProducts() {
                                         />
                                         <div className="prod-star-div">
                                             <Icon 
-                                                icon='fluent:star-20-filled' 
+                                                icon='fluent:star-20-regular' 
                                                 width={25} 
                                                 height={25} 
-                                                color="#FEDC56" 
+                                                // color="#FEDC56" 
                                                 className="star-icon"/>
                                         </div>
                                         <div>
