@@ -1,7 +1,40 @@
-/* .favorites-container {
+.favorites-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
     border: 3px solid green
 }
 
-.favorite-products-container {
-    border: 1px solid red
+.favorite-products-container,
+.favorite-collections-container {
+    width: 25vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .favorite-products-heading,
+.favorite-collections-heading {
+
 } */
+
+.favorite-products-tiles,
+.favorite-collections-tiles {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 25vw;
+    position: relative;
+}
+
+
+.favorite-star {
+    position: absolute;
+}
