@@ -15,9 +15,7 @@ export const getAllCollections = createAsyncThunk(
 
 export const getCurrUserCollections = createAsyncThunk(
   'collections/fetchCurrUserCollections', async () => {
-    const req = await fetch(`/api/users/current/collections`, {
-      method: 'GET',
-    });
+    const req = await fetch('/api/users/current/collections');
     if (!req.ok) {
       throw new Error(`There was an error in fetching your collections`)
     }
@@ -75,76 +73,43 @@ const initialCollectionState = {
   byId: {},
 };
 
+
 const collectionSlice = createSlice({
   name: 'collections',
   initialState: initialCollectionState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      
-    }
+    .addCase(getAllCollections.fulfilled, (state, action) => {
+      state.allCollections = action.payload.Collection || [];
+      state.byId = {};
+      action.payload.Collection.forEach((collection) => {
+        state.byId[collection.id] = collection;
+      })
+    })
+    .addCase(getCurrUserCollections.fulfilled, (state, action) => {
+      state.allCollections = action.payload|| [];
+      state.byId = {};
+      action.payload.forEach((collection) => {
+        state.byId[collection.id] = collection;
+      })
+    })
+    .addCase(addCollection.fulfilled, (state, action) => {
+      const collection = action.payload;
+      state.byId[collection.id] = collection;
+      state.allCollections = [...state.allCollections, collection]
+    })
+    .addCase(editCollection.fulfilled, (state, action) => {
+      const editedCollection = action.payload;
+      state.byId[editedCollection.id] = editedCollection;
+      state.allCollections = Object.values(state.byId);
+    })
+    .addCase(removeCollection.fulfilled, (state, action) => {
+      const collectionId = action.payload;
+      delete state.byId[collectionId];
+      state.allCollections = state.allCollections.filter(collection => collection.id !== collectionId);
+    })
+  }
 });
 
 export default collectionSlice;
-
-
-// // Reducer
-// const initialState = {allCollections:[], byId:{}}
-
-// export default function reducer(state = initialState, action){
-//   let newState = {}
-
-//   switch (action.type) {
-//     case GET_COLLECTIONS:
-//       if (action.payload.Collections) {
-//         const byId = {};
-//         action.payload.Collections.forEach((collection) => {
-//           byId[collection.id] = collection
-//         });
-//         newState = {
-//           allCollections: action.payload.Collections,
-//           byId: byId
-//         };
-//         return newState;
-//       } else {
-//         newState = action.payload
-//         return newState;
-//       }
-//     case ADD_COLLECTION:
-//       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
-//       newState.allCollections = Object.values(newState.byId);
-//       // newState = JSON.parse(JSON.stringify(state));
-//       // newState.byId[`${action.payload.id}`] = action.payload
-//       // newState.allCollections = Object.values(newState.byId)
-//       return newState;
-
-//       case EDIT_COLLECTION:
-//         newState = JSON.parse(JSON.stringify(state));
-//         newState.byId[`${action.payload.id}`] = action.payload
-//         newState.allCollections = Object.values(newState.byId)
-//         // newState = {...state, [action.payload.id] : action.payload}
-//         return newState;
-//     case DELETE_COLLECTION:
-//       newState = JSON.parse(JSON.stringify(state));
-//       delete newState[action.payload];
-//       return newState;
-//     case GET_CURR_USER_COLLECTIONS:
-//       if (action.payload.MyCollections) {
-//         const byId = {};
-//         action.payload.MyCollections.forEach((collection) => {
-//           byId[collection.id] = collection
-//         });
-//         newState = {
-//           allCollections: action.payload.MyCollections,
-//           byId: byId
-//         };
-//         return newState;
-//       } else {
-//         newState = action.payload
-//         return newState;
-//       }
-//     default:
-//       return state;
-//   }
-
-// }
