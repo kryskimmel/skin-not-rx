@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useModal } from "../../../../context/Modal";
-import { modifyCollection } from "../../../../redux/collection";
+import { editCollection } from "../../../../redux/collection";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import { Icon } from '@iconify/react';
 import "./UpdateCollectionModal.css";
@@ -70,7 +70,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
         }
         console.log('AFTER form submission', updatedCollection)
         try {
-            const data = await dispatch(modifyCollection(collectionId, updatedCollection));
+            const data = await dispatch(editCollection({collectionId, updatedCollectionData:updatedCollection}));
             if (Array.isArray(data)) {
 				const dataErrors = {};
 				data?.forEach(error => {

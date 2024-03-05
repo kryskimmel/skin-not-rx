@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createCollection } from "../../../../redux/collection";
+import { addCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import { Icon } from "@iconify/react";
@@ -70,7 +70,7 @@ function CreateCollectionModal() {
             'product_ids': productIdsToAdd
         }
         try {
-            const data = dispatch(createCollection(newCollection));
+            const data = dispatch(addCollection(newCollection));
             if (Array.isArray(data)) {
                 const dataErrors = {};
                 data?.forEach(error => {

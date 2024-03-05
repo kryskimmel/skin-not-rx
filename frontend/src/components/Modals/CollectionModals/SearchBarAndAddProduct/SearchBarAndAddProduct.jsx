@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as productActions from "../../../../redux/product";
+import { getCurrUserProducts } from "../../../../redux/product";
 import { Icon } from '@iconify/react';
 import "./SearchBarAndAddProduct.css";
 
@@ -14,7 +14,7 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
 
 
     useEffect(() => {
-        dispatch(productActions.viewCurrUserProducts())
+        dispatch(getCurrUserProducts())
         setAddProducts(productsToAdd)
     }, [dispatch, productsToAdd, searchInput]);
 
