@@ -5,6 +5,22 @@
     align-items: center;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
+
+.favorite-search-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.favorite-search {
+    width: 300px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #000000;
+}
 /*********************************/
 .fave-prod-page-container {
     display: flex;
@@ -64,8 +80,6 @@
 .fave-prod-tile-info-ul {
     list-style: none;
 }
-
-
 
 /*********************************/
 .fave-coll-page-container {
