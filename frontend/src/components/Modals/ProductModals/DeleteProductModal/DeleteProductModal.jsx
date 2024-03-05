@@ -8,12 +8,12 @@ function DeleteProductModal({brandName, productName, productId}) {
     const dispatch = useDispatch();
     const {closeModal} = useModal();
 
-    const handleYes = (e) => {
+    const handleYes = async (e) => {
         e.preventDefault();
-        const productRemoved = dispatch(removeProduct(productId));
+        const productRemoved = await dispatch(removeProduct(productId));
         closeModal();
         if (productRemoved) {
-            dispatch(getCurrUserProducts());
+            await dispatch(getCurrUserProducts());
         } else {
             throw new Error('Could not delete your product')
         }
@@ -23,7 +23,7 @@ function DeleteProductModal({brandName, productName, productId}) {
         closeModal()
     };
 
-    
+
     return (
         <div className="delete-product-modal-wrapper">
             <div className="delete-product-modal-div">
