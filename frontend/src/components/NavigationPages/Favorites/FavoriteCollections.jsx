@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { getFavoriteCollections } from "../../../redux/favoriteCollection";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import OpenModalButton from "../../../utils/OpenModalButton";
+import { Icon } from "@iconify/react";
 import "./Favorites.css";
 
 function FavoriteCollections() {
@@ -15,24 +16,40 @@ function FavoriteCollections() {
     }, [dispatch]);
 
     return (
-        <div className="favorite-collections-container">
-            <h2 className="favorite-collections-heading">Favorite Collections</h2>
+        <div className="fave-coll-page-container">
+            <h2 className="fave-coll-heading">Favorite Collections</h2>
             {favoriteCollections ? (
-                <div className="favorite-collections-tiles">
+                <div className="fave-coll-tiles-div">
                     {favoriteCollections.map((faveColl) => (
                         <OpenModalButton
                             key={`${faveColl.id}-faveColl-${faveColl.collection_id}`}
+                            className="fave-coll-btn"
                             buttonText={
-                                <div className="collection-page-collections-tile-div">
-                                    <h2 className="collection-page-h2">{faveColl.name}</h2>
-                                    <div className="collection-page-collections-grid">
+                                <>
+                                    <div className="fave-coll-img-grid-div">
                                         {faveColl.products?.slice(0, 4)?.map((attr, idx) => (
-                                            <div className="collection-page-grid-images" key={idx}>
-                                                <img src={attr.preview_image} alt={attr.product_name} title={attr.product_name} className="collection-image" />
-                                            </div>
+                                            <img
+                                                key={`${attr.preview_image}-${idx}`}
+                                                src={attr.preview_image} 
+                                                alt={attr.product_name} 
+                                                title={attr.product_name} 
+                                                className="fave-coll-img" 
+                                            />
                                         ))}
                                     </div>
-                                </div>
+                                    <div className="fave-coll-star-div">
+                                        <Icon 
+                                            icon='fluent:star-20-filled' 
+                                            width={25}
+                                            height={25} 
+                                            color="#FEDC56" 
+                                            className="star-icon"
+                                        />
+                                    </div>
+                                    <div className="fave-coll-title-div">
+                                        <p className="fave-coll-title">{faveColl.name}</p>
+                                    </div>
+                                </>
                             }
                             modalComponent={<CurrentCollectionModal collectionName={faveColl.name} items={faveColl.products} collectionId={faveColl.collection_id} />}
                         />
