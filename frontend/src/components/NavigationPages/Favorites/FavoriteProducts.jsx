@@ -14,30 +14,37 @@ function FavoriteProducts() {
         dispatch(getFavoriteProducts());
     }, [dispatch]);
 
-    console.log('fave products of user??', favoriteProducts);
 
     return (
-        <div className="favorite-products-container">
-            <h2 className="favorite-products-heading">Favorite Products</h2>
+        <div className="fave-prod-page-container">
+            <h2 className="fave-prod-heading">Favorite Products</h2>
             {favoriteProducts ? (
-                <div className="favorite-products-tiles">
+                <div className="fave-prod-tiles-div">
                     {favoriteProducts.map((faveProd) => (
                         <OpenModalButton
-                            className="product-tile-button"
                             key={`${faveProd.id}-faveProd-${faveProd.product_id}`}
+                            className="fave-prod-tile-btn"
                             buttonText={
-                                <div className="product-tile">
-                                    <img src={faveProd.product_details.preview_image} className="product-tile-img" />
+                                <>
+                                    <img 
+                                        src={faveProd.product_details.preview_image} 
+                                        className="fave-prod-tile-img" 
+                                    />
+                                    <div className="fave-prod-star-div">
+                                        <Icon 
+                                            icon='fluent:star-20-filled' 
+                                            width={25} 
+                                            height={25} 
+                                            color="#FEDC56" 
+                                            className="star-icon"/>
+                                    </div>
                                     <div>
-                                        <ul className="product-tile-info-ul">
+                                        <ul className="fave-prod-tile-info-ul">
                                             <li style={{ fontWeight: "600" }}>{faveProd.product_details.brand_name}</li>
                                             <li>{faveProd.product_details.product_name}</li>
                                         </ul>
                                     </div>
-                                    <div className="favorite-star-div">
-                                        <Icon icon='fluent:star-20-filled' width={25} height={25} color="#FEDC56" className="favorite-star"/>
-                                    </div>
-                                </div>
+                                </>
                             }
                             modalComponent={<ProductInfoModal productId={faveProd.product_id} />}
                         />

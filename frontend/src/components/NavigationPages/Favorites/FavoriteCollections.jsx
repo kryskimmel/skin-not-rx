@@ -23,7 +23,7 @@ function FavoriteCollections() {
                     {favoriteCollections.map((faveColl) => (
                         <OpenModalButton
                             key={`${faveColl.id}-faveColl-${faveColl.collection_id}`}
-                            className="fave-coll-btn"
+                            className="fave-coll-tile-btn"
                             buttonText={
                                 <>
                                     <div className="fave-coll-img-grid-div">
@@ -33,7 +33,7 @@ function FavoriteCollections() {
                                                 src={attr.preview_image} 
                                                 alt={attr.product_name} 
                                                 title={attr.product_name} 
-                                                className="fave-coll-img" 
+                                                className="fave-coll-tile-img" 
                                             />
                                         ))}
                                     </div>
