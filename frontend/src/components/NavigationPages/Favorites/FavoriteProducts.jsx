@@ -18,6 +18,9 @@ function FavoriteProducts() {
     return (
         <div className="fave-prod-page-container">
             <h2 className="fave-prod-heading">Favorite Products</h2>
+            <div className="favorite-search-div">
+                <Icon icon="fluent:search-20-filled" width={25} height={25}/><input type="text" className="favorite-search"/>
+            </div>
             {favoriteProducts ? (
                 <div className="fave-prod-tiles-div">
                     {favoriteProducts.map((faveProd) => (
