@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import "./Navigation.css";
-import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
+// import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
 import { Icon } from "@iconify/react";
 
 
@@ -28,11 +28,11 @@ function Navigation() {
     setExpandNav(!expandNav)
   };
 
-  const handleSearch = (e) => {
-    e.stopPropagation();
-    setShowSearch(!showSearch);
-    handleNavExpansion();
-  };
+  // const handleSearch = (e) => {
+  //   e.stopPropagation();
+  //   setShowSearch(!showSearch);
+  //   handleNavExpansion();
+  // };
 
   const handleClickOutsideNav = (e) => {
     if (navRef.current && !navRef.current.contains(e.target)) {
@@ -61,7 +61,7 @@ function Navigation() {
 
   return (
     <div>
-    {showSearch && (<SearchBarAndFilter showSearch={showSearch} searchRef={searchRef} />)}
+    {/* {showSearch && (<SearchBarAndFilter showSearch={showSearch} searchRef={searchRef} />)} */}
     {!expandNav ? (
         <div className="nav-container-before">
           <ul className="nav-before-focus">
@@ -82,7 +82,7 @@ function Navigation() {
                   </NavLink>
               </div>
               <div className="nav-center-after">
-                <li className='nav-item' style={{margin:'0px'}} onClick={handleSearch}><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li>
+                {/* <li className='nav-item' style={{margin:'0px'}} onClick={handleSearch}><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li> */}
                   <NavLink to={'/users/current/products'} className='nav-item' onClick={handleNavExpansion}>
                     <Icon icon="fluent:square-20-regular" width={35}/>PRODUCTS
                   </NavLink>
