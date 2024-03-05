@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
-import { modifyProduct } from "../../../../redux/product";
+import { editProduct } from "../../../../redux/product";
 import charCountRemaining from '../../../../utils/charCountRemaining';
 import "./UpdateProductModal.css";
 
@@ -13,6 +13,7 @@ function UpdateProductModal({ productId, product }) {
     const descriptionRef = useRef();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
+    console.log('user/??', user)
     const [brandName, setBrandName] = useState(product.brand_name);
     const [productName, setProductName] = useState(product.product_name);
     const [productType, setProductType] = useState(product.product_type);
@@ -135,7 +136,7 @@ function UpdateProductModal({ productId, product }) {
         };
 
         try {
-            const data = await dispatch(modifyProduct(productId, updatedProduct));
+            const data = await dispatch(editProduct({productId, updatedProductData:updatedProduct}));
 
             if (Array.isArray(data)) {
                 const dataErrors = {};
