@@ -1,21 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../../../utils/OpenModalButton";
+import { getCurrUserProducts } from "../../../redux/product";
+import { getCurrUserCollections } from "../../../redux/collection";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
-import * as productActions from "../../../redux/product";
-import * as collectionActions from "../../../redux/collection";
 import "./UserCollections.css";
 
 function UserCollections() {
     const dispatch = useDispatch();
-    const userCollections = useSelector(state => state.collection.allCollections);
-
-
+    const userCollections = useSelector(state => state.collections.allCollections);
 
     useEffect(() => {
-        dispatch(productActions.viewCurrUserProducts())
-        dispatch(collectionActions.viewCurrUserCollections())
+        dispatch(getCurrUserProducts())
+        dispatch(getCurrUserCollections())
     }, [dispatch]);
 
 
