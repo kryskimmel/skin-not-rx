@@ -50,7 +50,7 @@ def view_current_user_products():
             'preview_image': user_product.preview_image
         }
         curr_user_products_list.append(product)
-    return jsonify(curr_user_products_list)
+    return jsonify(curr_user_products_list), 200
 
 
 
@@ -81,7 +81,7 @@ def view_current_user_collections():
                     } for product in user_collection.products]
         }
         curr_user_collections_list.append(collection)
-    return jsonify(curr_user_collections)
+    return jsonify(curr_user_collections), 200
 
 
 # View current user's FAVORITE products
