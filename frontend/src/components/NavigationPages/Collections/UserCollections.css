@@ -1,93 +1,30 @@
-.collection-page-container {
-    width: 75vw;
+.coll-page-container{
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    margin-left: 350px;
-    padding: 30px;
+    justify-content: center;
+    align-items: center;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    border-radius: 15px; */
 }
 
-.collection-page-h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    /* background-color: #d3d3d3; */
-    /* text-shadow: 2px 2px 5px rgba(80, 78, 78, 0.2); */
-    color: #4d4b4b
-}
-
-
-.collection-page-collections-tile-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-    background-color: #FFFFFF;
-    height: 200px;
-    width: 200px;
-    padding: 5px 5px;
-    cursor: pointer;
-}
-
-.collection-page-collections-tile-div:hover,
-.create-custom-collection-div:hover {
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-}
-
-.collection-page-collections-tile-div li {
-    list-style: none;
-}
-
-
-.collection-page-collections-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    margin: 2px 2px;
-    width: 100%;
-    height: 100%;
-}
-
-.collection-page-grid-images img {
-    border: 1px solid lightgray;
-}
-
-.collection-image {
-    width: 75px;
-    height: 75px;
-}
-
-
-.collection-page-custom-collections-div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    gap: 30px;
-}
-
-.collection-page-custom-collections-div button {
-    border: none;
-    background-color: transparent;
-}
-
-.collections-header {
+.coll-header-div {
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    margin-top: 20px;
 }
 
-.collection-create-button{
+.coll-count-text {
+    color: #4d4b4b;
+}
+
+.coll-create-btn {
     width: 225px;
     height: 30px;
-    margin: 10px 0;
+    margin-top: 10px;
     border-radius: 5px;
     border: 2px solid #4d4b4b;
     background-color: inherit;
@@ -95,28 +32,73 @@
     cursor: pointer;
 }
 
-.no-collections-text {
-    width: 200px;
-    background-color: #9db882;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    color: white;
-    padding: 10px 5px;
-    text-align: center;
-    position: absolute;
-    font-weight: 300;
-    font-size: 20px;
-    font-family: 'Barlow', sans-serif;
 
+/************************/
+.coll-tiles-div {
+    width: 48vw;
+    height: 675px;
+    grid-column: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    overflow-y: auto;  
+    overflow-x: hidden;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.no-products-text-collections {
-    background-color: #9db882;
-    border: 1px solid #9db882;
-    border-radius: 15px;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 300;
-    padding: 10px 5px;
-    color: #FFFFFF;
+.coll-tile-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border: none;
+    background-color: #FFFFFF;
+    height: 275px;
+    width: 225px;
+    padding: 5px;
     cursor: pointer;
+}
+
+.coll-tile-btn:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 6px 9px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    opacity: .5;
+}
+
+.coll-img-grid-div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+}
+
+.coll-tile-img {
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    border: 1px solid #e6e8eb;
+}
+
+.coll-star-div {
+    width: 225px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px; 
+    padding-bottom: 5px;
+}
+
+.coll-title-div {
+    width: 225px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
 }
