@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import productSlice from './product';
 import sessionSlice from './session';
+import productSlice from './product';
+import collectionSlice from './collection';
+
 
 export const store = configureStore({
   reducer: {
+    session: sessionSlice.reducer,
     products: productSlice.reducer,
-    session: sessionSlice.reducer
+    collections: collectionSlice.reducer
   },
 })
 
