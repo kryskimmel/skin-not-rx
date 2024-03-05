@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as productActions from "../../../../redux/product";
+import { getCurrUserProducts } from "../../../../redux/product";
 import OpenModalButton from "../../../../utils/OpenModalButton";
 import UpdateProductModal from "../UpdateProductModal";
 import DeleteProductModal from "../DeleteProductModal";
@@ -8,39 +8,17 @@ import { Icon } from '@iconify/react';
 import "./ProductInfoModal.css";
 
 
-function ProductInfoModal({ productId, onFavoriteChange }) {
+function ProductInfoModal({ productId }) {
     const dispatch = useDispatch();
-    const product = useSelector(state => state.product.byId[productId])
+    const product = useSelector(state => state.products.byId[productId])
     const [isLoaded, setIsLoaded] = useState(false)
     const optionsRef = useRef();
     const [showMenu, setShowMenu] = useState(false);
-    const [favoritedProducts, setFavoritedProducts] = useState({});
    
-
     useEffect(() => {
-        dispatch(productActions.viewCurrUserProducts()).then(() => { setIsLoaded(true) })
+        dispatch(getCurrUserProducts()).then(() => { setIsLoaded(true) })
     }, [dispatch, productId])
 
-    const toggleHeartClick = (prodId) => {
-        setFavoritedProducts((prev) => {
-            const updatedFavorites = { ...prev };
-            if (prev[prodId]) {
-                delete updatedFavorites[prodId];
-            } else {
-                updatedFavorites[prodId] = true; 
-            }
-            localStorage.setItem('favoritedProducts', JSON.stringify(updatedFavorites));
-            onFavoriteChange(updatedFavorites);
-            return updatedFavorites;
-        });
-    };
-    
-    useEffect(() => {
-        const savedFavorites = localStorage.getItem('favoritedProducts');
-        if (savedFavorites) {
-            setFavoritedProducts(JSON.parse(savedFavorites));
-        }
-    }, []);
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -61,8 +39,6 @@ function ProductInfoModal({ productId, onFavoriteChange }) {
 
     const closeMenu = () => setShowMenu(false);
 
-    console.log(showMenu, 'show menu??')
-
     return isLoaded && (
         <div className="product-info-modal-wrapper">
             <div className="product-info-image-div">
@@ -79,10 +55,6 @@ function ProductInfoModal({ productId, onFavoriteChange }) {
                 </ul>
             </div>
             <div className="product-info-tools-div">
-                <div className="product-favorite-icon" onClick={()=>toggleHeartClick(product.id)}>
-                    {favoritedProducts[product.id] ? (<Icon icon={"fluent:heart-20-filled"}  color="#8B0000" width="30" height="30"/> ) 
-                    : (<Icon icon={"fluent:heart-20-regular"}  width="30" height="30"/>)}
-                </div>
                 <button onClick={toggleMenu}>
                     <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
                 </button>
