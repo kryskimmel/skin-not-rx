@@ -9,7 +9,6 @@ import "./Favorites.css";
 function FavoriteCollections() {
     const dispatch = useDispatch();
     const favoriteCollections = useSelector(state => state.favoriteCollections.allFavoritedCollections);
-    console.log('user fave collections', favoriteCollections);
     
     useEffect(() => {
         dispatch(getFavoriteCollections());
@@ -50,7 +49,11 @@ function FavoriteCollections() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="fave-coll-star-div" onClick={(e) => { e.stopPropagation(); handleRemoveFavorite(faveColl.id); removeFavoriteLocalStorage(faveColl.collection_id) }}>
+                                    <div className="fave-coll-star-div" onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        handleRemoveFavorite(faveColl.id); 
+                                        removeFavoriteLocalStorage(faveColl.collection_id) 
+                                    }}>
                                         <Icon 
                                             icon='fluent:star-20-filled' 
                                             width={25}
