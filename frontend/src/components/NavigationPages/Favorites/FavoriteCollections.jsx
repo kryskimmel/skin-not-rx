@@ -27,7 +27,7 @@ function FavoriteCollections() {
         delete favorites[collId];
         localStorage.setItem('favoriteCollections', JSON.stringify(favorites));
     }
-    console.log('favoirtie collections----', favoriteCollections)
+
     const handleInputChange = (e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
@@ -49,8 +49,6 @@ function FavoriteCollections() {
         return faveCollectionList;
     }, [favoriteCollections]);
 
-    console.log('fave collection list???', faveCollectionList)
-
     // const logSearchTerm = (searchTerm) => {
     //     setSearchInput(searchTerm.name);
     //     setProductId(searchTerm.id);
@@ -66,9 +64,6 @@ function FavoriteCollections() {
         );
         setShowOptions(true);
     }, [faveCollectionList, searchInput]);
-
-    console.log('collection id in state'. collectionId)
-    console.log('search term?-', searchInput)
 
     const handleClickOutside = (e) => {
         const searchBar = document.querySelector(".fave-coll-search-div");
