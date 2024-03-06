@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getCurrUserProducts } from "../../../redux/product";
+import { addProductToFavorites, removeProductFromFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
@@ -11,12 +12,33 @@ import "./UserProducts.css";
 function UserProducts() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.allProducts);
-    console.log(useSelector(state=> state.products))
     const userProductsByType = useSelector(state => state.products.byProductType);
+    const [isFavorite, setIsFavorite] = useState(() => {
+        const storedFavorites = localStorage.getItem('favorites');
+        return storedFavorites ? JSON.parse(storedFavorites) : {};
+    });
  
     useEffect(() => {
         dispatch(getCurrUserProducts())
     }, [dispatch]);
+
+    const handleFavoriteClick = (prodId) => {
+        setIsFavorite((prev) => {
+            const updatedFavorites = {
+                ...prev,
+                [prodId]: !prev[prodId]
+            };
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            
+            if (!prev[prodId]) {
+                dispatch(addProductToFavorites({ product_id: prodId }));
+            } else {
+                dispatch(removeProductFromFavorites(prodId));
+            }
+            return updatedFavorites;
+        });
+    };
+
 
     return (
         <div className="prod-page-container">
@@ -50,13 +72,22 @@ function UserProducts() {
                                             src={attr.preview_image} 
                                             className="prod-tile-img"
                                         />
-                                        <div className="prod-star-div">
-                                            <Icon 
+                                        <div className="prod-star-div" onClick={(e) => { e.stopPropagation(); handleFavoriteClick(attr.id); }}>
+                                            {isFavorite[attr.id] ? 
+                                                <Icon 
+                                                icon='fluent:star-20-filled' 
+                                                width={25} 
+                                                height={25} 
+                                                color="#9cb781" 
+                                                className="star-icon"
+                                                /> : 
+                                                <Icon 
                                                 icon='fluent:star-20-regular' 
                                                 width={25} 
                                                 height={25} 
-                                                // color="#FEDC56" 
-                                                className="star-icon"/>
+                                                className="star-icon"
+                                                /> 
+                                            }
                                         </div>
                                         <div>
                                             <ul className="prod-tile-info-ul">
