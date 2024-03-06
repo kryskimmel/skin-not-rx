@@ -36,8 +36,7 @@ export const removeProductFromFavorites = createAsyncThunk(
     if (!req.ok) {
       throw new Error(`There was an error in removing the selected product from your favorites`)
     }
-    const res = await req.json();
-    return res;
+    return favoriteId;
   }
 );
 
@@ -55,17 +54,21 @@ const favoriteProductSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(getFavoriteProducts.fulfilled, (state, action) => {
-      state.allFavoritedProducts = action.payload.FavoriteProducts || [];
-      state.byId = {};
-      action.payload.FavoriteProducts.forEach((faveProduct) => {
-        state.byId[faveProduct.id] = faveProduct;
-      })
+      if (action.payload.FavoriteProducts) {
+        state.allFavoritedProducts = action.payload.FavoriteProducts || [];
+        state.byId = {};
+        action.payload.FavoriteProducts.forEach((faveProduct) => {
+          state.byId[faveProduct.id] = faveProduct;
+        })
+      }
     })
     .addCase(addProductToFavorites.fulfilled, (state, action) => {
       const newFavoriteProduct = action.payload;
-      state.byId[newFavoriteProduct.id] = newFavoriteProduct;
-      state.allFavoritedProducts = [...state.allFavoritedProducts, newFavoriteProduct];
-    })
+      if (!state.byId[newFavoriteProduct.id]) {
+          state.byId[newFavoriteProduct.id] = newFavoriteProduct;
+          state.allFavoritedProducts = [...state.allFavoritedProducts, newFavoriteProduct];
+      }
+  })
     .addCase(removeProductFromFavorites.fulfilled, (state, action) => {
       const favoriteProductId = action.payload;
       delete state.byId[favoriteProductId];
