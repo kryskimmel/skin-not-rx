@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { getCurrUserCollections, removeCollection } from "../../../../redux/collection";
+import { removeCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
 import "./DeleteCollectionModal.css";
@@ -12,8 +12,10 @@ function DeleteCollectionModal ({collectionId, collectionName}) {
         e.preventDefault();
         console.log(collectionId, 'collection.id')
         await dispatch(removeCollection(collectionId));
+        if (window.location.href.includes('/users/current/favorites')) {
+            window.location.reload();
+        }
         closeModal();
-        await dispatch(getCurrUserCollections());
     };
 
     const handleNo = () => {

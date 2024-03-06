@@ -4,6 +4,7 @@ import OpenModalButton from "../../../utils/OpenModalButton";
 import { getCurrUserProducts } from "../../../redux/product";
 import { getCurrUserCollections} from "../../../redux/collection";
 import { addCollectionToFavorites } from "../../../redux/favoriteCollection";
+import SearchCollectionsModal from "../../Modals/CollectionModals/SearchCollectionsModal";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
 import { Icon } from "@iconify/react";
@@ -55,6 +56,7 @@ function UserCollections() {
                     <OpenModalButton
                         buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
                         className="coll-search-btn"
+                        modalComponent={<SearchCollectionsModal />}
                     />
                 </div>
             </div>

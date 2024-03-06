@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import "./Navigation.css";
-// import SearchBarAndFilter from "../NavigationPages/Search/SearchBarAndFIlter";
 import { Icon } from "@iconify/react";
 
 
@@ -13,10 +12,7 @@ function Navigation() {
   const navigateTo = useNavigate();
   const user = useSelector(state => state.session.user);
   const [expandNav, setExpandNav] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const searchRef = useRef();
   const navRef = useRef();
-
 
   const logout = (e) => {
     e.preventDefault();
@@ -27,12 +23,6 @@ function Navigation() {
   const handleNavExpansion = () => {
     setExpandNav(!expandNav)
   };
-
-  // const handleSearch = (e) => {
-  //   e.stopPropagation();
-  //   setShowSearch(!showSearch);
-  //   handleNavExpansion();
-  // };
 
   const handleClickOutsideNav = (e) => {
     if (navRef.current && !navRef.current.contains(e.target)) {
@@ -47,21 +37,9 @@ function Navigation() {
     };
 }, []);
 
-  useEffect(() => {
-    if (!showSearch) return;
-    const closeMenu = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setShowSearch(false);
-      }
-    };
-    document.addEventListener("click", closeMenu);
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showSearch]);
-
-
+ 
   return (
     <div>
-    {/* {showSearch && (<SearchBarAndFilter showSearch={showSearch} searchRef={searchRef} />)} */}
     {!expandNav ? (
         <div className="nav-container-before">
           <ul className="nav-before-focus">

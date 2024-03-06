@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getCurrUserProducts } from "../../../redux/product";
 import { addProductToFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
+import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
 import Collapsible from "../../../utils/Collapsible";
@@ -55,6 +56,7 @@ function UserProducts() {
                     <OpenModalButton
                         buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
                         className="prod-search-btn"
+                        modalComponent={<SearchProductsModal />}
                     />
                 </div>
             </div>

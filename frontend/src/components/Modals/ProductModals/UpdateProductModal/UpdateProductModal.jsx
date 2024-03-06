@@ -114,6 +114,9 @@ function UpdateProductModal({ productId, product }) {
                 setBackendErrors(dataErrors);
             } else {
                 if (Object.values(frontendErrors).length === 0) {
+                    if (window.location.href.includes('/users/current/favorites')) {
+                        window.location.reload();
+                    }
                     closeModal();
                 }
             }
