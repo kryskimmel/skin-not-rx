@@ -21,9 +21,9 @@ function FavoriteProducts() {
     };
 
     const removeFavoriteLocalStorage = (productId) => {
-        const favorites = JSON.parse(localStorage.getItem('favorites'));
+        const favorites = JSON.parse(localStorage.getItem('favoriteProducts'));
         delete favorites[productId];
-        localStorage.setItem('favorites', JSON.stringify(favorites));
+        localStorage.setItem('favoriteProducts', JSON.stringify(favorites));
     }
 
 
