@@ -81,6 +81,16 @@
     list-style: none;
 }
 
+.no-fave-prod-div {
+    display: flex;
+    justify-content: center;
+}
+
+.no-fave-prod-text {
+    font-weight: 400;
+    color: #4d4b4b;
+}
+
 /*********************************/
 .fave-coll-page-container {
     display: flex;
@@ -155,6 +165,15 @@
     font-size: 16px;
 }
 
+.no-fave-coll-div {
+    display: flex;
+    justify-content: center;
+}
+
+.no-fave-coll-text {
+    font-weight: 400;
+    color: #4d4b4b;
+}
 
 
 
