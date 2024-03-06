@@ -36,8 +36,7 @@ export const removeCollectionFromFavorites = createAsyncThunk(
     if (!req.ok) {
       throw new Error(`There was an error in removing the selected collection from your favorites`)
     }
-    const res = await req.json();
-    return res;
+    return favoriteId;
   }
 );
 
