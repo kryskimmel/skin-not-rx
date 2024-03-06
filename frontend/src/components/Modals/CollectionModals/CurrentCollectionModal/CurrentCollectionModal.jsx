@@ -32,11 +32,7 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    const closeMenu = () => setShowMenu(false);
-
-    console.log(showMenu, 'show menu??')
-
-
+  
     const selectImgURL = (key) => {
         if (key.preview_image && key.preview_image[0] && key.preview_image[0].image_url) {
             return key.preview_image[0].image_url;

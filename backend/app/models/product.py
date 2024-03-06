@@ -39,6 +39,6 @@ class Product(db.Model):
             'description': self.description,
             'key_ingredients': self.key_ingredients,
             'product_link': self.product_link,
-            'preview_image': self.product_image,
+            'preview_image': self.preview_image,
             'user_id': self.user_id
         }

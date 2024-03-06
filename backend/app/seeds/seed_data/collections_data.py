@@ -3,17 +3,17 @@ collections_data = [
     {
         "name": "Let It Glow",
         "user_id": 1,
-        "product_id": [1, 2, 7]
+        "product_id": [1, 2, 5, 19]
     },
     {
         "name": "Night Out Prep",
         "user_id": 1,
-        "product_id": [1, 6]
+        "product_id": [1, 19]
     },
     {
         "name": "It's Sunday",
         "user_id": 2,
-        "product_id": [4, 12, 16]
+        "product_id": [9, 12, 13]
     },
     {
         "name": "TGIF",
@@ -23,11 +23,11 @@ collections_data = [
     {
         "name": "Skincare Routine No1",
         "user_id": 2,
-        "product_id": [3, 9, 12]
+        "product_id": [3, 4]
     },
     {
         "name": "Holy Grails",
         "user_id": 1,
-        "product_id": [8, 17]
+        "product_id": [10, 11]
     },
 ]

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import db, User, Product, Collection, Favorite_Product, Favorite_Collection
+from sqlalchemy.exc import IntegrityError
 
 user_routes = Blueprint('users', __name__)
 
@@ -50,7 +51,7 @@ def view_current_user_products():
             'preview_image': user_product.preview_image
         }
         curr_user_products_list.append(product)
-    return {'MyProducts': curr_user_products_list}
+    return jsonify(curr_user_products_list), 200
 
 
 
@@ -61,7 +62,7 @@ def view_current_user_collections():
     curr_user_collections = Collection.query.filter_by(user_id=current_user.id).all()
 
     if not curr_user_collections:
-        return {'message': 'You have not created any collections.'}
+        return jsonify({'message': 'You have not created any collections.'}), 200
 
     curr_user_collections_list = []
     for user_collection in curr_user_collections:
@@ -69,19 +70,20 @@ def view_current_user_collections():
             'id': user_collection.id,
             'name': user_collection.name,
             'user_id': user_collection.user_id,
-            'Products': [{  'id':product.id,
-                    'brand_name':product.brand_name,
-                    'product_name':product.product_name,
-                    'product_type': product.product_type,
-                    'description': product.description,
-                    'key_ingredients': product.key_ingredients,
-                    'product_link': product.product_link,
-                    'user_id': product.user_id,
-                    'preview_image': product.preview_image
-                    } for product in user_collection.products]
+            'Products': [{  
+                'id': product.id,
+                'brand_name': product.brand_name,
+                'product_name': product.product_name,
+                'product_type': product.product_type,
+                'description': product.description,
+                'key_ingredients': product.key_ingredients,
+                'product_link': product.product_link,
+                'user_id': product.user_id,
+                'preview_image': product.preview_image
+            } for product in user_collection.products]
         }
         curr_user_collections_list.append(collection)
-    return jsonify({'MyCollections': curr_user_collections_list})
+    return jsonify(curr_user_collections_list), 200
 
 
 # View current user's FAVORITE products
@@ -91,17 +93,31 @@ def view_favorite_products():
     favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_products:
-        return {'message': 'You do not have any favorited products yet!'}
+        return jsonify({'message': 'You do not have any favorited products yet!'})
 
     favorite_products_list = []
-    for product in favorite_products:
-        fave_product = {
-            'id': product.id,
-            'user_id': current_user.id,
-            'product_id': product.product_id,
-        }
-        favorite_products_list.append(fave_product)
-    return jsonify({'FavoriteProducts': favorite_products_list})
+    for favorite_product in favorite_products:
+        product = Product.query.get(favorite_product.product_id)
+        if product:
+            fave_product = {
+                'id': favorite_product.id,
+                'user_id': current_user.id,
+                'product_id': favorite_product.product_id,
+                'product_details': {
+                    'id': product.id,
+                    'brand_name': product.brand_name,
+                    'product_name': product.product_name,
+                    'product_type': product.product_type,
+                    'description': product.description,
+                    'key_ingredients': product.key_ingredients,
+                    'product_link': product.product_link,
+                    'preview_image': product.preview_image
+                }
+            }
+            favorite_products_list.append(fave_product)
+    
+    return jsonify({'FavoriteProducts': favorite_products_list}), 200
+
 
 
 
@@ -112,16 +128,33 @@ def view_favorite_collections():
     favorite_collections = Favorite_Collection.query.filter_by(user_id=current_user.id).all()
 
     if not favorite_collections:
-        return {'message': 'You do not have any favorited collections yet!'}
+        return jsonify({'message': 'You do not have any favorited collections yet!'})
 
     favorite_collections_list = []
-    for collection in favorite_collections:
-        fave_collection = {
-            'id': collection.id,
-            'user_id': current_user.id,
-            'collection_id': collection.collection_id
-        }
-        favorite_collections_list.append(fave_collection)
+    for favorite_collection in favorite_collections:
+        collection = Collection.query.get(favorite_collection.collection_id)
+        if collection:
+            products = []
+            for product in collection.products:
+                products.append({
+                    'id': product.id,
+                    'brand_name': product.brand_name,
+                    'product_name': product.product_name,
+                    'product_type': product.product_type,
+                    'description': product.description,
+                    'key_ingredients': product.key_ingredients,
+                    'product_link': product.product_link,
+                    'preview_image': product.preview_image
+                })
+            fave_collection = {
+                'id': favorite_collection.id,
+                'user_id': current_user.id,
+                'collection_id': favorite_collection.collection_id,
+                'name': collection.name, 
+                'products': products
+            }
+            favorite_collections_list.append(fave_collection)
+
     return jsonify({'FavoriteCollections': favorite_collections_list})
 
 
@@ -131,18 +164,26 @@ def view_favorite_collections():
 @login_required
 def add_favorite_product():
     data = request.get_json()
-    match_product = Product.query.filter_by(id=data.get('product_id'))
-
-    if not match_product:
+    find_product = Product.query.filter_by(id=data.get('product_id')).first()
+    if not find_product:
         return {'message': 'Product could not be found'}, 404
 
-    new_favorite_product = Favorite_Product(
-        user_id=current_user.id,
-        product_id=data.get('product_id')
-    )
-    db.session.add(new_favorite_product)
-    db.session.commit()
-    return new_favorite_product.to_dict(), 201
+    existing_favorite = Favorite_Product.query.filter_by(
+        user_id=current_user.id, product_id=data.get('product_id')).first()
+    if existing_favorite:
+        return {'message': 'Product is already a favorite for this user'}, 400
+
+    try:
+        new_favorite_product = Favorite_Product(
+            user_id=current_user.id,
+            product_id=data.get('product_id')
+        )
+        db.session.add(new_favorite_product)
+        db.session.commit()
+        return new_favorite_product.to_dict(), 201
+    except IntegrityError:
+        db.session.rollback()
+        return {'message': 'An error occurred while adding the product to favorites'}
 
 
 
@@ -151,27 +192,36 @@ def add_favorite_product():
 @login_required
 def add_favorite_collection():
     data = request.get_json()
-    match_collection = Collection.query.filter_by(id=data.get('collection_id'))
+    find_collection = Collection.query.filter_by(id=data.get('collection_id'))
 
-    if not match_collection:
+    if not find_collection:
         return {'message': 'Collection could not be found'}, 404
 
-    new_favorite_collection = Favorite_Collection(
-        user_id=current_user.id,
-        collection_id=data.get('collection_id')
-    )
-    db.session.add(new_favorite_collection)
-    db.session.commit()
-    return new_favorite_collection.to_dict(), 201
+    existing_favorite = Favorite_Collection.query.filter_by(
+        user_id=current_user.id, collection_id=data.get('collection_id')).first()
+    if existing_favorite:
+        return {'message': 'Collection is already a favorite for this user'}, 400
+
+    try:
+        new_favorite_collection = Favorite_Collection(
+            user_id=current_user.id,
+            collection_id=data.get('collection_id')
+        )
+        db.session.add(new_favorite_collection)
+        db.session.commit()
+        return new_favorite_collection.to_dict(), 201
+    except IntegrityError:
+        db.session.rollback()
+        return {'message': 'An error occurred while adding the collection to favorites'}
 
 
 
-# Delete a favorited product
-@user_routes.route('/current/favorites/products/<int:product_id>', methods=['DELETE'])
+# Remove a product from favorites
+@user_routes.route('/current/favorites/products/<int:favorite_id>', methods=['DELETE'])
 @login_required
-def remove_favorite_product(product_id):
+def remove_favorite_product(favorite_id):
     current_product_favorite = Favorite_Product.query.filter_by(user_id=current_user.id).filter_by(
-        product_id=product_id).first()
+        id=favorite_id).first()
 
     if not current_product_favorite:
         return {'message': 'The selected product could not be deleted as it was not favorited'}, 404
@@ -185,12 +235,12 @@ def remove_favorite_product(product_id):
 
 
 
-# Delete a favorited collection
+# Remove a collection from favorites
 @user_routes.route('/current/favorites/collections/<int:collection_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_collection(collection_id):
     current_collection_favorite = Favorite_Collection.query.filter_by(user_id=current_user.id).filter_by(
-    collection_id=collection_id).first()
+    id=collection_id).first()
 
     if not current_collection_favorite:
         return {'message': 'The selected collection could not be deleted as it was not favorited'}, 404

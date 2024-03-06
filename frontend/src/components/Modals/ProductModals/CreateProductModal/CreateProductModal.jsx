@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../../../redux/product';
+import { addProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
 import { Icon } from "@iconify/react";
 import charCountRemaining from '../../../../utils/charCountRemaining';
@@ -158,7 +158,7 @@ function CreateProductModal() {
             formData.append('user_id', user.id);
             formData.append('image_url', previewImageURL);
     
-            const data = dispatch(createProduct(formData));
+            const data = dispatch(addProduct(formData));
             if (Array.isArray(data)) {
                 const dataErrors = {};
                 data.forEach(error => {
@@ -183,7 +183,7 @@ function CreateProductModal() {
                     height="25" 
                 />
             </div>
-            <form className='create-product-form' onSubmit={handleSubmit}>
+            <form className='create-product-form' onSubmit={handleSubmit} encType='multipart/form-data'>
                 <div className='create-product-fields'>
                     <div className='f-brandname'>
                         <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
