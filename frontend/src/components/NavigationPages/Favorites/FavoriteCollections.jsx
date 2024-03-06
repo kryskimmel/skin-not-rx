@@ -12,7 +12,7 @@ function FavoriteCollections() {
     const [searchInput, setSearchInput] = useState("");
     const [showOptions, setShowOptions] = useState(false);
     // eslint-disable-next-line no-unused-vars
-    const [collectionId, setCollectionId] = useState(null);
+    const [collectionId, setCollectionId] = useState("");
 
     useEffect(() => {
         dispatch(getFavoriteCollections());
