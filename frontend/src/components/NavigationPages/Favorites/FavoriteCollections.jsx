@@ -21,7 +21,7 @@ function FavoriteCollections() {
             <div className="favorite-search-div">
                 <Icon icon="fluent:search-20-filled" width={25} height={25}/><input type="text" className="favorite-search"/>
             </div>
-            {favoriteCollections ? (
+            {favoriteCollections.length ? (
                 <div className="fave-coll-tiles-div">
                     {favoriteCollections.map((faveColl) => (
                         <OpenModalButton
@@ -45,7 +45,7 @@ function FavoriteCollections() {
                                             icon='fluent:star-20-filled' 
                                             width={25}
                                             height={25} 
-                                            color="#FEDC56" 
+                                            color="#9cb781" 
                                             className="star-icon"
                                         />
                                     </div>
@@ -59,8 +59,8 @@ function FavoriteCollections() {
                     ))}
                 </div>
             ) : (
-                <div>
-                    <h2>Nothing to display here</h2>
+                <div className="no-fave-coll-div">
+                    <h3 className="no-fave-coll-text">You have not favorited any collections yet!</h3>
                 </div>
             )}
         </div>
