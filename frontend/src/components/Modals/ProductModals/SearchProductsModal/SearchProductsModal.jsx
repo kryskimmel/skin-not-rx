@@ -58,8 +58,8 @@ function SearchProductsModal () {
     }, [productList, searchInput]);
 
     const handleClickOutside = (e) => {
-        const searchBar = document.querySelector(".searchBarSmall");
-        const dropdown = document.querySelector(".search-dropdown-row");
+        const searchBar = document.querySelector(".search-bar-div");
+        const dropdown = document.querySelector(".search-bar-dropdown-row");
         if (
             searchBar &&
             !searchBar.contains(e.target) &&
