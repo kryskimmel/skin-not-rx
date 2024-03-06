@@ -70,7 +70,10 @@ function UserProducts() {
                                             src={attr.preview_image} 
                                             className="prod-tile-img"
                                         />
-                                        <div className="prod-star-div" onClick={(e) => { e.stopPropagation(); handleFavoriteClick(attr.id); }}>
+                                        <div className="prod-star-div" onClick={(e) => { 
+                                            e.stopPropagation(); 
+                                            handleFavoriteClick(attr.id); 
+                                        }}>
                                             {isFavorite[attr.id] ? 
                                             <p className="fave-prod-text">favorite</p> : 
                                             <Icon 

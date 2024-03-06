@@ -76,7 +76,10 @@ function UserCollections() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="coll-star-div" onClick={(e) => { e.stopPropagation(); handleFavoriteClick(collection.id); }}>
+                                    <div className="coll-star-div" onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        handleFavoriteClick(collection.id); 
+                                    }}>
                                         {isFavorite[collection.id] ? 
                                             <p className="fave-coll-text">favorite</p> : 
                                             <Icon 
