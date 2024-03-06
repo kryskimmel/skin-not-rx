@@ -229,7 +229,6 @@ def remove_favorite_product(favorite_id):
     if current_user.id == current_product_favorite.user_id:
         db.session.delete(current_product_favorite)
         db.session.commit()
-        print(f"Deleted favorite with ID {favorite_id}")
         return {'message': 'Successfully deleted.'}, 200
     else:
         return {'message': 'Forbidden'}, 403
