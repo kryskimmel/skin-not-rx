@@ -69,12 +69,13 @@
 }
 
 .fave-prod-star-div {
-    width: 225px;
+    width: fit-content;
+    height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 10px; 
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
 
 .fave-prod-tile-info-ul {
@@ -149,12 +150,13 @@
 }
 
 .fave-coll-star-div {
-    width: 225px;
+    width: fit-content;
+    height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 10px; 
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
 
 .fave-coll-title-div {
