@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Collection, Product, db, collection_product
+from app.models import Collection, Product, db, Favorite_Collection
 from app.forms import CollectionForm
+from sqlalchemy.exc import IntegrityError
 
 
 collections_routes = Blueprint('collections', __name__)
@@ -162,7 +163,7 @@ def edit_collection(collection_id):
 
 
 # Delete a collection by id
-@collections_routes.route('<int:collection_id>', methods=['DELETE'])
+@collections_routes.route('/<int:collection_id>', methods=['DELETE'])
 @login_required
 def delete_collection(collection_id):
     selected_collection = Collection.query.get(collection_id)
@@ -170,9 +171,15 @@ def delete_collection(collection_id):
     if not selected_collection:
         return jsonify({'message': 'Collection does not exist'}), 404
 
-    if selected_collection.user_id == current_user.id:
+    if selected_collection.user_id != current_user.id:
+        return jsonify({'message': 'Forbidden'}), 403
+
+    try:
+        Favorite_Collection.query.filter_by(collection_id=collection_id).delete()
         db.session.delete(selected_collection)
         db.session.commit()
-        return jsonify({'message': 'Collection successfully deleted'}), 200
-    else:
-        return jsonify({'message': 'Forbidden'}), 403
+        
+        return jsonify({'message': 'Your collection was successfully deleted'}), 200
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'message': 'Failed to delete collection'}), 500
