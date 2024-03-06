@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import { getCurrUserProducts } from "../../../redux/product";
-import { getCurrUserCollections } from "../../../redux/collection";
+import { getCurrUserCollections} from "../../../redux/collection";
+import { addCollectionToFavorites } from "../../../redux/favoriteCollection";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
 import { Icon } from "@iconify/react";
@@ -11,11 +12,30 @@ import "./UserCollections.css";
 function UserCollections() {
     const dispatch = useDispatch();
     const userCollections = useSelector(state => state.collections.allCollections);
+    const [isFavorite, setIsFavorite] = useState(() => {
+        const storedFavorites = localStorage.getItem('favoriteCollections');
+        return storedFavorites ? JSON.parse(storedFavorites) : {};
+    });
 
     useEffect(() => {
         dispatch(getCurrUserProducts())
         dispatch(getCurrUserCollections())
     }, [dispatch]);
+
+    const handleFavoriteClick = (collId) => {
+        setIsFavorite((prev) => {
+            const updatedFavorites = {
+                ...prev,
+                [collId]: true
+            };
+            localStorage.setItem('favoriteCollections', JSON.stringify(updatedFavorites));
+
+            if (!prev[collId]) {
+                dispatch(addCollectionToFavorites({ collection_id: collId }));
+            }
+            return updatedFavorites;
+        });
+    };
 
 
     return (
@@ -56,14 +76,16 @@ function UserCollections() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="coll-star-div">
-                                        <Icon 
-                                            icon='fluent:star-20-regular' 
-                                            width={25}
-                                            height={25} 
-                                            // color="#FEDC56" 
-                                            className="star-icon"
-                                        />
+                                    <div className="coll-star-div" onClick={(e) => { e.stopPropagation(); handleFavoriteClick(collection.id); }}>
+                                        {isFavorite[collection.id] ? 
+                                            <p className="fave-coll-text">favorite</p> : 
+                                            <Icon 
+                                                icon='fluent:star-20-regular' 
+                                                width={25} 
+                                                height={25} 
+                                                className="star-icon"
+                                            />  
+                                        }
                                     </div>
                                     <div className="coll-title-div">
                                         <p className="coll-title">{collection.name}</p>
