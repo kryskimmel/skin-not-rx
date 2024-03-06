@@ -9,8 +9,6 @@ import "./Favorites.css";
 function FavoriteProducts() {
     const dispatch = useDispatch();
     const favoriteProducts = useSelector(state => state.favoriteProducts.allFavoritedProducts);
-    console.log('favorite products---', favoriteProducts)
-    console.log(useSelector(state => state.favoriteProducts))
 
     useEffect(() => {
         dispatch(getFavoriteProducts());
@@ -45,7 +43,11 @@ function FavoriteProducts() {
                                         src={faveProd.product_details?.preview_image} 
                                         className="fave-prod-tile-img" 
                                     />
-                                    <div className="fave-prod-star-div" onClick={(e) => { e.stopPropagation(); handleRemoveFavorite(faveProd.id); removeFavoriteLocalStorage(faveProd.product_id) }}>
+                                    <div className="fave-prod-star-div" onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        handleRemoveFavorite(faveProd.id); 
+                                        removeFavoriteLocalStorage(faveProd.product_id) 
+                                    }}>
                                         <Icon 
                                             icon='fluent:star-20-filled' 
                                             width={25} 
