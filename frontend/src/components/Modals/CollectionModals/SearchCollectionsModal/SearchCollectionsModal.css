@@ -1,0 +1,13 @@
+.search-result-collname-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px 0px;
+}
+
+.search-result-collname {
+    font-size: 18px;
+    margin: 0 auto;
+    display: flex;
+}
