@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getFavoriteCollections } from "../../../redux/favoriteCollection";
+import { getFavoriteCollections, removeCollectionFromFavorites } from "../../../redux/favoriteCollection";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import { Icon } from "@iconify/react";
@@ -14,6 +14,16 @@ function FavoriteCollections() {
     useEffect(() => {
         dispatch(getFavoriteCollections());
     }, [dispatch]);
+
+    const handleRemoveFavorite = async (favoriteId) => {
+        await dispatch(removeCollectionFromFavorites(favoriteId));
+    };
+
+    const removeFavoriteLocalStorage = (collId) => {
+        const favorites = JSON.parse(localStorage.getItem('favoriteCollections'));
+        delete favorites[collId];
+        localStorage.setItem('favoriteCollections', JSON.stringify(favorites));
+    }
 
     return (
         <div className="fave-coll-page-container">
@@ -40,7 +50,7 @@ function FavoriteCollections() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="fave-coll-star-div">
+                                    <div className="fave-coll-star-div" onClick={(e) => { e.stopPropagation(); handleRemoveFavorite(faveColl.id); removeFavoriteLocalStorage(faveColl.collection_id) }}>
                                         <Icon 
                                             icon='fluent:star-20-filled' 
                                             width={25}
