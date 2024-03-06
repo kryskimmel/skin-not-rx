@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getCurrUserProducts } from "../../../redux/product";
-import { addProductToFavorites, removeProductFromFavorites } from "../../../redux/favoriteProduct";
+import { addProductToFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
@@ -14,7 +14,7 @@ function UserProducts() {
     const userProducts = useSelector(state => state.products.allProducts);
     const userProductsByType = useSelector(state => state.products.byProductType);
     const [isFavorite, setIsFavorite] = useState(() => {
-        const storedFavorites = localStorage.getItem('favorites');
+        const storedFavorites = localStorage.getItem('favoriteProducts');
         return storedFavorites ? JSON.parse(storedFavorites) : {};
     });
  
@@ -26,14 +26,12 @@ function UserProducts() {
         setIsFavorite((prev) => {
             const updatedFavorites = {
                 ...prev,
-                [prodId]: !prev[prodId]
+                [prodId]: true
             };
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            
+            localStorage.setItem('favoriteProducts', JSON.stringify(updatedFavorites));
+
             if (!prev[prodId]) {
                 dispatch(addProductToFavorites({ product_id: prodId }));
-            } else {
-                dispatch(removeProductFromFavorites(prodId));
             }
             return updatedFavorites;
         });
@@ -74,19 +72,13 @@ function UserProducts() {
                                         />
                                         <div className="prod-star-div" onClick={(e) => { e.stopPropagation(); handleFavoriteClick(attr.id); }}>
                                             {isFavorite[attr.id] ? 
-                                                <Icon 
-                                                icon='fluent:star-20-filled' 
-                                                width={25} 
-                                                height={25} 
-                                                color="#9cb781" 
-                                                className="star-icon"
-                                                /> : 
-                                                <Icon 
+                                            <p className="fave-prod-text">favorite</p> : 
+                                            <Icon 
                                                 icon='fluent:star-20-regular' 
                                                 width={25} 
                                                 height={25} 
                                                 className="star-icon"
-                                                /> 
+                                            />  
                                             }
                                         </div>
                                         <div>
