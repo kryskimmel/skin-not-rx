@@ -142,7 +142,7 @@ function FavoriteProducts() {
                                         </>
                                     }
                                     modalComponent={<ProductInfoModal productId={faveProduct.id} />}
-                                    // onButtonClick={() => { setSearchInput("") ;}}
+                                    onButtonClick={() => { setSearchInput("") ;}}
                                 />
                             </div>
                         ))
