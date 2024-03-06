@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import db, User, Product, Collection, Favorite_Product, Favorite_Collection
+from sqlalchemy.exc import IntegrityError
 
 user_routes = Blueprint('users', __name__)
 
@@ -114,7 +115,8 @@ def view_favorite_products():
                 }
             }
             favorite_products_list.append(fave_product)
-    return jsonify({'FavoriteProducts': favorite_products_list})
+    
+    return jsonify({'FavoriteProducts': favorite_products_list}), 200
 
 
 
@@ -162,18 +164,26 @@ def view_favorite_collections():
 @login_required
 def add_favorite_product():
     data = request.get_json()
-    match_product = Product.query.filter_by(id=data.get('product_id'))
-
-    if not match_product:
+    find_product = Product.query.filter_by(id=data.get('product_id')).first()
+    if not find_product:
         return {'message': 'Product could not be found'}, 404
 
-    new_favorite_product = Favorite_Product(
-        user_id=current_user.id,
-        product_id=data.get('product_id')
-    )
-    db.session.add(new_favorite_product)
-    db.session.commit()
-    return new_favorite_product.to_dict(), 201
+    existing_favorite = Favorite_Product.query.filter_by(
+        user_id=current_user.id, product_id=data.get('product_id')).first()
+    if existing_favorite:
+        return {'message': 'Product is already a favorite for this user'}, 400
+
+    try:
+        new_favorite_product = Favorite_Product(
+            user_id=current_user.id,
+            product_id=data.get('product_id')
+        )
+        db.session.add(new_favorite_product)
+        db.session.commit()
+        return new_favorite_product.to_dict(), 201
+    except IntegrityError:
+        db.session.rollback()
+        return {'message': 'An error occurred while adding the product to favorites'}
 
 
 
@@ -197,12 +207,12 @@ def add_favorite_collection():
 
 
 
-# Delete a favorited product
-@user_routes.route('/current/favorites/products/<int:product_id>', methods=['DELETE'])
+# Remove a product from favorites
+@user_routes.route('/current/favorites/products/<int:favorite_id>', methods=['DELETE'])
 @login_required
-def remove_favorite_product(product_id):
+def remove_favorite_product(favorite_id):
     current_product_favorite = Favorite_Product.query.filter_by(user_id=current_user.id).filter_by(
-        product_id=product_id).first()
+        id=favorite_id).first()
 
     if not current_product_favorite:
         return {'message': 'The selected product could not be deleted as it was not favorited'}, 404
@@ -210,13 +220,14 @@ def remove_favorite_product(product_id):
     if current_user.id == current_product_favorite.user_id:
         db.session.delete(current_product_favorite)
         db.session.commit()
+        print(f"Deleted favorite with ID {favorite_id}")
         return {'message': 'Successfully deleted.'}, 200
     else:
         return {'message': 'Forbidden'}, 403
 
 
 
-# Delete a favorited collection
+# Remove a collection from favorites
 @user_routes.route('/current/favorites/collections/<int:collection_id>', methods=['DELETE'])
 @login_required
 def remove_favorite_collection(collection_id):
