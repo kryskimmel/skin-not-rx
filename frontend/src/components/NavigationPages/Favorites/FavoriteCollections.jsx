@@ -27,8 +27,8 @@ function FavoriteCollections() {
     return (
         <div className="fave-coll-page-container">
             <h2 className="fave-coll-heading">Favorite Collections</h2>
-            <div className="favorite-search-div">
-                <Icon icon="fluent:search-20-filled" width={25} height={25}/><input type="text" className="favorite-search"/>
+            <div className="fave-search-div">
+                <Icon icon="fluent:search-20-filled" width={25} height={25}/><input type="text" className="fave-search"/>
             </div>
             {favoriteCollections.length ? (
                 <div className="fave-coll-tiles-div">
