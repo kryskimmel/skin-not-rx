@@ -21,7 +21,7 @@ function ProductInfoModal({ productId }) {
 
 
     const toggleMenu = (e) => {
-        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        e.stopPropagation();
         setShowMenu(!showMenu);
     };
 
@@ -64,12 +64,12 @@ function ProductInfoModal({ productId }) {
                             <>
                                 <OpenModalButton
                                     buttonText="Edit"
-                                    onButtonClick={closeMenu}
+                                    onButtonClick={() => closeMenu}
                                     modalComponent={<UpdateProductModal productId={productId} product={product} />}
                                 />
                                 <OpenModalButton
                                     buttonText="Delete"
-                                    onButtonClick={closeMenu}
+                                    onButtonClick={() => closeMenu}
                                     modalComponent={<DeleteProductModal
                                         brandName={product.brand_name}
                                         productName={product.product_name}

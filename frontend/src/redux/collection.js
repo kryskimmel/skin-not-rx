@@ -63,8 +63,7 @@ export const removeCollection = createAsyncThunk(
     if (!req.ok) {
       throw new Error(`There was an error in deleting your collection`)
     }
-    const res = await req.json();
-    return res;
+   return collectionId;
   }
 );
 
