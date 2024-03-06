@@ -1,8 +1,8 @@
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getFavoriteCollections, removeCollectionFromFavorites } from "../../../redux/favoriteCollection";
-import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import OpenModalButton from "../../../utils/OpenModalButton";
+import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import { Icon } from "@iconify/react";
 import "./Favorites.css";
 
