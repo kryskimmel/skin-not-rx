@@ -67,8 +67,8 @@ function FavoriteProducts() {
     }, [faveProductList, searchInput]);
 
     const handleClickOutside = (e) => {
-        const searchBar = document.querySelector(".fave-search-div");
-        const searchOptions = document.querySelector(".fave-search-options-row");
+        const searchBar = document.querySelector(".fave-prod-search-div");
+        const searchOptions = document.querySelector(".fave-prod-search-options-tile-btn");
         if (
             searchBar &&
             !searchBar.contains(e.target) &&
@@ -90,18 +90,18 @@ function FavoriteProducts() {
     return (
         <div className="fave-prod-page-container">
             <h2 className="fave-prod-heading">Favorite Products</h2>
-            <div className="fave-search-div">
+            <div className="fave-prod-search-div">
                 <Icon icon="fluent:search-20-filled" width={25} height={25}/>
                 <input 
                     type="text" 
-                    className="fave-search"
+                    className="fave-prod-search"
                     value={searchInput}
                     onChange={handleInputChange}
                 />
             </div>
             {searchInput ? (
                 <div 
-                    className="fave-search-options"
+                    className="fave-prod-search-options"
                     style={{display: showOptions ? "" : "none"}}
                 >
                     {faveProductList
@@ -114,14 +114,14 @@ function FavoriteProducts() {
                         .map((faveProduct) =>(
                             <div key={`search-faveProd-${faveProduct.id}=${faveProduct.product_name}`}>
                                 <OpenModalButton
-                                    className="fave-search-options-tile-btn"
+                                    className="fave-prod-search-options-tile-btn"
                                     buttonText={
                                         <>
                                             <img 
                                                 src={faveProduct.preview_image}
-                                                className="fave-search-result-img"  
+                                                className="fave-prod-search-result-img"  
                                             />
-                                            <div className="fave-search-prod-star-div" onClick={(e) => { 
+                                            <div className="fave-prod-search-star-div" onClick={(e) => { 
                                                 e.stopPropagation(); 
                                                 handleRemoveFavorite(faveProduct.id); 
                                                 removeFavoriteLocalStorage(faveProduct.product_id) 
