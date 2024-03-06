@@ -22,7 +22,7 @@
 
 #modal-content {
   position: absolute;
-  background-color:white;
+  background-color:transparent;
   border-radius: 15px;
-  border: 1px solid #767676;
+  border: none;
 }
