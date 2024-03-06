@@ -33,17 +33,18 @@ function SearchCollectionsModal () {
             collectionList.push({
                 id: userCollections[collection].id,
                 name: userCollections[collection].name,
+                products: userCollections[collection].Products
             });
         }
         return collectionList;
     }, [userCollections]);
 
-    const logSearchTerm = (searchTerm) => {
-        setSearchInput(searchTerm.name);
-        setCollectionId(searchTerm.id);
-        setSearchInput("");
-        setCollectionId(null);
-    };
+    // const logSearchTerm = (searchTerm) => {
+    //     setSearchInput(searchTerm.name);
+    //     setCollectionId(searchTerm.id);
+    //     setSearchInput("");
+    //     setCollectionId(null);
+    // };
 
     useEffect(() => {
         collectionList.filter(
@@ -55,8 +56,8 @@ function SearchCollectionsModal () {
     }, [collectionList, searchInput]);
 
     const handleClickOutside = (e) => {
-        const searchBar = document.querySelector(".searchBarSmall");
-        const dropdown = document.querySelector(".search-dropdown-row");
+        const searchBar = document.querySelector(".search-bar-div");
+        const dropdown = document.querySelector(".search-coll-dropdown-row");
         if (
             searchBar &&
             !searchBar.contains(e.target) &&
@@ -109,13 +110,24 @@ function SearchCollectionsModal () {
                             <div key={`search-collection-${collection.id}`}>
                             <OpenModalButton
                                 buttonText={
-                                    <div className="search-bar-dropdown-row">
+                                    <div className="search-coll-dropdown-row">
                                         <div className="search-result-collname-div">
                                             <p className="search-result-collname">{collection.name}</p>
                                         </div>
+                                        <div className="search-result-coll-imgs-div">
+                                            {collection.products?.slice(0, 4)?.map((attr, idx) => (
+                                                <img
+                                                    key={`faveColl-${attr.preview_image}-${idx}`}
+                                                    src={attr.preview_image} 
+                                                    alt={attr.product_name} 
+                                                    title={attr.product_name} 
+                                                    className="search-fave-coll-tile-img" 
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
                                 }
-                                modalComponent={<CurrentCollectionModal collectionId={collection.id} onFavoriteChange={logSearchTerm} />}
+                                modalComponent={<CurrentCollectionModal  collectionName={collection.name} items={collection.products} collectionId={collection.id} />}
                                 onButtonClick={() => { setSearchInput(""); }}
                             />
                             </div>
