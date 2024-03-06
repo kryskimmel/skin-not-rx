@@ -114,6 +114,7 @@ function UpdateProductModal({ productId, product }) {
                 setBackendErrors(dataErrors);
             } else {
                 if (Object.values(frontendErrors).length === 0) {
+                    window.location.reload();
                     closeModal();
                 }
             }

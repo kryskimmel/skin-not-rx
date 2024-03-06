@@ -14,6 +14,7 @@ function DeleteProductModal({brandName, productName, productId}) {
         closeModal();
         if (productRemoved) {
             await dispatch(getCurrUserProducts());
+            window.location.reload();
         } else {
             throw new Error('Could not delete your product')
         }
