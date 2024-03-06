@@ -55,11 +55,13 @@ const favoriteCollectionSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(getFavoriteCollections.fulfilled, (state, action) => {
-        state.allFavoritedCollections = action.payload.FavoriteCollections || [];
-        state.byId = {};
-        action.payload.FavoriteCollections.forEach((faveCollection) => {
-          state.byId[faveCollection.id] = faveCollection;
-        })
+        if (action.payload.FavoriteCollections) {
+          state.allFavoritedCollections = action.payload.FavoriteCollections || [];
+          state.byId = {};
+          action.payload.FavoriteCollections.forEach((faveCollection) => {
+            state.byId[faveCollection.id] = faveCollection;
+          })
+        }
       })
       .addCase(addCollectionToFavorites.fulfilled, (state, action) => {
         const newFavoriteCollection = action.payload;
