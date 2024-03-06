@@ -1,95 +1,144 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import * as ProductActions from "../../../redux/product";
+import { useState, useEffect } from "react";
+import { getCurrUserProducts } from "../../../redux/product";
+import { addProductToFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
 import Collapsible from "../../../utils/Collapsible";
+import { Icon } from "@iconify/react";
 import "./UserProducts.css";
-
 
 function UserProducts() {
     const dispatch = useDispatch();
-    const userProducts = useSelector(state => state.product.allProducts);
-    const userProductsByType = useSelector(state => state.product.byProductType);
-    console.log('USER PRODS', userProducts)
-
+    const userProducts = useSelector(state => state.products.allProducts);
+    const userProductsByType = useSelector(state => state.products.byProductType);
+    const [isFavorite, setIsFavorite] = useState(() => {
+        const storedFavorites = localStorage.getItem('favoriteProducts');
+        return storedFavorites ? JSON.parse(storedFavorites) : {};
+    });
+ 
     useEffect(() => {
-        dispatch(ProductActions.viewCurrUserProducts())
-    }, [dispatch])
+        dispatch(getCurrUserProducts())
+    }, [dispatch]);
+
+    const handleFavoriteClick = (prodId) => {
+        setIsFavorite((prev) => {
+            const updatedFavorites = {
+                ...prev,
+                [prodId]: true
+            };
+            localStorage.setItem('favoriteProducts', JSON.stringify(updatedFavorites));
+
+            if (!prev[prodId]) {
+                dispatch(addProductToFavorites({ product_id: prodId }));
+            }
+            return updatedFavorites;
+        });
+    };
 
 
     return (
-        <div className="products-container">
-            <div className="products-header">
-                <h1 className="products-title">PRODUCTS<span className="products-title-span">{userProducts.length}</span></h1>
-                <OpenModalButton
-                    buttonText={
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <p>Create A Product</p>
-                        </div>}
-                    className="products-create-button"
-                    modalComponent={<CreateProductModal />}
-                />
+        <div className="prod-page-container">
+            <div className="prod-header-div">
+                <h1 className="prod-heading">PRODUCTS</h1>
+                <p className="prod-count-text">{userProducts.length} items</p>
+                <div className="prod-heading-btns-div">
+                    <OpenModalButton
+                        buttonText={
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                <p>Create A Product</p>
+                            </div>}
+                        className="prod-create-btn"
+                        modalComponent={<CreateProductModal />}
+                    />
+                    <OpenModalButton
+                        buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
+                        className="prod-search-btn"
+                    />
+                </div>
             </div>
-        <div className="products-inner-container">
-    
-            <div className="products-wrapper">
-                {userProducts
-                    ? userProducts.map((attr) => (
-                        <div key={attr.id}>
+            <div className="prod-page-contents-div">
+                <div className="prod-tiles-div">
+                    {userProducts ? userProducts.map((attr) => (
+                        <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
                             <OpenModalButton
-                                className="product-tile-button"
+                                className="prod-tile-btn"
                                 buttonText={
-                                    <div className="product-tile">
-                                        <img src={attr.preview_image} className="product-tile-img"/>
+                                    <>
+                                        <img 
+                                            src={attr.preview_image} 
+                                            className="prod-tile-img"
+                                        />
+                                        <div className="prod-star-div" onClick={(e) => { 
+                                            e.stopPropagation(); 
+                                            handleFavoriteClick(attr.id); 
+                                        }}>
+                                            {isFavorite[attr.id] ? 
+                                            <p className="fave-prod-text">favorite</p> : 
+                                            <Icon 
+                                                icon='fluent:star-20-regular' 
+                                                width={25} 
+                                                height={25} 
+                                                className="star-icon"
+                                            />  
+                                            }
+                                        </div>
                                         <div>
-                                            <ul className="product-tile-info-ul">
+                                            <ul className="prod-tile-info-ul">
                                                 <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
                                                 <li>{attr.product_name}</li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </>
                                 }
                                 modalComponent={<ProductInfoModal productId={attr.id} />}
                             />
                         </div>
-                    ))
-                    : <h2 className="no-products-text">You have not created any products!</h2>}
-            </div>
-            <div className="products-by-type-wrapper">
-            {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
-                <Collapsible key={`${productType}-${products[0]}`} label={productType} className='products-collapsible'>
-                    <div className="product-collapsible-content">
-                        {products.length > 0 ? (
-                            products.map((product, index) => (
-                                <div key={`${product}-${index}`}>
-                                    <OpenModalButton
-                                        className="products-by-type-button"
-                                        buttonText={
-                                            <div className="products-by-type-tile" title={`${product.brand_name} ${product.product_name}`}>
-                                                <img 
-                                                    src={product.preview_image} 
-                                                    alt={product.product_name}
-                                                    className="products-by-type-img"
-                                                />
-                                            </div>
-                                        }
-                                        modalComponent={<ProductInfoModal productId={product.id} />}
-                                    />
-                                </div>
-                            ))
-                        ) : (
-                            <div>
-                                <p>You have not added any {productType.toLowerCase()}!</p>
+                        ))
+                        :(
+                        <div>
+                            <p>You have not added any products!</p>
+                        </div>
+                    )}
+                </div>
+                <div className="prod-by-type-div">
+                    {userProductsByType && Object.entries(userProductsByType).map(([productType, products]) => (
+                        <Collapsible 
+                            key={`${productType}-${products[0]}`} 
+                            label={productType} 
+                            className='prod-collapsible'>
+                            <div className="prod-collapsible-content">
+                                {products.length > 0 ? (
+                                    products.map((product, index) => (
+                                        <div key={`${product}-${index}`}>
+                                            <OpenModalButton
+                                                className="prod-by-type-btn"
+                                                buttonText={
+                                                    <>
+                                                        <img 
+                                                            className="prod-by-type-img"
+                                                            src={product.preview_image} 
+                                                            alt={product.product_name}
+                                                            title={`${product.brand_name}-${product.product_name}`}
+                                                        />
+                                                    </>
+                                                }
+                                                modalComponent={<ProductInfoModal productId={product.id} />}
+                                            />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div>
+                                        <p>You have not added any {productType.toLowerCase()}!</p>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                </Collapsible>
-            ))}
-            </div>
-        </div>        
-    </div>
+                        </Collapsible>
+                    ))}
+                </div>
+            </div>        
+        </div>
     )
 }
 

@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Integer, Column, DateTime, ForeignKey
+from sqlalchemy import Integer, Column, DateTime, ForeignKey, UniqueConstraint
 from datetime import datetime
 # from flask_login import UserMixin
 
@@ -20,6 +20,10 @@ class Favorite_Product(db.Model):
     # RELATIONSHIPS
     user = db.relationship('User', back_populates='favorite_products')
     products = db.relationship('Product', back_populates='favorite_products')
+
+    __table_args__ = (
+       UniqueConstraint('user_id', 'product_id', name='uq_user_product_favorite'),
+    )
 
 
     def to_dict(self):

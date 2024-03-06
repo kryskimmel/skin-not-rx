@@ -1,85 +1,86 @@
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
+/* eslint-disable no-unused-vars */
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const setUser = (formData) => ({
-  type: SET_USER,
-  payload: formData
+export const thunkAuthenticate = createAsyncThunk(
+  'session/authenticate', async () => {
+    const req = await fetch('/api/auth/', {
+      method: 'GET'
+    });
+    if (!req.ok) {
+      throw new Error(`There was an error in the authentication process`)
+    }
+    const res = await req.json();
+    return res;
+  }
+);
+
+
+export const thunkLogin = createAsyncThunk(
+  'session/login', async (credentials) => {
+    const req = await fetch('/api/auth/login', {
+      method:'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(credentials)
+    });
+    if (!req.ok) {
+      throw new Error(`There was an error in the login process`)
+    }
+    const res = await req.json();
+    return res;
+  }
+);
+
+export const thunkSignup = createAsyncThunk(
+  'session/signup', async (formData) => {
+    const req = await fetch('/api/auth/signup', {
+      method:'POST',
+      headers: {'Content-type': 'application/json'},
+      body: formData
+    });
+    if (!req.ok) {
+      throw new Error(`There was an error in the signup process`)
+    }
+    const res = await req.json();
+    return res;
+  }
+);
+
+
+export const thunkLogout = createAsyncThunk(
+  'session/logout', async () => {
+    const req = await fetch('/api/auth/logout');
+    if (!req.ok) {
+      throw new Error(`There was an error in the logout process`)
+    }
+    const res = await req.json();
+    return res;
+  }
+);
+
+
+const initialSessionState = {
+  user: null
+};
+
+const sessionSlice = createSlice({
+  name: 'session',
+  initialState: initialSessionState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+    .addCase(thunkAuthenticate.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(thunkLogin.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(thunkSignup.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(thunkLogout.fulfilled, (state, action) => {
+      state.user = null;
+    });
+  }
 });
 
-const removeUser = () => ({
-  type: REMOVE_USER
-});
-
-export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
-		}
-
-		dispatch(setUser(data));
-	}
-};
-
-export const thunkLogin = (credentials) => async dispatch => {
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
-  });
-
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
-  }
-};
-
-export const thunkSignup = (formData) => async (dispatch) => {
-
-  console.log('IN THUNK user', formData)
-  for (const entry of formData.entries()) {
-    console.log('the entry',entry);
-  }
-
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    body: formData
-  });
-console.log('THE RESPONSE', response)
-
-  if(response.ok) {
-    const user = await response.json()
-    dispatch(setUser(user))
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
-  }
-};
-
-export const thunkLogout = () => async (dispatch) => {
-  await fetch("/api/auth/logout");
-  dispatch(removeUser());
-};
-
-const initialState = { user: null };
-
-function sessionReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case REMOVE_USER:
-      return { ...state, user: null };
-    default:
-      return state;
-  }
-}
-
-export default sessionReducer;
+export default sessionSlice;

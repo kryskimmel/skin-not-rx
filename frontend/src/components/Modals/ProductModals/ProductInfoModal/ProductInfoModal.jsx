@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as productActions from "../../../../redux/product";
+import { getCurrUserProducts } from "../../../../redux/product";
 import OpenModalButton from "../../../../utils/OpenModalButton";
 import UpdateProductModal from "../UpdateProductModal";
 import DeleteProductModal from "../DeleteProductModal";
@@ -10,14 +10,15 @@ import "./ProductInfoModal.css";
 
 function ProductInfoModal({ productId }) {
     const dispatch = useDispatch();
-    const product = useSelector(state => state.product.byId[productId])
+    const product = useSelector(state => state.products.byId[productId])
     const [isLoaded, setIsLoaded] = useState(false)
     const optionsRef = useRef();
     const [showMenu, setShowMenu] = useState(false);
-
+   
     useEffect(() => {
-        dispatch(productActions.viewCurrUserProducts()).then(() => { setIsLoaded(true) })
-    }, [productId])
+        dispatch(getCurrUserProducts()).then(() => { setIsLoaded(true) })
+    }, [dispatch, productId])
+
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -37,8 +38,6 @@ function ProductInfoModal({ productId }) {
     }, [showMenu]);
 
     const closeMenu = () => setShowMenu(false);
-
-    console.log(showMenu, 'show menu??')
 
     return isLoaded && (
         <div className="product-info-modal-wrapper">

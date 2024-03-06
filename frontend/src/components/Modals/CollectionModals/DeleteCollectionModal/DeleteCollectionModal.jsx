@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import * as CollectionActions from "../../../../redux/collection";
+import { getCurrUserCollections, removeCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
 import "./DeleteCollectionModal.css";
@@ -11,9 +11,9 @@ function DeleteCollectionModal ({collectionId, collectionName}) {
     const handleYes = async (e) => {
         e.preventDefault();
         console.log(collectionId, 'collection.id')
-        await dispatch(CollectionActions.removeCollection(collectionId));
+        await dispatch(removeCollection(collectionId));
         closeModal();
-        await dispatch(CollectionActions.viewCurrUserCollections());
+        await dispatch(getCurrUserCollections());
     };
 
     const handleNo = () => {

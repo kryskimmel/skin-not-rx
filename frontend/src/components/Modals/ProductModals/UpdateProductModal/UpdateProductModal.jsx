@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
-import { modifyProduct } from "../../../../redux/product";
+import { editProduct } from "../../../../redux/product";
 import charCountRemaining from '../../../../utils/charCountRemaining';
 import "./UpdateProductModal.css";
 
@@ -25,20 +25,9 @@ function UpdateProductModal({ productId, product }) {
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button";
+    const requiredFields = brandName && productName && productType && description
     const validationErrors = {};
-
-    console.log({ productId, product })
-    console.log('BEFORE submit',
-        {
-            brandName,
-            productName,
-            productType,
-            description,
-            keyIngredients,
-            productLink,
-            previewImg
-
-        })
 
     useEffect(() => {
         if (product) {
@@ -53,13 +42,6 @@ function UpdateProductModal({ productId, product }) {
     }, [])
 
 
-    // Toggle submit button classname
-    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button"
-
-    // Required fields to be filled in by user
-    const requiredFields = brandName && productName && productType && description
-
-    // useEffect to that will set IsDisabled status to true if required fields are not empty
     useEffect(() => {
         if (!requiredFields) {
             setIsDisabled(true);
@@ -68,15 +50,12 @@ function UpdateProductModal({ productId, product }) {
         }
     });
 
-    // useEffect to track validation errors
     useEffect(() => {
-
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
         const maxChar500 = "Input must not exceed 500 characters."
         const minChar3 = "Input must be at least 3 characters long."
-
 
         if (!brandName) validationErrors.brandName = inputRequired;
         else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
@@ -101,27 +80,16 @@ function UpdateProductModal({ productId, product }) {
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
 
-
         setFrontendErrors(validationErrors);
     }, [brandName, productName, productType, description, keyIngredients, productLink])
-
-    // console.log('the validation errors', validationErrors)
-    // console.log('the validation errors inside ERRORS state', frontendErrors)
-    // console.log('show errors?', showErrors)
-    // console.log(Object.values(frontendErrors).length)
-    // console.log('form submitted?', submittedForm)
-    // console.log('backend errors?', backendErrors)
 
     useEffect(() => {
         setShowErrors(Object.values(frontendErrors).length > 0);
     }, [frontendErrors]);
 
-
-    // Handles form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmittedForm(true);
-
 
         const updatedProduct = {
             "brand_name": brandName.trimEnd(),
@@ -135,7 +103,7 @@ function UpdateProductModal({ productId, product }) {
         };
 
         try {
-            const data = await dispatch(modifyProduct(productId, updatedProduct));
+            const data = await dispatch(editProduct({productId, updatedProductData:updatedProduct}));
 
             if (Array.isArray(data)) {
                 const dataErrors = {};
@@ -145,7 +113,6 @@ function UpdateProductModal({ productId, product }) {
                 });
                 setBackendErrors(dataErrors);
             } else {
-                // Only close the modal if there are no frontend validation errors
                 if (Object.values(frontendErrors).length === 0) {
                     closeModal();
                 }
@@ -154,10 +121,6 @@ function UpdateProductModal({ productId, product }) {
             throw new Error(`There was an error in submitting your form for creating a new product: ${error}`);
         }
     };
-
-
-
-
 
 
     return (
