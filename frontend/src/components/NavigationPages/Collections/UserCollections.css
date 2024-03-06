@@ -104,12 +104,19 @@
 }
 
 .coll-star-div {
-    width: 225px;
+    width: fit-content;
+    height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 10px; 
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+}
+
+.fave-coll-text {
+    padding: 2px 10px;
+    background-color: #9cb781;
+    border-radius: 15px;
 }
 
 .coll-title-div {
