@@ -64,12 +64,12 @@ function ProductInfoModal({ productId }) {
                             <>
                                 <OpenModalButton
                                     buttonText="Edit"
-                                    onButtonClick={closeMenu}
+                                    onButtonClick={() => closeMenu}
                                     modalComponent={<UpdateProductModal productId={productId} product={product} />}
                                 />
                                 <OpenModalButton
                                     buttonText="Delete"
-                                    onButtonClick={closeMenu}
+                                    onButtonClick={() => closeMenu}
                                     modalComponent={<DeleteProductModal
                                         brandName={product.brand_name}
                                         productName={product.product_name}
