@@ -192,18 +192,27 @@ def add_favorite_product():
 @login_required
 def add_favorite_collection():
     data = request.get_json()
-    match_collection = Collection.query.filter_by(id=data.get('collection_id'))
+    find_collection = Collection.query.filter_by(id=data.get('collection_id'))
 
-    if not match_collection:
+    if not find_collection:
         return {'message': 'Collection could not be found'}, 404
 
-    new_favorite_collection = Favorite_Collection(
-        user_id=current_user.id,
-        collection_id=data.get('collection_id')
-    )
-    db.session.add(new_favorite_collection)
-    db.session.commit()
-    return new_favorite_collection.to_dict(), 201
+    existing_favorite = Favorite_Collection.query.filter_by(
+        user_id=current_user.id, collection_id=data.get('collection_id')).first()
+    if existing_favorite:
+        return {'message': 'Collection is already a favorite for this user'}, 400
+
+    try:
+        new_favorite_collection = Favorite_Collection(
+            user_id=current_user.id,
+            collection_id=data.get('collection_id')
+        )
+        db.session.add(new_favorite_collection)
+        db.session.commit()
+        return new_favorite_collection.to_dict(), 201
+    except IntegrityError:
+        db.session.rollback()
+        return {'message': 'An error occurred while adding the collection to favorites'}
 
 
 
@@ -232,7 +241,7 @@ def remove_favorite_product(favorite_id):
 @login_required
 def remove_favorite_collection(collection_id):
     current_collection_favorite = Favorite_Collection.query.filter_by(user_id=current_user.id).filter_by(
-    collection_id=collection_id).first()
+    id=collection_id).first()
 
     if not current_collection_favorite:
         return {'message': 'The selected collection could not be deleted as it was not favorited'}, 404
