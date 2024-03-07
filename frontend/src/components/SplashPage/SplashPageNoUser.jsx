@@ -14,7 +14,7 @@ function SplashPageNoUser() {
                 animate={{ opacity: 1}}
                 transition={{ duration: 1.0, ease: 'easeIn'}}
                 className="splashpage-heading-div">
-                <h1 style={{fontSize: '160px'}}>SKIN-NOT-RX</h1>
+                <h1 className="splashpage-nouser-heading">SKIN-NOT-RX</h1>
             </m.div>
             <m.div 
                 initial={{ opacity: 0}}
