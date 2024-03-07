@@ -17,7 +17,12 @@ function UpdateProductModal({ productId, product }) {
     const [productName, setProductName] = useState(product.product_name);
     const [productType, setProductType] = useState(product.product_type);
     const [description, setDescription] = useState(product.description);
-    const [keyIngredients, setKeyIngredients] = useState(product.key_ingredients);
+    const [keyIngredientsArr, setKeyIngredientsArr] = useState([]);
+    const prevKeyIngredients = product.key_ingredients?.split(",")
+    const [keyIngredient1, setKeyIngredient1] = useState(prevKeyIngredients?.[0]);
+    const [keyIngredient2, setKeyIngredient2] = useState(prevKeyIngredients?.[1]);
+    const [keyIngredient3, setKeyIngredient3] = useState(prevKeyIngredients?.[2]);
+    const [keyIngredients, setKeyIngredients] = useState("");
     const [productLink, setProductLink] = useState(product.product_link);
     const [previewImg, setPreviewImg] = useState(product.preview_image);
     const [frontendErrors, setFrontendErrors] = useState({});
@@ -28,6 +33,8 @@ function UpdateProductModal({ productId, product }) {
     const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button";
     const requiredFields = brandName && productName && productType && description
     const validationErrors = {};
+
+    console.log('the product?', product)
 
     useEffect(() => {
         if (product) {
@@ -127,96 +134,137 @@ function UpdateProductModal({ productId, product }) {
 
 
     return (
-        <div className='create-product-container'>
-            <Icon icon="icon-park-solid:lotion" width="50" height="50" style={{ marginTop: "10px" }} />
-            <h1>Update Product</h1>
-            <form className='create-product-form' onSubmit={handleSubmit}>
-                <div className='product-form-div'>
-                    <div className='product-form-left'>
-                        <div className='brand-name-div'>
-                            <label>Brand Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
-                            <input
-                                type="text"
-                                value={brandName}
-                                onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
-                            />
-                            {showErrors && submittedForm && frontendErrors?.brandName && <p className="errors-text">{frontendErrors.brandName}</p>}
-                        </div>
-
-                        <div className='product-name-div'>
-                            <label>Product Name:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
-                            <input
-                                type="text"
-                                value={productName}
-                                onChange={(e) => { setProductName((e.target.value).trimStart()) }}
-                            />
-                            {showErrors && submittedForm && frontendErrors?.productName && <p className="errors-text">{frontendErrors.productName}</p>}
-                            {submittedForm && backendErrors?.product_name && <p className="errors-text">{backendErrors.product_name}</p>}
-                        </div>
-
-                        <div className='product-type-div'>
-                            <label>Product Type:<span style={{ color: '#8B0000', fontWeight: '600' }}> * </span></label>
-                            <select className='product-type-select' value={productType} onChange={(e) => { setProductType(e.target.value) }}>
-                                <option value="" disabled>--</option>
-                                <option value="Cleanser">Cleanser</option>
-                                <option value="Exfoliator">Exfoliator</option>
-                                <option value="Treatment">Treatment</option>
-                                <option value="Serum">Serum</option>
-                                <option value="Sunscreen">Sunscreen</option>
-                                <option value="Moisturizer">Moisturizer</option>
-                                <option value="Toner">Toner</option>
-                                <option value="Face Mask">Face Mask</option>
-                                <option value="Eye Serum">Eye Serum</option>
-                                <option value="Eye Cream">Eye Cream</option>
-                                <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
-                            </select>
-                            {showErrors && submittedForm && frontendErrors?.productType && <p className="errors-text">{frontendErrors.productType}</p>}
-                        </div>
-
-                        <div className='description-div'>
-                            <label>Description: <span style={{ color: '#8B0000', fontWeight: '600' }}> *</span></label>
-                            <textarea
-                                ref={descriptionRef}
-                                value={description}
-                                onChange={(e) => { setDescription((e.target.value).trimStart()) }}
-                            ></textarea>
-                            <p className='description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                            {showErrors && submittedForm && frontendErrors?.description && <p className="errors-text">{frontendErrors.description}</p>}
-                        </div>
+        <div className='update-product-container'>
+            <h1 className="update-product-heading-div">Update Product</h1>
+            <div className="product-form-close-modal-div" onClick={()=> closeModal()}>
+                <Icon 
+                    icon="material-symbols-light:close" 
+                    width="25" 
+                    height="25" 
+                />
+            </div>
+            <form className='update-product-form' onSubmit={handleSubmit}>
+            <div className='create-product-fields'>
+                    <div className='f-brandname'>
+                        <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
+                        <input
+                            required
+                            className='product-input'
+                            type="text"
+                            value={brandName}
+                            onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
+                        />
+                        {showErrors && submittedForm && frontendErrors?.brandName && (
+                            <div className="errors-div">
+                                <p className="errors-text">{frontendErrors.brandName}</p>
+                            </div>
+                        )}  
                     </div>
-
-
-                    <div className='product-form-right'>
-                        <div className='key-ingredients-div'>
-                            <label>Key Ingredients: </label>
-                            <input
-                                type="text"
-                                value={keyIngredients}
-                                onChange={(e) => { setKeyIngredients((e.target.value).trimStart()) }}
-                            />
-                            {showErrors && submittedForm && frontendErrors?.keyIngredients && <p className="errors-text">{frontendErrors.keyIngredients}</p>}
+                </div>
+                <div className='f-productname'>
+                    <label>Product Name<span style={{color: "#8B0000"}}>*</span></label>
+                    <input
+                        required
+                        className='product-input'
+                        type="text"
+                        value={productName}
+                        onChange={(e) => { setProductName((e.target.value).trimStart()) }}
+                    />
+                    {showErrors && submittedForm && frontendErrors?.productName && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productName}</p>
                         </div>
-
-
-                        <div className='product-link-div'>
-                            <label>Product Link: </label>
-                            <input
-                                type="text"
-                                value={productLink}
-                                onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
-                            />
-                            {showErrors && submittedForm && frontendErrors?.productLink && <p className="errors-text">{frontendErrors.productLink}</p>}
+                    )}  
+                    {submittedForm && backendErrors?.product_name && (
+                        <div>
+                            <p className="errors-text">{backendErrors.product_name}</p>
                         </div>
-                        {/* <div className='preview-img-div'>
-                            <label>Preview Image:<span style={{color: '#8B0000', fontWeight:'600'}}> * </span></label>
-                            <input
-                                type='text'
-                                value={previewImg}
-                                onChange={(e) => {setPreviewImg(e.target.value)}}
-                            />
-                            {showErrors && submittedForm && frontendErrors?.previewImg && <p className="errors-text">{frontendErrors.previewImg}</p>}
-                        </div> */}
-                    </div>
+                    )}
+                </div>
+                <div className='f-producttype'>
+                    <label>Product Type<span style={{color: "#8B0000"}}>*</span></label>
+                    <select 
+                        required
+                        className='product-input' 
+                        value={productType} 
+                        onChange={(e) => { setProductType(e.target.value) }}>
+                        <option value="" disabled>--</option>
+                        <option value="Cleanser">Cleanser</option>
+                        <option value="Exfoliator">Exfoliator</option>
+                        <option value="Treatment">Treatment</option>
+                        <option value="Serum">Serum</option>
+                        <option value="Sunscreen">Sunscreen</option>
+                        <option value="Moisturizer">Moisturizer</option>
+                        <option value="Toner">Toner</option>
+                        <option value="Face Mask">Face Mask</option>
+                        <option value="Eye Serum">Eye Serum</option>
+                        <option value="Eye Cream">Eye Cream</option>
+                        <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
+                    </select>
+                    {showErrors && submittedForm && frontendErrors?.productType && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productType}</p>
+                        </div>
+                    )}  
+                </div>
+                <div className='f-description'>
+                    <label>Description<span style={{color: "#8B0000"}}>*</span></label>
+                    <textarea
+                        required
+                        className='product-textarea'
+                        ref={descriptionRef}
+                        value={description}
+                        onChange={(e) => { setDescription((e.target.value).trimStart()) }}
+                    ></textarea>
+                    <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
+                    {showErrors && submittedForm && frontendErrors?.description && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.description}</p>
+                        </div>
+                    )}  
+                </div>
+                <div className='f-keyingredients'>
+                    <label>Key Ingredients</label>
+                    <input
+                        className='product-input'
+                        type="text"
+                        placeholder='Key Ingredient #1'
+                        value={keyIngredient1}
+                        onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
+                    />
+                    <input
+                        className='product-input'
+                        type="text"
+                        placeholder='Key Ingredient #2'
+                        value={keyIngredient2}
+                        onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
+                    />
+                    <input
+                        className='product-input'
+                        type="text"
+                        placeholder='Key Ingredient #3'
+                        value={keyIngredient3}
+                        onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
+                    />
+                    {showErrors && submittedForm && frontendErrors?.keyIngredients && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.keyIngredients}</p>
+                        </div>
+                    )}  
+                </div>
+                <div className='f-productlink'>
+                    <label>Product Link</label>
+                    <input
+                        className='product-input'
+                        type="text"
+                        value={productLink}
+                        onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
+                    />
+                    {showErrors && submittedForm && frontendErrors?.productLink && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.productLink}</p>
+                        </div>
+                    )}  
                 </div>
                 <div className='create-product-button-div'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Update</button>
