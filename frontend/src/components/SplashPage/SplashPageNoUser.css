@@ -4,8 +4,6 @@
     display: flex;
     justify-content: center;
     position: relative;
-    top: 0;
-    left: 0;
     background-image: url('../../assets/bamboo-sp-bkgd.jpeg');
     background-size: contain;
     font-family: 'Barlow', sans-serif;
@@ -32,6 +30,10 @@
     z-index: 2;
     margin-top: 250px;
     color: #FFFFFF;
+}
+
+.splashpage-nouser-heading {
+    font-size: 160px;
 }
 
 .splashpage-subtext-container {
@@ -68,4 +70,18 @@
 
 .login-modal-button:hover {
     opacity: 0.8;
+}
+
+
+
+@media (max-width: 1045px) {
+    .splashpage-nouser-heading {
+        font-size: 100px;
+    }
+}
+
+@media (max-width: 700px) {
+    .splashpage-nouser-heading {
+        font-size: 75px;
+    }
 }
