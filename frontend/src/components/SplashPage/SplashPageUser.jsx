@@ -5,7 +5,6 @@ function SplashPageUser() {
     const user = useSelector(state => state.session.user);
     const totalProducts = useSelector(state => state.products.allProducts);
     const totalCollections = useSelector(state => state.collections.allCollections);
-    console.log(totalProducts)
 
     return (
         <div className="splashpage-user-container">
