@@ -20,7 +20,7 @@ function Footer () {
                 </div>
                 <div className="footer-personal-github-link">
                     <a href="https://github.com/kryskimmel" target="_blank" rel="noreferrer" className="personal-github-link">
-                        <p style={{display:'flex', justifyContent:'center', fontWeight:'600'}}>
+                        <p style={{display:'flex', justifyContent:'center', alignItems:'center', fontWeight:'600', gap:'2px'}}>
                             <Icon icon="fluent:star-20-filled" width={20} height={20} /> Krystal&apos;s Github
                         </p>
                     </a>
