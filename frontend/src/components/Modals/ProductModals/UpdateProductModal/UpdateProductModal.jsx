@@ -17,24 +17,40 @@ function UpdateProductModal({ productId, product }) {
     const [productName, setProductName] = useState(product.product_name);
     const [productType, setProductType] = useState(product.product_type);
     const [description, setDescription] = useState(product.description);
-    const [keyIngredientsArr, setKeyIngredientsArr] = useState([]);
     const prevKeyIngredients = product.key_ingredients?.split(",")
     const [keyIngredient1, setKeyIngredient1] = useState(prevKeyIngredients?.[0]);
     const [keyIngredient2, setKeyIngredient2] = useState(prevKeyIngredients?.[1]);
     const [keyIngredient3, setKeyIngredient3] = useState(prevKeyIngredients?.[2]);
     const [keyIngredients, setKeyIngredients] = useState("");
+    // eslint-disable-next-line no-unused-vars
+    const [keyIngredientsArr, setKeyIngredientsArr] = useState([keyIngredient1, keyIngredient2, keyIngredient3]);
     const [productLink, setProductLink] = useState(product.product_link);
-    const [previewImg, setPreviewImg] = useState(product.preview_image);
+    const [previewImage, setPreviewImage] = useState(product.preview_image);
+    const [previewImageURL, setPreviewImageURL] = useState(null);
+    const [showPreviewImage, setShowPreviewImage] = useState(false);
     const [frontendErrors, setFrontendErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    const submitButtonCN = isDisabled ? "disabled-submit-button" : "enabled-submit-button";
-    const requiredFields = brandName && productName && productType && description
-    const validationErrors = {};
+    const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
-    console.log('the product?', product)
+
+    // required fields to be filled in by user
+    const requiredFields = 
+    brandName && 
+    productName && 
+    productType && 
+    description
+
+    useEffect(() => {
+        if (!requiredFields) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false)
+        }
+    }, [dispatch, requiredFields]);
+    
 
     useEffect(() => {
         if (product) {
@@ -44,20 +60,52 @@ function UpdateProductModal({ productId, product }) {
             setDescription(product.description || "")
             setKeyIngredients(product.key_ingredients || "")
             setProductLink(product.product_link || "")
-            setPreviewImg(product.preview_image || "")
+            setPreviewImage(product.preview_image || "")
         }
-    }, [])
+    }, [product])
 
 
+    const addToKeyIngredients = () => {
+        const ingredients = [];
+        if (keyIngredient1) ingredients.push(keyIngredient1);
+        if (keyIngredient2) ingredients.push(keyIngredient2);
+        if (keyIngredient3) ingredients.push(keyIngredient3);
+        setKeyIngredientsArr(ingredients);
+    };
+ 
     useEffect(() => {
-        if (!requiredFields) {
-            setIsDisabled(true);
+        addToKeyIngredients();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyIngredient1, keyIngredient2, keyIngredient3]);
+
+
+    // function to prepare image for sending to AWS S3
+    const updateImage = async (e) => { 
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+            setPreviewImage(reader.result);
+            }
+            setPreviewImageURL(file);
+            setShowPreviewImage(true);
         } else {
-            setIsDisabled(false)
+            setPreviewImageURL(null);
+            setShowPreviewImage(false);
+            setPreviewImage(null);
         }
-    });
+    };
+
+    console.log('preview image url', previewImageURL)
+    console.log('preview img to display', previewImage)
+
+
+
+
 
     useEffect(() => {
+        const validationErrors = {};
         const inputRequired = "Input is required."
         const cannotStartWithSpaces = "Input cannot begin with a space."
         const maxChar60 = "Input must not exceed 60 characters."
@@ -98,20 +146,20 @@ function UpdateProductModal({ productId, product }) {
         e.preventDefault();
         setSubmittedForm(true);
 
-        const updatedProduct = {
-            "brand_name": brandName.trimEnd(),
-            "product_name": productName.trimEnd(),
-            "product_type": productType,
-            "description": description.trimEnd(),
-            "key_ingredients": keyIngredients.trimEnd(),
-            "product_link": productLink.trimEnd(),
-            "user_id": user.id,
-            "image_url": previewImg
-        };
+        if (Object.keys(frontendErrors).length === 0) {
+            const keyIngredientsString = keyIngredientsArr.join(', ');
 
-        try {
-            const data = await dispatch(editProduct({productId, updatedProductData:updatedProduct}));
+            const formData = new FormData();
+            formData.append("brand_name", brandName.trimEnd());
+            formData.append("product_name", productName.trimEnd());
+            formData.append("product_type", productType);
+            formData.append("description", description.trimEnd());
+            formData.append("key_ingredients", keyIngredientsString);
+            formData.append("product_link", productLink.trimEnd());
+            formData.append("user_id", user.id);
+            formData.append("image_url", previewImageURL)
 
+            const data = dispatch(editProduct({productId, updatedProductData:formData}));
             if (Array.isArray(data)) {
                 const dataErrors = {};
                 data?.forEach(error => {
@@ -119,16 +167,13 @@ function UpdateProductModal({ productId, product }) {
                     dataErrors[key.trim()] = value.trim();
                 });
                 setBackendErrors(dataErrors);
-            } else {
-                if (Object.values(frontendErrors).length === 0) {
-                    if (window.location.href.includes('/users/current/favorites')) {
-                        window.location.reload();
-                    }
-                    closeModal();
+            } 
+            else {
+                if (window.location.href.includes('/users/current/favorites')) {
+                    window.location.reload();
                 }
+                closeModal();
             }
-        } catch (error) {
-            throw new Error(`There was an error in submitting your form for creating a new product: ${error}`);
         }
     };
 
@@ -266,11 +311,56 @@ function UpdateProductModal({ productId, product }) {
                         </div>
                     )}  
                 </div>
-                <div className='create-product-button-div'>
+                <div className='f-previewimg'>
+                    <label htmlFor='product-file-upload'>Preview Image</label>
+                    <input
+                        type='file'
+                        id='product-file-upload'
+                        name='image_url'
+                        accept='.jpeg, .jpg, .png, .webp'
+                        onChange={updateImage}
+                        style={{marginTop:"2px", cursor:"pointer"}}
+                    />
+                    {showErrors && submittedForm && frontendErrors?.previewImage && (
+                        <div className="errors-div">
+                            <p className="errors-text">{frontendErrors.previewImage}</p>
+                        </div>
+                    )}  
+                </div>
+                <div className="selected-preview-img-div">
+                    {!showPreviewImage && previewImage && !previewImageURL && (
+                        <>
+                            <img
+                            src={previewImage}
+                            alt="product preview thumbnail"
+                            style={{
+                                width: "100px",
+                                height: "100px",
+                                border: "1px solid #d4d3d1",
+                                padding: "3px",
+                                position: "relative",
+                            }}/>
+                        </>
+                    )}
+                    {showPreviewImage && previewImage && previewImageURL && (
+                        <div className="preview-img-div">
+                            <img
+                            src={previewImage}
+                            alt="preview"
+                            style={{
+                                width: "100px",
+                                height: "100px",
+                                border: "1px solid #d4d3d1",
+                                padding: "3px",
+                                position: "relative",
+                            }}/>
+                        </div>
+                    )}
+                </div>
+                <div className='update-product-button-div'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Update</button>
                 </div>
             </form>
-
         </div>
     )
 }
