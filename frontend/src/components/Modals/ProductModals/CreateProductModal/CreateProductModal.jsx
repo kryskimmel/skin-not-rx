@@ -176,7 +176,7 @@ function CreateProductModal() {
     return (
         <div className='create-product-container'>
             <h1 className='create-product-heading-div'>Create A Product</h1>
-            <div className="signup-form-close-modal-div" onClick={()=> closeModal()}>
+            <div className="product-form-close-modal-div" onClick={()=> closeModal()}>
                 <Icon 
                     icon="material-symbols-light:close" 
                     width="25" 
