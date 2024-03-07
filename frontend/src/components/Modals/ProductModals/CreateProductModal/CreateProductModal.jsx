@@ -331,7 +331,7 @@ function CreateProductModal() {
                         className='preview-img'
                         /> ): null
                     }
-                    </div>
+                </div>
                 <div className='create-product-button'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
                 </div>
