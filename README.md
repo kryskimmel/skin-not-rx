@@ -32,16 +32,19 @@
 <h2 id="screenshots-section">SCREENSHOTS</h2>
 
 <h4>Splash page</h4>
-<img width="1728" alt="splashpage" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/d25d4e0c-3cb6-4ca9-9779-55b6784c2305">
+<img width="1725" alt="splashpage-no-user" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/e118a08f-a45a-405d-9577-25fc661583df">
+
+<h4>Sign Up</h4>
+<img width="1725" alt="signup" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/c6894c12-b412-4420-a0cc-9b1de1bcb727">
 
 <h4>Search</h4>
-<img width="1728" alt="search" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/55ec1286-4fdc-425e-b482-22409ad87f49">
+<img width="1725" alt="search" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/de364bc8-9d43-4df7-af45-200ab99263e2">
 
 <h4>Product detail</h4>
-<img width="1728" alt="product-detail" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/7500d37c-eaf1-4254-a53f-877733183cc8">
+<img width="1725" alt="product-detail" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/f6b5c564-7db2-4e9d-a21d-d25f78f2627a">
 
-<h4>Collection detail</h4>
-<img width="1728" alt="collection-detail" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/c82d3f12-5239-4266-8f51-f22621d17ab9">
+<h4>Favorites</h4>
+<img width="1725" alt="favorites" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/e1dd37ff-e68d-4f88-8635-0ee9edf2e6c1">
 
 
 <h2 id="getting-started-section">Getting Started</h2>
@@ -115,3 +118,6 @@
 
 <br>
 <h3 id="acknowledgments-section">Acknowledgments</h3>
+
+ - Icons by <a href="https://iconify.design/"><i>Iconify</i></a>
+ - Background Image (Splash Page) by <a href="https://openai.com/dall-e-2"><i>DALL·E 2</i></a>
