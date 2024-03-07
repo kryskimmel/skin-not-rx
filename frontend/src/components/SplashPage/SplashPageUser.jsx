@@ -1,10 +1,19 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCurrUserProducts } from "../../redux/product";
+import { getCurrUserCollections } from "../../redux/collection";
 import "./SplashPageUser.css";
 
 function SplashPageUser() {
+    const dispatch =useDispatch();
     const user = useSelector(state => state.session.user);
     const totalProducts = useSelector(state => state.products.allProducts);
     const totalCollections = useSelector(state => state.collections.allCollections);
+
+    useEffect(() => {
+        dispatch(getCurrUserProducts());
+        dispatch(getCurrUserCollections());
+    }, [dispatch])
 
     return (
         <div className="splashpage-user-container">
