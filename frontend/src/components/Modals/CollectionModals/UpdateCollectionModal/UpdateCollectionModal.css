@@ -37,6 +37,7 @@
 .update-collection-form input {
     height: 30px;
     font-size: 16px;
+    padding-left: 5px;
 }
 
 .enabled-collection-update-button {
