@@ -34,3 +34,9 @@
     padding: 10px 20px;
     border-radius: 15px;
 }
+
+.update-product-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
