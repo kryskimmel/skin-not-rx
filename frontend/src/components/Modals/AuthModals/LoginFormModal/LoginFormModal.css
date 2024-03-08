@@ -37,6 +37,12 @@
     margin-top: 10px;
 }
 
+.login-email,
+.login-password {
+    display: flex;
+    flex-direction: column;
+}
+
 .login-inputs-div input{
     border-top:none;
     border-left: none;
