@@ -58,51 +58,52 @@ function SignupFormModal() {
     const nameFormat = /^[a-zA-Z]+$/;
     const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const usernameFormat = /^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$/;
-    const inputRequired = "Input is required."
-    const cannotStartWithSpaces = "Input cannot begin with a space."
-    const maxChar15 = "Input must not exceed 15 characters."
-    const maxChar60 = "Input must not exceed 60 characters."
-    const maxChar255 = "Input must not exceed 255 characters."
-    const minChar3 = "Input must be at least 3 characters long."
-    const passwordLength = "Password must be at least 6 characters long."
-    const emailFormatError = "Not a valid email."
-    const usernameFormatError = "Not a valid username."
-    const nameFormatError = "Input can only contain letters."
+    const inputRequiredError = "Input is required";
+    const beginningSpacesError = "Input cannot begin with a space";
+    const charMax255Error = "Input must not exceed 255 characters";
+    const charMax20Error = "Input must not exceed 20 characters";
+    const charMin2Error = "Input must be at least 2 characters long";
+    const charMin4Error = "Input must be at least 4 characters long";
+    const passwordMinError = "Password must be at least 8 characters long";
+    const lettersOnlyFormatError = "Input can only contain letters";
+    const emailFormatError = "Not a valid email";
+    const usernameFormatError = "Not a valid username";
 
-    if (!firstName) validationErrors.firstName = inputRequired;
-    else if (firstName.startsWith(" ")) validationErrors.firstName = cannotStartWithSpaces;
-    else if (firstName.length > 15) validationErrors.firstName = maxChar15;
-    else if (!nameFormat.test(firstName)) validationErrors.firstName = nameFormatError;
 
-    if (!lastName) validationErrors.lastName = inputRequired;
-    else if (lastName.startsWith(" ")) validationErrors.lastName = cannotStartWithSpaces;
-    else if (lastName.length > 15) validationErrors.lastName = maxChar15;
-    else if (!nameFormat.test(lastName)) validationErrors.lastName = nameFormatError;
+    if (!firstName) validationErrors.firstName = inputRequiredError;
+    else if (firstName.startsWith(" ")) validationErrors.firstName = beginningSpacesError;
+    else if (firstName.length > 20) validationErrors.firstName = charMax20Error;
+    else if (firstName.length < 2) validationErrors.firstName = charMin2Error;
+    else if (!nameFormat.test(firstName)) validationErrors.firstName = lettersOnlyFormatError;
 
-    if (!username) validationErrors.username = inputRequired;
-    else if (username.startsWith(" ")) validationErrors.username = cannotStartWithSpaces;
-    else if (username.length < 3) validationErrors.username = minChar3;
-    else if (username.length > 15) validationErrors.username = maxChar15;
+    if (!lastName) validationErrors.lastName = inputRequiredError;
+    else if (lastName.startsWith(" ")) validationErrors.lastName = beginningSpacesError;
+    else if (lastName.length > 20) validationErrors.lastName = charMax20Error;
+    else if (lastName.length < 2) validationErrors.lastName = charMin2Error;
+    else if (!nameFormat.test(lastName)) validationErrors.lastName = lettersOnlyFormatError;
+
+    if (!username) validationErrors.username = inputRequiredError;
+    else if (username.startsWith(" ")) validationErrors.username = beginningSpacesError;
+    else if (username.length > 20) validationErrors.username = charMax20Error;
+    else if (username.length < 4) validationErrors.username = charMin4Error;
     else if (!usernameFormat.test(username)) validationErrors.username = usernameFormatError;
 
-    if (!email) validationErrors.email = inputRequired;
-    else if (email.startsWith(" ")) validationErrors.email = cannotStartWithSpaces;
-    else if (email.length < 3) validationErrors.email = minChar3;
-    else if (email.length > 60) validationErrors.email = maxChar60;
+    if (!email) validationErrors.email = inputRequiredError;
+    else if (email.startsWith(" ")) validationErrors.email = beginningSpacesError;
+    else if (email.length > 20) validationErrors.email = charMax20Error;
+    else if (email.length < 4) validationErrors.email = charMin4Error;
     else if (!emailFormat.test(email)) validationErrors.email = emailFormatError;
 
-    if (!password) validationErrors.password = inputRequired;
-    else if (password.startsWith(" ")) validationErrors.password = cannotStartWithSpaces;
-    else if (password.length < 6) validationErrors.password = passwordLength;
-    else if (password.length > 15) validationErrors.password = maxChar15;
+    if (!password) validationErrors.password = inputRequiredError;
+    else if (password.startsWith(" ")) validationErrors.password = beginningSpacesError;
+    else if (password.length > 255) validationErrors.password = charMax255Error;
+    else if (password.length < 8) validationErrors.password = passwordMinError;
 
-    if (password !== confirmPassword) validationErrors.confirmPassword = "Confirm Password field must be the same as the Password field";
 
-    if (!profileImage) validationErrors.profileImage = inputRequired;
-
-    if (!skinType) validationErrors.skinType = inputRequired;
-    else if (skinType.startsWith(" ")) validationErrors.skinType = cannotStartWithSpaces;
-    else if (skinType.length > 255) validationErrors.skinType = maxChar255;
+    if (password !== confirmPassword) validationErrors.confirmPassword = "Password inputs do not match";
+    if (!profileImage) validationErrors.profileImage = inputRequiredError;
+    if (!skinType) validationErrors.skinType = inputRequiredError;
+ 
 
     setFrontendErrors(validationErrors);
   }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType]);
