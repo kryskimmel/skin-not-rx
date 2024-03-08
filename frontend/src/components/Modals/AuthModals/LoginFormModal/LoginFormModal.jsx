@@ -49,6 +49,7 @@ function LoginFormModal() {
     } else {
       setShowErrors(false);
       setBackendErrors({});
+      setErrors({});
       closeModal();
     }
   }
