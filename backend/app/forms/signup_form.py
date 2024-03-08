@@ -41,11 +41,11 @@ def char_min4(form, field):
 def password_min(form, field):
     password = field.data
     if len(password) < 8:
-        raise ValidationError('Password must be at least 8 characters long.')
+        raise ValidationError("Password must be at least 8 characters long.")
 
 def beginning_spaces(form, field):
     if field.data.startswith(' '):
-        raise ValidationError('Input cannot begin with a space.')
+        raise ValidationError("Input cannot begin with a space.")
 
 def format_email(form, field):
     email = field.data
