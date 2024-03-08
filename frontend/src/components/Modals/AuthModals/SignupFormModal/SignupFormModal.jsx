@@ -161,7 +161,6 @@ function SignupFormModal() {
           />
         </div>
       </div>
-      {/* {backendErrors.server && <p>{backendErrors.server}</p>} */}
       <form
         onSubmit={handleSubmit}
         encType="multipart/form-data"
