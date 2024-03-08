@@ -7,30 +7,30 @@ from app.models import Product
 
 def char_max60(form, field):
     if len(field.data) > 60:
-        raise ValidationError("Input must not exceed 60 characters.")
+        raise ValidationError("Input must not exceed 60 characters")
 
 def char_max500(form, field):
     if len(field.data) > 500:
-        raise ValidationError("Input must not exceed 500 characters.")
+        raise ValidationError("Input must not exceed 500 characters")
 
 def char_min2(form, field):
     if len(field.data) < 2:
-        raise ValidationError("Input must be at least 2 characters long.")
+        raise ValidationError("Input must be at least 2 characters long")
     
 def char_min4(form, field):
     if len(field.data) < 4:
-        raise ValidationError("Input must be at least 4 characters long.")
+        raise ValidationError("Input must be at least 4 characters long")
 
 def beginning_spaces(form, field):
     if field.data.startswith(' '):
-        raise ValidationError('Input cannot begin with a space.')
+        raise ValidationError("Input cannot begin with a space")
 
 
 def product_name_exists(form, field):
     product_name = field.data
     product_exists = Product.query.filter(Product.product_name == product_name).first()
     if product_exists:
-        raise ValidationError('This product already exists. Please try adding a different product.')
+        raise ValidationError("Please add a different product as a product with this name already exists")
 
 class ProductForm(FlaskForm):
     brand_name = StringField(

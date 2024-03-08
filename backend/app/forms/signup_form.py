@@ -12,7 +12,7 @@ def email_exists(form, field):
     email = field.data
     user = User.query.filter(User.email == email).first()
     if user:
-        raise ValidationError('Email address is already in use.')
+        raise ValidationError("Email address is already in use")
 
 
 def username_exists(form, field):
@@ -20,50 +20,50 @@ def username_exists(form, field):
     username = field.data
     user = User.query.filter(User.username == username).first()
     if user:
-        raise ValidationError('Username is already in use.')
+        raise ValidationError("Username is already in use")
     
 def char_max255(form, field):
     if len(field.data) > 255:
-        raise ValidationError("Input must not exceed 255 characters.")
+        raise ValidationError("Input must not exceed 255 characters")
     
 def char_max20(form, field):
     if len(field.data) > 20:
-        raise ValidationError("Input must not exceed 20 characters.")
+        raise ValidationError("Input must not exceed 20 characters")
 
 def char_min2(form, field):
     if len(field.data) < 2:
-        raise ValidationError("Input must be at least 2 characters long.")
+        raise ValidationError("Input must be at least 2 characters long")
     
 def char_min4(form, field):
     if len(field.data) < 4:
-        raise ValidationError("Input must be at least 4 characters long.")
+        raise ValidationError("Input must be at least 4 characters long")
 
 def password_min(form, field):
     password = field.data
     if len(password) < 8:
-        raise ValidationError("Password must be at least 8 characters long.")
+        raise ValidationError("Password must be at least 8 characters long")
 
 def beginning_spaces(form, field):
     if field.data.startswith(' '):
-        raise ValidationError("Input cannot begin with a space.")
+        raise ValidationError("Input cannot begin with a space")
 
 def format_email(form, field):
     email = field.data
     email_pattern = r"^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
     if not re.match(email_pattern, email):
-        raise ValidationError("Not a valid email.")
+        raise ValidationError("Not a valid email")
 
 def format_username(form, field):
     username = field.data
     username_pattern = r"^[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]$"
     if not re.match(username_pattern, username):
-        raise ValidationError("Not a valid username.")
+        raise ValidationError("Not a valid username")
 
 
-def name_format(form, field):
+def format_letters_only(form, field):
     name_pattern = r"^[a-zA-Z]*$"
     if not re.match(name_pattern, field.data):
-        raise ValidationError("Input can only contain letters.")
+        raise ValidationError("Input can only contain letters")
 
 
 
@@ -72,7 +72,7 @@ class SignUpForm(FlaskForm):
         'first_name', 
         validators=[
             DataRequired(), 
-            name_format, 
+            format_letters_only, 
             char_min2,
             char_max20,
             beginning_spaces
@@ -81,7 +81,7 @@ class SignUpForm(FlaskForm):
         'last_name', 
         validators=[
             DataRequired(), 
-            name_format, 
+            format_letters_only, 
             char_min2,
             char_max20,
             beginning_spaces
