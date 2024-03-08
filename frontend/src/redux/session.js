@@ -38,12 +38,16 @@ export const thunkLogin = createAsyncThunk(
 export const thunkSignup = createAsyncThunk(
   'session/signup', async (formData) => {
     const req = await fetch('/api/auth/signup', {
-      method:'POST',
-      headers: {'Content-type': 'application/json'},
+      method: 'POST',
       body: formData
     });
     if (!req.ok) {
-      throw new Error(`There was an error in the signup process`)
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in the signup process`);
+      }
     }
     const res = await req.json();
     return res;
@@ -88,6 +92,9 @@ const sessionSlice = createSlice({
       state.user = null;
     })
     .addCase(thunkLogin.rejected, (state, action) => {
+      state.errors = action.error.message;
+    })
+    .addCase(thunkSignup.rejected, (state, action) => {
       state.errors = action.error.message;
     })
   }
