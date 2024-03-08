@@ -22,10 +22,10 @@ def username_exists(form, field):
     if user:
         raise ValidationError('Username is already in use.')
     
-def char_max16(form, field):
-    if len(field.data) > 16:
-        raise ValidationError("Input must not exceed 16 characters.")
-
+def char_max255(form, field):
+    if len(field.data) > 255:
+        raise ValidationError("Input must not exceed 255 characters.")
+    
 def char_max20(form, field):
     if len(field.data) > 20:
         raise ValidationError("Input must not exceed 20 characters.")
@@ -92,7 +92,7 @@ class SignUpForm(FlaskForm):
             DataRequired(), 
             username_exists, 
             char_min4,
-            char_max16,
+            char_max20,
             beginning_spaces,
             format_username
         ])
@@ -111,7 +111,7 @@ class SignUpForm(FlaskForm):
         validators=[
             DataRequired(), 
             password_min,
-            char_max16,
+            char_max255,
             beginning_spaces
         ])
     profile_image = FileField(
