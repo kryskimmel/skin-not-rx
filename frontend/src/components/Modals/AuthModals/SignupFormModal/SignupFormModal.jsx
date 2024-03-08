@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import { thunkSignup } from "../../../../redux/session";
 import { Icon } from "@iconify/react";
+import formErrorsObj from "../../../../utils/formErrorsObj";
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -17,25 +18,25 @@ function SignupFormModal() {
   const [profileImage, setProfileImage] = useState(""); // to be displayed on frontend
   const [skinType, setSkinType] = useState("");
   const [imgUrl, setImgUrl] = useState(""); // to be sent to AWS
-  const [frontendErrors, setFrontendErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [backendErrors, setBackendErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
-  const [submittedForm, setSubmittedForm] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { closeModal } = useModal();
   const submitButtonCN = isDisabled ? "disabled-signup-submit-button" : "enabled-signup-submit-button"  // toggle submit button classname
 
 
   useEffect(() => {
-    if (submittedForm && Object.values(frontendErrors).length > 0) {
+    if (isFormSubmitted && Object.values(errors).length > 0) {
       setIsDisabled(true);
     } else {
       setIsDisabled(false)
     }
-  }, [backendErrors, frontendErrors, submittedForm]);
+  }, [backendErrors, errors, isFormSubmitted]);
 
 
-  const addImage = async (e) => {  // function to prepare image for sending to AWS S3
+  const addImage = async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     if (file) {
@@ -105,21 +106,20 @@ function SignupFormModal() {
     if (!skinType) validationErrors.skinType = inputRequiredError;
  
 
-    setFrontendErrors(validationErrors);
+    setErrors(validationErrors);
   }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType]);
 
-  useEffect(() => {
-    setShowErrors(Object.values(frontendErrors).length > 0);
-  }, [frontendErrors, backendErrors]);
+  // useEffect(() => {
+  //   setShowErrors(Object.values(errors).length > 0);
+  // }, [errors, backendErrors]);
 
 
-  const handleSubmit = async (e) => {    // handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmittedForm(true);
     if (password !== confirmPassword) {
-      return setFrontendErrors({
+      return setErrors({
         confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+          "Password inputs do not match",
       });
     }
     const formData = new FormData();
@@ -131,10 +131,19 @@ function SignupFormModal() {
     formData.append("profile_image", imgUrl);
     formData.append("skin_type", skinType)
 
-    const data = await dispatch(thunkSignup(formData));
-    if (data) {
-      setBackendErrors(data)
+    const res = await dispatch(thunkSignup(formData));
+    if (res.error) {
+      setIsFormSubmitted(true);
+      setShowErrors(true);
+      if (res.error.message) {
+        setBackendErrors(formErrorsObj(res.error.message));
+      } else {
+        setBackendErrors({})
+      }
     } else {
+      setShowErrors(false);
+      setBackendErrors({});
+      setErrors({});
       closeModal();
     }
   };
@@ -167,13 +176,12 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.firstName && (
+            {showErrors && isFormSubmitted && errors?.firstName && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.firstName}</p>
+                <p className="errors-text">{errors.firstName}</p>
               </div>
             )}
           </div>
-      
           <div className="last-name-div">
             <label>Last Name<span style={{color: "#8B0000"}}>*</span></label>
             <input
@@ -183,14 +191,13 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.lastName && (
+            {showErrors && isFormSubmitted && errors?.lastName && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.lastName}</p>
+                <p className="errors-text">{errors.lastName}</p>
               </div>
             )}
           </div>
         </div>
-       
         <div className="signup-section" id="signup-sec-2">
           <div className="username-div">
             <label>Username<span style={{color: "#8B0000"}}>*</span></label>
@@ -201,9 +208,14 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.username && (
+            {showErrors && backendErrors?.username && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.username}</p>
+                  <p className="errors-text">{backendErrors.username}</p>
+              </div>
+            )} 
+            {showErrors && isFormSubmitted && errors?.username && (
+              <div className="errors-div">
+                <p className="errors-text">{errors.username}</p>
               </div>
             )}
           </div>
@@ -216,9 +228,14 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.email && (
+            {showErrors && backendErrors?.email && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.email}</p>
+                  <p className="errors-text">{backendErrors.email}</p>
+              </div>
+            )} 
+            {showErrors && isFormSubmitted && errors?.email && (
+              <div className="errors-div">
+                <p className="errors-text">{errors.email}</p>
               </div>
             )}
           </div>
@@ -234,9 +251,9 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.password && (
+            {showErrors && isFormSubmitted && errors?.password && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.password}</p>
+                <p className="errors-text">{errors.password}</p>
               </div>
             )}
           </div>
@@ -249,9 +266,9 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && submittedForm && frontendErrors?.confirmPassword && (
+            {showErrors && isFormSubmitted && errors?.confirmPassword && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.confirmPassword}</p>
+                <p className="errors-text">{errors.confirmPassword}</p>
               </div>
             )}
           </div>
@@ -269,9 +286,9 @@ function SignupFormModal() {
               style={{marginTop:"2px", cursor:"pointer"}}
               required
             />
-            {showErrors && submittedForm && frontendErrors?.profileImage && (
+            {showErrors && isFormSubmitted && errors?.profileImage && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.profileImage}</p>
+                <p className="errors-text">{errors.profileImage}</p>
               </div>
             )}
           </div>
@@ -289,9 +306,9 @@ function SignupFormModal() {
               <option value="Combination">Combination</option>
               <option value="Acne-Prone">Acne-Prone</option>
             </select>
-            {showErrors && submittedForm && frontendErrors?.skinType && (
+            {showErrors && isFormSubmitted && errors?.skinType && (
               <div className="errors-div">
-                <p className="errors-text">{frontendErrors.skinType}</p>
+                <p className="errors-text">{errors.skinType}</p>
               </div>
             )}
           </div>
