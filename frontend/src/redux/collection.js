@@ -89,9 +89,11 @@ const collectionSlice = createSlice({
     .addCase(getCurrUserCollections.fulfilled, (state, action) => {
       state.allCollections = action.payload|| [];
       state.byId = {};
-      action.payload.forEach((collection) => {
-        state.byId[collection.id] = collection;
-      })
+      if (Array.isArray(action.payload)) {
+        action.payload.forEach((collection) => {
+          state.byId[collection.id] = collection;
+        })
+      }
     })
     .addCase(addCollection.fulfilled, (state, action) => {
       const collection = action.payload;
