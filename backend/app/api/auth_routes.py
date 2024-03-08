@@ -95,7 +95,7 @@ def sign_up():
             return user.to_dict(), 201
 
     except Exception as e:
-        return {'error': str(e)}, 400
+        return {'error': str(e)}, 500
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
