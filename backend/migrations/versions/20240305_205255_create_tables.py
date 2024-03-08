@@ -54,7 +54,7 @@ def upgrade() -> None:
     )
     op.create_table('collections',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=60), nullable=False),
+    sa.Column('name', sa.String(length=20), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
