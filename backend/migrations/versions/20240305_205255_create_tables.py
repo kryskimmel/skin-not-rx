@@ -40,7 +40,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('brand_name', sa.String(length=60), nullable=False),
     sa.Column('product_name', sa.String(length=60), nullable=False),
-    sa.Column('product_type', sa.String(length=60), nullable=False),
+    sa.Column('product_type', sa.String(length=500), nullable=False),
     sa.Column('description', sa.String(length=500), nullable=False),
     sa.Column('key_ingredients', sa.String(length=500), nullable=True),
     sa.Column('product_link', sa.String(length=500), nullable=True),
