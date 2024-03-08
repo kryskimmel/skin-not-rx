@@ -109,10 +109,6 @@ function SignupFormModal() {
     setErrors(validationErrors);
   }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType]);
 
-  // useEffect(() => {
-  //   setShowErrors(Object.values(errors).length > 0);
-  // }, [errors, backendErrors]);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault()
