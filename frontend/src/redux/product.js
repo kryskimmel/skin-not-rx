@@ -27,14 +27,18 @@ export const getCurrUserProducts = createAsyncThunk(
 );
 
 export const addProduct = createAsyncThunk(
-  'products/createProduct',
-  async (newProductData) => {
+  'products/createProduct', async (newProductData) => {
     const req = await fetch('/api/products/', {
       method: 'POST',
       body: newProductData,
     });
     if (!req.ok) {
-      throw new Error(`There was an error in creating your new product`);
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in creating your new product`);
+      }
     }
     const res = await req.json();
     return res;
@@ -73,7 +77,8 @@ export const removeProduct = createAsyncThunk(
 const initialProductState = {
   allProducts: [],
   byId: {},
-  byProductType: []
+  byProductType: [],
+  errors: null
 };
 
 
@@ -145,7 +150,10 @@ const productSlice = createSlice({
             (product) => product.id !== productId
           );
         }
-      });
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.errors = action.errors = action.error.message;
+      })
     }
 });
 
