@@ -186,6 +186,8 @@
     font-size: 100px;
     padding: 10px;
     text-align: left;
+    font-weight: 400;
+    color: #4d4b4b;
 }
 
 @media (max-width: 1045px) {
