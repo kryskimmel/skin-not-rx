@@ -2,15 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react';
 import charCountRemaining from '../../../../utils/charCountRemaining';
+import formErrorsObj from '../../../../utils/formErrorsObj';
 import "./CreateProductModal.css";
 
 function CreateProductModal() {
-    const dispatch = useDispatch();
-    const descriptionRef = useRef();
-    const { closeModal } = useModal();
-    const user = useSelector(state => state.session.user);
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -26,10 +23,13 @@ function CreateProductModal() {
     const [showPreviewImage, setShowPreviewImage] = useState(false);
     const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
-    // eslint-disable-next-line no-unused-vars
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const dispatch = useDispatch();
+    const descriptionRef = useRef();
+    const { closeModal } = useModal();
+    const user = useSelector(state => state.session.user);
     const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
     // required fields to be filled in by user
@@ -142,13 +142,11 @@ function CreateProductModal() {
     console.log('backend errors?', backendErrors)
     console.log('key ingredients--', keyIngredientsArr)
     console.log('key ingredients state -->', keyIngredients)
+    console.log('any frontend errors-->', errors)
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmittedForm(true);
-    
-        if (Object.keys(errors).length === 0) {
             const keyIngredientsString = keyIngredientsArr.join(', ');
     
             const formData = new FormData();
@@ -161,17 +159,21 @@ function CreateProductModal() {
             formData.append('user_id', user.id);
             formData.append('image_url', previewImageURL);
     
-            const data = dispatch(addProduct(formData));
-            if (Array.isArray(data)) {
-                const dataErrors = {};
-                data.forEach(error => {
-                    const [key, value] = error.split(':');
-                    dataErrors[key.trim()] = value.trim();
-                });
-                setBackendErrors(dataErrors);
+            const res = await dispatch(addProduct(formData));
+            if (res.error) {
+                setSubmittedForm(true);
+                setShowErrors(true);
+                if (res.error.message) {
+                    setBackendErrors(formErrorsObj(res.error.message));
+                } else {
+                    setBackendErrors({});
+                }
             } else {
+                setShowErrors(false);
+                setBackendErrors({});
+                setErrors({});
                 closeModal();
-            }
+            
         }
     };
 
