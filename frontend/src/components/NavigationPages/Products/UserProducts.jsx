@@ -99,8 +99,8 @@ function UserProducts() {
                         </div>
                         ))
                         :(
-                        <div>
-                            <p>You have not added any products!</p>
+                        <div className="no-products-div">
+                            <p className="no-products-text">You have not added any products!</p>
                         </div>
                     )}
                 </div>
