@@ -97,7 +97,6 @@ def add_product():
 
             db.session.add(new_product)
             db.session.commit()
-
             return jsonify(new_product.to_dict()), 201
     except Exception as e:
         print('error------', str(e))
