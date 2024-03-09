@@ -173,7 +173,6 @@ function CreateProductModal() {
                 setBackendErrors({});
                 setErrors({});
                 closeModal();
-            
         }
     };
 
