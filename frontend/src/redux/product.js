@@ -119,9 +119,7 @@ const productSlice = createSlice({
         if (!Array.isArray(state.allProducts)) {
           state.allProducts = [];
         }
-
         state.allProducts = [...state.allProducts, product];
-
         const productTypeKey = `${product.product_type}s`;
         state.byProductType[productTypeKey] = state.byProductType[productTypeKey]
           ? [...state.byProductType[productTypeKey], product]
