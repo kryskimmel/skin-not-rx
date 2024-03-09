@@ -65,14 +65,12 @@ class ProductForm(FlaskForm):
     key_ingredients = StringField(
         'key_ingredients', 
         validators=[
-            char_min2,
             char_max500,
             beginning_spaces
         ])
     product_link = StringField(
         'product_link', 
         validators=[
-            char_min4,
             char_max500,
             beginning_spaces
         ])
