@@ -61,7 +61,7 @@ function UserCollections() {
                 </div>
             </div>
             <div className="coll-tiles-div">
-                {userCollections ? userCollections.map((collection) => (
+                {userCollections.length ? userCollections.map((collection) => (
                     <div key={`colltile-${collection.id}-${collection.name}`}>
                         <OpenModalButton
                             className="coll-tile-btn"
