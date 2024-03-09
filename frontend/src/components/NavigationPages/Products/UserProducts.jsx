@@ -62,7 +62,7 @@ function UserProducts() {
             </div>
             <div className="prod-page-contents-div">
                 <div className="prod-tiles-div">
-                    {userProducts ? userProducts.map((attr) => (
+                    {userProducts.length ? userProducts.map((attr) => (
                         <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
                             <OpenModalButton
                                 className="prod-tile-btn"
