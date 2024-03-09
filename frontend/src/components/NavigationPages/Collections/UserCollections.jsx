@@ -101,8 +101,8 @@ function UserCollections() {
                         />
                     </div>
                 )) : (
-                    <div>
-                        <h2>You have not created any collections</h2>
+                    <div className="no-collections-div">
+                        <p className="no-collections-text">You have not created any collections</p>
                     </div>
                 )}
             </div>
