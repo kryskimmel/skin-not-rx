@@ -24,7 +24,7 @@ function CreateProductModal() {
     const [previewImage, setPreviewImage] = useState("");
     const [previewImageURL, setPreviewImageURL] = useState("");
     const [showPreviewImage, setShowPreviewImage] = useState(false);
-    const [frontendErrors, setFrontendErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     // eslint-disable-next-line no-unused-vars
     const [showErrors, setShowErrors] = useState(false);
@@ -87,54 +87,57 @@ function CreateProductModal() {
     // useEffect to track validation errors
     useEffect(() => {
         const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const maxChar500 = "Input must not exceed 500 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+        const inputRequiredError = "Input is required";
+        const beginningSpacesError = "Input cannot begin with a space";
+        const charMax60Error = "Input must not exceed 60 characters";
+        const charMax500Error = "Input must not exceed 500 characters";
+        const charMin2Error = "Input must be at least 2 characters long";
+        const charMin4Error = "Input must be at least 4 characters long";
 
-        if (!brandName) validationErrors.brandName = inputRequired;
-        else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
-        else if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
+        if (!brandName) validationErrors.brandName = inputRequiredError;
+        else if (brandName.startsWith(" ")) validationErrors.brandName = beginningSpacesError;
+        else if (brandName.length > 60) validationErrors.brandName = charMax60Error;
+        else if (brandName.length < 2) validationErrors.brandName = charMin2Error;
 
-        if (!productName) validationErrors.productName = inputRequired;
-        else if (productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
-        else if (productName.length > 60) validationErrors.productName = maxChar60;
+        if (!productName) validationErrors.productName = inputRequiredError;
+        else if (productName.startsWith(" ")) validationErrors.productName = beginningSpacesError;
+        else if (productName.length > 60) validationErrors.productName = charMax60Error;
+        else if (productName.length < 2) validationErrors.productName = charMin2Error;
 
-        if (!productType) validationErrors.productType = inputRequired;
-        else if (productType.length > 60) validationErrors.productType = maxChar60;
+        if (!productType) validationErrors.productType = inputRequiredError;
 
-        if (!description.length) validationErrors.description = inputRequired;
-        else if (description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
-        else if (description.length > 500) validationErrors.description = maxChar500;
+        if (!description.length) validationErrors.description = inputRequiredError;
+        else if (description.startsWith(" ")) validationErrors.description = beginningSpacesError;
+        else if (description.length > 500) validationErrors.description = charMax500Error;
+        else if (description.length < 4) validationErrors.description = charMin4Error;
 
-        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient1 && keyIngredient1.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient1 && keyIngredient1.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient2 && keyIngredient2.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient2 && keyIngredient2.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient3 && keyIngredient3.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient3 && keyIngredient3.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
-        else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
-        else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
+        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = beginningSpacesError;
+        else if (productLink && productLink.length < 4) validationErrors.productLink = charMin4Error;
+        else if (productLink && productLink.length > 500) validationErrors.productLink = charMax500Error;
 
-        if (!previewImage) validationErrors.previewImage = inputRequired;
+        if (!previewImage) validationErrors.previewImage = inputRequiredError;
        
-        setFrontendErrors(validationErrors);
+        setErrors(validationErrors);
         setKeyIngredients(keyIngredientsArr.join(','));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
 
-    console.log('frontenderrors', frontendErrors)
+    console.log('frontenderrors', errors)
     console.log('show errors?', showErrors)
-    console.log(Object.values(frontendErrors).length)
+    console.log(Object.values(errors).length)
     console.log('form submitted?', submittedForm)
     console.log('backend errors?', backendErrors)
     console.log('key ingredients--', keyIngredientsArr)
@@ -145,7 +148,7 @@ function CreateProductModal() {
         e.preventDefault();
         setSubmittedForm(true);
     
-        if (Object.keys(frontendErrors).length === 0) {
+        if (Object.keys(errors).length === 0) {
             const keyIngredientsString = keyIngredientsArr.join(', ');
     
             const formData = new FormData();
@@ -194,9 +197,9 @@ function CreateProductModal() {
                             value={brandName}
                             onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
                         />
-                        {showErrors && submittedForm && frontendErrors?.brandName && (
+                        {showErrors && submittedForm && errors?.brandName && (
                             <div className="errors-div">
-                                <p className="errors-text">{frontendErrors.brandName}</p>
+                                <p className="errors-text">{errors.brandName}</p>
                             </div>
                         )}  
                     </div>
@@ -210,9 +213,9 @@ function CreateProductModal() {
                         value={productName}
                         onChange={(e) => { setProductName((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productName && (
+                    {showErrors && submittedForm && errors?.productName && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productName}</p>
+                            <p className="errors-text">{errors.productName}</p>
                         </div>
                     )}  
                     {submittedForm && backendErrors?.product_name && (
@@ -241,9 +244,9 @@ function CreateProductModal() {
                         <option value="Eye Cream">Eye Cream</option>
                         <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
                     </select>
-                    {showErrors && submittedForm && frontendErrors?.productType && (
+                    {showErrors && submittedForm && errors?.productType && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productType}</p>
+                            <p className="errors-text">{errors.productType}</p>
                         </div>
                     )}  
                 </div>
@@ -257,9 +260,9 @@ function CreateProductModal() {
                         onChange={(e) => { setDescription((e.target.value).trimStart()) }}
                     ></textarea>
                     <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                    {showErrors && submittedForm && frontendErrors?.description && (
+                    {showErrors && submittedForm && errors?.description && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.description}</p>
+                            <p className="errors-text">{errors.description}</p>
                         </div>
                     )}  
                 </div>
@@ -286,9 +289,9 @@ function CreateProductModal() {
                         value={keyIngredient3}
                         onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.keyIngredients && (
+                    {showErrors && submittedForm && errors?.keyIngredients && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.keyIngredients}</p>
+                            <p className="errors-text">{errors.keyIngredients}</p>
                         </div>
                     )}  
                 </div>
@@ -300,9 +303,9 @@ function CreateProductModal() {
                         value={productLink}
                         onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productLink && (
+                    {showErrors && submittedForm && errors?.productLink && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productLink}</p>
+                            <p className="errors-text">{errors.productLink}</p>
                         </div>
                     )}  
                 </div>
@@ -317,9 +320,9 @@ function CreateProductModal() {
                         onChange={addImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
                     />
-                    {showErrors && submittedForm && frontendErrors?.previewImage && (
+                    {showErrors && submittedForm && errors?.previewImage && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.previewImage}</p>
+                            <p className="errors-text">{errors.previewImage}</p>
                         </div>
                     )}  
                 </div>
