@@ -1,4 +1,7 @@
 function formErrorsObj(errorMessage) {
+    if (!errorMessage) {
+      return {};
+    }
     try {
       const errors = JSON.parse(errorMessage);
       if (Array.isArray(errors)) {
