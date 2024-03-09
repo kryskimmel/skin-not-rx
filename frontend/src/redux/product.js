@@ -116,6 +116,10 @@ const productSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         const product = action.payload;
         state.byId[product.id] = product;
+        if (!Array.isArray(state.allProducts)) {
+          state.allProducts = [];
+        }
+
         state.allProducts = [...state.allProducts, product];
 
         const productTypeKey = `${product.product_type}s`;
