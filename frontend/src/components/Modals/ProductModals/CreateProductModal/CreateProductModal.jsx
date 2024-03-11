@@ -147,32 +147,32 @@ function CreateProductModal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-            const keyIngredientsString = keyIngredientsArr.join(', ');
-    
-            const formData = new FormData();
-            formData.append('brand_name', brandName.trim());
-            formData.append('product_name', productName.trim());
-            formData.append('product_type', productType);
-            formData.append('description', description.trim());
-            formData.append('key_ingredients', keyIngredientsString);
-            formData.append('product_link', productLink.trim());
-            formData.append('user_id', user.id);
-            formData.append('image_url', previewImageURL);
-    
-            const res = await dispatch(addProduct(formData));
-            if (res.error) {
-                setSubmittedForm(true);
-                setShowErrors(true);
-                if (res.error.message) {
-                    setBackendErrors(formErrorsObj(res.error.message));
-                } else {
-                    setBackendErrors({});
-                }
+        const keyIngredientsString = keyIngredientsArr.join(', ');
+
+        const formData = new FormData();
+        formData.append('brand_name', brandName.trim());
+        formData.append('product_name', productName.trim());
+        formData.append('product_type', productType);
+        formData.append('description', description.trim());
+        formData.append('key_ingredients', keyIngredientsString);
+        formData.append('product_link', productLink.trim());
+        formData.append('user_id', user.id);
+        formData.append('image_url', previewImageURL);
+
+        const res = await dispatch(addProduct(formData));
+        if (res.error) {
+            setSubmittedForm(true);
+            setShowErrors(true);
+            if (res.error.message) {
+                setBackendErrors(formErrorsObj(res.error.message));
             } else {
-                setShowErrors(false);
                 setBackendErrors({});
-                setErrors({});
-                closeModal();
+            }
+        } else {
+            setShowErrors(false);
+            setBackendErrors({});
+            setErrors({});
+            closeModal();
         }
     };
 
