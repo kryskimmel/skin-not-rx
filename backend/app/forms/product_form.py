@@ -77,6 +77,6 @@ class ProductForm(FlaskForm):
     image_url = FileField(
         'image_url', 
         validators=[
-            FileRequired(), 
+            # FileRequired(), 
             FileAllowed(ALLOWED_EXTENSIONS)
         ])
