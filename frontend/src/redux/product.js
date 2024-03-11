@@ -47,13 +47,20 @@ export const addProduct = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   'products/updateProduct', async ({productId, updatedProductData}) => {
+    for (let [key, value] of updatedProductData.entries()) {
+      console.log('key', key, 'value', value);
+    }
     const req = await fetch(`/api/products/${productId}`, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(updatedProductData)
+      body: updatedProductData,
     });
     if (!req.ok) {
-      throw new Error(`There was an error in updating your product`)
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in updating your product`);
+      }
     }
     const res = await req.json();
     return res;
@@ -134,11 +141,13 @@ const productSlice = createSlice({
         const editedProduct = action.payload;
         state.byId[editedProduct.id] = editedProduct;
         state.allProducts = Object.values(state.byId);
-
         const productTypeKey = `${editedProduct.product_type}s`;
-        state.byProductType[productTypeKey] = state.byProductType[productTypeKey].map(
-          (product) => (product.id === editedProduct.id ? editedProduct : product)
-        );
+        const productsOfType = state.byProductType[productTypeKey];
+        if (Array.isArray(productsOfType)) {
+          state.byProductType[productTypeKey] = productsOfType.map(
+            (product) => (product.id === editedProduct.id ? editedProduct : product)
+          );
+        }
       })
       .addCase(removeProduct.fulfilled, (state, action) => {
         const productId = action.payload;
@@ -152,7 +161,10 @@ const productSlice = createSlice({
         }
       })
       .addCase(addProduct.rejected, (state, action) => {
-        state.errors = action.errors = action.error.message;
+        state.errors = action.error.message;
+      })
+      .addCase(editProduct.rejected, (state, action) => {
+        state.errors = action.error.message;
       })
     }
 });
