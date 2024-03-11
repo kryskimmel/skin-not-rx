@@ -6,6 +6,8 @@ import { Icon } from '@iconify/react';
 import { editProduct } from "../../../../redux/product";
 import charCountRemaining from '../../../../utils/charCountRemaining';
 import "./UpdateProductModal.css";
+import formErrorsObj from "../../../../utils/formErrorsObj";
+
 
 
 function UpdateProductModal({ productId, product }) {
@@ -25,10 +27,10 @@ function UpdateProductModal({ productId, product }) {
     // eslint-disable-next-line no-unused-vars
     const [keyIngredientsArr, setKeyIngredientsArr] = useState([keyIngredient1, keyIngredient2, keyIngredient3]);
     const [productLink, setProductLink] = useState(product.product_link);
-    const [previewImage, setPreviewImage] = useState(product.preview_image);
-    const [previewImageURL, setPreviewImageURL] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [previewImageURL, setPreviewImageURL] = useState(product.preview_image);
     const [showPreviewImage, setShowPreviewImage] = useState(false);
-    const [frontendErrors, setFrontendErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
@@ -72,6 +74,8 @@ function UpdateProductModal({ productId, product }) {
         if (keyIngredient3) ingredients.push(keyIngredient3);
         setKeyIngredientsArr(ingredients);
     };
+
+    console.log('the current image to send":', previewImageURL)
  
     useEffect(() => {
         addToKeyIngredients();
@@ -80,22 +84,22 @@ function UpdateProductModal({ productId, product }) {
 
 
     // function to prepare image for sending to AWS S3
-    const updateImage = async (e) => { 
+    const updateImage = async (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         if (file) {
-            reader.readAsDataURL(file);
-            reader.onload = () => {
+          reader.readAsDataURL(file);
+          reader.onload = () => {
             setPreviewImage(reader.result);
-            }
-            setPreviewImageURL(file);
-            setShowPreviewImage(true);
-        } else {
-            setPreviewImageURL(null);
-            setShowPreviewImage(false);
-            setPreviewImage(null);
+          }
+          setPreviewImageURL(file);
+          setShowPreviewImage(false);
         }
-    };
+        else {
+          setShowPreviewImage(true);
+          setPreviewImage(null);
+        }
+      };
 
     console.log('preview image url', previewImageURL)
     console.log('preview img to display', previewImage)
@@ -135,46 +139,48 @@ function UpdateProductModal({ productId, product }) {
         else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
         else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
 
-        setFrontendErrors(validationErrors);
+        setErrors(validationErrors);
     }, [brandName, productName, productType, description, keyIngredients, productLink])
 
-    useEffect(() => {
-        setShowErrors(Object.values(frontendErrors).length > 0);
-    }, [frontendErrors]);
+    // useEffect(() => {
+    //     setShowErrors(Object.values(errors).length > 0);
+    // }, [frontendErrors]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmittedForm(true);
+        const keyIngredientsString = keyIngredientsArr.join(', ');
 
-        if (Object.keys(frontendErrors).length === 0) {
-            const keyIngredientsString = keyIngredientsArr.join(', ');
+        const formData = new FormData();
+        formData.append("brand_name", brandName.trimEnd());
+        formData.append("product_name", productName.trimEnd());
+        formData.append("product_type", productType);
+        formData.append("description", description.trimEnd());
+        formData.append("key_ingredients", keyIngredientsString);
+        formData.append("product_link", productLink.trimEnd());
+        formData.append("user_id", user.id);
+        formData.append("image_url", previewImageURL)
 
-            const formData = new FormData();
-            formData.append("brand_name", brandName.trimEnd());
-            formData.append("product_name", productName.trimEnd());
-            formData.append("product_type", productType);
-            formData.append("description", description.trimEnd());
-            formData.append("key_ingredients", keyIngredientsString);
-            formData.append("product_link", productLink.trimEnd());
-            formData.append("user_id", user.id);
-            formData.append("image_url", previewImageURL)
-
-            const data = dispatch(editProduct({productId, updatedProductData:formData}));
-            if (Array.isArray(data)) {
-                const dataErrors = {};
-                data?.forEach(error => {
-                    const [key, value] = error.split(':');
-                    dataErrors[key.trim()] = value.trim();
-                });
-                setBackendErrors(dataErrors);
-            } 
-            else {
+        const res = await dispatch(editProduct({productId, updatedProductData:formData}));
+            if (res.error) {
+                setSubmittedForm(true);
+                setShowErrors(true);
+                if (res.error.message) {
+                    setBackendErrors(formErrorsObj(res.error.message));
+                } else {
+                    setBackendErrors({});
+                }
+            } else {
                 if (window.location.href.includes('/users/current/favorites')) {
                     window.location.reload();
+                    closeModal();
+                } else {
+                    setShowErrors(false);
+                    setBackendErrors({});
+                    setErrors({});
+                    closeModal();
                 }
-                closeModal();
             }
-        }
+        
     };
 
 
@@ -188,7 +194,10 @@ function UpdateProductModal({ productId, product }) {
                     height="25" 
                 />
             </div>
-            <form className='update-product-form' onSubmit={handleSubmit}>
+            <form 
+                className='update-product-form' 
+                onSubmit={handleSubmit}
+                encType="multipart/form-data">
             <div className='create-product-fields'>
                     <div className='f-brandname'>
                         <label>Brand Name<span style={{color: "#8B0000"}}>*</span></label>
@@ -199,9 +208,9 @@ function UpdateProductModal({ productId, product }) {
                             value={brandName}
                             onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
                         />
-                        {showErrors && submittedForm && frontendErrors?.brandName && (
+                        {showErrors && submittedForm && errors?.brandName && (
                             <div className="errors-div">
-                                <p className="errors-text">{frontendErrors.brandName}</p>
+                                <p className="errors-text">{errors.brandName}</p>
                             </div>
                         )}  
                     </div>
@@ -215,9 +224,9 @@ function UpdateProductModal({ productId, product }) {
                         value={productName}
                         onChange={(e) => { setProductName((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productName && (
+                    {showErrors && submittedForm && errors?.productName && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productName}</p>
+                            <p className="errors-text">{errors.productName}</p>
                         </div>
                     )}  
                     {submittedForm && backendErrors?.product_name && (
@@ -246,9 +255,9 @@ function UpdateProductModal({ productId, product }) {
                         <option value="Eye Cream">Eye Cream</option>
                         <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
                     </select>
-                    {showErrors && submittedForm && frontendErrors?.productType && (
+                    {showErrors && submittedForm && errors?.productType && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productType}</p>
+                            <p className="errors-text">{errors.productType}</p>
                         </div>
                     )}  
                 </div>
@@ -262,9 +271,9 @@ function UpdateProductModal({ productId, product }) {
                         onChange={(e) => { setDescription((e.target.value).trimStart()) }}
                     ></textarea>
                     <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                    {showErrors && submittedForm && frontendErrors?.description && (
+                    {showErrors && submittedForm && errors?.description && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.description}</p>
+                            <p className="errors-text">{errors.description}</p>
                         </div>
                     )}  
                 </div>
@@ -291,9 +300,9 @@ function UpdateProductModal({ productId, product }) {
                         value={keyIngredient3}
                         onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.keyIngredients && (
+                    {showErrors && submittedForm && errors?.keyIngredients && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.keyIngredients}</p>
+                            <p className="errors-text">{errors.keyIngredients}</p>
                         </div>
                     )}  
                 </div>
@@ -305,9 +314,9 @@ function UpdateProductModal({ productId, product }) {
                         value={productLink}
                         onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productLink && (
+                    {showErrors && submittedForm && errors?.productLink && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productLink}</p>
+                            <p className="errors-text">{errors.productLink}</p>
                         </div>
                     )}  
                 </div>
@@ -321,17 +330,17 @@ function UpdateProductModal({ productId, product }) {
                         onChange={updateImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
                     />
-                    {showErrors && submittedForm && frontendErrors?.previewImage && (
+                    {showErrors && submittedForm && errors?.previewImage && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.previewImage}</p>
+                            <p className="errors-text">{errors.previewImage}</p>
                         </div>
                     )}  
                 </div>
                 <div className="selected-preview-img-div">
-                    {!showPreviewImage && previewImage && !previewImageURL && (
+                    {showPreviewImage && previewImageURL && !previewImage && (
                         <>
                             <img
-                            src={previewImage}
+                            src={previewImageURL}
                             alt="product preview thumbnail"
                             style={{
                                 width: "100px",
@@ -342,7 +351,7 @@ function UpdateProductModal({ productId, product }) {
                             }}/>
                         </>
                     )}
-                    {showPreviewImage && previewImage && previewImageURL && (
+                    {!showPreviewImage && previewImageURL && previewImage && (
                         <div className="preview-img-div">
                             <img
                             src={previewImage}
