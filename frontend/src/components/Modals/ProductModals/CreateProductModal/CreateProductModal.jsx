@@ -147,14 +147,13 @@ function CreateProductModal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const keyIngredientsString = keyIngredientsArr.join(',');
 
         const formData = new FormData();
         formData.append('brand_name', brandName.trim());
         formData.append('product_name', productName.trim());
         formData.append('product_type', productType);
         formData.append('description', description.trim());
-        formData.append('key_ingredients', keyIngredientsString.trim());
+        formData.append('key_ingredients', keyIngredientsArr);
         formData.append('product_link', productLink.trim());
         formData.append('user_id', user.id);
         formData.append('image_url', previewImageURL);
