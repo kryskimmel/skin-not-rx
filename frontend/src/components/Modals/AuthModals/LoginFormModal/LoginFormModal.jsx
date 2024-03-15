@@ -29,6 +29,16 @@ function LoginFormModal() {
     setErrors(frontEndErrors)
   }, [email, isFormSubmitted, password]);
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setBackendErrors({ ...backendErrors, email: null });
+};
+
+const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setBackendErrors({ ...backendErrors, password: null });
+};
+
   const handleDemoUser = async (e) => {
     e.preventDefault();
     dispatch(thunkLogin({email:"demo@aa.io", password:"password"}));
@@ -76,7 +86,7 @@ function LoginFormModal() {
                   id="login-email-input"
                   placeholder="Email Address"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                   required
               />
               {showErrors && backendErrors?.email && (
@@ -97,7 +107,7 @@ function LoginFormModal() {
                 id="login-password-input"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
               />
               {showErrors && backendErrors?.password && (
