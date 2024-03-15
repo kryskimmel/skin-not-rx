@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../../../redux/product';
@@ -15,7 +16,6 @@ function CreateProductModal() {
     const [keyIngredient1, setKeyIngredient1] = useState("");
     const [keyIngredient2, setKeyIngredient2] = useState("");
     const [keyIngredient3, setKeyIngredient3] = useState("");
-    const [keyIngredients, setKeyIngredients] = useState("");
     const [keyIngredientsArr, setKeyIngredientsArr] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [previewImage, setPreviewImage] = useState("");
@@ -87,12 +87,15 @@ function CreateProductModal() {
     // useEffect to track validation errors
     useEffect(() => {
         const validationErrors = {};
+        const urlFormat = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
         const inputRequiredError = "Input is required";
         const beginningSpacesError = "Input cannot begin with a space";
         const charMax60Error = "Input must not exceed 60 characters";
         const charMax500Error = "Input must not exceed 500 characters";
         const charMin2Error = "Input must be at least 2 characters long";
         const charMin4Error = "Input must be at least 4 characters long";
+        const urlFormatError = "Invalid URL";
+
 
         if (!brandName) validationErrors.brandName = inputRequiredError;
         else if (brandName.startsWith(" ")) validationErrors.brandName = beginningSpacesError;
@@ -124,13 +127,13 @@ function CreateProductModal() {
         else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = charMax500Error;
 
         if (productLink && productLink.startsWith(" ")) validationErrors.productLink = beginningSpacesError;
+        else if (productLink && !urlFormat.test(productLink)) validationErrors.productLink = urlFormatError;
         else if (productLink && productLink.length < 4) validationErrors.productLink = charMin4Error;
         else if (productLink && productLink.length > 500) validationErrors.productLink = charMax500Error;
 
         if (!previewImage) validationErrors.previewImage = inputRequiredError;
        
         setErrors(validationErrors);
-        setKeyIngredients(keyIngredientsArr.join(','));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
@@ -141,13 +144,16 @@ function CreateProductModal() {
     console.log('form submitted?', submittedForm)
     console.log('backend errors?', backendErrors)
     console.log('key ingredients--', keyIngredientsArr)
-    console.log('key ingredients state -->', keyIngredients)
     console.log('any frontend errors-->', errors)
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        if (Object.values(errors).length > 0) {
+            e.preventDefault();
+            setShowErrors(true);
+            setSubmittedForm(true);
+        } else {
         const formData = new FormData();
         formData.append('brand_name', brandName.trim());
         formData.append('product_name', productName.trim());
@@ -172,6 +178,7 @@ function CreateProductModal() {
             setBackendErrors({});
             setErrors({});
             closeModal();
+        }
         }
     };
 
