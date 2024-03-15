@@ -7,6 +7,19 @@
     cursor: pointer;
 }
 
+.no-coll-search-div {
+    padding: 50px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+}
+
+.no-coll-search-text {
+    color: #8B0000;
+    text-align: center;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    font-size: 24px;
+}
+
 .search-result-collname-div {
     width: 100%;
     display: flex;

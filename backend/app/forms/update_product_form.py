@@ -25,14 +25,7 @@ def beginning_spaces(form, field):
     if field.data.startswith(' '):
         raise ValidationError("Input cannot begin with a space")
 
-
-def product_name_exists(form, field):
-    product_name = field.data
-    product_exists = Product.query.filter(Product.product_name == product_name).first()
-    if product_exists:
-        raise ValidationError("Please add a different product as a product with this name already exists")
-
-class ProductForm(FlaskForm):
+class UpdateProductForm(FlaskForm):
     brand_name = StringField(
         'brand_name', 
         validators=[
@@ -48,7 +41,6 @@ class ProductForm(FlaskForm):
             char_min2,
             char_max60,
             beginning_spaces,
-            product_name_exists
         ])
     product_type = StringField(
         'product_type', 

@@ -43,7 +43,7 @@ function UserCollections() {
         <div className="coll-page-container">
              <div className="coll-header-div">
                 <h1 className="coll-heading">COLLECTIONS</h1>
-                <p className="coll-count-text">{userCollections.length} items</p>
+                <p className="coll-count-text">{userCollections.length ? userCollections.length : 0} {userCollections.length === 1 ? "item" : "items"}</p>
                 <div className="coll-heading-btns-div">
                     <OpenModalButton
                         buttonText={
@@ -61,7 +61,7 @@ function UserCollections() {
                 </div>
             </div>
             <div className="coll-tiles-div">
-                {userCollections ? userCollections.map((collection) => (
+                {userCollections.length ? userCollections.map((collection) => (
                     <div key={`colltile-${collection.id}-${collection.name}`}>
                         <OpenModalButton
                             className="coll-tile-btn"
@@ -101,8 +101,8 @@ function UserCollections() {
                         />
                     </div>
                 )) : (
-                    <div>
-                        <h2>You have not created any collections</h2>
+                    <div className="no-collections-div">
+                        <p className="no-collections-text">You have not created any collections!</p>
                     </div>
                 )}
             </div>

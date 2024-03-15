@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useModal } from "../../../../context/Modal";
 import { editCollection } from "../../../../redux/collection";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
+import formErrorsObj from "../../../../utils/formErrorsObj";
 import { Icon } from '@iconify/react';
 import "./UpdateCollectionModal.css";
 
@@ -16,7 +17,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
     const [name, setName] = useState(collectionName);
     const [prevStoredProducts, setPrevStoredProducts] = useState(items);
     const [addProducts, setAddProducts] = useState([]);
-    const [frontendErrors, setFrontendErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
@@ -40,57 +41,61 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
 
     useEffect(() => {
         const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+        const inputRequiredError = "Input is required";
+        const beginningSpacesError = "Input cannot begin with a space";
+        const charMax20Error = "Input must not exceed 20 characters";
+        const charMin2Error = "Input must be at least 2 characters long";
 
-        if (!name) validationErrors.name = inputRequired;
-        else if (name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
-        else if (name.length > 60) validationErrors.name = maxChar60;
-        else if (name.length < 3) validationErrors.name = minChar3;
+        if (!name) validationErrors.name = inputRequiredError;
+        else if (name.startsWith(" ")) validationErrors.name = beginningSpacesError;
+        else if (name.length > 20) validationErrors.name = charMax20Error;
+        else if (name.length < 2) validationErrors.name = charMin2Error;
 
-        setFrontendErrors(validationErrors);
+        setErrors(validationErrors);
     }, [dispatch, name, prevStoredProducts, addProducts]);
 
-    useEffect(() => {
-        setShowErrors(Object.values(frontendErrors).length > 0);
-    }, [frontendErrors]);
+    const handleNameChange = (e) => {
+        setName((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, name: null });
+    };
 
 
-    // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setSubmittedForm(true)
-        const prodIds = [...prevStoredProducts.map((prod) => prod.id), ...addProducts.map((prod) => prod.id)];
-        const updatedCollection = {
-            'name': name.trimEnd(),
-            'user_id': currentUserId,
-            'product_ids': prodIds
-        }
-        console.log('AFTER form submission', updatedCollection)
-        try {
-            const data = await dispatch(editCollection({collectionId, updatedCollectionData:updatedCollection}));
-            if (Array.isArray(data)) {
-				const dataErrors = {};
-				data?.forEach(error => {
-				const [key, value] = error.split(':')
-				dataErrors[key.trim()] = value.trim()
-				});
-				setBackendErrors(dataErrors);
+        if (Object.values(errors).length > 0) {
+            e.preventDefault();
+            setShowErrors(true);
+            setSubmittedForm(true);
+        } else {
+            const prodIds = [...prevStoredProducts.map((prod) => prod.id), ...addProducts.map((prod) => prod.id)];
+            const updatedCollection = {
+                'name': name.trimEnd(),
+                'user_id': currentUserId,
+                'product_ids': prodIds
+            }
+            const res = await dispatch(editCollection({collectionId, updatedCollectionData:updatedCollection}));
+            if (res.error) {
+                setSubmittedForm(true);
+                setShowErrors(true);
+                if (res.error.message) {
+                    setBackendErrors(formErrorsObj(res.error.message));
+                } else {
+                    setBackendErrors({});
+                }
             } else {
-                if (Object.values(frontendErrors).length === 0) {
-                    if (window.location.href.includes('/users/current/favorites')) {
-                        window.location.reload();
-                    }
+                if (window.location.href.includes('/users/current/favorites')) {
+                    window.location.reload();
+                    closeModal();
+                }  else {
+                    setShowErrors(false);
+                    setBackendErrors({});
+                    setErrors({});
                     closeModal();
                 }
             }
-        } catch (error) {
-            throw new Error(`There was an error in submitting your form for creating a new collection: ${error}`)
         }
     };
-
+  
 
     return (
         <>
@@ -108,9 +113,13 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                 <input
                     type="text"
                     value={name}
-                    onChange={(e) => setName((e.target.value).trimStart())}
+                    onChange={handleNameChange}
                 />
-                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
+                {showErrors && submittedForm && errors?.name && (
+                    <div className="errors-div">
+                        <p className="errors-text">{errors.name}</p>
+                    </div>
+                )}  
                 <SearchBarAndAddProduct setAddProducts={setAddProducts} prevStoredProducts={prevStoredProducts} setPrevStoredProducts={setPrevStoredProducts}/>
                 <div className="update-collection-button-div">
                     <button type="submit" className={submitButtonCN} disabled={isDisabled}>Update</button>

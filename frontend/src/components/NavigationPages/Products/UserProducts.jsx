@@ -43,7 +43,7 @@ function UserProducts() {
         <div className="prod-page-container">
             <div className="prod-header-div">
                 <h1 className="prod-heading">PRODUCTS</h1>
-                <p className="prod-count-text">{userProducts.length} items</p>
+                <p className="prod-count-text">{userProducts.length ? userProducts.length : 0} {userProducts.length === 1 ? "item" : "items"}</p>
                 <div className="prod-heading-btns-div">
                     <OpenModalButton
                         buttonText={
@@ -62,7 +62,7 @@ function UserProducts() {
             </div>
             <div className="prod-page-contents-div">
                 <div className="prod-tiles-div">
-                    {userProducts ? userProducts.map((attr) => (
+                    {userProducts.length ? userProducts.map((attr) => (
                         <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
                             <OpenModalButton
                                 className="prod-tile-btn"
@@ -99,8 +99,8 @@ function UserProducts() {
                         </div>
                         ))
                         :(
-                        <div>
-                            <p>You have not added any products!</p>
+                        <div className="no-products-div">
+                            <p className="no-products-text">You have not added any products!</p>
                         </div>
                     )}
                 </div>

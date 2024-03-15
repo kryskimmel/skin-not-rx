@@ -8,6 +8,16 @@
     background-color: white;
 }
 
+.no-prod-create-coll-div {
+ padding: 50px;
+}
+
+.no-prod-create-coll-text {
+    color: #8B0000;
+    font-family: 'IBM Plex Sans Hebrew', sans-serif;
+    font-size: 24px;
+}
+
 .create-collection-h1 {
     display: flex;
     justify-content: center;
@@ -37,6 +47,7 @@
 .create-collection-form input {
     height: 30px;
     font-size: 16px;
+    padding-left: 5px;
 }
 
 .collection-submit-button-div {

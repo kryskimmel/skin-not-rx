@@ -1,16 +1,14 @@
+/* eslint-disable no-useless-escape */
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react';
 import charCountRemaining from '../../../../utils/charCountRemaining';
+import formErrorsObj from '../../../../utils/formErrorsObj';
 import "./CreateProductModal.css";
 
 function CreateProductModal() {
-    const dispatch = useDispatch();
-    const descriptionRef = useRef();
-    const { closeModal } = useModal();
-    const user = useSelector(state => state.session.user);
     const [brandName, setBrandName] = useState("");
     const [productName, setProductName] = useState("");
     const [productType, setProductType] = useState("");
@@ -18,18 +16,20 @@ function CreateProductModal() {
     const [keyIngredient1, setKeyIngredient1] = useState("");
     const [keyIngredient2, setKeyIngredient2] = useState("");
     const [keyIngredient3, setKeyIngredient3] = useState("");
-    const [keyIngredients, setKeyIngredients] = useState("");
     const [keyIngredientsArr, setKeyIngredientsArr] = useState([]);
     const [productLink, setProductLink] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [previewImageURL, setPreviewImageURL] = useState("");
     const [showPreviewImage, setShowPreviewImage] = useState(false);
-    const [frontendErrors, setFrontendErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
-    // eslint-disable-next-line no-unused-vars
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const dispatch = useDispatch();
+    const descriptionRef = useRef();
+    const { closeModal } = useModal();
+    const user = useSelector(state => state.session.user);
     const submitButtonCN = isDisabled ? "disabled-product-submit-button" : "enabled-product-submit-button";
 
     // required fields to be filled in by user
@@ -87,88 +87,128 @@ function CreateProductModal() {
     // useEffect to track validation errors
     useEffect(() => {
         const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const maxChar500 = "Input must not exceed 500 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+        const urlFormat = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+        const inputRequiredError = "Input is required";
+        const beginningSpacesError = "Input cannot begin with a space";
+        const charMax60Error = "Input must not exceed 60 characters";
+        const charMax500Error = "Input must not exceed 500 characters";
+        const charMin2Error = "Input must be at least 2 characters long";
+        const charMin4Error = "Input must be at least 4 characters long";
+        const urlFormatError = "Invalid URL";
 
-        if (!brandName) validationErrors.brandName = inputRequired;
-        else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
-        else if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
 
-        if (!productName) validationErrors.productName = inputRequired;
-        else if (productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
-        else if (productName.length > 60) validationErrors.productName = maxChar60;
+        if (!brandName) validationErrors.brandName = inputRequiredError;
+        else if (brandName.startsWith(" ")) validationErrors.brandName = beginningSpacesError;
+        else if (brandName.length > 60) validationErrors.brandName = charMax60Error;
+        else if (brandName.length < 2) validationErrors.brandName = charMin2Error;
 
-        if (!productType) validationErrors.productType = inputRequired;
-        else if (productType.length > 60) validationErrors.productType = maxChar60;
+        if (!productName) validationErrors.productName = inputRequiredError;
+        else if (productName.startsWith(" ")) validationErrors.productName = beginningSpacesError;
+        else if (productName.length > 60) validationErrors.productName = charMax60Error;
+        else if (productName.length < 2) validationErrors.productName = charMin2Error;
 
-        if (!description.length) validationErrors.description = inputRequired;
-        else if (description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
-        else if (description.length > 500) validationErrors.description = maxChar500;
+        if (!productType) validationErrors.productType = inputRequiredError;
 
-        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient1 && keyIngredient1.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (!description.length) validationErrors.description = inputRequiredError;
+        else if (description.startsWith(" ")) validationErrors.description = beginningSpacesError;
+        else if (description.length > 500) validationErrors.description = charMax500Error;
+        else if (description.length < 4) validationErrors.description = charMin4Error;
 
-        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient2 && keyIngredient2.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient1 && keyIngredient1.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredient3 && keyIngredient3.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient2 && keyIngredient2.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
-        else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
-        else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
+        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient3 && keyIngredient3.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (!previewImage) validationErrors.previewImage = inputRequired;
+        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = beginningSpacesError;
+        else if (productLink && !urlFormat.test(productLink)) validationErrors.productLink = urlFormatError;
+        else if (productLink && productLink.length < 4) validationErrors.productLink = charMin4Error;
+        else if (productLink && productLink.length > 500) validationErrors.productLink = charMax500Error;
+
+        if (!previewImage) validationErrors.previewImage = inputRequiredError;
        
-        setFrontendErrors(validationErrors);
-        setKeyIngredients(keyIngredientsArr.join(','));
+        setErrors(validationErrors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
+    const handleBrandNameChange = (e) => {
+        setBrandName((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, brand_name: null });
+    };
 
-    console.log('frontenderrors', frontendErrors)
-    console.log('show errors?', showErrors)
-    console.log(Object.values(frontendErrors).length)
-    console.log('form submitted?', submittedForm)
-    console.log('backend errors?', backendErrors)
-    console.log('key ingredients--', keyIngredientsArr)
-    console.log('key ingredients state -->', keyIngredients)
+    const handleProductNameChange = (e) => {
+        setProductName((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, product_name: null });
+    };
 
+    const handleProductTypeChange = (e) => {
+        setProductType(e.target.value);
+        setBackendErrors({ ...backendErrors, product_type: null });
+    };
+
+    const handleDescriptionChange = (e) => {
+        setDescription((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, description: null });
+    };
+
+    const handleKeyIngredient1Change = (e) => {
+        setKeyIngredient1((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleKeyIngredient2Change = (e) => {
+        setKeyIngredient2((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleKeyIngredient3Change = (e) => {
+        setKeyIngredient3((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleProductLinkChange = (e) => {
+        setProductLink((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, product_link: null });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmittedForm(true);
-    
-        if (Object.keys(frontendErrors).length === 0) {
-            const keyIngredientsString = keyIngredientsArr.join(', ');
-    
-            const formData = new FormData();
-            formData.append('brand_name', brandName.trim());
-            formData.append('product_name', productName.trim());
-            formData.append('product_type', productType);
-            formData.append('description', description.trim());
-            formData.append('key_ingredients', keyIngredientsString);
-            formData.append('product_link', productLink.trim());
-            formData.append('user_id', user.id);
-            formData.append('image_url', previewImageURL);
-    
-            const data = dispatch(addProduct(formData));
-            if (Array.isArray(data)) {
-                const dataErrors = {};
-                data.forEach(error => {
-                    const [key, value] = error.split(':');
-                    dataErrors[key.trim()] = value.trim();
-                });
-                setBackendErrors(dataErrors);
+        if (Object.values(errors).length > 0) {
+            e.preventDefault();
+            setShowErrors(true);
+            setSubmittedForm(true);
+        } else {
+        const formData = new FormData();
+        formData.append('brand_name', brandName.trim());
+        formData.append('product_name', productName.trim());
+        formData.append('product_type', productType);
+        formData.append('description', description.trim());
+        formData.append('key_ingredients', keyIngredientsArr);
+        formData.append('product_link', productLink.trim());
+        formData.append('user_id', user.id);
+        formData.append('image_url', previewImageURL);
+
+        const res = await dispatch(addProduct(formData));
+        if (res.error) {
+            setSubmittedForm(true);
+            setShowErrors(true);
+            if (res.error.message) {
+                setBackendErrors(formErrorsObj(res.error.message));
             } else {
-                closeModal();
+                setBackendErrors({});
             }
+        } else {
+            setShowErrors(false);
+            setBackendErrors({});
+            setErrors({});
+            closeModal();
+        }
         }
     };
 
@@ -176,7 +216,7 @@ function CreateProductModal() {
     return (
         <div className='create-product-container'>
             <h1 className='create-product-heading-div'>Create A Product</h1>
-            <div className="signup-form-close-modal-div" onClick={()=> closeModal()}>
+            <div className="product-form-close-modal-div" onClick={()=> closeModal()}>
                 <Icon 
                     icon="material-symbols-light:close" 
                     width="25" 
@@ -192,11 +232,11 @@ function CreateProductModal() {
                             className='product-input'
                             type="text"
                             value={brandName}
-                            onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
+                            onChange={handleBrandNameChange}
                         />
-                        {showErrors && submittedForm && frontendErrors?.brandName && (
+                        {showErrors && submittedForm && errors?.brandName && (
                             <div className="errors-div">
-                                <p className="errors-text">{frontendErrors.brandName}</p>
+                                <p className="errors-text">{errors.brandName}</p>
                             </div>
                         )}  
                     </div>
@@ -208,11 +248,11 @@ function CreateProductModal() {
                         className='product-input'
                         type="text"
                         value={productName}
-                        onChange={(e) => { setProductName((e.target.value).trimStart()) }}
+                        onChange={handleProductNameChange}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productName && (
+                    {showErrors && submittedForm && errors?.productName && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productName}</p>
+                            <p className="errors-text">{errors.productName}</p>
                         </div>
                     )}  
                     {submittedForm && backendErrors?.product_name && (
@@ -227,7 +267,7 @@ function CreateProductModal() {
                         required
                         className='product-input' 
                         value={productType} 
-                        onChange={(e) => { setProductType(e.target.value) }}>
+                        onChange={handleProductTypeChange}>
                         <option value="" disabled>--</option>
                         <option value="Cleanser">Cleanser</option>
                         <option value="Exfoliator">Exfoliator</option>
@@ -241,9 +281,9 @@ function CreateProductModal() {
                         <option value="Eye Cream">Eye Cream</option>
                         <option value="Lip Repair & Protectant">Lip Repair & Protectant</option>
                     </select>
-                    {showErrors && submittedForm && frontendErrors?.productType && (
+                    {showErrors && submittedForm && errors?.productType && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productType}</p>
+                            <p className="errors-text">{errors.productType}</p>
                         </div>
                     )}  
                 </div>
@@ -254,12 +294,12 @@ function CreateProductModal() {
                         className='product-textarea'
                         ref={descriptionRef}
                         value={description}
-                        onChange={(e) => { setDescription((e.target.value).trimStart()) }}
+                        onChange={handleDescriptionChange}
                     ></textarea>
                     <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
-                    {showErrors && submittedForm && frontendErrors?.description && (
+                    {showErrors && submittedForm && errors?.description && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.description}</p>
+                            <p className="errors-text">{errors.description}</p>
                         </div>
                     )}  
                 </div>
@@ -270,25 +310,25 @@ function CreateProductModal() {
                         type="text"
                         placeholder='Key Ingredient #1'
                         value={keyIngredient1}
-                        onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient1Change}
                     />
                     <input
                         className='product-input'
                         type="text"
                         placeholder='Key Ingredient #2'
                         value={keyIngredient2}
-                        onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient2Change}
                     />
                     <input
                         className='product-input'
                         type="text"
                         placeholder='Key Ingredient #3'
                         value={keyIngredient3}
-                        onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient3Change}
                     />
-                    {showErrors && submittedForm && frontendErrors?.keyIngredients && (
+                    {showErrors && submittedForm && errors?.keyIngredients && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.keyIngredients}</p>
+                            <p className="errors-text">{errors.keyIngredients}</p>
                         </div>
                     )}  
                 </div>
@@ -298,11 +338,11 @@ function CreateProductModal() {
                         className='product-input'
                         type="text"
                         value={productLink}
-                        onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
+                        onChange={handleProductLinkChange}
                     />
-                    {showErrors && submittedForm && frontendErrors?.productLink && (
+                    {showErrors && submittedForm && errors?.productLink && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.productLink}</p>
+                            <p className="errors-text">{errors.productLink}</p>
                         </div>
                     )}  
                 </div>
@@ -317,9 +357,9 @@ function CreateProductModal() {
                         onChange={addImage}
                         style={{marginTop:"2px", cursor:"pointer"}}
                     />
-                    {showErrors && submittedForm && frontendErrors?.previewImage && (
+                    {showErrors && submittedForm && errors?.previewImage && (
                         <div className="errors-div">
-                            <p className="errors-text">{frontendErrors.previewImage}</p>
+                            <p className="errors-text">{errors.previewImage}</p>
                         </div>
                     )}  
                 </div>
@@ -331,7 +371,7 @@ function CreateProductModal() {
                         className='preview-img'
                         /> ): null
                     }
-                    </div>
+                </div>
                 <div className='create-product-button'>
                     <button type='submit' className={submitButtonCN} disabled={isDisabled}>Create</button>
                 </div>
