@@ -54,6 +54,11 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
         setErrors(validationErrors);
     }, [dispatch, name, prevStoredProducts, addProducts]);
 
+    const handleNameChange = (e) => {
+        setName((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, name: null });
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -109,7 +114,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                 <input
                     type="text"
                     value={name}
-                    onChange={(e) => setName((e.target.value).trimStart())}
+                    onChange={handleNameChange}
                 />
                 {showErrors && submittedForm && errors?.name && (
                     <div className="errors-div">
