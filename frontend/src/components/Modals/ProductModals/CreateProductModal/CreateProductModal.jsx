@@ -138,15 +138,6 @@ function CreateProductModal() {
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
 
-    console.log('frontenderrors', errors)
-    console.log('show errors?', showErrors)
-    console.log(Object.values(errors).length)
-    console.log('form submitted?', submittedForm)
-    console.log('backend errors?', backendErrors)
-    console.log('key ingredients--', keyIngredientsArr)
-    console.log('any frontend errors-->', errors)
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (Object.values(errors).length > 0) {
@@ -169,6 +160,8 @@ function CreateProductModal() {
             setSubmittedForm(true);
             setShowErrors(true);
             if (res.error.message) {
+                console.log('res.error:', res.error);
+                console.log('res.error.messgae', res.error.message)
                 setBackendErrors(formErrorsObj(res.error.message));
             } else {
                 setBackendErrors({});
