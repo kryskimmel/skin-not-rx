@@ -139,17 +139,17 @@ function CreateProductModal() {
 
     const handleBrandNameChange = (e) => {
         setBrandName((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, brandName: null });
+        setBackendErrors({ ...backendErrors, brand_name: null });
     };
 
     const handleProductNameChange = (e) => {
         setProductName((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, productName: null });
+        setBackendErrors({ ...backendErrors, product_name: null });
     };
 
     const handleProductTypeChange = (e) => {
         setProductType(e.target.value);
-        setBackendErrors({ ...backendErrors, productType: null });
+        setBackendErrors({ ...backendErrors, product_type: null });
     };
 
     const handleDescriptionChange = (e) => {
@@ -159,22 +159,22 @@ function CreateProductModal() {
 
     const handleKeyIngredient1Change = (e) => {
         setKeyIngredient1((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, keyIngredients: null });
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
     };
 
     const handleKeyIngredient2Change = (e) => {
         setKeyIngredient2((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, keyIngredients: null });
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
     };
 
     const handleKeyIngredient3Change = (e) => {
         setKeyIngredient3((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, keyIngredients: null });
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
     };
 
     const handleProductLinkChange = (e) => {
         setProductLink((e.target.value).trimStart());
-        setBackendErrors({ ...backendErrors, productLink: null });
+        setBackendErrors({ ...backendErrors, product_link: null });
     };
 
     const handleSubmit = async (e) => {
