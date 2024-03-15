@@ -228,16 +228,11 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && backendErrors?.username && (
+            {showErrors && isFormSubmitted && backendErrors?.username && (
               <div className="errors-div">
                   <p className="errors-text">{backendErrors.username}</p>
               </div>
             )} 
-            {showErrors && isFormSubmitted && errors?.username && (
-              <div className="errors-div">
-                <p className="errors-text">{errors.username}</p>
-              </div>
-            )}
           </div>
           <div className="email-div">
             <label>Email<span style={{color: "#8B0000"}}>*</span></label>
@@ -248,16 +243,11 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
-            {showErrors && backendErrors?.email && (
+            {showErrors && isFormSubmitted && backendErrors?.email && (
               <div className="errors-div">
                   <p className="errors-text">{backendErrors.email}</p>
               </div>
             )} 
-            {showErrors && isFormSubmitted && errors?.email && (
-              <div className="errors-div">
-                <p className="errors-text">{errors.email}</p>
-              </div>
-            )}
           </div>
         </div>
 
