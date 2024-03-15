@@ -6,10 +6,8 @@ import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
 import { editProduct } from "../../../../redux/product";
 import charCountRemaining from '../../../../utils/charCountRemaining';
-import "./UpdateProductModal.css";
 import formErrorsObj from "../../../../utils/formErrorsObj";
-
-
+import "./UpdateProductModal.css";
 
 function UpdateProductModal({ productId, product }) {
     const dispatch = useDispatch();
