@@ -50,10 +50,10 @@ ENV S3_SECRET=${S3_SECRET}
 COPY ./backend/app ./backend/app
 COPY ./backend/bin ./backend/bin
 COPY ./backend/migrations ./backend/migrations
-COPY ./backend/flaskenv .
+COPY ./backend/.flaskenv .
 COPY ./backend/requirements.txt .
 
-COPY --from=frontend ./react-vite/dist ./react-vite/dist
+COPY --from=frontend ./frontend/dist ./frontend/dist
 
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
