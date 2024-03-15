@@ -99,13 +99,6 @@ function UpdateProductModal({ productId, product }) {
         }
       };
 
-    console.log('preview image url', previewImageURL)
-    console.log('preview img to display', previewImage)
-
-
-
-
-
     useEffect(() => {
         const validationErrors = {};
         const urlFormat = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
@@ -157,9 +150,49 @@ function UpdateProductModal({ productId, product }) {
         setErrors(validationErrors);
     }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
-    // useEffect(() => {
-    //     setShowErrors(Object.values(errors).length > 0);
-    // }, [frontendErrors]);
+
+    const handleBrandNameChange = (e) => {
+        setBrandName((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, brand_name: null });
+    };
+
+    const handleProductNameChange = (e) => {
+        const newProductName = e.target.value.trimStart();
+        setProductName(newProductName);
+        if (newProductName !== product.product_name) {
+            setBackendErrors({ ...backendErrors, product_name: null });
+        }
+    };
+
+    const handleProductTypeChange = (e) => {
+        setProductType(e.target.value);
+        setBackendErrors({ ...backendErrors, product_type: null });
+    };
+
+    const handleDescriptionChange = (e) => {
+        setDescription((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, description: null });
+    };
+
+    const handleKeyIngredient1Change = (e) => {
+        setKeyIngredient1((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleKeyIngredient2Change = (e) => {
+        setKeyIngredient2((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleKeyIngredient3Change = (e) => {
+        setKeyIngredient3((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, key_ingredients: null });
+    };
+
+    const handleProductLinkChange = (e) => {
+        setProductLink((e.target.value).trimStart());
+        setBackendErrors({ ...backendErrors, product_link: null });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -180,6 +213,7 @@ function UpdateProductModal({ productId, product }) {
 
             const res = await dispatch(editProduct({productId, updatedProductData:formData}));
                 if (res.error) {
+                    console.log('message',formErrorsObj(res.error.message).product_name === "Please add a different product as a product with this name already exists")
                     setSubmittedForm(true);
                     setShowErrors(true);
                     if (res.error.message) {
@@ -226,7 +260,7 @@ function UpdateProductModal({ productId, product }) {
                             className='product-input'
                             type="text"
                             value={brandName}
-                            onChange={(e) => { setBrandName((e.target.value).trimStart()) }}
+                            onChange={handleBrandNameChange}
                         />
                         {showErrors && submittedForm && errors?.brandName && (
                             <div className="errors-div">
@@ -242,7 +276,7 @@ function UpdateProductModal({ productId, product }) {
                         className='product-input'
                         type="text"
                         value={productName}
-                        onChange={(e) => { setProductName((e.target.value).trimStart()) }}
+                        onChange={handleProductNameChange}
                     />
                     {showErrors && submittedForm && errors?.productName && (
                         <div className="errors-div">
@@ -261,7 +295,7 @@ function UpdateProductModal({ productId, product }) {
                         required
                         className='product-input' 
                         value={productType} 
-                        onChange={(e) => { setProductType(e.target.value) }}>
+                        onChange={handleProductTypeChange}>
                         <option value="" disabled>--</option>
                         <option value="Cleanser">Cleanser</option>
                         <option value="Exfoliator">Exfoliator</option>
@@ -288,7 +322,7 @@ function UpdateProductModal({ productId, product }) {
                         className='product-textarea'
                         ref={descriptionRef}
                         value={description}
-                        onChange={(e) => { setDescription((e.target.value).trimStart()) }}
+                        onChange={handleDescriptionChange}
                     ></textarea>
                     <p className='f-description-char-count'>({charCountRemaining(description, 500, descriptionRef)} characters remaining)</p>
                     {showErrors && submittedForm && errors?.description && (
@@ -304,21 +338,21 @@ function UpdateProductModal({ productId, product }) {
                         type="text"
                         placeholder='Key Ingredient #1'
                         value={keyIngredient1}
-                        onChange={(e) => { setKeyIngredient1((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient1Change}
                     />
                     <input
                         className='product-input'
                         type="text"
                         placeholder='Key Ingredient #2'
                         value={keyIngredient2}
-                        onChange={(e) => { setKeyIngredient2((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient2Change}
                     />
                     <input
                         className='product-input'
                         type="text"
                         placeholder='Key Ingredient #3'
                         value={keyIngredient3}
-                        onChange={(e) => { setKeyIngredient3((e.target.value).trimStart()) }}
+                        onChange={handleKeyIngredient3Change}
                     />
                     {showErrors && submittedForm && errors?.keyIngredients && (
                         <div className="errors-div">
@@ -332,7 +366,7 @@ function UpdateProductModal({ productId, product }) {
                         className='product-input'
                         type="text"
                         value={productLink}
-                        onChange={(e) => { setProductLink((e.target.value).trimStart()) }}
+                        onChange={handleProductLinkChange}
                     />
                     {showErrors && submittedForm && errors?.productLink && (
                         <div className="errors-div">
