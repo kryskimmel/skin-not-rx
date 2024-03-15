@@ -29,15 +29,17 @@ function SearchProductsModal () {
 
     const productList = useMemo(() => {
         const productList = [];
-        for (let product in userProducts) {
-            productList.push({
-                id: userProducts[product].id,
-                brand_name: userProducts[product].brand_name,
-                product_name: userProducts[product].product_name,
-                preview_image: userProducts[product].preview_image,
-            });
+        if (!userProducts.message) {
+            for (let product in userProducts) {
+                productList.push({
+                    id: userProducts[product].id,
+                    brand_name: userProducts[product].brand_name,
+                    product_name: userProducts[product].product_name,
+                    preview_image: userProducts[product].preview_image,
+                });
+            }
+            return productList;
         }
-        return productList;
     }, [userProducts]);
 
     const logSearchTerm = (searchTerm) => {
@@ -48,7 +50,7 @@ function SearchProductsModal () {
     };
 
     useEffect(() => {
-        productList.filter(
+        productList?.filter(
             (product) => (
                 product.product_name.toLowerCase() === searchInput.toLowerCase() || 
                 product.brand_name.toLowerCase() === searchInput.toLowerCase()) &&
@@ -88,46 +90,53 @@ function SearchProductsModal () {
                     color="white"
                 />
             </div>
-            <div className="search-bar-div">
-                <input
-                    type="text"
-                    placeholder="Type in a product name..."
-                    value={searchInput}
-                    onChange={handleInputChange}
-                    className="search-bar-input"
-                />
-                <div
-                    className="search-bar-dropdown"
-                    style={{
-                        display: showDropdown ? "" : "none",
-                    }}
-                >
-                    {productList
-                        .filter((product) => {
-                            const searchTerm = searchInput.toLowerCase();
-                            const productName = product.product_name.toLowerCase();
-                            const productBrandName = product.brand_name.toLowerCase();
-                            return searchTerm && (productName.startsWith(searchTerm) || productBrandName.startsWith(searchTerm));
-                        })
-                        .map((product) => (
-                            <div key={`search-${product.id}`}>
-                            <OpenModalButton
-                                buttonText={
-                                    <div className="search-bar-dropdown-row">
-                                        <img className="search-result-img" src={product.preview_image} />
-                                        <div className="search-result-name-div">
-                                            <p className="search-result-brandname">{product.brand_name}</p>
-                                            <p className="search-result-productname">{product.product_name}</p>
-                                        </div>
-                                    </div>
-                                }
-                                modalComponent={<ProductInfoModal productId={product.id} onFavoriteChange={logSearchTerm} />}
-                                onButtonClick={() => { setSearchInput(""); }}
-                            />
-                            </div>
-                        ))}
+            {userProducts.message ? (
+                <div className="no-prod-search-div">
+                    <p className="no-prod-search-text">{userProducts.message}</p>
+                    <p className="no-prod-search-text">Please create a product to use the search feature.</p>
                 </div>
-            </div >
+            ): (
+                <div className="search-bar-div">
+                    <input
+                        type="text"
+                        placeholder="Type in a product name..."
+                        value={searchInput}
+                        onChange={handleInputChange}
+                        className="search-bar-input"
+                    />
+                    <div
+                        className="search-bar-dropdown"
+                        style={{
+                            display: showDropdown ? "" : "none",
+                        }}
+                    >
+                        {productList
+                            .filter((product) => {
+                                const searchTerm = searchInput.toLowerCase();
+                                const productName = product.product_name.toLowerCase();
+                                const productBrandName = product.brand_name.toLowerCase();
+                                return searchTerm && (productName.startsWith(searchTerm) || productBrandName.startsWith(searchTerm));
+                            })
+                            .map((product) => (
+                                <div key={`search-${product.id}`}>
+                                <OpenModalButton
+                                    buttonText={
+                                        <div className="search-bar-dropdown-row">
+                                            <img className="search-result-img" src={product.preview_image} />
+                                            <div className="search-result-name-div">
+                                                <p className="search-result-brandname">{product.brand_name}</p>
+                                                <p className="search-result-productname">{product.product_name}</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    modalComponent={<ProductInfoModal productId={product.id} onFavoriteChange={logSearchTerm} />}
+                                    onButtonClick={() => { setSearchInput(""); }}
+                                />
+                                </div>
+                        ))}
+                    </div>
+                </div>
+            )}  
         </div>
     )
 }
