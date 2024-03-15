@@ -44,7 +44,7 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
         const updatedProductsToAdd = productsToAdd.filter((prod) => prod.id !== prodId);
         setProductsToAdd(updatedProductsToAdd);
     
-        const isPreviouslyStored = prevStoredProducts.some((prod) => prod.id === prodId);
+        const isPreviouslyStored = prevStoredProducts?.some((prod) => prod.id === prodId);
         if (isPreviouslyStored) {
             const updatedPrevStoredProducts = prevStoredProducts.filter((prod) => prod.id !== prodId);
             setPrevStoredProducts(updatedPrevStoredProducts);
