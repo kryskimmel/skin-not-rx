@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from app.models import Product, db
-from app.forms import ProductForm
+from app.forms import ProductForm, UpdateProductForm
 from app.awsS3 import upload_file_to_s3, get_unique_filename, allowed_file
 
 product_routes = Blueprint('products', __name__)
@@ -114,7 +114,7 @@ def edit_product(product_id):
     if product_to_update.user_id != current_user.id:
         return jsonify({'message': 'Forbidden'}), 403
 
-    form = ProductForm()
+    form = UpdateProductForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
