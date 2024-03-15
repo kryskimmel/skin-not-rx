@@ -160,8 +160,6 @@ function CreateProductModal() {
             setSubmittedForm(true);
             setShowErrors(true);
             if (res.error.message) {
-                console.log('res.error:', res.error);
-                console.log('res.error.messgae', res.error.message)
                 setBackendErrors(formErrorsObj(res.error.message));
             } else {
                 setBackendErrors({});
