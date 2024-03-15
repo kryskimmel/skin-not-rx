@@ -209,7 +209,7 @@ function CreateProductModal() {
                         className='product-input'
                         type="text"
                         value={productName}
-                        onChange={(e) => { setProductName((e.target.value).trimStart()) }}
+                        onChange={(e) => { setBackendErrors({}); setProductName((e.target.value).trimStart()) }}
                     />
                     {showErrors && submittedForm && errors?.productName && (
                         <div className="errors-div">
