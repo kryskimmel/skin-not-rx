@@ -109,15 +109,39 @@ function SignupFormModal() {
     setErrors(validationErrors);
   }, [dispatch, firstName, lastName, username, email, password, confirmPassword, profileImage, skinType]);
 
+  const handleFirstNameChange = (e) => {
+    setFirstName((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, firstName: null });
+  };
+
+  const handleLastNameChange = (e) => {
+    setLastName((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, lastName: null });
+  };
+
+  const handleUsernameChange = (e) => {
+    setUsername((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, username: null });
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, email: null });
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, password: null });
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword((e.target.value).trim());
+    setBackendErrors({ ...backendErrors, confirmPassword: null });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Password inputs do not match",
-      });
-    }
     const formData = new FormData();
     formData.append("first_name", firstName);
     formData.append("last_name", lastName);
@@ -132,6 +156,7 @@ function SignupFormModal() {
       setIsFormSubmitted(true);
       setShowErrors(true);
       if (res.error.message) {
+        console.log('errorss??',res.error.message)
         setBackendErrors(formErrorsObj(res.error.message));
       } else {
         setBackendErrors({})
@@ -167,7 +192,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={firstName}
-              onChange={(e) => setFirstName((e.target.value).trim())}
+              onChange={handleFirstNameChange}
               className="signup-input"
               required
             />
@@ -182,7 +207,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={lastName}
-              onChange={(e) => setLastName((e.target.value).trim())}
+              onChange={handleLastNameChange}
               className="signup-input"
               required
             />
@@ -199,7 +224,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername((e.target.value).trim())}
+              onChange={handleUsernameChange}
               className="signup-input"
               required
             />
@@ -219,7 +244,7 @@ function SignupFormModal() {
             <input
               type="text"
               value={email}
-              onChange={(e) => setEmail((e.target.value).trim())}
+              onChange={handleEmailChange}
               className="signup-input"
               required
             />
@@ -242,7 +267,7 @@ function SignupFormModal() {
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword((e.target.value).trim())}
+              onChange={handlePasswordChange}
               className="signup-input"
               required
             />
@@ -257,7 +282,7 @@ function SignupFormModal() {
             <input
               type="password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword((e.target.value).trim())}
+              onChange={handleConfirmPasswordChange}
               className="signup-input"
               required
             />
