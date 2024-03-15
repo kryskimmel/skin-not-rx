@@ -12,7 +12,6 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
     const [productsToAdd, setProductsToAdd] = useState([]);
     const [listAllProducts, setListAllProducts] = useState(false);
 
-
     useEffect(() => {
         dispatch(getCurrUserProducts())
         setAddProducts(productsToAdd)
@@ -97,7 +96,7 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
                 )}
             </div>
             <div className="dropdown">
-            {allProducts.filter(product => {
+            {!allProducts ? alert("Please create a product before creating a collection.") : (allProducts?.filter(product => {
                 const searchTerm = searchInput.toLowerCase();
                 const prodName = product.product_name.toLowerCase();
                 const brandName = product.brand_name.toLowerCase();
@@ -112,7 +111,7 @@ function SearchBarAndAddProduct ({prevStoredProducts, setPrevStoredProducts, set
                     onClick={() => handleProductItemClick(product)}>
                     {product.brand_name} - {product.product_name}
                 </div>
-            ))}
+            )))}
             </div>
             <div className="search-comp-product-tiles-div">
                 {productsToAdd?.map((productTile) => (
