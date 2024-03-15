@@ -43,7 +43,7 @@ function UserCollections() {
         <div className="coll-page-container">
              <div className="coll-header-div">
                 <h1 className="coll-heading">COLLECTIONS</h1>
-                <p className="coll-count-text">{userCollections.length} items</p>
+                <p className="coll-count-text">{userCollections.length ? userCollections.length : 0} {userCollections.length === 1 ? "item" : "items"}</p>
                 <div className="coll-heading-btns-div">
                     <OpenModalButton
                         buttonText={

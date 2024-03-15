@@ -43,7 +43,7 @@ function UserProducts() {
         <div className="prod-page-container">
             <div className="prod-header-div">
                 <h1 className="prod-heading">PRODUCTS</h1>
-                <p className="prod-count-text">{userProducts.length} items</p>
+                <p className="prod-count-text">{userProducts.length ? userProducts.length : 0} {userProducts.length === 1 ? "item" : "items"}</p>
                 <div className="prod-heading-btns-div">
                     <OpenModalButton
                         buttonText={
