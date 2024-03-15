@@ -99,7 +99,6 @@ def add_product():
             db.session.commit()
             return jsonify(new_product.to_dict()), 201
     except Exception as e:
-        print('error------', str(e))
         return {'error': str(e)}, 500
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
