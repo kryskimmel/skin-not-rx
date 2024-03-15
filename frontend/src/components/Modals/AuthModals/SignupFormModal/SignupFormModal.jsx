@@ -111,12 +111,12 @@ function SignupFormModal() {
 
   const handleFirstNameChange = (e) => {
     setFirstName((e.target.value).trim());
-    setBackendErrors({ ...backendErrors, firstName: null });
+    setBackendErrors({ ...backendErrors, first_name: null });
   };
 
   const handleLastNameChange = (e) => {
     setLastName((e.target.value).trim());
-    setBackendErrors({ ...backendErrors, lastName: null });
+    setBackendErrors({ ...backendErrors, last_name: null });
   };
 
   const handleUsernameChange = (e) => {
