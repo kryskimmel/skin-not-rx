@@ -145,7 +145,6 @@ def edit_product(product_id):
             return product_to_update.to_dict(), 200
         except Exception as e:
             db.session.rollback()
-            print('error------', str(e))
             return {'error': str(e)}, 500
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400

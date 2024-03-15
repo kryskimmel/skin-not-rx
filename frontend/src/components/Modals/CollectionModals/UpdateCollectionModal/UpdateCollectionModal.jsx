@@ -73,7 +73,6 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                 'user_id': currentUserId,
                 'product_ids': prodIds
             }
-            console.log('AFTER form submission', updatedCollection)
             const res = await dispatch(editCollection({collectionId, updatedCollectionData:updatedCollection}));
             if (res.error) {
                 setSubmittedForm(true);

@@ -10,7 +10,6 @@ function DeleteCollectionModal ({collectionId, collectionName}) {
 
     const handleYes = async (e) => {
         e.preventDefault();
-        console.log(collectionId, 'collection.id')
         await dispatch(removeCollection(collectionId));
         if (window.location.href.includes('/users/current/favorites')) {
             window.location.reload();

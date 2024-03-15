@@ -156,7 +156,6 @@ function SignupFormModal() {
       setIsFormSubmitted(true);
       setShowErrors(true);
       if (res.error.message) {
-        console.log('errorss??',res.error.message)
         setBackendErrors(formErrorsObj(res.error.message));
       } else {
         setBackendErrors({})

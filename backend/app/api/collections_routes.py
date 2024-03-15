@@ -74,7 +74,6 @@ def add_collection():
 
     product_ids = data.get('product_ids', [])
 
-    print('----data-----', data)
     if form.validate_on_submit():
         new_collection = Collection(
             name=data.get('name'),
@@ -116,8 +115,6 @@ def add_collection():
 @login_required
 def edit_collection(collection_id):
 
-    print("HEREEE!!!!!!!!!!!!!!!")
-    print(request.get_json())
     selected_collection = Collection.query.get(collection_id)
 
     if not selected_collection:
@@ -136,8 +133,6 @@ def edit_collection(collection_id):
         for id in updated_product_ids:
             product = Product.query.get(id)
             products.append(product)
-
-        print('IN PRODUCTS LIST----', products)
 
         selected_collection.products = products
 

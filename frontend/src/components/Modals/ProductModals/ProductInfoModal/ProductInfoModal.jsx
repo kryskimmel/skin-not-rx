@@ -38,10 +38,8 @@ function ProductInfoModal({ productId }) {
     }, [showMenu]);
 
     const closeMenu = () => setShowMenu(false);
-    console.log('key indrerea', product.key_ingredients.split(","))
-
+  
     
-
     return isLoaded && (
         <div className="product-info-modal-wrapper">
             <div className="product-info-image-div">

@@ -73,8 +73,6 @@ function UpdateProductModal({ productId, product }) {
         setKeyIngredientsArr(ingredients);
     };
 
-    console.log('the current image to send":', previewImageURL)
- 
     useEffect(() => {
         addToKeyIngredients();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,7 +211,6 @@ function UpdateProductModal({ productId, product }) {
 
             const res = await dispatch(editProduct({productId, updatedProductData:formData}));
                 if (res.error) {
-                    console.log('message',formErrorsObj(res.error.message).product_name === "Please add a different product as a product with this name already exists")
                     setSubmittedForm(true);
                     setShowErrors(true);
                     if (res.error.message) {

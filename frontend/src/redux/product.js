@@ -47,9 +47,6 @@ export const addProduct = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   'products/updateProduct', async ({productId, updatedProductData}) => {
-    for (let [key, value] of updatedProductData.entries()) {
-      console.log('key', key, 'value', value);
-    }
     const req = await fetch(`/api/products/${productId}`, {
       method: 'PUT',
       body: updatedProductData,
