@@ -1,4 +1,4 @@
-# React/Vite Authenticate Me
+# Frontends Authenticate Me
 
 This is the frontend for the Flask/React project. Note that it has no styling
 applied. You can copy the __.css__ files from your Authenticate Me project into
