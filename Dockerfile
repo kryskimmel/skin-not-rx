@@ -47,11 +47,11 @@ ENV S3_KEY=${S3_KEY}
 ARG S3_SECRET
 ENV S3_SECRET=${S3_SECRET}
 
-COPY ../backend/app ../backend/app
-COPY ../backend/bin ../backend/bin
-COPY ../backend/migrations ../backend/migrations
-COPY ../backend/.flaskenv .
-COPY ../backend/requirements.txt .
+COPY ./backend/app ./backend/app
+COPY ./backend/bin ./backend/bin
+COPY ./backend/migrations ./backend/migrations
+COPY ./backend/.flaskenv .
+COPY ./backend/requirements.txt .
 
 COPY --from=frontend ./frontend/dist ./frontend/dist
 
@@ -60,4 +60,4 @@ RUN pip install psycopg2
 
 EXPOSE 8000
 
-CMD ["bash", "../backend/bin/start.sh"]
+CMD ["bash", "./backend/bin/start.sh"]
