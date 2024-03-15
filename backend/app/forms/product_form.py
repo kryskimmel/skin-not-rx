@@ -47,7 +47,8 @@ class ProductForm(FlaskForm):
             DataRequired(), 
             char_min2,
             char_max60,
-            beginning_spaces
+            beginning_spaces,
+            product_name_exists
         ])
     product_type = StringField(
         'product_type', 
