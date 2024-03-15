@@ -40,9 +40,11 @@
 }
 
 .yes-button:hover {
-    background-color: #B4D3B2;
+    background-color: #000000;
+    color: #FFFFFF;
 }
 
 .no-button:hover {
-    background-color: #FAA0A0;
+    background-color: #000000;
+    color: #FFFFFF;
 }
