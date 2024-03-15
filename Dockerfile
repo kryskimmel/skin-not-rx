@@ -60,4 +60,4 @@ RUN pip install psycopg2
 
 EXPOSE 8000
 
-CMD ["bash", "./bin/start.sh"]
+CMD ["bash", "./backend/bin/start.sh"]
