@@ -38,7 +38,8 @@ function ProductInfoModal({ productId }) {
     }, [showMenu]);
 
     const closeMenu = () => setShowMenu(false);
-
+  
+    
     return isLoaded && (
         <div className="product-info-modal-wrapper">
             <div className="product-info-image-div">
@@ -50,8 +51,25 @@ function ProductInfoModal({ productId }) {
                     <li><span style={{ fontWeight: "600" }}>NAME: </span> {product?.product_name}</li>
                     <li><span style={{ fontWeight: "600" }}>TYPE: </span> {product?.product_type}</li>
                     <li><span style={{ fontWeight: "600" }}>DESCRIPTION: </span> {product?.description}</li>
-                    <li><span style={{ fontWeight: "600" }}>KEY INGREDIENTS: </span> {product?.key_ingredients}</li>
-                    <li><span style={{ fontWeight: "600" }}>PRODUCT LINK: </span><a href={product?.product_link} target="_blank" rel='noreferrer'><Icon icon="uil:link" width="20" height="20" /></a></li>
+                    {product?.key_ingredients ? (
+                        <li><span style={{ fontWeight: "600" }}>KEY INGREDIENTS: </span>
+                            <ul className="product-info-key-ingredients-ul">
+                                {product.key_ingredients?.split(",").map((ingredient, idx) => {
+                                    if (idx < 3 && ingredient.trim() !== "") {
+                                        return <li key={idx} className="your-css-class">{ingredient.trim()}</li>;
+                                    }
+                                    return null;
+                                })}
+                            </ul>
+                        </li>) : null}
+                    {product?.product_link ? (
+                        <li style={{ display:'flex', alignItems:"center"}}>
+                            <span style={{ fontWeight: "600" }}>PRODUCT LINK: </span>
+                            <a href={product?.product_link} target="_blank" rel='noreferrer'>
+                                <Icon icon="uil:link" width="20" height="20" />
+                            </a>
+                        </li>
+                    ) : null}
                 </ul>
             </div>
             <div className="product-info-tools-div">

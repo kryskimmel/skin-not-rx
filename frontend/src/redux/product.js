@@ -27,14 +27,18 @@ export const getCurrUserProducts = createAsyncThunk(
 );
 
 export const addProduct = createAsyncThunk(
-  'products/createProduct',
-  async (newProductData) => {
+  'products/createProduct', async (newProductData) => {
     const req = await fetch('/api/products/', {
       method: 'POST',
       body: newProductData,
     });
     if (!req.ok) {
-      throw new Error(`There was an error in creating your new product`);
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in creating your new product`);
+      }
     }
     const res = await req.json();
     return res;
@@ -45,11 +49,15 @@ export const editProduct = createAsyncThunk(
   'products/updateProduct', async ({productId, updatedProductData}) => {
     const req = await fetch(`/api/products/${productId}`, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(updatedProductData)
+      body: updatedProductData,
     });
     if (!req.ok) {
-      throw new Error(`There was an error in updating your product`)
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in updating your product`);
+      }
     }
     const res = await req.json();
     return res;
@@ -73,7 +81,8 @@ export const removeProduct = createAsyncThunk(
 const initialProductState = {
   allProducts: [],
   byId: {},
-  byProductType: []
+  byProductType: [],
+  errors: null
 };
 
 
@@ -116,8 +125,10 @@ const productSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         const product = action.payload;
         state.byId[product.id] = product;
+        if (!Array.isArray(state.allProducts)) {
+          state.allProducts = [];
+        }
         state.allProducts = [...state.allProducts, product];
-
         const productTypeKey = `${product.product_type}s`;
         state.byProductType[productTypeKey] = state.byProductType[productTypeKey]
           ? [...state.byProductType[productTypeKey], product]
@@ -127,11 +138,13 @@ const productSlice = createSlice({
         const editedProduct = action.payload;
         state.byId[editedProduct.id] = editedProduct;
         state.allProducts = Object.values(state.byId);
-
         const productTypeKey = `${editedProduct.product_type}s`;
-        state.byProductType[productTypeKey] = state.byProductType[productTypeKey].map(
-          (product) => (product.id === editedProduct.id ? editedProduct : product)
-        );
+        const productsOfType = state.byProductType[productTypeKey];
+        if (Array.isArray(productsOfType)) {
+          state.byProductType[productTypeKey] = productsOfType.map(
+            (product) => (product.id === editedProduct.id ? editedProduct : product)
+          );
+        }
       })
       .addCase(removeProduct.fulfilled, (state, action) => {
         const productId = action.payload;
@@ -143,7 +156,13 @@ const productSlice = createSlice({
             (product) => product.id !== productId
           );
         }
-      });
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.errors = action.error.message;
+      })
+      .addCase(editProduct.rejected, (state, action) => {
+        state.errors = action.error.message;
+      })
     }
 });
 

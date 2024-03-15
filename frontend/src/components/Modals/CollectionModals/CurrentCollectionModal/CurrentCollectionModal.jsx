@@ -44,7 +44,7 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
     };
 
     return (
-        <div className='user-products-wrapper'>
+        <div className='user-collections-wrapper'>
             <div className='collection-info-tools-div'>
                 {collectionId && (
                     <button onClick={toggleMenu}>
@@ -74,8 +74,10 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
                     onButtonClick={() => { closeModal() }}
                 />
             </div>
-            <h1 className='user-products-h1'>{collectionName} <span style={{ color: "#4D4B4B", fontSize: "22px" }}>({items.length})</span></h1>
-
+            <div className="user-collections-title-div">
+                <h1 className='user-collections-h1'>{collectionName}</h1>
+                <p style={{color:"4D4B4B", fontSize:"18px"}}>{items.length} items</p>
+            </div>
             <div className='user-products-div'>
                 {items?.map((item) => (
                     <div className='user-products-product-tile' key={item.id}>

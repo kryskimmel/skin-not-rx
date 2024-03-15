@@ -12,10 +12,10 @@ class User(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    first_name = Column(String(15), nullable=False)
-    last_name = Column(String(15), nullable=False)
-    username = Column(String(15), nullable=False, unique=True)
-    email = Column(String(60), nullable=False, unique=True)
+    first_name = Column(String(20), nullable=False)
+    last_name = Column(String(20), nullable=False)
+    username = Column(String(20), nullable=False, unique=True)
+    email = Column(String(20), nullable=False, unique=True)
     hashed_password = Column(String(255), nullable=False)
     profile_image = Column(String(500), nullable=False)
     skin_type = Column(String(255), nullable=False)

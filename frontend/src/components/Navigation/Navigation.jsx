@@ -56,11 +56,10 @@ function Navigation() {
                   <li onClick={handleNavExpansion}><Icon icon="ion:caret-back" width={45}/></li>
                   <li><h2>{user.username}</h2></li>
                   <NavLink to={'/'} onClick={handleNavExpansion}>
-                    <img src={user.profile_image} alt="profile-img" width={125}/>
+                    <img src={user.profile_image} alt="profile-img" width={125} height={125} className="nav-profile-img"/>
                   </NavLink>
               </div>
               <div className="nav-center-after">
-                {/* <li className='nav-item' style={{margin:'0px'}} onClick={handleSearch}><Icon icon="fluent:search-20-regular" width={35}/>SEARCH</li> */}
                   <NavLink to={'/users/current/products'} className='nav-item' onClick={handleNavExpansion}>
                     <Icon icon="fluent:square-20-regular" width={35}/>PRODUCTS
                   </NavLink>

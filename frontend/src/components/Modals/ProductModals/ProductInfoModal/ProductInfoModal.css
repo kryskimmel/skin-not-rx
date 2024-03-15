@@ -71,6 +71,18 @@
     margin-bottom: 5px;
 }
 
+.product-info-key-ingredients-ul {
+    list-style: none;
+}
+
+.product-info-key-ingredients-ul li{
+    background-color: #d3d3d3;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
 .product-info-tools-div {
     display: flex;
     flex-direction: row;

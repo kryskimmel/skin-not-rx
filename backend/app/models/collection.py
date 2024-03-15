@@ -11,7 +11,7 @@ class Collection(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    name = Column(String(60), nullable=False)
+    name = Column(String(20), nullable=False)
     user_id = Column(Integer, ForeignKey(add_prefix_for_prod('users.id')))
 
     created_at = Column(DateTime, default=datetime.utcnow)

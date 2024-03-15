@@ -14,7 +14,7 @@ class Product(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     brand_name = Column(String(60), nullable=False)
     product_name = Column(String(60), nullable=False, unique=True)
-    product_type = Column(String(60), nullable=False)
+    product_type = Column(String(500), nullable=False)
     description = Column(String(500), nullable=False)
     key_ingredients = Column(String(500), nullable=True)
     product_link = Column(String(500), nullable=True)
