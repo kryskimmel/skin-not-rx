@@ -51,7 +51,7 @@ COPY ./app ./app
 COPY ./bin ./bin
 COPY ./migrations ./migrations
 COPY ./.flaskenv .
-COPY ./requirements.txt .
+COPY ./backend/requirements.txt .
 
 COPY --from=frontend ./react-vite/dist ./react-vite/dist
 
