@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCollection } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
+import formErrorsObj from "../../../../utils/formErrorsObj";
 import { Icon } from "@iconify/react";
 import "./CreateCollectionModal.css";
-import formErrorsObj from "../../../../utils/formErrorsObj";
 
 function CreateCollectionModal() {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const currentUserId = useSelector(state => state.session.user.id);
+    const allProducts = useSelector(state => state.products.allProducts);
     const [name, setName] = useState('');
     const [addProducts, setAddProducts] = useState(null);
     const [errors, setErrors] = useState({});
@@ -84,31 +85,49 @@ function CreateCollectionModal() {
     }
     return (
         <div className='create-collection-container'>
-            <h1 className='create-collection-h1'>Create A Collection</h1>
-            <div className="login-form-close-modal-div" onClick={()=> closeModal()}>
-                <Icon 
-                    icon="material-symbols-light:close" 
-                    width="25" 
-                    height="25" 
-                />
-            </div>
-            <form className='create-collection-form' onSubmit={handleSubmit}>
-                <label>Collection Name:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => { setName((e.target.value).trimStart()) }}
-                />
-                {showErrors && submittedForm && errors?.name && (
-                    <div className="errors-div">
-                        <p className="errors-text">{errors.name}</p>
-                    </div>
-                )}  
-                <SearchBarAndAddProduct setAddProducts={setAddProducts}/>
-                <div className="collection-submit-button-div">
-                    <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
+            {allProducts.message ? (
+            <>
+                <div className="login-form-close-modal-div" onClick={()=> closeModal()}>
+                    <Icon 
+                        icon="material-symbols-light:close" 
+                        width="25" 
+                        height="25" 
+                    />
                 </div>
-            </form>
+                <div className="no-prod-create-coll-div">
+                    <p className="no-prod-create-coll-text">{allProducts.message}</p>
+                    <p className="no-prod-create-coll-text">Please create a product before creating a collection.</p>
+                </div>
+            </>
+            ) : (
+                <>
+                <h1 className='create-collection-h1'>Create A Collection</h1>
+                <div className="login-form-close-modal-div" onClick={()=> closeModal()}>
+                    <Icon 
+                        icon="material-symbols-light:close" 
+                        width="25" 
+                        height="25" 
+                    />
+                </div>
+                <form className='create-collection-form' onSubmit={handleSubmit}>
+                    <label>Collection Name:</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => { setName((e.target.value).trimStart()) }}
+                    />
+                    {showErrors && submittedForm && errors?.name && (
+                        <div className="errors-div">
+                            <p className="errors-text">{errors.name}</p>
+                        </div>
+                    )}  
+                    <SearchBarAndAddProduct setAddProducts={setAddProducts}/>
+                    <div className="collection-submit-button-div">
+                        <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
+                    </div>
+                </form>
+                </>
+            )}
         </div>
     )
 }
