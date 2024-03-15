@@ -33,7 +33,12 @@ export const addCollection = createAsyncThunk(
       body: JSON.stringify(newCollectionData),
     });
     if (!req.ok) {
-      throw new Error(`There was an error in creating your new collection`);
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in creating your new collection`);
+      }
     }
     const res = await req.json();
     return res;
@@ -48,7 +53,12 @@ export const editCollection = createAsyncThunk(
       body: JSON.stringify(updatedCollectionData)
     });
     if (!req.ok) {
-      throw new Error(`There was an error in updating your collection`)
+      const res = await req.json();
+      if (res.errors) {
+        throw new Error(JSON.stringify(res.errors));
+      } else {
+        throw new Error(`There was an error in updating your collection`);
+      }
     }
     const res = await req.json();
     return res;
@@ -116,6 +126,12 @@ const collectionSlice = createSlice({
       const collectionId = action.payload;
       delete state.byId[collectionId];
       state.allCollections = state.allCollections.filter(collection => collection.id !== collectionId);
+    })
+    .addCase(addCollection.rejected, (state, action) => {
+      state.errors = action.error.message;
+    })
+    .addCase(editCollection.rejected, (state, action) => {
+      state.errors = action.error.message;
     })
   }
 });
