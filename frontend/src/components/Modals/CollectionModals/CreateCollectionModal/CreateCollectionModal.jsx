@@ -6,6 +6,7 @@ import { useModal } from "../../../../context/Modal";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import { Icon } from "@iconify/react";
 import "./CreateCollectionModal.css";
+import formErrorsObj from "../../../../utils/formErrorsObj";
 
 function CreateCollectionModal() {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function CreateCollectionModal() {
     const currentUserId = useSelector(state => state.session.user.id);
     const [name, setName] = useState('');
     const [addProducts, setAddProducts] = useState(null);
-    const [frontendErrors, setFrontendErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [backendErrors, setBackendErrors] = useState({});
     const [showErrors, setShowErrors] = useState(false);
     const [submittedForm, setSubmittedForm] = useState(false);
@@ -29,10 +30,6 @@ function CreateCollectionModal() {
         return ids
     }, [addProducts]);
 
-  
-    const removeProduct = (prodId) => {
-        setAddProducts(addProducts.filter((prod) => prod.id !== prodId));
-    };
 
     useEffect(() => {
         if (name && productIdsToAdd.length > 0) setIsDisabled(false);
@@ -41,54 +38,50 @@ function CreateCollectionModal() {
 
     useEffect(() => {
         const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+        const inputRequiredError = "Input is required";
+        const beginningSpacesError = "Input cannot begin with a space";
+        const charMax20Error = "Input must not exceed 20 characters";
+        const charMin2Error = "Input must be at least 2 characters long";
 
-        if (!name) validationErrors.name = inputRequired;
-        else if (name.startsWith(" ")) validationErrors.name = cannotStartWithSpaces;
-        else if (name.length > 60) validationErrors.name = maxChar60;
-        else if (name.length < 3) validationErrors.name = minChar3;
+        if (!name) validationErrors.name = inputRequiredError;
+        else if (name.startsWith(" ")) validationErrors.name = beginningSpacesError;
+        else if (name.length > 20) validationErrors.name = charMax20Error;
+        else if (name.length < 2) validationErrors.name = charMin2Error;
 
-        setFrontendErrors(validationErrors);
+        setErrors(validationErrors);
     }, [dispatch, name]);
 
-    useEffect(() => {
-        setShowErrors(Object.values(frontendErrors).length > 0);
-    }, [frontendErrors]);
 
-
-    // handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
         setSubmittedForm(true)
-
-        const newCollection = {
-            'name': name.trimEnd(),
-            'user_id': currentUserId,
-            'product_ids': productIdsToAdd
-        }
-        try {
-            const data = dispatch(addCollection(newCollection));
-            if (Array.isArray(data)) {
-                const dataErrors = {};
-                data?.forEach(error => {
-                    const [key, value] = error.split(':')
-                    dataErrors[key.trim()] = value.trim()
-                });
-                setBackendErrors(dataErrors);
-            } else {
-                if (Object.values(frontendErrors).length === 0) {
-                    closeModal();
-                }
+        if (Object.values(errors).length > 0) {
+            e.preventDefault();
+            setShowErrors(true);
+            setSubmittedForm(true);
+        } else {
+            const newCollection = {
+                'name': name.trimEnd(),
+                'user_id': currentUserId,
+                'product_ids': productIdsToAdd
             }
-        } catch (error) {
-            throw new Error(`There was an error in submitting your form for creating a new collection: ${error}`)
+            const res = dispatch(addCollection(newCollection));
+            if (res.error) {
+                setSubmittedForm(true);
+                setShowErrors(true);
+                if (res.error.message) {
+                    setBackendErrors(formErrorsObj(res.error.message));
+                } else {
+                    setBackendErrors({});
+                }
+            } else {
+                setShowErrors(false);
+                setBackendErrors({});
+                setErrors({});
+                closeModal();
+            }
         }
-    };
-
-
+    }
     return (
         <div className='create-collection-container'>
             <h1 className='create-collection-h1'>Create A Collection</h1>
@@ -106,7 +99,11 @@ function CreateCollectionModal() {
                     value={name}
                     onChange={(e) => { setName((e.target.value).trimStart()) }}
                 />
-                {showErrors && submittedForm && frontendErrors?.name && <p className="errors-text">{frontendErrors.name}</p>}
+                {showErrors && submittedForm && errors?.name && (
+                    <div className="errors-div">
+                        <p className="errors-text">{errors.name}</p>
+                    </div>
+                )}  
                 <SearchBarAndAddProduct setAddProducts={setAddProducts}/>
                 <div className="collection-submit-button-div">
                     <button type="submit" className={submitButtonCN} disabled={isDisabled}>Create Collection</button>
