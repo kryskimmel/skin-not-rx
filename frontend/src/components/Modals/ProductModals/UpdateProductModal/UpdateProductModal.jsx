@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
@@ -23,7 +24,6 @@ function UpdateProductModal({ productId, product }) {
     const [keyIngredient1, setKeyIngredient1] = useState(prevKeyIngredients?.[0]);
     const [keyIngredient2, setKeyIngredient2] = useState(prevKeyIngredients?.[1]);
     const [keyIngredient3, setKeyIngredient3] = useState(prevKeyIngredients?.[2]);
-    const [keyIngredients, setKeyIngredients] = useState("");
     // eslint-disable-next-line no-unused-vars
     const [keyIngredientsArr, setKeyIngredientsArr] = useState([keyIngredient1, keyIngredient2, keyIngredient3]);
     const [productLink, setProductLink] = useState(product.product_link);
@@ -60,7 +60,7 @@ function UpdateProductModal({ productId, product }) {
             setProductName(product.product_name || "")
             setProductType(product.product_type || "")
             setDescription(product.description || "")
-            setKeyIngredients(product.key_ingredients || "")
+            setKeyIngredientsArr(product.key_ingredients || "")
             setProductLink(product.product_link || "")
             setPreviewImage(product.preview_image || "")
         }
@@ -110,37 +110,54 @@ function UpdateProductModal({ productId, product }) {
 
     useEffect(() => {
         const validationErrors = {};
-        const inputRequired = "Input is required."
-        const cannotStartWithSpaces = "Input cannot begin with a space."
-        const maxChar60 = "Input must not exceed 60 characters."
-        const maxChar500 = "Input must not exceed 500 characters."
-        const minChar3 = "Input must be at least 3 characters long."
+        const urlFormat = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+        const inputRequiredError = "Input is required";
+        const beginningSpacesError = "Input cannot begin with a space";
+        const charMax60Error = "Input must not exceed 60 characters";
+        const charMax500Error = "Input must not exceed 500 characters";
+        const charMin2Error = "Input must be at least 2 characters long";
+        const charMin4Error = "Input must be at least 4 characters long";
+        const urlFormatError = "Invalid URL";
 
-        if (!brandName) validationErrors.brandName = inputRequired;
-        else if (brandName.startsWith(" ")) validationErrors.brandName = cannotStartWithSpaces;
-        else if (brandName && brandName.length > 60) validationErrors.brandName = maxChar60;
+        
+        if (!brandName) validationErrors.brandName = inputRequiredError;
+        else if (brandName.startsWith(" ")) validationErrors.brandName = beginningSpacesError;
+        else if (brandName.length > 60) validationErrors.brandName = charMax60Error;
+        else if (brandName.length < 2) validationErrors.brandName = charMin2Error;
 
-        if (!productName) validationErrors.productName = inputRequired;
-        else if (productName.startsWith(" ")) validationErrors.productName = cannotStartWithSpaces;
-        else if (productName.length > 60) validationErrors.productName = maxChar60;
+        if (!productName) validationErrors.productName = inputRequiredError;
+        else if (productName.startsWith(" ")) validationErrors.productName = beginningSpacesError;
+        else if (productName.length > 60) validationErrors.productName = charMax60Error;
+        else if (productName.length < 2) validationErrors.productName = charMin2Error;
 
-        if (!productType) validationErrors.productType = inputRequired;
-        else if (productType.length > 60) validationErrors.productType = maxChar60;
+        if (!productType) validationErrors.productType = inputRequiredError;
 
-        if (!description.length) validationErrors.description = inputRequired;
-        else if (description.startsWith(" ")) validationErrors.description = cannotStartWithSpaces;
-        else if (description.length > 500) validationErrors.description = maxChar500;
+        if (!description.length) validationErrors.description = inputRequiredError;
+        else if (description.startsWith(" ")) validationErrors.description = beginningSpacesError;
+        else if (description.length > 500) validationErrors.description = charMax500Error;
+        else if (description.length < 4) validationErrors.description = charMin4Error;
 
-        if (keyIngredients && keyIngredients.startsWith(" ")) validationErrors.keyIngredients = cannotStartWithSpaces;
-        else if (keyIngredients && keyIngredients.length < 3) validationErrors.keyIngredients = minChar3;
-        else if (keyIngredients && keyIngredients.length > 500) validationErrors.keyIngredients = maxChar500;
+        if (keyIngredient1 && keyIngredient1.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient1 && keyIngredient1.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient1 && keyIngredient1.length > 500) validationErrors.keyIngredients = charMax500Error;
 
-        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = cannotStartWithSpaces;
-        else if (productLink && productLink.length < 3) validationErrors.productLink = minChar3;
-        else if (productLink && productLink.length > 500) validationErrors.productLink = maxChar500;
+        if (keyIngredient2 && keyIngredient2.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient2 && keyIngredient2.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient2 && keyIngredient2.length > 500) validationErrors.keyIngredients = charMax500Error;
+
+        if (keyIngredient3 && keyIngredient3.startsWith(" ")) validationErrors.keyIngredients = beginningSpacesError;
+        else if (keyIngredient3 && keyIngredient3.length < 2) validationErrors.keyIngredients = charMin2Error;
+        else if (keyIngredient3 && keyIngredient3.length > 500) validationErrors.keyIngredients = charMax500Error;
+
+        if (productLink && productLink.startsWith(" ")) validationErrors.productLink = beginningSpacesError;
+        else if (productLink && !urlFormat.test(productLink)) validationErrors.productLink = urlFormatError;
+        else if (productLink && productLink.length < 4) validationErrors.productLink = charMin4Error;
+        else if (productLink && productLink.length > 500) validationErrors.productLink = charMax500Error;
+
+        if (!previewImage) validationErrors.previewImage = inputRequiredError;
 
         setErrors(validationErrors);
-    }, [brandName, productName, productType, description, keyIngredients, productLink])
+    }, [brandName, productName, productType, description, keyIngredient1, keyIngredient2, keyIngredient3, productLink, previewImage])
 
     // useEffect(() => {
     //     setShowErrors(Object.values(errors).length > 0);
@@ -148,39 +165,44 @@ function UpdateProductModal({ productId, product }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const keyIngredientsString = keyIngredientsArr.join(', ');
+        if (Object.values(errors).length > 0) {
+            e.preventDefault();
+            setShowErrors(true);
+            setSubmittedForm(true);
+        }  else {
+            const formData = new FormData();
+            formData.append("brand_name", brandName.trimEnd());
+            formData.append("product_name", productName.trimEnd());
+            formData.append("product_type", productType);
+            formData.append("description", description.trimEnd());
+            formData.append("key_ingredients", keyIngredientsArr);
+            formData.append("product_link", productLink.trimEnd());
+            formData.append("user_id", user.id);
+            formData.append("image_url", previewImageURL)
 
-        const formData = new FormData();
-        formData.append("brand_name", brandName.trimEnd());
-        formData.append("product_name", productName.trimEnd());
-        formData.append("product_type", productType);
-        formData.append("description", description.trimEnd());
-        formData.append("key_ingredients", keyIngredientsString);
-        formData.append("product_link", productLink.trimEnd());
-        formData.append("user_id", user.id);
-        formData.append("image_url", previewImageURL)
-
-        const res = await dispatch(editProduct({productId, updatedProductData:formData}));
-            if (res.error) {
-                setSubmittedForm(true);
-                setShowErrors(true);
-                if (res.error.message) {
-                    setBackendErrors(formErrorsObj(res.error.message));
+            const res = await dispatch(editProduct({productId, updatedProductData:formData}));
+                if (res.error) {
+                    setSubmittedForm(true);
+                    setShowErrors(true);
+                    if (res.error.message) {
+                        setBackendErrors(formErrorsObj(res.error.message));
+                    } else {
+                        setBackendErrors({});
+                    }
                 } else {
-                    setBackendErrors({});
-                }
-            } else {
-                if (window.location.href.includes('/users/current/favorites')) {
-                    window.location.reload();
-                    closeModal();
+                    if (window.location.href.includes('/users/current/favorites')) {
+                        window.location.reload();
+                        closeModal();
                 } else {
                     setShowErrors(false);
                     setBackendErrors({});
                     setErrors({});
+                    window.location.reload();
                     closeModal();
                 }
             }
-        
+
+        }  
     };
 
 
