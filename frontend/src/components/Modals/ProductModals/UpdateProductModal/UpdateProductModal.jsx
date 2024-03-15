@@ -278,11 +278,6 @@ function UpdateProductModal({ productId, product }) {
                         value={productName}
                         onChange={handleProductNameChange}
                     />
-                    {showErrors && submittedForm && errors?.productName && (
-                        <div className="errors-div">
-                            <p className="errors-text">{errors.productName}</p>
-                        </div>
-                    )}  
                     {submittedForm && backendErrors?.product_name && (
                         <div>
                             <p className="errors-text">{backendErrors.product_name}</p>
