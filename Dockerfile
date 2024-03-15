@@ -1,12 +1,12 @@
 FROM --platform=amd64 node:18 as frontend
 
-WORKDIR /react-vite
+WORKDIR /frontend
 
-COPY ./react-vite/package*.json .
+COPY ./frontend/package*.json .
 
 RUN npm install
 
-COPY ./react-vite .
+COPY ./frontend .
 
 RUN npm run build
 
