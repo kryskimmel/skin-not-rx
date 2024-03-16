@@ -49,7 +49,7 @@ ENV S3_SECRET=${S3_SECRET}
 
 COPY ./app ./app
 COPY ./backend/bin ./backend/bin
-COPY ./backend/migrations ./backend/migrations
+COPY ./migrations ./migrations
 COPY ./backend/.flaskenv .
 COPY ./backend/requirements.txt .
 
