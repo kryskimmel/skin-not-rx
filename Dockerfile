@@ -48,10 +48,10 @@ ARG S3_SECRET
 ENV S3_SECRET=${S3_SECRET}
 
 COPY ./app ./app
-COPY ./backend/bin ./backend/bin
+COPY ./bin ./bin
 COPY ./migrations ./migrations
-COPY ./backend/.flaskenv .
-COPY ./backend/requirements.txt .
+COPY ./.flaskenv .
+COPY ./requirements.txt .
 
 COPY --from=frontend ./frontend/dist ./frontend/dist
 
@@ -60,4 +60,4 @@ RUN pip install psycopg2
 
 EXPOSE 8000
 
-CMD ["bash", "./backend/bin/start.sh"]
+CMD ["bash", "./bin/start.sh"]
