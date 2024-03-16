@@ -47,7 +47,7 @@ ENV S3_KEY=${S3_KEY}
 ARG S3_SECRET
 ENV S3_SECRET=${S3_SECRET}
 
-COPY ./backend/app ./backend/app
+COPY ./app ./app
 COPY ./backend/bin ./backend/bin
 COPY ./backend/migrations ./backend/migrations
 COPY ./backend/.flaskenv .
