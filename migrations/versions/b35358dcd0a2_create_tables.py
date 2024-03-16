@@ -1,8 +1,9 @@
-"""create tables
+"""create tables'
 
-Revision ID: ef19ccb53800
+
+Revision ID: b35358dcd0a2
 Revises: 
-Create Date: 2024-03-05 20:52:55.299754
+Create Date: 2024-03-15 21:55:15.649989
 
 """
 from alembic import op
@@ -13,7 +14,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = 'ef19ccb53800'
+revision = 'b35358dcd0a2'
 down_revision = None
 branch_labels = None
 depends_on = None
