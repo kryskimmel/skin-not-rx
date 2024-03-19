@@ -1,4 +1,4 @@
-# 5 favorite collections seed sata
+# 3 favorite collections seed sata
 favorite_collections_data = [
     {
         "user_id": 1,
@@ -9,15 +9,7 @@ favorite_collections_data = [
         "collection_id": 3
     },
     {
-        "user_id": 2,
-        "collection_id": 2
+        "user_id": 1,
+        "collection_id": 4
     },
-    {
-        "user_id": 2,
-        "collection_id": 3
-    },
-    {
-        "user_id": 3,
-        "collection_id": 1
-    }
 ]

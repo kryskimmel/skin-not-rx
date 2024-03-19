@@ -1,4 +1,4 @@
-# 3 collection seed data items
+# 6 collection seed data items
 collections_data = [
     {
         "name": "Let It Glow",
@@ -12,7 +12,7 @@ collections_data = [
     },
     {
         "name": "It's Sunday",
-        "user_id": 2,
+        "user_id": 1,
         "product_id": [9, 12, 13]
     },
     {
@@ -22,7 +22,7 @@ collections_data = [
     },
     {
         "name": "Skincare Routine No1",
-        "user_id": 2,
+        "user_id": 1,
         "product_id": [3, 4]
     },
     {

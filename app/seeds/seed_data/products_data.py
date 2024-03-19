@@ -31,7 +31,7 @@ products_data = [
        "key_ingredients": "Cherry Blossom Flavonoids, Niacinamide, Sugar Beet Betaine",
        "product_link": "https://us.innisfree.com/products/dewy-glow-jelly-cream-with-jeju-cherry-blossom-2",
        "preview_image": "https://us.innisfree.com/cdn/shop/products/DewyGlowJellyCream-1080x1080.jpg",
-       "user_id": 2
+       "user_id": 1
     },
    #  #4
     {
@@ -42,7 +42,7 @@ products_data = [
        "key_ingredients": "Matcha, Hemp Seed Oil, Sodium PCA",
        "product_link": "https://kravebeauty.com/products/matcha-hemp-hydrating-cleanser",
        "preview_image": "https://i.ebayimg.com/images/g/QG4AAOSwolNkHSd6/s-l960.webp",
-       "user_id": 2
+       "user_id": 1
     },
    #  #5
     {
@@ -97,7 +97,7 @@ products_data = [
        "key_ingredients": "Snail Secretion Filtrate, Niacinamide, Centella Asiatica (Cica) Extract",
        "product_link": "https://tonymoly.us/collections/eye-care-eye-cream/products/intense-care-gold-24k-snail-eye-serum-ball",
        "preview_image": "https://tonymoly.us/cdn/shop/files/IntenseCareGold24KSnailEyeSerumBall01_2048x.png",
-       "user_id": 2
+       "user_id": 1
     },
    # #  #10
     {
@@ -130,7 +130,7 @@ products_data = [
        "key_ingredients": "Rose Water, Witch Hazel, Aloe Vera",
        "product_link": "https://www.thayers.com/ROSE-PETAL-FACIAL-TONER/THY0003.html",
        "preview_image": "https://i5.walmartimages.com/seo/Thayers-Witch-Hazel-Rose-Petal-Facial-Toner-8-5-fl-oz_acd37c3e-a0bf-42e6-8728-36b770844c62.73ee664cd16feacbf52f076e68b21b6d.jpeg",
-       "user_id": 2
+       "user_id": 1
     },
    # #  #13
     {
@@ -141,7 +141,7 @@ products_data = [
        "key_ingredients": "Propolis Extract, Niacinamide",
        "product_link": "https://beautyofjoseon.com/products/glow-serum-propolis-niacinamide?variant=40070016237733",
        "preview_image": "https://www.shopbeautydepot.com/cdn/shop/products/beauty-of-joseon-face-care-beauty-of-joseon-glow-serum-30ml-30641082761302_1024x1024.jpg",
-       "user_id": 2
+       "user_id": 1
     },
    # #  #14
     {
@@ -174,7 +174,7 @@ products_data = [
        "key_ingredients": "PH-Neutral Amino Acid Base, Japanese Rice Powder, Okinawa Algae Blend + Hyaluronic Acid",
        "product_link": "https://www.tatcha.com/product/rice-wash-creamy-rice-powder-cleanser/CC03011T.html",
        "preview_image": "https://i.pinimg.com/736x/f8/4e/b2/f84eb2dc5f3955132ac7b4791d2fa4ed.jpg",
-       "user_id": 2
+       "user_id": 1
     },
    # #  #17
     {
