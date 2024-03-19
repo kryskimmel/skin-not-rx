@@ -120,17 +120,22 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    justify-self: center;
+    justify-content: space-around;
+    width: 100vw;
     gap: 10px;
-    padding: 20px 0;
+    padding: 20px 20px;
 }
 
 .prod-collapsible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     border: none;
     background-color: #FFFFFF;
     width: 500px;
     height: 30px;
+    padding: 10px;
     font-size: 18px;
     cursor: pointer;
 }
@@ -166,7 +171,6 @@
     height: 75px;
     padding: 5px;
 }
-
 
 /************************/
 .no-products-div {
