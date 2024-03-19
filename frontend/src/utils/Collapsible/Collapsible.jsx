@@ -1,20 +1,12 @@
-import { useState } from "react";
-
-const Collapsible = (props) => {
-    const [open, setOpen] = useState(false);
-    const toggle = () => {
-      setOpen(!open);
-    };
-    
-    return (
-      <div>
-      <button onClick={toggle} className={props.className}>{props.label}</button>
-      {open && (
-        <div className="toggle">
-          {props.children}
-        </div>
-      )}
+function Collapsible({ isOpen, onToggle, label, className, children }) {
+  return (
+    <div>
+      <button onClick={onToggle} className={className}>
+        {label}
+      </button>
+      {isOpen && <div className="toggle">{children}</div>}
     </div>
-    );
-  };
+  );
+}
+
 export default Collapsible;

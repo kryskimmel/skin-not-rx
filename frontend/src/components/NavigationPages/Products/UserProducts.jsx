@@ -18,6 +18,11 @@ function UserProducts() {
         const storedFavorites = localStorage.getItem('favoriteProducts');
         return storedFavorites ? JSON.parse(storedFavorites) : {};
     });
+    const [openCollapsible, setOpenCollapsible] = useState(null);
+
+    const handleCollapsibleClick = (productType) => {
+      setOpenCollapsible(productType === openCollapsible ? null : productType);
+    };
  
     useEffect(() => {
         dispatch(getCurrUserProducts())
@@ -109,7 +114,10 @@ function UserProducts() {
                         <Collapsible 
                             key={`${productType}-${products[0]}`} 
                             label={productType} 
-                            className='prod-collapsible'>
+                            className='prod-collapsible'
+                            isOpen={openCollapsible === productType}
+                            onToggle={() => handleCollapsibleClick(productType)}
+                            >
                             <div className="prod-collapsible-content">
                                 {products.length > 0 ? (
                                     products.map((product, index) => (
