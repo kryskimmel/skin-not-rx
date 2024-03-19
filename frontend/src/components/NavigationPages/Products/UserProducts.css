@@ -52,26 +52,21 @@
 
 .prod-page-contents-div {
     display: grid;
-    grid-template-columns: 1fr, 0.75fr;
-    grid-template-rows: 1;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(2, 1fr);
 }
 
 /************************/
 .prod-tiles-div {
-    width: 48vw;
-    height: 675px;
-    grid-column: 1;
+    grid-row: 1;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    overflow-y: auto;  
-    overflow-x: hidden;
+    padding: 0 20px;
+    overflow-y: hidden;  
+    overflow-x: auto;
     gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .prod-tile-btn {
@@ -121,15 +116,13 @@
 
 /************************/
 .prod-by-type-div {
-    width: 48vw;
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
+    justify-self: center;
     gap: 10px;
-    padding-top: 30px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: 20px 0;
 }
 
 .prod-collapsible {
@@ -140,7 +133,6 @@
     height: 30px;
     font-size: 18px;
     cursor: pointer;
-
 }
 
 .prod-collapsible-content {
