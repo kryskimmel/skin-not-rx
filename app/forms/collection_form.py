@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, ValidationError
-from app.models import Collection
 
 def char_max20(form, field):
     if len(field.data) > 20:

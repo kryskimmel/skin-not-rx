@@ -3,7 +3,6 @@ from wtforms import StringField
 from wtforms.validators import DataRequired, Email, ValidationError
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app.awsS3 import ALLOWED_EXTENSIONS
-from app.models import Product
 
 def char_max60(form, field):
     if len(field.data) > 60:
