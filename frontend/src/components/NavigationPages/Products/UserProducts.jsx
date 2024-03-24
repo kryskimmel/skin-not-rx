@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrUserProducts } from "../../../redux/product";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal";
