@@ -93,6 +93,9 @@ function FavoriteProducts() {
         return (
                 <div className="fave-prod-page-container">
                     <h2 className="fave-prod-heading">Favorite Products</h2>
+                    <p className="fave-prod-count-text">
+                        {favoriteProducts.length ? favoriteProducts.length : 0} {favoriteProducts.length === 1 ? "item" : "items"}
+                    </p>
                     <div className="fave-prod-search-div">
                         <Icon icon="fluent:search-20-filled" width={25} height={25}/>
                         <input 
