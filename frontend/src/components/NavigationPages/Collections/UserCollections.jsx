@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import { getCurrUserProducts } from "../../../redux/product";
@@ -7,15 +7,17 @@ import SearchCollectionsModal from "../../Modals/CollectionModals/SearchCollecti
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
 import { Icon } from "@iconify/react";
+import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./UserCollections.css";
 
 function UserCollections() {
     const dispatch = useDispatch();
     const userCollections = useSelector(state => state.collections.allCollections);
+    const[isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getCurrUserProducts())
-        dispatch(getCurrUserCollections())
+        dispatch(getCurrUserCollections()).then(() => setIsLoading(false))
     }, [dispatch]);
 
     return (
@@ -40,7 +42,13 @@ function UserCollections() {
                 </div>
             </div>
             <div className="coll-tiles-div">
-                {userCollections.length ? userCollections.map((collection) => (
+                {isLoading ? 
+                (<LoadingSpinner/>) :
+                !userCollections.length ? 
+                (<div className="no-collections-div">
+                    <p className="no-collections-text">You have not created any collections!</p>
+                </div>) : 
+                (userCollections.map((collection) => (
                     <div key={`colltile-${collection.id}-${collection.name}`}>
                         <OpenModalButton
                             className="coll-tile-btn"
@@ -65,11 +73,7 @@ function UserCollections() {
                             modalComponent={<CurrentCollectionModal collectionName={collection.name} items={collection.Products} collectionId={collection.id} />}
                         />
                     </div>
-                )) : (
-                    <div className="no-collections-div">
-                        <p className="no-collections-text">You have not created any collections!</p>
-                    </div>
-                )}
+                )))}
             </div>
         </div>
     )
