@@ -9,10 +9,11 @@ import { Icon } from "@iconify/react";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./UserProducts.css";
 
-function UserProducts() {
+function UserProducts({isLoadings}) {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.allProducts);
     const[isLoading, setIsLoading] = useState(true);
+    console.log('test', isLoadings)
 
     useEffect(() => {
         dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
