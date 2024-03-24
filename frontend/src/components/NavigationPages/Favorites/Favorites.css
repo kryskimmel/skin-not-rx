@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
+    padding-bottom: 30px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
@@ -14,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .fave-prod-search,
@@ -27,12 +28,30 @@
     border: 1px solid #000000;
 }
 
-.fave-prod-search-options,
+.fave-prod-search-options{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
+    height: 320px;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .fave-coll-search-options {
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;  
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
+    height: 295px;
     gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .fave-prod-search-options-tile-btn {
@@ -104,6 +123,11 @@
 }
 
 .fave-prod-heading {
+    display: flex;
+    justify-content: center;
+}
+
+.fave-prod-count-text {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
@@ -179,6 +203,11 @@
 }
 
 .fave-coll-heading {
+    display: flex;
+    justify-content: center;
+}
+
+.fave-coll-count-text {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
