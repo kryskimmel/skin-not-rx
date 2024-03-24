@@ -18,55 +18,58 @@ function UserProducts() {
         dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
     }, [dispatch]);
 
-    return (
-        <div className="prod-page-container">
-            <div className="prod-header-div">
-                <h1 className="prod-heading">PRODUCTS</h1>
-                <p className="prod-count-text">{userProducts.length ? userProducts.length : 0} {userProducts.length === 1 ? "item" : "items"}</p>
-                <div className="prod-heading-btns-div">
-                    <OpenModalButton
-                        buttonText={
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                <p>Create A Product</p>
-                            </div>}
-                        className="prod-create-btn"
-                        modalComponent={<CreateProductModal />}
-                    />
-                    <OpenModalButton
-                        buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
-                        className="prod-search-btn"
-                        modalComponent={<SearchProductsModal />}
-                    />
-                </div>
-            </div>
-            <div className="prod-tiles-div">
-                {isLoading ? 
-                (<LoadingSpinner/>) : 
-                !userProducts.length ? 
-                (<div className="no-products-div">
-                    <p className="no-products-text">You have not added any products!</p>
-                </div>) : 
-                (userProducts.map((attr) => (
-                    <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
+    if (isLoading) {
+        return <LoadingSpinner/>
+    } else {
+        return (
+            <div className="prod-page-container">
+                <div className="prod-header-div">
+                    <h1 className="prod-heading">PRODUCTS</h1>
+                    <p className="prod-count-text">{userProducts.length ? userProducts.length : 0} {userProducts.length === 1 ? "item" : "items"}</p>
+                    <div className="prod-heading-btns-div">
                         <OpenModalButton
-                            className="prod-tile-btn"
                             buttonText={
-                            <>
-                            <img src={attr.preview_image} className="prod-tile-img"/>
-                            <div>
-                                <ul className="prod-tile-info-ul">
-                                    <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
-                                    <li>{attr.product_name}</li>
-                                </ul>
-                            </div>
-                            </>
-                            }
-                            modalComponent={<ProductInfoModal productId={attr.id} />}
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                    <p>Create A Product</p>
+                                </div>}
+                            className="prod-create-btn"
+                            modalComponent={<CreateProductModal />}
                         />
-                    </div>)))}
-            </div>
-        </div>        
-    )
+                        <OpenModalButton
+                            buttonText={<Icon icon="fluent:search-20-filled" width={20} height={20}/>}
+                            className="prod-search-btn"
+                            modalComponent={<SearchProductsModal />}
+                        />
+                    </div>
+                </div>
+                <div className="prod-tiles-div">
+                    {!userProducts.length ? 
+                    (<div className="no-products-div">
+                        <p className="no-products-text">You have not added any products!</p>
+                    </div>) : 
+                    (userProducts.map((attr) => (
+                        <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
+                            <OpenModalButton
+                                className="prod-tile-btn"
+                                buttonText={
+                                <>
+                                <img src={attr.preview_image} className="prod-tile-img"/>
+                                <div>
+                                    <ul className="prod-tile-info-ul">
+                                        <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
+                                        <li>{attr.product_name}</li>
+                                    </ul>
+                                </div>
+                                </>
+                                }
+                                modalComponent={<ProductInfoModal productId={attr.id} />}
+                            />
+                        </div>)))}
+                </div>
+            </div>        
+        )
+    }
+
 }
 
 export default UserProducts;
