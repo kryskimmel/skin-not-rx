@@ -6,6 +6,7 @@ import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal"
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import CreateProductModal from "../../Modals/ProductModals/CreateProductModal";
 import { Icon } from "@iconify/react";
+import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./UserProducts.css";
 
 function UserProducts() {
@@ -40,7 +41,7 @@ function UserProducts() {
             </div>
             <div className="prod-tiles-div">
                 {isLoading ? 
-                (<p>...loading</p>) : 
+                (<LoadingSpinner/>) : 
                 !userProducts.length ? 
                 <div className="no-products-div">
                     <p className="no-products-text">You have not added any products!</p>
