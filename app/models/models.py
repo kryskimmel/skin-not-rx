@@ -1,5 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from .tables import product_collections, favorited_products, favorited_collections
 import sqlalchemy as sa
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,16 +25,8 @@ class User(db.Model, UserMixin):
     # one-to-many rel
     products = db.relationship('Product', back_populates='user', cascade='all, delete-orphan')
     collections = db.relationship('Collection', back_populates='user', cascade='all, delete-orphan')
-
-    #many-to-many rel
-    favorite_products = db.relationship('Product', 
-                                        secondary=favorited_products, 
-                                        back_populates='user', 
-                                        primaryjoin="User.id == favorited_products.c.user_id")
-    favorite_collections = db.relationship('Collection', 
-                                           secondary=favorited_collections, 
-                                           back_populates='user', 
-                                           primaryjoin="User.id == favorited_collections.c.user_id")
+    favorite_products = db.relationship('Favorite_Product', back_populates='user', cascade='all, delete-orphan')
+    favorite_collections = db.relationship('Favorite_Collection', back_populates='user', cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -58,6 +49,15 @@ class User(db.Model, UserMixin):
             'profile_image': self.profile_image,
             'skin_type': self.skin_type
         }
+     
+# ### Association table between products and collections ###  
+product_collections = db.Table(
+    'product_collections',
+    db.metadata,
+    sa.Column('product_id', sa.ForeignKey(add_prefix_for_prod('products.id')), primary_key=True),
+    sa.Column('collection_id', sa.ForeignKey(add_prefix_for_prod('collections.id')), primary_key=True),
+    schema=SCHEMA if environment == "production" else None
+) 
     
 
 # ### PRODUCT model ###
@@ -82,9 +82,8 @@ class Product(db.Model):
     user = db.relationship('User', back_populates='products')
     #many-to-many rel
     collections = db.relationship('Collection', 
-                                  secondary=product_collections, 
-                                  back_populates='products',
-                                  primaryjoin="Product.id == product_collections.c.product_id")
+                                  secondary=product_collections,
+                                  back_populates='products')
     def to_dict(self):
         return {
             'id': self.id,
@@ -117,7 +116,7 @@ class Collection(db.Model):
     products = db.relationship('Product', 
                                secondary=product_collections, 
                                back_populates='collections',
-                               primaryjoin="and_(Collection.id == product_collections.c.collection_id)")
+                               )
 
     def to_dict(self):
         return {
@@ -125,6 +124,8 @@ class Collection(db.Model):
             'name': self.name,
             'user_id': self.user_id,
         }
+    
+
     
 
 # ### FAVORITE_PRODUCT model ###
@@ -139,6 +140,9 @@ class Favorite_Product(db.Model):
     product_id = sa.Column(sa.Integer, sa.ForeignKey(add_prefix_for_prod('products.id')), nullable=False)
     created_at = sa.Column(sa.DateTime, default=datetime.now())
     updated_at = sa.Column(sa.DateTime, default=datetime.now(), onupdate=datetime.now())
+
+    #many favorited products belong to a user
+    user = db.relationship('User', back_populates='favorite_products')
 
     def to_dict(self):
         return {
@@ -160,6 +164,9 @@ class Favorite_Collection(db.Model):
     collection_id = sa.Column(sa.Integer, sa.ForeignKey(add_prefix_for_prod('collections.id')), nullable=False)
     created_at = sa.Column(sa.DateTime, default=datetime.now())
     updated_at = sa.Column(sa.DateTime, default=datetime.now(), onupdate=datetime.now())
+
+    #many favorited products belong to a user
+    user = db.relationship('User', back_populates='favorite_collections')
 
     def to_dict(self):
         return {
