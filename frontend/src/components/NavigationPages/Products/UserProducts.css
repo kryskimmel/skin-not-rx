@@ -6,7 +6,6 @@
     justify-content: center;
     align-items: center;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    position: relative;
 }
 
 .prod-header-div {
@@ -50,23 +49,22 @@
     cursor: pointer;
 }
 
-.prod-page-contents-div {
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: repeat(2, 1fr);
-}
-
 /************************/
 .prod-tiles-div {
-    grid-row: 1;
+    width: 48vw;
+    height: 675px;
+    grid-column: 1;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 20px;
-    overflow-y: hidden;  
-    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    overflow-y: auto;  
+    overflow-x: hidden;
     gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .prod-tile-btn {
