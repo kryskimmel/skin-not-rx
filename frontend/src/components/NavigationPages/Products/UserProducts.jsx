@@ -43,9 +43,9 @@ function UserProducts() {
                 {isLoading ? 
                 (<LoadingSpinner/>) : 
                 !userProducts.length ? 
-                <div className="no-products-div">
+                (<div className="no-products-div">
                     <p className="no-products-text">You have not added any products!</p>
-                </div> : 
+                </div>) : 
                 (userProducts.map((attr) => (
                     <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
                         <OpenModalButton
