@@ -92,6 +92,9 @@ function FavoriteCollections() {
             return (
                 <div className="fave-coll-page-container">
                     <h2 className="fave-coll-heading">Favorite Collections</h2>
+                    <p className="fave-coll-count-text">
+                        {favoriteCollections.length ? favoriteCollections.length : 0} {favoriteCollections.length === 1 ? "item" : "items"}
+                    </p>
                     <div className="fave-coll-search-div">
                         <Icon icon="fluent:search-20-filled" width={25} height={25}/>
                         <input 
