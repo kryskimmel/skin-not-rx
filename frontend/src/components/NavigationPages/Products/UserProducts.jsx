@@ -37,38 +37,31 @@ function UserProducts() {
                     />
                 </div>
             </div>
-            <div className="prod-page-contents-div">
-                <div className="prod-tiles-div">
-                    {userProducts.length ? userProducts.map((attr) => (
-                        <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
-                            <OpenModalButton
-                                className="prod-tile-btn"
-                                buttonText={
-                                    <>
-                                        <img 
-                                            src={attr.preview_image} 
-                                            className="prod-tile-img"
-                                        />
-                                        <div>
-                                            <ul className="prod-tile-info-ul">
-                                                <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
-                                                <li>{attr.product_name}</li>
-                                            </ul>
-                                        </div>
-                                    </>
-                                }
-                                modalComponent={<ProductInfoModal productId={attr.id} />}
-                            />
-                        </div>
-                        ))
-                        :(
-                        <div className="no-products-div">
-                            <p className="no-products-text">You have not added any products!</p>
-                        </div>
-                    )}
-                </div>
-            </div>        
-        </div>
+            <div className="prod-tiles-div">
+                {userProducts.length ? userProducts.map((attr) => (
+                    <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
+                        <OpenModalButton
+                            className="prod-tile-btn"
+                            buttonText={
+                            <>
+                            <img src={attr.preview_image} className="prod-tile-img"/>
+                            <div>
+                                <ul className="prod-tile-info-ul">
+                                    <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
+                                    <li>{attr.product_name}</li>
+                                </ul>
+                            </div>
+                            </>
+                            }
+                            modalComponent={<ProductInfoModal productId={attr.id} />}
+                        />
+                    </div>)) : (
+                    <div className="no-products-div">
+                        <p className="no-products-text">You have not added any products!</p>
+                    </div>
+                )}
+            </div>
+        </div>        
     )
 }
 
