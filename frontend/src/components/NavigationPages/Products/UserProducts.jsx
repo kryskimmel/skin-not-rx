@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getCurrUserProducts } from "../../../redux/product";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal";
@@ -11,9 +11,10 @@ import "./UserProducts.css";
 function UserProducts() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.allProducts);
+    const[isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getCurrUserProducts())
+        dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
     }, [dispatch]);
 
     return (
@@ -38,7 +39,13 @@ function UserProducts() {
                 </div>
             </div>
             <div className="prod-tiles-div">
-                {userProducts.length ? userProducts.map((attr) => (
+                {isLoading ? 
+                (<p>...loading</p>) : 
+                !userProducts.length ? 
+                <div className="no-products-div">
+                    <p className="no-products-text">You have not added any products!</p>
+                </div> : 
+                (userProducts.map((attr) => (
                     <div key={`prodtile-${attr.id}-${attr.product_name}`} style={{position:'relative'}}>
                         <OpenModalButton
                             className="prod-tile-btn"
@@ -55,11 +62,7 @@ function UserProducts() {
                             }
                             modalComponent={<ProductInfoModal productId={attr.id} />}
                         />
-                    </div>)) : (
-                    <div className="no-products-div">
-                        <p className="no-products-text">You have not added any products!</p>
-                    </div>
-                )}
+                    </div>)))}
             </div>
         </div>        
     )
