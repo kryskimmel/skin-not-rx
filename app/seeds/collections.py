@@ -1,7 +1,6 @@
 from app.models import db, Collection, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from .seed_data.collections_data import collections_data
-from .seed_data.products_data import products_data
 
 def seed_collections():
     for collection in collections_data:
