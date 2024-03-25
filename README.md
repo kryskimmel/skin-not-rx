@@ -38,13 +38,16 @@
 <img width="1725" alt="signup" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/c6894c12-b412-4420-a0cc-9b1de1bcb727">
 
 <h4>Search</h4>
-<img width="1725" alt="search" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/de364bc8-9d43-4df7-af45-200ab99263e2">
+<img width="1725" alt="search" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/323c8cb9-b253-4b79-ab8a-d3b63db542c8">
+
 
 <h4>Product detail</h4>
-<img width="1725" alt="product-detail" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/f6b5c564-7db2-4e9d-a21d-d25f78f2627a">
+<img width="1725" alt="product-detail" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/64bc1629-efc0-4a03-ba69-a6ef3008ac6f">
+
 
 <h4>Favorites</h4>
-<img width="1725" alt="favorites" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/e1dd37ff-e68d-4f88-8635-0ee9edf2e6c1">
+<img width="1725" alt="favorites" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/9cc114da-f7b1-4afd-8cb6-2a5f8b17d5e6">
+
 
 
 <h2 id="getting-started-section">Getting Started</h2>
