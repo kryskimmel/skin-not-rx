@@ -66,6 +66,24 @@ function UserCollections() {
                                                 />
                                             ))}
                                         </div>
+                                        <div className="coll-star-div" onClick={(e) => {e.stopPropagation()}}>
+                                            {collection.is_favorite === false ? (
+                                            <Icon
+                                            icon='fluent:star-20-regular' 
+                                            width={25} 
+                                            height={25} 
+                                            className="star-icon"
+                                            />
+                                            ) : (
+                                            <Icon
+                                            icon='fluent:star-20-filled' 
+                                            color="#9cb781"
+                                            width={25} 
+                                            height={25} 
+                                            className="star-icon"
+                                            />
+                                            )}
+                                        </div>
                                         <div className="coll-title-div">
                                             <p className="coll-title">{collection.name}</p>
                                         </div>
