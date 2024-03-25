@@ -1,17 +1,19 @@
 .user-collections-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    width: 420px;
-    font-family: 'IBM Plex Sans Hebrew', sans-serif;
-    background-color: white;
+    background-color: #F7F7F7;
+    border: 2px solid #ebeff4;
     border-radius: 15px;
+    width: 600px;
+    height: 300px;
+    padding: 5px;
 }
 
 .user-collections-title-div {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: monospace;
 }
 
 .user-collections-h1 {
@@ -22,11 +24,14 @@
 }
 
 .user-products-div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     padding: 20px;
     height: 500px;
     max-height: 500px;
-    overflow-y:auto;
-    overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 .user-products-product-tile {
@@ -34,10 +39,9 @@
     border-radius: 15px;
     display: flex;
     background-color: #FFFFFF;
-    height: 220px;
+    height: 210px;
     width: 350px;
-    padding: 5px 5px;
-    margin-top: 10px;
+    padding: 2px;
     cursor: pointer;
     display: flex;
     gap: 5px;
@@ -97,20 +101,35 @@
 
 .collection-info-tools-div {
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: -50px;
     background-color: transparent;
-    gap: 10px;
-    margin-bottom: 35px;
+    border-radius: 30px;
 }
 
 .collection-info-tools-div button {
-    background-color: transparent;
+    width: 100px;
     border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.collection-info-tools-div svg {
     cursor: pointer;
+    background-color: #F7F7F7;
+    border-radius: 180%;
+    padding: 5px;
+    border: 2px solid rgba(0, 0, 0, .2);
 }
 
 .collection-info-tools-div svg:hover {
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(255, 255, 255, .2);
     border-radius: 180%;
     border: 2px solid rgba(0, 0, 0, .2)
 }
@@ -118,7 +137,6 @@
 .collection-details-dropdown-container {
     position: absolute;
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
     top: 42px;
     right: 40px;
@@ -149,8 +167,4 @@
 .collection-details-dropdown-container button:hover {
     background-color: black;
     color: white;
-}
-
-.collection-details-dropdown-container svg {
-    background-color: transparent;
 }

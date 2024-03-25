@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrUserCollections } from "../../../../redux/collection";
+import { addCollectionToFavorites, removeCollectionFromFavorites } from "../../../../redux/favoriteCollection";
 import OpenModalButton from "../../../../utils/OpenModalButton";
 import ProductInfoModal from "../../ProductModals/ProductInfoModal";
 import UpdateCollectionModal from "../UpdateCollectionModal";
@@ -11,9 +14,29 @@ import "./CurrentCollectionModal.css";
 
 
 function CurrentCollectionModal({ collectionName, items, collectionId }) {
+    const dispatch = useDispatch();
+    const userCollectionById = useSelector(state => state.collections.byId[collectionId]);
     const { closeModal } = useModal();
     const optionsRef = useRef();
     const [showMenu, setShowMenu] = useState(false);
+
+    console.log(collectionName, items, collectionId);
+    console.log('collection by id??', userCollectionById)
+
+    useEffect(() => {
+        dispatch(getCurrUserCollections())
+    }, [dispatch]);
+
+    const handleStarClick = async (collId) => {
+        if (userCollectionById.is_favorite === false) {
+            dispatch(addCollectionToFavorites({collection_id:collId}))
+            .then(() => dispatch(getCurrUserCollections()))
+        } else {
+            const favorite_id = userCollectionById.favorite_id;
+            await dispatch(removeCollectionFromFavorites(favorite_id))
+            await dispatch(getCurrUserCollections())
+        }
+    }
 
     const toggleMenu = (e) => {
         e.stopPropagation();
@@ -47,13 +70,32 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
         <div className='user-collections-wrapper'>
             <div className='collection-info-tools-div'>
                 {collectionId && (
+                    <>
+                    <button className="favorite" onClick={(e) => {e.stopPropagation(); handleStarClick(collectionId)}}>
+                        {userCollectionById.is_favorite === false ? (
+                        <Icon
+                        icon='fluent:star-20-regular' 
+                        width="35"
+                        height="35" 
+                        className="star-icon"
+                        />
+                        ) : (
+                        <Icon
+                        icon='fluent:star-20-filled' 
+                        color="#9cb781"
+                        width="35" 
+                        height="35"
+                        className="star-icon"
+                        />
+                        )}
+                    </button>
                     <button onClick={toggleMenu}>
-                        <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
+                        <Icon icon="ph:dots-three-outline-vertical" width="35" height="35" ref={optionsRef} />
                     </button>)
-                }
+                    </>
+                )}
                 {showMenu && collectionId && (
                     <div className="collection-details-dropdown-container" >
-
                         <OpenModalButton
                             title={'Edit'}
                             buttonText={'Edit'}
@@ -70,7 +112,7 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
                 <OpenModalButton
                     className={'close-modal-button'}
                     title={'Close'}
-                    buttonText={<Icon icon="ph:x-square-bold" width="30" height="30" />}
+                    buttonText={<Icon icon="ph:x-square-bold" width="35" height="35" />}
                     onButtonClick={() => { closeModal() }}
                 />
             </div>

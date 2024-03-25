@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useModal } from "../../../../context/Modal";
-import { editCollection } from "../../../../redux/collection";
+import { getCurrUserCollections, editCollection } from "../../../../redux/collection";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import formErrorsObj from "../../../../utils/formErrorsObj";
 import { Icon } from '@iconify/react';
@@ -90,6 +90,7 @@ function UpdateCollectionModal ({collectionId, collectionName, items}) {
                     setShowErrors(false);
                     setBackendErrors({});
                     setErrors({});
+                    await dispatch(getCurrUserCollections());
                     closeModal();
                 }
             }

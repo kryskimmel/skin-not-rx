@@ -50,6 +50,10 @@ def view_current_user_products():
             'user_id': user_product.user_id,
             'preview_image': user_product.preview_image
         }
+        is_favorited = Favorite_Product.query.filter_by(product_id=product['id']).first()
+        product['is_favorite'] = True if is_favorited else False
+        product['favorite_id'] = is_favorited.id if is_favorited else None
+
         curr_user_products_list.append(product)
     return jsonify(curr_user_products_list), 200
 
@@ -82,6 +86,9 @@ def view_current_user_collections():
                 'preview_image': product.preview_image
             } for product in user_collection.products]
         }
+        is_favorited = Favorite_Collection.query.filter_by(collection_id=collection['id']).first()
+        collection['is_favorite'] = True if is_favorited else False
+        collection['favorite_id'] = is_favorited.id if is_favorited else None
         curr_user_collections_list.append(collection)
     return jsonify(curr_user_collections_list), 200
 
@@ -91,6 +98,7 @@ def view_current_user_collections():
 @login_required
 def view_favorite_products():
     favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
+    print('FAVE PRODS', favorite_products)
 
     if not favorite_products:
         return jsonify({'message': 'You do not have any favorited products yet!'})
@@ -164,7 +172,7 @@ def view_favorite_collections():
 @login_required
 def add_favorite_product():
     data = request.get_json()
-    find_product = Product.query.filter_by(id=data.get('product_id')).first()
+    find_product = Product.query.filter_by(user_id=current_user.id).filter_by(id=data.get('product_id')).first()
     if not find_product:
         return {'message': 'Product could not be found'}, 404
 
@@ -192,7 +200,7 @@ def add_favorite_product():
 @login_required
 def add_favorite_collection():
     data = request.get_json()
-    find_collection = Collection.query.filter_by(id=data.get('collection_id'))
+    find_collection = Collection.query.filter_by(user_id=current_user.id).filter_by(id=data.get('collection_id'))
 
     if not find_collection:
         return {'message': 'Collection could not be found'}, 404
