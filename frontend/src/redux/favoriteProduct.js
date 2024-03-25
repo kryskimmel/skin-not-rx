@@ -29,14 +29,14 @@ export const addProductToFavorites = createAsyncThunk(
 );
 
 export const removeProductFromFavorites = createAsyncThunk(
-  'favoriteProducts/deleteFavoriteProduct', async (favoriteId) => {
-    const req = await fetch(`/api/users/current/favorites/products/${favoriteId}`, {
+  'favoriteProducts/deleteFavoriteProduct', async (favorite_id) => {
+    const req = await fetch(`/api/users/current/favorites/products/${favorite_id + 1}`, {
       method: 'DELETE',
     });
     if (!req.ok) {
       throw new Error(`There was an error in removing the selected product from your favorites`)
     }
-    return favoriteId;
+    return favorite_id;
   }
 );
 
