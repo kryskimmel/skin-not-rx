@@ -19,14 +19,14 @@ function UserProducts() {
         dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
     }, [dispatch]);
 
-    const handleStarClick = (prodId) => {
+    const handleStarClick = async (prodId) => {
         if (userProducts[prodId-1].is_favorite === false) {
             dispatch(addProductToFavorites({product_id:prodId}))
             .then(() => dispatch(getCurrUserProducts()))
         } else {
             const favorite_id = userProducts[prodId-1].favorite_id;
-            dispatch(removeProductFromFavorites(favorite_id))
-            .then(() => dispatch(getCurrUserProducts()))
+            await dispatch(removeProductFromFavorites(favorite_id))
+            await dispatch(getCurrUserProducts())
         }
     }
 

@@ -19,15 +19,9 @@ function FavoriteProducts() {
         dispatch(getFavoriteProducts()).then(() => setIsLoading(false));
     }, [dispatch]);
 
-    const handleRemoveFavorite = async (favoriteId) => {
-        await dispatch(removeProductFromFavorites(favoriteId));
+    const handleRemoveFavorite = async (favorite_id) => {
+        await dispatch(removeProductFromFavorites(favorite_id));
     };
-
-    const removeFavoriteLocalStorage = (productId) => {
-        const favorites = JSON.parse(localStorage.getItem('favoriteProducts'));
-        delete favorites[productId];
-        localStorage.setItem('favoriteProducts', JSON.stringify(favorites));
-    }
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -130,7 +124,6 @@ function FavoriteProducts() {
                                                     <div className="fave-prod-search-star-div" onClick={(e) => { 
                                                         e.stopPropagation(); 
                                                         handleRemoveFavorite(faveProduct.id); 
-                                                        removeFavoriteLocalStorage(faveProduct.product_id) 
                                                     }}>
                                                         <Icon 
                                                             icon='fluent:star-20-filled' 
@@ -170,7 +163,6 @@ function FavoriteProducts() {
                                                     <div className="fave-prod-star-div" onClick={(e) => { 
                                                         e.stopPropagation(); 
                                                         handleRemoveFavorite(faveProd.id); 
-                                                        removeFavoriteLocalStorage(faveProd.product_id) 
                                                     }}>
                                                         <Icon 
                                                             icon='fluent:star-20-filled' 
