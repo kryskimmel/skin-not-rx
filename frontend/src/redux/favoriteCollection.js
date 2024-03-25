@@ -54,28 +54,28 @@ const favoriteCollectionSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(getFavoriteCollections.fulfilled, (state, action) => {
-        if (action.payload.FavoriteCollections) {
-          state.allFavoritedCollections = action.payload.FavoriteCollections || [];
-          state.byId = {};
-          action.payload.FavoriteCollections.forEach((faveCollection) => {
-            state.byId[faveCollection.id] = faveCollection;
-          })
-        }
-      })
-      .addCase(addCollectionToFavorites.fulfilled, (state, action) => {
-        const newFavoriteCollection = action.payload;
-        state.byId[newFavoriteCollection.id] = newFavoriteCollection;
-        if (!Array.isArray(state.allFavoritedCollections)) {
-          state.allFavoritedCollections = [];
-        }
-        state.allFavoritedCollections = [...state.allFavoritedCollections, newFavoriteCollection];
-      })
-      .addCase(removeCollectionFromFavorites.fulfilled, (state, action) => {
-        const favoriteCollectionId = action.payload;
-        delete state.byId[favoriteCollectionId];
-        state.allFavoritedCollections = state.allFavoritedCollections.filter(faveCollection => faveCollection.id !== favoriteCollectionId);
-      })
-    }
+      state.allFavoritedCollections = action.payload.FavoriteCollections || [];
+      state.byId = {};
+      if (Array.isArray(action.payload.FavoriteCollections)) {
+        action.payload.FavoriteCollections.forEach((faveColl) => {
+          state.byId[faveColl.id] = faveColl
+        })
+      }
+    })
+    .addCase(addCollectionToFavorites.fulfilled, (state, action) => {
+      const newFavoriteCollection = action.payload;
+      state.byId[newFavoriteCollection.id] = newFavoriteCollection;
+      if (!Array.isArray(state.allFavoritedCollections)) {
+        state.allFavoritedCollections = [];
+      }
+      state.allFavoritedCollections = [...state.allFavoritedCollections, newFavoriteCollection];
+    })
+    .addCase(removeCollectionFromFavorites.fulfilled, (state, action) => {
+      const favoriteCollectionId = action.payload;
+      delete state.byId[favoriteCollectionId];
+      state.allFavoritedCollections = state.allFavoritedCollections.filter(faveCollection => faveCollection.id !== favoriteCollectionId);
+    })
+  }
 });
 
 export default favoriteCollectionSlice;
