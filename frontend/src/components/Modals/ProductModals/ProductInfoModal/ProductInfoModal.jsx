@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrUserProducts } from "../../../../redux/product";
+import { addProductToFavorites, removeProductFromFavorites } from "../../../../redux/favoriteProduct";
 import OpenModalButton from "../../../../utils/OpenModalButton";
 import UpdateProductModal from "../UpdateProductModal";
 import DeleteProductModal from "../DeleteProductModal";
@@ -18,6 +19,20 @@ function ProductInfoModal({ productId }) {
     useEffect(() => {
         dispatch(getCurrUserProducts()).then(() => { setIsLoaded(true) })
     }, [dispatch, productId])
+
+    const handleStarClick = async (prodId) => {
+        console.log('prod id', prodId)
+        console.log('-----',product)
+        if (product.is_favorite === false) {
+            dispatch(addProductToFavorites({product_id:prodId}))
+            .then(() => dispatch(getCurrUserProducts()))
+        } else {
+            const favorite_id = product.favorite_id;
+            console.log('remove', favorite_id)
+            await dispatch(removeProductFromFavorites(favorite_id))
+            await dispatch(getCurrUserProducts())
+        }
+    }
 
 
     const toggleMenu = (e) => {
@@ -73,8 +88,26 @@ function ProductInfoModal({ productId }) {
                 </ul>
             </div>
             <div className="product-info-tools-div">
+                <button className="favorite" onClick={(e) => {e.stopPropagation(); handleStarClick(product.id)}}>
+                    {product.is_favorite === false ? (
+                    <Icon
+                    icon='fluent:star-20-regular' 
+                    width="35"
+                    height="35" 
+                    className="star-icon"
+                    />
+                    ) : (
+                    <Icon
+                    icon='fluent:star-20-filled' 
+                    color="#9cb781"
+                    width="35" 
+                    height="35"
+                    className="star-icon"
+                    />
+                    )}
+                </button>
                 <button onClick={toggleMenu}>
-                    <Icon icon="ph:dots-three-outline-vertical" width="30" height="30" ref={optionsRef} />
+                    <Icon icon="ph:dots-three-outline-vertical" width="35" height="35" ref={optionsRef} />
                 </button>
                 {showMenu && (
                     <div className="product-details-dropdown-container" >
@@ -100,7 +133,7 @@ function ProductInfoModal({ productId }) {
                 )}
                 <OpenModalButton
                     title={'Close'}
-                    buttonText={<Icon icon="ph:x-square-bold" width="30" height="30" />}
+                    buttonText={<Icon icon="ph:x-square-bold" width="35" height="35" />}
                 />
             </div>
         </div>
