@@ -52,6 +52,7 @@ def view_current_user_products():
         }
         is_favorited = Favorite_Product.query.filter_by(product_id=product['id']).first()
         product['is_favorite'] = True if is_favorited else False
+        product['favorite_id'] = is_favorited.id if is_favorited else None
 
         curr_user_products_list.append(product)
     return jsonify(curr_user_products_list), 200
@@ -87,6 +88,7 @@ def view_current_user_collections():
         }
         is_favorited = Favorite_Collection.query.filter_by(collection_id=collection['id']).first()
         collection['is_favorite'] = True if is_favorited else False
+        collection['favorite_id'] = is_favorited.id if is_favorited else None
         curr_user_collections_list.append(collection)
     return jsonify(curr_user_collections_list), 200
 
