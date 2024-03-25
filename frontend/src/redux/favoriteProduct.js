@@ -14,11 +14,12 @@ export const getFavoriteProducts = createAsyncThunk(
 );
 
 export const addProductToFavorites = createAsyncThunk(
-  'favoriteProducts/createFavoriteProduct', async (newFavoriteProductData) => {
+  'favoriteProducts/createFavoriteProduct', async (product_id) => {
+    console.log('new fave prod data--', product_id)
     const req = await fetch('/api/users/current/favorites/products', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(newFavoriteProductData)
+      body: JSON.stringify(product_id)
     });
     if (!req.ok) {
       throw new Error(`There was an error in favoriting the selected product`)
@@ -64,10 +65,11 @@ const favoriteProductSlice = createSlice({
     })
     .addCase(addProductToFavorites.fulfilled, (state, action) => {
       const newFavoriteProduct = action.payload;
-      if (!state.byId[newFavoriteProduct.id]) {
-          state.byId[newFavoriteProduct.id] = newFavoriteProduct;
-          state.allFavoritedProducts = [...state.allFavoritedProducts, newFavoriteProduct];
+      state.byId[newFavoriteProduct.id] - newFavoriteProduct;
+      if (!Array.isArray(state.allFavoritedProducts)) {
+        state.allFavoritedProducts = [];
       }
+      state.allFavoritedProducts = [...state.allFavoritedProducts, newFavoriteProduct]
   })
     .addCase(removeProductFromFavorites.fulfilled, (state, action) => {
       const favoriteProductId = action.payload;
