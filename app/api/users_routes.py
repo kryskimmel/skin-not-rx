@@ -169,7 +169,6 @@ def view_favorite_collections():
 @login_required
 def add_favorite_product():
     data = request.get_json()
-    print('the data--', data)
     find_product = Product.query.filter_by(id=data.get('product_id')).first()
     if not find_product:
         return {'message': 'Product could not be found'}, 404
