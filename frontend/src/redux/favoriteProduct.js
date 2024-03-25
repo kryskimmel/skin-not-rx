@@ -54,11 +54,11 @@ const favoriteProductSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(getFavoriteProducts.fulfilled, (state, action) => {
-      if (action.payload.FavoriteProducts) {
-        state.allFavoritedProducts = action.payload.FavoriteProducts || [];
-        state.byId = {};
+      state.allFavoritedProducts = action.payload.FavoriteProducts || [];
+      state.byId = {};
+      if (Array.isArray(action.payload.FavoriteProducts)) {
         action.payload.FavoriteProducts.forEach((faveProduct) => {
-          state.byId[faveProduct.id] = faveProduct;
+          state.byId[faveProduct.id] = faveProduct
         })
       }
     })
