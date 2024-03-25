@@ -98,6 +98,7 @@ def view_current_user_collections():
 @login_required
 def view_favorite_products():
     favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
+    print('FAVE PRODS', favorite_products)
 
     if not favorite_products:
         return jsonify({'message': 'You do not have any favorited products yet!'})
@@ -171,7 +172,7 @@ def view_favorite_collections():
 @login_required
 def add_favorite_product():
     data = request.get_json()
-    find_product = Product.query.filter_by(id=data.get('product_id')).first()
+    find_product = Product.query.filter_by(user_id=current_user.id).filter_by(id=data.get('product_id')).first()
     if not find_product:
         return {'message': 'Product could not be found'}, 404
 
@@ -199,7 +200,7 @@ def add_favorite_product():
 @login_required
 def add_favorite_collection():
     data = request.get_json()
-    find_collection = Collection.query.filter_by(id=data.get('collection_id'))
+    find_collection = Collection.query.filter_by(user_id=current_user.id).filter_by(id=data.get('collection_id'))
 
     if not find_collection:
         return {'message': 'Collection could not be found'}, 404
