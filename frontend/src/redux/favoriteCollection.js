@@ -29,14 +29,14 @@ export const addCollectionToFavorites = createAsyncThunk(
 );
 
 export const removeCollectionFromFavorites = createAsyncThunk(
-  'favoriteCollections/deleteFavoriteCollection', async (favoriteId) => {
-    const req = await fetch(`/api/users/current/favorites/collections/${favoriteId}`, {
+  'favoriteCollections/deleteFavoriteCollection', async (favorite_id) => {
+    const req = await fetch(`/api/users/current/favorites/collections/${favorite_id}`, {
       method: 'DELETE',
     });
     if (!req.ok) {
       throw new Error(`There was an error in removing the selected collection from your favorites`)
     }
-    return favoriteId;
+    return favorite_id;
   }
 );
 
@@ -65,6 +65,9 @@ const favoriteCollectionSlice = createSlice({
       .addCase(addCollectionToFavorites.fulfilled, (state, action) => {
         const newFavoriteCollection = action.payload;
         state.byId[newFavoriteCollection.id] = newFavoriteCollection;
+        if (!Array.isArray(state.allFavoritedCollections)) {
+          state.allFavoritedCollections = [];
+        }
         state.allFavoritedCollections = [...state.allFavoritedCollections, newFavoriteCollection];
       })
       .addCase(removeCollectionFromFavorites.fulfilled, (state, action) => {
