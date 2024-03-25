@@ -13,6 +13,7 @@ import "./UserProducts.css";
 function UserProducts() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.allProducts);
+    const userProductById = useSelector(state => state.products.byId);
     const[isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -20,11 +21,13 @@ function UserProducts() {
     }, [dispatch]);
 
     const handleStarClick = async (prodId) => {
-        if (userProducts[prodId-1].is_favorite === false) {
+        console.log('prod id', prodId)
+        console.log(userProductById[prodId])
+        if (userProductById[prodId].is_favorite === false) {
             dispatch(addProductToFavorites({product_id:prodId}))
             .then(() => dispatch(getCurrUserProducts()))
         } else {
-            const favorite_id = userProducts[prodId-1].favorite_id;
+            const favorite_id = userProductById[prodId].favorite_id;
             await dispatch(removeProductFromFavorites(favorite_id))
             await dispatch(getCurrUserProducts())
         }

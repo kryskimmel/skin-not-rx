@@ -14,6 +14,7 @@ import "./UserCollections.css";
 function UserCollections() {
     const dispatch = useDispatch();
     const userCollections = useSelector(state => state.collections.allCollections);
+    const userCollectionById = useSelector(state => state.collections.byId);
     const[isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -22,11 +23,11 @@ function UserCollections() {
     }, [dispatch]);
 
     const handleStarClick = async (collId) => {
-        if (userCollections[collId-1].is_favorite === false) {
+        if (userCollectionById[collId].is_favorite === false) {
             dispatch(addCollectionToFavorites({collection_id:collId}))
             .then(() => dispatch(getCurrUserCollections()))
         } else {
-            const favorite_id = userCollections[collId-1].favorite_id;
+            const favorite_id = userCollectionById[collId].favorite_id;
             await dispatch(removeCollectionFromFavorites(favorite_id))
             await dispatch(getCurrUserCollections())
         }
