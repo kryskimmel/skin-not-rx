@@ -85,7 +85,7 @@ function FavoriteCollections() {
         } else {
             return (
                 <div className="fave-coll-page-container">
-                    <h2 className="fave-coll-heading">Favorite Collections</h2>
+                    <h2 className="fave-coll-heading">FAVORITE COLLECTIONS</h2>
                     <p className="fave-coll-count-text">
                         {favoriteCollections.length ? favoriteCollections.length : 0} {favoriteCollections.length === 1 ? "item" : "items"}
                     </p>
