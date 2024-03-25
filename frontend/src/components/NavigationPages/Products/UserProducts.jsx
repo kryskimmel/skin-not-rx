@@ -9,11 +9,10 @@ import { Icon } from "@iconify/react";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./UserProducts.css";
 
-function UserProducts({isLoadings}) {
+function UserProducts() {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.allProducts);
     const[isLoading, setIsLoading] = useState(true);
-    console.log('test', isLoadings)
 
     useEffect(() => {
         dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
@@ -55,6 +54,24 @@ function UserProducts({isLoadings}) {
                                 buttonText={
                                 <>
                                 <img src={attr.preview_image} className="prod-tile-img"/>
+                                <div className="prod-star-div" onClick={(e) => {e.stopPropagation()}}>
+                                    {attr.is_favorite === false ? (
+                                    <Icon
+                                    icon='fluent:star-20-regular' 
+                                    width={25} 
+                                    height={25} 
+                                    className="star-icon"
+                                    />
+                                    ) : (
+                                    <Icon
+                                    icon='fluent:star-20-filled' 
+                                    color="#9cb781"
+                                    width={25} 
+                                    height={25} 
+                                    className="star-icon"
+                                    />
+                                    )}
+                                </div>
                                 <div>
                                     <ul className="prod-tile-info-ul">
                                         <li style={{ fontWeight: "600" }}>{attr.brand_name}</li>
