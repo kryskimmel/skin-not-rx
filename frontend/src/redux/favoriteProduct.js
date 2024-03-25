@@ -30,7 +30,7 @@ export const addProductToFavorites = createAsyncThunk(
 
 export const removeProductFromFavorites = createAsyncThunk(
   'favoriteProducts/deleteFavoriteProduct', async (favorite_id) => {
-    const req = await fetch(`/api/users/current/favorites/products/${favorite_id + 1}`, {
+    const req = await fetch(`/api/users/current/favorites/products/${favorite_id}`, {
       method: 'DELETE',
     });
     if (!req.ok) {
