@@ -15,7 +15,6 @@ export const getFavoriteProducts = createAsyncThunk(
 
 export const addProductToFavorites = createAsyncThunk(
   'favoriteProducts/createFavoriteProduct', async (product_id) => {
-    console.log('new fave prod data--', product_id)
     const req = await fetch('/api/users/current/favorites/products', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
