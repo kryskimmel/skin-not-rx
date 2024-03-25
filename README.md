@@ -32,7 +32,8 @@
 <h2 id="screenshots-section">SCREENSHOTS</h2>
 
 <h4>Splash page</h4>
-<img width="1725" alt="splashpage-no-user" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/e118a08f-a45a-405d-9577-25fc661583df">
+<img width="1725" alt="splashpage-no-user" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/9201f90f-b24e-4120-8f50-798bbb5f58e7">
+
 
 <h4>Sign Up</h4>
 <img width="1725" alt="signup" src="https://github.com/kryskimmel/skin-not-rx/assets/121524927/c6894c12-b412-4420-a0cc-9b1de1bcb727">
