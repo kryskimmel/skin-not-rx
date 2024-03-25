@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { useModal } from "../../../../context/Modal";
 import { Icon } from '@iconify/react';
-import { editProduct } from "../../../../redux/product";
+import { editProduct, getCurrUserProducts } from "../../../../redux/product";
 import charCountRemaining from '../../../../utils/charCountRemaining';
 import formErrorsObj from "../../../../utils/formErrorsObj";
 import "./UpdateProductModal.css";
@@ -226,7 +226,8 @@ function UpdateProductModal({ productId, product }) {
                     setShowErrors(false);
                     setBackendErrors({});
                     setErrors({});
-                    window.location.reload();
+                    await dispatch(getCurrUserProducts());
+                    // window.location.reload();
                     closeModal();
                 }
             }
