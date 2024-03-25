@@ -72,7 +72,7 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
                 {collectionId && (
                     <>
                     <button className="favorite" onClick={(e) => {e.stopPropagation(); handleStarClick(collectionId)}}>
-                        {userCollectionById.is_favorite === false ? (
+                        {userCollectionById?.is_favorite === false ? (
                         <Icon
                         icon='fluent:star-20-regular' 
                         width="35"
