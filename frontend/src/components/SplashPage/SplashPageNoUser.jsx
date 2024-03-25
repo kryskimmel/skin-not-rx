@@ -22,8 +22,8 @@ function SplashPageNoUser() {
                 transition={{ duration: 1.0, ease: 'easeIn'}}
                 className="splashpage-subtext-container"> 
                 <h1 className="splashpage-header">Your personal skincare tracker</h1>
-                <p className="splashpage-subtext">Keeping track of what products you have, products you've loved,
-                and products that you wouldn't bother purchasing again shouldn't be hard...
+                <p className="splashpage-subtext">Keeping track of the products you have, the products you love,
+                and the products that you wouldn't bother purchasing again shouldn't be hard...
                 and those are the conveniences that Skin-not-Rx aims to provide.
                 </p>
                 <OpenModalButton
