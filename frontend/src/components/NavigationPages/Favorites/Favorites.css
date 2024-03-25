@@ -175,8 +175,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10px; 
-    padding-bottom: 10px;
+    padding-top: 15px; 
+    padding-bottom: 15px;
 }
 
 .fave-prod-tile-info-ul {

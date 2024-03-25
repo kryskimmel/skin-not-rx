@@ -92,13 +92,16 @@
     border: 1px solid #e6e8eb;
 }
 
-
-.fave-prod-text {
-    padding: 2px 10px;
-    background-color: #9cb781;
-    border-radius: 15px;
+.prod-star-div {
+    width: fit-content;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px; 
+    padding-bottom: 15px;
 }
-
+ 
 .prod-tile-info-ul {
     list-style: none;
 }
