@@ -19,15 +19,9 @@ function FavoriteCollections() {
         dispatch(getFavoriteCollections()).then(() => setIsLoading(false));
     }, [dispatch]);
 
-    const handleRemoveFavorite = async (favoriteId) => {
-        await dispatch(removeCollectionFromFavorites(favoriteId));
+    const handleRemoveFavorite = async (favorite_id) => {
+        await dispatch(removeCollectionFromFavorites(favorite_id));
     };
-
-    const removeFavoriteLocalStorage = (collId) => {
-        const favorites = JSON.parse(localStorage.getItem('favoriteCollections'));
-        delete favorites[collId];
-        localStorage.setItem('favoriteCollections', JSON.stringify(favorites));
-    }
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -135,7 +129,6 @@ function FavoriteCollections() {
                                                     <div className="fave-search-coll-star-div" onClick={(e) => { 
                                                         e.stopPropagation(); 
                                                         handleRemoveFavorite(faveColl.id); 
-                                                        removeFavoriteLocalStorage(faveColl.collection_id) 
                                                     }}>
                                                         <Icon 
                                                             icon='fluent:star-20-filled' 
@@ -183,7 +176,6 @@ function FavoriteCollections() {
                                                 <div className="fave-coll-star-div" onClick={(e) => { 
                                                     e.stopPropagation(); 
                                                     handleRemoveFavorite(faveColl.id); 
-                                                    removeFavoriteLocalStorage(faveColl.collection_id) 
                                                 }}>
                                                     <Icon 
                                                         icon='fluent:star-20-filled' 

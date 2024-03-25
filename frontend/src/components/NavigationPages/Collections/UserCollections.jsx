@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import { getCurrUserProducts } from "../../../redux/product";
 import { getCurrUserCollections} from "../../../redux/collection";
+import { addCollectionToFavorites, removeCollectionFromFavorites } from "../../../redux/favoriteCollection"; 
 import SearchCollectionsModal from "../../Modals/CollectionModals/SearchCollectionsModal";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import CreateCollectionModal from "../../Modals/CollectionModals/CreateCollectionModal";
@@ -19,6 +20,17 @@ function UserCollections() {
         dispatch(getCurrUserProducts())
         dispatch(getCurrUserCollections()).then(() => setIsLoading(false))
     }, [dispatch]);
+
+    const handleStarClick = async (collId) => {
+        if (userCollections[collId-1].is_favorite === false) {
+            dispatch(addCollectionToFavorites({collection_id:collId}))
+            .then(() => dispatch(getCurrUserCollections()))
+        } else {
+            const favorite_id = userCollections[collId-1].favorite_id;
+            await dispatch(removeCollectionFromFavorites(favorite_id))
+            await dispatch(getCurrUserCollections())
+        }
+    }
 
     if (isLoading) {
         return <LoadingSpinner/>
@@ -66,7 +78,7 @@ function UserCollections() {
                                                 />
                                             ))}
                                         </div>
-                                        <div className="coll-star-div" onClick={(e) => {e.stopPropagation()}}>
+                                        <div className="coll-star-div" onClick={(e) => {e.stopPropagation(); handleStarClick(collection.id)}}>
                                             {collection.is_favorite === false ? (
                                             <Icon
                                             icon='fluent:star-20-regular' 
