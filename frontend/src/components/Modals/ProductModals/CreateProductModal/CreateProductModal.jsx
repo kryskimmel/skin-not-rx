@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../../../redux/product';
+import { addProduct, getCurrUserProducts } from '../../../../redux/product';
 import { useModal } from '../../../../context/Modal';
 import { Icon } from '@iconify/react';
 import charCountRemaining from '../../../../utils/charCountRemaining';
@@ -207,6 +207,7 @@ function CreateProductModal() {
             setShowErrors(false);
             setBackendErrors({});
             setErrors({});
+            await dispatch(getCurrUserProducts());
             closeModal();
         }
         }

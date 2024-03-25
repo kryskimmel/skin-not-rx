@@ -13,20 +13,15 @@ function FavoriteCollections() {
     const [showOptions, setShowOptions] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [collectionId, setCollectionId] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getFavoriteCollections());
+        dispatch(getFavoriteCollections()).then(() => setIsLoading(false));
     }, [dispatch]);
 
-    const handleRemoveFavorite = async (favoriteId) => {
-        await dispatch(removeCollectionFromFavorites(favoriteId));
+    const handleRemoveFavorite = async (favorite_id) => {
+        await dispatch(removeCollectionFromFavorites(favorite_id));
     };
-
-    const removeFavoriteLocalStorage = (collId) => {
-        const favorites = JSON.parse(localStorage.getItem('favoriteCollections'));
-        delete favorites[collId];
-        localStorage.setItem('favoriteCollections', JSON.stringify(favorites));
-    }
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -85,127 +80,131 @@ function FavoriteCollections() {
         };
     }, []);
 
-
-    return (
-        <div className="fave-coll-page-container">
-            <h2 className="fave-coll-heading">Favorite Collections</h2>
-            <div className="fave-coll-search-div">
-                <Icon icon="fluent:search-20-filled" width={25} height={25}/>
-                <input 
-                    type="text" 
-                    className="fave-coll-search"
-                    value={searchInput}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {searchInput ? (
-                <div
-                    className="fave-coll-search-options"
-                    style={{display: showOptions ? "" : "none"}}
-                >
-                    {faveCollectionList
-                        .filter((faveColl) => {
-                            const searchTerm = searchInput.toLowerCase();
-                            const name = faveColl.name?.toLowerCase();
-                            return searchTerm && name.startsWith(searchTerm);
-                        })
-                        .map((faveColl) => (
-                            <div key={`search-faveColl-${faveColl.id}=${faveColl.name}`}>
-                                <OpenModalButton
-                                    className="fave-coll-search-options-tile-btn"
-                                    buttonText={
-                                        <>
-                                            <div className="fave-coll-img-grid-div">
-                                                {faveColl.products?.slice(0, 4)?.map((attr, idx) => (
-                                                    <img
-                                                        key={`faveColl-${attr.preview_image}-${idx}`}
-                                                        src={attr.preview_image} 
-                                                        alt={attr.product_name} 
-                                                        title={attr.product_name} 
-                                                        className="fave-coll-tile-img" 
+        if (isLoading) {
+            return <p>...LOADING</p>
+        } else {
+            return (
+                <div className="fave-coll-page-container">
+                    <h2 className="fave-coll-heading">FAVORITE COLLECTIONS</h2>
+                    <p className="fave-coll-count-text">
+                        {favoriteCollections.length ? favoriteCollections.length : 0} {favoriteCollections.length === 1 ? "item" : "items"}
+                    </p>
+                    <div className="fave-coll-search-div">
+                        <Icon icon="fluent:search-20-filled" width={25} height={25}/>
+                        <input 
+                            type="text" 
+                            className="fave-coll-search"
+                            value={searchInput}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    {searchInput ? (
+                        <div
+                            className="fave-coll-search-options"
+                            style={{display: showOptions ? "" : "none"}}
+                        >
+                            {faveCollectionList
+                                .filter((faveColl) => {
+                                    const searchTerm = searchInput.toLowerCase();
+                                    const name = faveColl.name?.toLowerCase();
+                                    return searchTerm && name.startsWith(searchTerm);
+                                })
+                                .map((faveColl) => (
+                                    <div key={`search-faveColl-${faveColl.id}=${faveColl.name}`}>
+                                        <OpenModalButton
+                                            className="fave-coll-search-options-tile-btn"
+                                            buttonText={
+                                                <>
+                                                    <div className="fave-coll-img-grid-div">
+                                                        {faveColl.products?.slice(0, 4)?.map((attr, idx) => (
+                                                            <img
+                                                                key={`faveColl-${attr.preview_image}-${idx}`}
+                                                                src={attr.preview_image} 
+                                                                alt={attr.product_name} 
+                                                                title={attr.product_name} 
+                                                                className="fave-coll-tile-img" 
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <div className="fave-search-coll-star-div" onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        handleRemoveFavorite(faveColl.id); 
+                                                    }}>
+                                                        <Icon 
+                                                            icon='fluent:star-20-filled' 
+                                                            width={25} 
+                                                            height={25} 
+                                                            color="#9cb781" 
+                                                            className="star-icon"/>
+                                                    </div>
+                                                    <div className="fave-coll-title-div">
+                                                        <p className="fave-coll-title">{faveColl.name}</p>
+                                                    </div>
+                                                    <div>
+                                                    </div>
+                                                </>
+                                            }
+                                            modalComponent={<CurrentCollectionModal collectionName={faveColl.name} items={faveColl.products} collectionId={faveColl.collection_id} />}
+                                            // onButtonClick={() => { setSearchInput("") ;}}
+                                        />
+                                    </div>
+                                ))
+                            }
+        
+                        </div>
+                    ) : (
+                    <>
+                        {favoriteCollections.length ? (
+                            <div className="fave-coll-tiles-div">
+                                {favoriteCollections.map((faveColl) => (
+                                    <OpenModalButton
+                                        key={`${faveColl.id}-faveColl-${faveColl.collection_id}`}
+                                        className="fave-coll-tile-btn"
+                                        buttonText={
+                                            <>
+                                                <div className="fave-coll-img-grid-div">
+                                                    {faveColl.products?.slice(0, 4)?.map((attr, idx) => (
+                                                        <img
+                                                            key={`${attr.preview_image}-${idx}`}
+                                                            src={attr.preview_image} 
+                                                            alt={attr.product_name} 
+                                                            title={attr.product_name} 
+                                                            className="fave-coll-tile-img" 
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <div className="fave-coll-star-div" onClick={(e) => { 
+                                                    e.stopPropagation(); 
+                                                    handleRemoveFavorite(faveColl.id); 
+                                                }}>
+                                                    <Icon 
+                                                        icon='fluent:star-20-filled' 
+                                                        width={25}
+                                                        height={25} 
+                                                        color="#9cb781" 
+                                                        className="star-icon"
                                                     />
-                                                ))}
-                                            </div>
-                                            <div className="fave-search-coll-star-div" onClick={(e) => { 
-                                                e.stopPropagation(); 
-                                                handleRemoveFavorite(faveColl.id); 
-                                                removeFavoriteLocalStorage(faveColl.collection_id) 
-                                            }}>
-                                                <Icon 
-                                                    icon='fluent:star-20-filled' 
-                                                    width={25} 
-                                                    height={25} 
-                                                    color="#9cb781" 
-                                                    className="star-icon"/>
-                                            </div>
-                                            <div className="fave-coll-title-div">
-                                                <p className="fave-coll-title">{faveColl.name}</p>
-                                            </div>
-                                            <div>
-                                            </div>
-                                        </>
-                                    }
-                                    modalComponent={<CurrentCollectionModal collectionName={faveColl.name} items={faveColl.products} collectionId={faveColl.collection_id} />}
-                                    // onButtonClick={() => { setSearchInput("") ;}}
-                                />
+                                                </div>
+                                                <div className="fave-coll-title-div">
+                                                    <p className="fave-coll-title">{faveColl.name}</p>
+                                                </div>
+                                            </>
+                                        }
+                                        modalComponent={<CurrentCollectionModal collectionName={faveColl.name} items={faveColl.products} collectionId={faveColl.collection_id} />}
+                                    />
+                                ))}
                             </div>
-                        ))
-                    }
-
+                        ) : (
+                            <div className="no-fave-coll-div">
+                                <h3 className="no-fave-coll-text">You have not favorited any collections yet!</h3>
+                            </div>
+                        )}
+                    </>
+                    )}
                 </div>
-            ) : (
-            <>
-                {favoriteCollections.length ? (
-                    <div className="fave-coll-tiles-div">
-                        {favoriteCollections.map((faveColl) => (
-                            <OpenModalButton
-                                key={`${faveColl.id}-faveColl-${faveColl.collection_id}`}
-                                className="fave-coll-tile-btn"
-                                buttonText={
-                                    <>
-                                        <div className="fave-coll-img-grid-div">
-                                            {faveColl.products?.slice(0, 4)?.map((attr, idx) => (
-                                                <img
-                                                    key={`${attr.preview_image}-${idx}`}
-                                                    src={attr.preview_image} 
-                                                    alt={attr.product_name} 
-                                                    title={attr.product_name} 
-                                                    className="fave-coll-tile-img" 
-                                                />
-                                            ))}
-                                        </div>
-                                        <div className="fave-coll-star-div" onClick={(e) => { 
-                                            e.stopPropagation(); 
-                                            handleRemoveFavorite(faveColl.id); 
-                                            removeFavoriteLocalStorage(faveColl.collection_id) 
-                                        }}>
-                                            <Icon 
-                                                icon='fluent:star-20-filled' 
-                                                width={25}
-                                                height={25} 
-                                                color="#9cb781" 
-                                                className="star-icon"
-                                            />
-                                        </div>
-                                        <div className="fave-coll-title-div">
-                                            <p className="fave-coll-title">{faveColl.name}</p>
-                                        </div>
-                                    </>
-                                }
-                                modalComponent={<CurrentCollectionModal collectionName={faveColl.name} items={faveColl.products} collectionId={faveColl.collection_id} />}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="no-fave-coll-div">
-                        <h3 className="no-fave-coll-text">You have not favorited any collections yet!</h3>
-                    </div>
-                )}
-            </>
-            )}
-            
-        </div>
-    );
-}
+            );
+
+        }
+    }
 
 export default FavoriteCollections;

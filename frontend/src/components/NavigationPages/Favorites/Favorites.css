@@ -1,9 +1,12 @@
 .favorites-container {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    padding: 20px;
+    padding-bottom: 30px;
     font-family: 'IBM Plex Sans Hebrew', sans-serif;
 }
 
@@ -12,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .fave-prod-search,
@@ -25,12 +28,30 @@
     border: 1px solid #000000;
 }
 
-.fave-prod-search-options,
+.fave-prod-search-options{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
+    height: 320px;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .fave-coll-search-options {
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;  
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
+    height: 295px;
     gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .fave-prod-search-options-tile-btn {
@@ -65,8 +86,6 @@
     opacity: .5;
 }
 
-
-
 .fave-prod-search-result-img {
     width: 175px;
     height: 175px;
@@ -99,11 +118,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 75%;
-    margin: 50px;  
+    width: 100%;
+    height: 500px;
 }
 
 .fave-prod-heading {
+    display: flex;
+    justify-content: center;
+}
+
+.fave-prod-count-text {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
@@ -111,9 +135,13 @@
 
 .fave-prod-tiles-div {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;  
+    align-items: center;
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
     gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .fave-prod-tile-btn {
@@ -147,8 +175,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10px; 
-    padding-bottom: 10px;
+    padding-top: 15px; 
+    padding-bottom: 15px;
 }
 
 .fave-prod-tile-info-ul {
@@ -158,6 +186,8 @@
 .no-fave-prod-div {
     display: flex;
     justify-content: center;
+    width: 100%;
+    height: 320px;
 }
 
 .no-fave-prod-text {
@@ -170,11 +200,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 75%;
-    margin: 50px;  
+    width: 100%;
+    height: 500px;
 }
 
 .fave-coll-heading {
+    display: flex;
+    justify-content: center;
+}
+
+.fave-coll-count-text {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
@@ -182,9 +217,13 @@
 
 .fave-coll-tiles-div {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;  
+    align-items: center;
+    margin: 0 auto;
+    padding: 10px;
+    width: 75%;
     gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .fave-coll-tile-btn {
@@ -243,6 +282,8 @@
 .no-fave-coll-div {
     display: flex;
     justify-content: center;
+    width: 100%;
+    height: 295px;
 }
 
 .no-fave-coll-text {
