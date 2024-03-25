@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrUserProducts } from "../../../redux/product";
+import { addProductToFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
@@ -17,6 +18,11 @@ function UserProducts() {
     useEffect(() => {
         dispatch(getCurrUserProducts()).then(() => setIsLoading(false))
     }, [dispatch]);
+
+    const handleStarClick = (prodId) => {
+        dispatch(addProductToFavorites({product_id:prodId}))
+        .then(() => dispatch(getCurrUserProducts()))
+    }
 
     if (isLoading) {
         return <LoadingSpinner/>
@@ -54,7 +60,7 @@ function UserProducts() {
                                 buttonText={
                                 <>
                                 <img src={attr.preview_image} className="prod-tile-img"/>
-                                <div className="prod-star-div" onClick={(e) => {e.stopPropagation()}}>
+                                <div className="prod-star-div" onClick={(e) => {e.stopPropagation(); handleStarClick(attr.id)}}>
                                     {attr.is_favorite === false ? (
                                     <Icon
                                     icon='fluent:star-20-regular' 
