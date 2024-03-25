@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrUserProducts } from "../../../redux/product";
-import { addProductToFavorites } from "../../../redux/favoriteProduct";
+import { addProductToFavorites, removeProductFromFavorites } from "../../../redux/favoriteProduct";
 import OpenModalButton from "../../../utils/OpenModalButton";
 import SearchProductsModal from "../../Modals/ProductModals/SearchProductsModal";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
@@ -20,10 +20,17 @@ function UserProducts() {
     }, [dispatch]);
 
     const handleStarClick = (prodId) => {
-        dispatch(addProductToFavorites({product_id:prodId}))
-        .then(() => dispatch(getCurrUserProducts()))
+        if (userProducts[prodId-1].is_favorite === false) {
+            dispatch(addProductToFavorites({product_id:prodId}))
+            .then(() => dispatch(getCurrUserProducts()))
+        } else {
+            const favorite_id = userProducts[prodId-1].favorite_id;
+            dispatch(removeProductFromFavorites(favorite_id))
+            .then(() => dispatch(getCurrUserProducts()))
+        }
     }
 
+    
     if (isLoading) {
         return <LoadingSpinner/>
     } else {
