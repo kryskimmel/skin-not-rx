@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCollection } from "../../../../redux/collection";
+import { addCollection, getCurrUserCollections } from "../../../../redux/collection";
 import { useModal } from "../../../../context/Modal";
 import SearchBarAndAddProduct from "../SearchBarAndAddProduct";
 import formErrorsObj from "../../../../utils/formErrorsObj";
@@ -71,7 +71,7 @@ function CreateCollectionModal() {
                 'user_id': currentUserId,
                 'product_ids': productIdsToAdd
             }
-            const res = dispatch(addCollection(newCollection));
+            const res = await dispatch(addCollection(newCollection));
             if (res.error) {
                 setSubmittedForm(true);
                 setShowErrors(true);
@@ -84,6 +84,7 @@ function CreateCollectionModal() {
                 setShowErrors(false);
                 setBackendErrors({});
                 setErrors({});
+                await dispatch(getCurrUserCollections());
                 closeModal();
             }
         }
