@@ -98,7 +98,6 @@ def view_current_user_collections():
 @login_required
 def view_favorite_products():
     favorite_products = Favorite_Product.query.filter_by(user_id=current_user.id).all()
-    print('FAVE PRODS', favorite_products)
 
     if not favorite_products:
         return jsonify({'message': 'You do not have any favorited products yet!'})
