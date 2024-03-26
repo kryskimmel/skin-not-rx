@@ -4,7 +4,7 @@ import productSlice from './product';
 import collectionSlice from './collection';
 import favoriteProductSlice from './favoriteProduct';
 import favoriteCollectionSlice from './favoriteCollection';
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 
 
 export const store = configureStore({
@@ -15,7 +15,7 @@ export const store = configureStore({
     favoriteProducts: favoriteProductSlice.reducer,
     favoriteCollections: favoriteCollectionSlice.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 })
 
 export default store;
