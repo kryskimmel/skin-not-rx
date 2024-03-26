@@ -10,7 +10,7 @@ def seed_users():
         username='demo', 
         email='demo@aa.io', 
         password='password', 
-        profile_image='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1920px-SNice.svg.png', 
+        profile_image='https://skin-not-rx-bucket.s3.us-east-2.amazonaws.com/splashpage/demo-user-profile-image.png', 
         skin_type='Dry')
     db.session.add(demo)
     db.session.commit()
