@@ -21,14 +21,11 @@ function ProductInfoModal({ productId }) {
     }, [dispatch, productId])
 
     const handleStarClick = async (prodId) => {
-        console.log('prod id', prodId)
-        console.log('-----',product)
         if (product.is_favorite === false) {
             dispatch(addProductToFavorites({product_id:prodId}))
             .then(() => dispatch(getCurrUserProducts()))
         } else {
             const favorite_id = product.favorite_id;
-            console.log('remove', favorite_id)
             await dispatch(removeProductFromFavorites(favorite_id))
             await dispatch(getCurrUserProducts())
         }

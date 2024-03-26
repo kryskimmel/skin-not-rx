@@ -20,9 +20,6 @@ function CurrentCollectionModal({ collectionName, items, collectionId }) {
     const optionsRef = useRef();
     const [showMenu, setShowMenu] = useState(false);
 
-    console.log(collectionName, items, collectionId);
-    console.log('collection by id??', userCollectionById)
-
     useEffect(() => {
         dispatch(getCurrUserCollections())
     }, [dispatch]);
