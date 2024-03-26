@@ -227,6 +227,11 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
+            {showErrors && isFormSubmitted && errors?.username && (
+              <div className="errors-div">
+                <p className="errors-text">{errors.username}</p>
+              </div>
+            )}
             {showErrors && isFormSubmitted && backendErrors?.username && (
               <div className="errors-div">
                   <p className="errors-text">{backendErrors.username}</p>
@@ -242,6 +247,11 @@ function SignupFormModal() {
               className="signup-input"
               required
             />
+            {showErrors && isFormSubmitted && errors?.email && (
+              <div className="errors-div">
+                <p className="errors-text">{errors.email}</p>
+              </div>
+            )}
             {showErrors && isFormSubmitted && backendErrors?.email && (
               <div className="errors-div">
                   <p className="errors-text">{backendErrors.email}</p>
