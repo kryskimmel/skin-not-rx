@@ -21,8 +21,6 @@ function UserProducts() {
     }, [dispatch]);
 
     const handleStarClick = async (prodId) => {
-        console.log('prod id', prodId)
-        console.log(userProductById[prodId])
         if (userProductById[prodId].is_favorite === false) {
             dispatch(addProductToFavorites({product_id:prodId}))
             .then(() => dispatch(getCurrUserProducts()))
