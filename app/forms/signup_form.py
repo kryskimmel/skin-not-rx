@@ -91,20 +91,20 @@ class SignUpForm(FlaskForm):
         validators=[
             DataRequired(), 
             username_exists, 
-            char_min4,
-            char_max20,
-            beginning_spaces,
-            format_username
+            # char_min4,
+            # char_max20,
+            # beginning_spaces,
+            # format_username
         ])
     email = StringField(
         'email', 
         validators=[
             DataRequired(), 
             email_exists, 
-            format_email,
-            char_min4,
-            char_max20,
-            beginning_spaces
+            # format_email,
+            # char_min4,
+            # char_max20,
+            # beginning_spaces
         ])
     password = StringField(
         'password', 
