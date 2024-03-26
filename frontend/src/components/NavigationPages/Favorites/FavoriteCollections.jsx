@@ -4,6 +4,7 @@ import { getFavoriteCollections, removeCollectionFromFavorites } from "../../../
 import OpenModalButton from "../../../utils/OpenModalButton";
 import CurrentCollectionModal from "../../Modals/CollectionModals/CurrentCollectionModal";
 import { Icon } from "@iconify/react";
+import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./Favorites.css";
 
 function FavoriteCollections() {
@@ -81,7 +82,7 @@ function FavoriteCollections() {
     }, []);
 
         if (isLoading) {
-            return <p>...LOADING</p>
+            return <LoadingSpinner/>
         } else {
             return (
                 <div className="fave-coll-page-container">

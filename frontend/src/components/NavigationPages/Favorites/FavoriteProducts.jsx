@@ -4,6 +4,7 @@ import { getFavoriteProducts, removeProductFromFavorites } from "../../../redux/
 import OpenModalButton from "../../../utils/OpenModalButton";
 import ProductInfoModal from "../../Modals/ProductModals/ProductInfoModal";
 import { Icon } from "@iconify/react";
+import LoadingSpinner from "../../../utils/LoadingSpinner";
 import "./Favorites.css";
 
 function FavoriteProducts() {
@@ -82,7 +83,7 @@ function FavoriteProducts() {
     }, []);
 
     if (isLoading) {
-        return <p>...LOADING</p>
+        return <LoadingSpinner/>
     } else {
         return (
                 <div className="fave-prod-page-container">
