@@ -14,7 +14,7 @@
 
 <h2 id="about-section">ABOUT</h2>
 
-*Skin-not-rx* is an app designed to keep track of every skincare product you have— currently and previously. With its simplistic user interface, you can easily add your products and skincare routines in a collection that describes them best. Keeping track of the products you have, the products you love, and the products that you wouldn't bother purchasing again shouldn't be hard... and those are the conveniences that *Skin-not-Rx* aims to provide.
+*Skin-not-Rx* is an app designed to keep track of every skincare product you have— currently and previously. With its simplistic user interface, you can easily add your products and skincare routines in a collection that describes them best. Keeping track of the products you have, the products you love, and the products that you wouldn't bother purchasing again shouldn't be hard... and those are the conveniences that *Skin-not-Rx* aims to provide.
 
 
 <h2 id="technologies-used-section">Technologies Used</h2>
@@ -124,4 +124,4 @@
 <h3 id="acknowledgments-section">Acknowledgments</h3>
 
  - Icons by <a href="https://iconify.design/"><i>Iconify</i></a>
- - Background Image (Splash Page) by <a href="https://openai.com/dall-e-2"><i>DALL·E 2</i></a>
+ - Background Image (Splash Page) by <a href="https://copilot.microsoft.com/images/create"><i>Microsoft Copilot</i></a>
